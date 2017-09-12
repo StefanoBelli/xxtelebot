@@ -19,8 +19,8 @@ before_deploy:
    - rm -rfv "*.cmake CMakeFiles CMakeCache.txt Makefile lib 
         src scripts include README.md .travis.yml 
         .gitignore Doxyfile CMakeLists.txt"
-   - rm -r doc/latex
-   - mv doc/html/* .
+   - rm -r docs/latex
+   - mv docs/html/* .
 
 deploy:
    provider: pages
