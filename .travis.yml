@@ -9,7 +9,7 @@ addons:
       packages:
          - cmake
          - doxygen
-
+         - libjsoncpp-dev
 script:
    - cmake . -DCMAKE_CXX_FLAGS="-O2 -finline-functions"
    - make -j3

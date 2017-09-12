@@ -2,6 +2,9 @@ cmake_minimum_required(VERSION 2.8)
 
 include_directories(${HEADERS_DIR})
 
+find_package(CURL REQUIRED)
+find_library(JSONCPP "jsoncpp")
+
 set(CMAKE_CXX_STANDARD 11)
 set(SOURCES "main.cpp")
 
@@ -30,6 +33,8 @@ else()
 				PERMISSIONS OWNER_WRITE OWNER_READ OWNER_EXECUTE
 				GROUP_WRITE GROUP_READ)
 endif()
+
+target_link_libraries(tgbot ${CURL_LIBRARIES} ${JSONCPP})
 
 install(DIRECTORY "${HEADERS_DIR}/tgbot"
 				DESTINATION "${CMAKE_PREFIX_DIR}/include"
