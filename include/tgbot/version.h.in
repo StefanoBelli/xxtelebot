@@ -1,0 +1,8 @@
+#ifndef TGBOT_VERSION_H
+#define TGBOT_VERSION_H
+
+constexpr int API_VERSION_MAJOR = @MJVER@;
+constexpr int API_VERSION_MINOR = @MNVER@;
+constexpr int API_VERSION_PATCH = @PTVER@;
+
+#endif

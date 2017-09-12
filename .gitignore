@@ -1,6 +1,6 @@
 docs/
-version.h.in
 *.a
 *.so
 *.o
 lib/
+version.h
