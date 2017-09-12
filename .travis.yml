@@ -1,0 +1,15 @@
+language: cpp
+dist: trusty
+compiler:
+   - gcc
+   - clang
+
+addons:
+   apt:
+      packages:
+         - cmake
+         - doxygen
+
+script:
+   - cmake . -DCMAKE_CXX_FLAGS="-O2 -finline-functions"
+   - make -j3
