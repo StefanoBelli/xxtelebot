@@ -5,6 +5,12 @@ include_directories(${HEADERS_DIR})
 find_package(CURL REQUIRED)
 find_library(JSONCPP "jsoncpp")
 
+if(JSONCPP)
+	message("-- Found JsonCpp: ${JSONCPP}")
+else()
+	message(FATAL_ERROR "!! Cannot find JsonCpp")
+endif()
+
 set(CMAKE_CXX_STANDARD 11)
 set(SOURCES "main.cpp")
 
