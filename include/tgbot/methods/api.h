@@ -5,6 +5,9 @@
 
 namespace tgbot {
 
+	/*!
+	 * @brief TG API methods and relative (parameter) types
+	 */
 	namespace methods {
 
 		namespace api_types = ::tgbot::types;

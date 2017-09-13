@@ -1,8 +1,19 @@
 #ifndef TGBOT_VERSION_H
 #define TGBOT_VERSION_H
 
+/*!
+ * @brief Major version
+ */
 constexpr int TGBOT_VERSION_MAJOR = @MJVER@;
+
+/*!
+ * @brief Minor version
+ */
 constexpr int TGBOT_VERSION_MINOR = @MNVER@;
+
+/*!
+ * @brief Patch version
+ */
 constexpr int TGBOT_VERSION_PATCH = @PTVER@;
 
 #endif

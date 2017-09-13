@@ -5,6 +5,9 @@
 
 namespace tgbot {
 
+	/*!
+	 * @brief Project-provided utilities, most of them used within the project
+	 */
 	namespace utils {
 		template <typename _TyElems>
 			class Matrix {

@@ -7,10 +7,14 @@ namespace tgbot {
 
 	namespace methods {
 
+		/*!
+		 * @brief API Methods parameter types
+		 */
 		namespace types {
 
 			template <typename _Ty_Elem>
 				using Ptr = std::unique_ptr<_Ty_Elem>;
+
 			using InlineKeyboardMarkup = ::tgbot::types::InlineKeyboardMarkup;
 
 			struct InputMessageContent;
