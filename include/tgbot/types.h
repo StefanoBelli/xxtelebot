@@ -12,7 +12,7 @@ namespace tgbot {
 	 */
 	namespace types {
 
-		/* !
+		/*!
 		 * @typedef Ptr, a unique smart pointer alias
 		 */
 		template <typename _Ty>
