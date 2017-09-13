@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include "matrix.h"
 
 namespace tgbot {
 	/*!
@@ -308,15 +309,8 @@ namespace tgbot {
 		};
 
 		struct UserProfilePhotos {
-			//Matrix photos
+			Matrix<PhotoSize> photos;
 			int totalCount;
-		};
-
-		struct ReplyKeyboardMarkup {
-			//Matrix keyboard
-			bool resizeKeyboard : 1;
-			bool oneTimeKeyboard : 1;
-			bool selective : 1;
 		};
 
 		struct KeyboardButton {
@@ -325,15 +319,22 @@ namespace tgbot {
 			bool requestLocation : 1;
 		};
 
+		struct ReplyKeyboardMarkup {
+			Matrix<KeyboardButton> keyboard;
+			bool resizeKeyboard : 1;
+			bool oneTimeKeyboard : 1;
+			bool selective : 1;
+		};
+
 		struct ReplyKeyboardRemove {
 			bool removeKeyboard : 1;
 			bool selective : 1;
 		};
-		
-		struct InlineKeyboardMarkup {
-			//Matrix inlineKeyboard
-		};
 
+		/*!
+		 * @brief (note) according to telegram API documentation, 
+		 * this is only a placeholder
+		 */
 		enum class CallbackGame {
 			GAME_CALLBACK
 		};
@@ -346,6 +347,10 @@ namespace tgbot {
 			Ptr<std::string> switchInlineQueryCurrentChat;
 			Ptr<CallbackGame> callbackGame; 
 			bool pay : 1;
+		};
+
+		struct InlineKeyboardMarkup {
+			Matrix<InlineKeyboardButton> inlineKeyboard;
 		};
 
 		struct ChatMember {
