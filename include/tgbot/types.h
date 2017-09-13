@@ -290,6 +290,82 @@ namespace tgbot {
 			Ptr<PreCheckoutQuery> preCheckoutQuery;
 			int updateId;
 		};
+		
+		struct ResponseParameters {
+			Ptr<int> migrateToChatId;
+			Ptr<int> retryAfter;
+		};
+
+		struct ForceReply {
+			bool forceReply : 1;
+			bool selective : 1;
+		};
+
+		struct File {
+			std::string fileId;
+			Ptr<int> fileSize;
+			Ptr<std::string> filePath;
+		};
+
+		struct UserProfilePhotos {
+			//Matrix photos
+			int totalCount;
+		};
+
+		struct ReplyKeyboardMarkup {
+			//Matrix keyboard
+			bool resizeKeyboard : 1;
+			bool oneTimeKeyboard : 1;
+			bool selective : 1;
+		};
+
+		struct KeyboardButton {
+			std::string text;
+			bool requestContact : 1;
+			bool requestLocation : 1;
+		};
+
+		struct ReplyKeyboardRemove {
+			bool removeKeyboard : 1;
+			bool selective : 1;
+		};
+		
+		struct InlineKeyboardMarkup {
+			//Matrix inlineKeyboard
+		};
+
+		enum class CallbackGame {
+			GAME_CALLBACK
+		};
+
+		struct InlineKeyboardButton {
+			std::string text;
+			Ptr<std::string> url;
+			Ptr<std::string> callbackData;
+			Ptr<std::string> switchInlineQuery;
+			Ptr<std::string> switchInlineQueryCurrentChat;
+			Ptr<CallbackGame> callbackGame; 
+			bool pay : 1;
+		};
+
+		struct ChatMember {
+			User user;
+			std::string status;
+			Ptr<int> untilDate;
+			bool canBeEdited : 1;
+			bool canChangeInfo : 1;
+			bool canPostMessages : 1;
+			bool canEditMessages : 1;
+			bool canDeleteMessages : 1;
+			bool canInviteUsers : 1;
+			bool canRestrictMembers : 1;
+			bool canPinMessages : 1;
+			bool canPromoteMembers : 1;
+			bool canSendMessages : 1;
+			bool canSendMediaMessages : 1;
+			bool canSendOtherMessages : 1;
+			bool canAddWebPagePreviews : 1;
+		};
 	}
 }
 
