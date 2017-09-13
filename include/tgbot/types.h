@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 #include <memory>
-#include "matrix.h"
+#include "utils/matrix.h"
 
 namespace tgbot {
 	/*!
@@ -309,7 +309,7 @@ namespace tgbot {
 		};
 
 		struct UserProfilePhotos {
-			Matrix<PhotoSize> photos;
+			utils::Matrix<PhotoSize> photos;
 			int totalCount;
 		};
 
@@ -320,7 +320,7 @@ namespace tgbot {
 		};
 
 		struct ReplyKeyboardMarkup {
-			Matrix<KeyboardButton> keyboard;
+			utils::Matrix<KeyboardButton> keyboard;
 			bool resizeKeyboard : 1;
 			bool oneTimeKeyboard : 1;
 			bool selective : 1;
@@ -350,7 +350,7 @@ namespace tgbot {
 		};
 
 		struct InlineKeyboardMarkup {
-			Matrix<InlineKeyboardButton> inlineKeyboard;
+			utils::Matrix<InlineKeyboardButton> inlineKeyboard;
 		};
 
 		struct ChatMember {
@@ -371,7 +371,8 @@ namespace tgbot {
 			bool canSendOtherMessages : 1;
 			bool canAddWebPagePreviews : 1;
 		};
-	}
-}
+	} //types
+
+} //tgbot
 
 #endif 
