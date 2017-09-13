@@ -20,18 +20,20 @@ namespace tgbot {
 		
 		struct Message; //forward declaration
 
-		enum class UpdateType {                          
-         MESSAGE,
-         EDITED_MESSAGE,
-         EDITED_CHANNEL_POST,
-         INLINE_QUERY,
-         CHOSEN_INLINE_RESULT,
-         CALLBACK_QUERY,
-         SHIPPING_QUERY,
-         PRE_CHECKOUT_QUERY
-      };
+		enum class UpdateType {
+			MESSAGE,
+            EDITED_MESSAGE,
+            EDITED_CHANNEL_POST,
+            INLINE_QUERY,
+            CHOSEN_INLINE_RESULT,
+            CALLBACK_QUERY,
+            SHIPPING_QUERY,
+            PRE_CHECKOUT_QUERY
+        };
 
 		struct User {
+        public:
+            explicit User(const std::string& encoded);
 			std::string firstName;
 			Ptr<std::string> lastName;
 			Ptr<std::string> username;
@@ -41,11 +43,15 @@ namespace tgbot {
 		};
 
 		struct ChatPhoto {
+        public:
+            explicit ChatPhoto(const std::string& encoded);
 			std::string smallFileId;
 			std::string bigFileId;
 		};
 
 		struct MessageEntity {
+        public:
+            explicit MessageEntity(const std::string& encoded);
 			std::string type;
 			Ptr<User> user;
 			Ptr<std::string> url;
@@ -54,37 +60,47 @@ namespace tgbot {
 		};
 
 		struct Audio {
+        public:
+            explicit Audio(const std::string& encoded);
 			std::string fileId;
 			Ptr<std::string> performer;
 			Ptr<std::string> title;
 			Ptr<std::string> mimeType;
-			Ptr<int> fileSize;
+			int fileSize;
 			int duration;
 		};
 
 		struct PhotoSize {
+        public:
+            explicit PhotoSize(const std::string& encoded);
 			std::string fileId;
-			Ptr<int> fileSize;
+			int fileSize;
 			int width;
 			int height;
 		};
 
 		struct Document {
+        public:
+            explicit Document(const std::string& encoded);
 			std::string fileId;
 			Ptr<PhotoSize> thumb;
 			Ptr<std::string> fileName;
 			Ptr<std::string> mimeType;
-			Ptr<int> fileSize;
+			int fileSize;
 		};
 
 		struct Voice {
+        public:
+            explicit Voice(const std::string& encoded);
 			std::string fileId;
 			Ptr<std::string> mimeType;
-			Ptr<int> fileSize;
+			int fileSize;
 			int duration;
 		};
 
 		struct Contact {
+        public:
+            explicit Contact(const std::string& encoded);
 			std::string phoneNumber;
 			std::string firstName;
 			std::string lastName;
@@ -92,11 +108,15 @@ namespace tgbot {
 		};
 
 		struct Location {
+        public:
+            explicit Location(const std::string& encoded);
 			std::string longitude;
 			std::string latitude;
 		};
 
 		struct Animation {
+        public:
+            explicit Animation(const std::string& encoded);
 			PhotoSize thumb;
 			std::string fileId;
 			std::string fileName;
@@ -105,6 +125,8 @@ namespace tgbot {
 		};
 
 		struct Venue {
+        public:
+            explicit Venue(const std::string& encoded);
 			Ptr<std::string> fourSquareId;
 			Location location;
 			std::string title;
@@ -112,14 +134,18 @@ namespace tgbot {
 		};
 
 		struct VideoNote {
+        public:
+            explicit VideoNote(const std::string& encoded);
 			std::string fileId;
 			Ptr<PhotoSize> thumb;
-			Ptr<int> fileSize;
+			int fileSize;
 			int length;
 			int duration;
 		};
 
 		struct MaskPosition {
+        public:
+            explicit MaskPosition(const std::string& encoded);
 			std::string point;
 			double xShift;
 			double yShift;
@@ -127,6 +153,8 @@ namespace tgbot {
 		};
 
 		struct Sticker {
+        public:
+            explicit Sticker(const std::string& encoded);
 			MaskPosition maskPosition;
 			PhotoSize thumb;
 			std::string fileId;
@@ -138,16 +166,20 @@ namespace tgbot {
 		};
 
 		struct Video {
+        public:
+            explicit Video(const std::string& encoded);
 			std::string fileId;
 			Ptr<PhotoSize> thumb;
 			Ptr<std::string> mimeType;
-			Ptr<int> fileSize;
+			int fileSize;
 			int width;
 			int height;
 			int duration;
 		};
 
 		struct Invoice {
+        public:
+            explicit Invoice(const std::string& encoded);
 			std::string title;
 			std::string description;
 			std::string startParameter;
@@ -156,6 +188,8 @@ namespace tgbot {
 		};
 		
 		struct ShippingAddress {
+        public:
+            explicit ShippingAddress(const std::string& encoded);
 			std::string countryCode;
 			std::string state;
 			std::string city;
@@ -165,6 +199,8 @@ namespace tgbot {
 		};
 
 		struct OrderInfo {
+        public:
+            explicit OrderInfo(const std::string& encoded);
 			Ptr<ShippingAddress> shippingAddress;
 			Ptr<std::string> name;
 			Ptr<std::string> phoneNumber;
@@ -172,6 +208,8 @@ namespace tgbot {
 		};
 
 		struct SuccessfulPayment {
+        public:
+            explicit SuccessfulPayment(const std::string& encoded);
 			std::string currency;
 			std::string invoicePayload;
 			std::string telegramPaymentChargeId;
@@ -182,6 +220,8 @@ namespace tgbot {
 		};
 
 		struct Game {
+        public:
+            explicit Game(const std::string& encoded);
 			std::string title;
 			std::string description;
 			std::vector<PhotoSize> photo;
@@ -191,6 +231,8 @@ namespace tgbot {
 		};
 
 		struct Chat {
+        public:
+            explicit Chat(const std::string& encoded);
 			std::string type;
 			Ptr<Message> pinnedMessage;
 			Ptr<ChatPhoto> photo;
@@ -205,15 +247,14 @@ namespace tgbot {
 		};
 
 		struct Message {
+        public:
+            explicit Message(const std::string& encoded);
 			Chat chat;
 			Ptr<User> from;
 			Ptr<User> forwardFrom;
 			Ptr<Chat> forwardFromChat;
-			Ptr<int> forwardFromMessageId;
 			Ptr<std::string> forwardSignature;
-			Ptr<int> forwardDate;
 			Ptr<Message> replyToMessage;
-			Ptr<int> editDate;
 			Ptr<std::string> authorSignature;
 			Ptr<std::string> text;
 			Ptr<std::vector<MessageEntity>> entities;
@@ -233,13 +274,16 @@ namespace tgbot {
 			Ptr<std::vector<User>> leftChatMembers;
 			Ptr<std::string> newChatTitle;
 			Ptr<std::vector<PhotoSize>> newChatPhoto;
-			Ptr<int> migrateToChatId;
-			Ptr<int> migrateFromChatId;
 			Ptr<Message> pinnedMessage;
 			Ptr<Invoice> invoice;
 			Ptr<SuccessfulPayment> successfulPayment;
+            int forwardFromMessageId;
+            int forwardDate;
+            int editDate;
 			int messageId;
 			int date;
+            int migrateToChatId;
+            int migrateFromChatId;
 			bool deleteChatPhoto : 1;
 			bool groupChatCreated : 1;
 			bool supergroupChatCreated : 1;
@@ -247,6 +291,8 @@ namespace tgbot {
 		};
 
 		struct InlineQuery {
+        public:
+            explicit InlineQuery(const std::string& encoded);
 			User user;
 			std::string id;
 			std::string query;
@@ -255,6 +301,8 @@ namespace tgbot {
 		};
 
 		struct ChosenInlineResult {
+        public:
+            explicit ChosenInlineResult(const std::string& encoded);
 			User from;
 			std::string resultId;
 			std::string query;
@@ -263,6 +311,8 @@ namespace tgbot {
 		};
 
 		struct CallbackQuery {
+        public:
+            explicit CallbackQuery(const std::string& encoded);
 			User from;
 			std::string id;
 			std::string chatInstance;
@@ -273,6 +323,8 @@ namespace tgbot {
 		};
 
 		struct ShippingQuery {
+        public:
+            explicit ShippingQuery(const std::string& encoded);
 			ShippingAddress shippingAddress;
 			User from;
 			std::string id;
@@ -280,6 +332,8 @@ namespace tgbot {
 		};
 
 		struct PreCheckoutQuery {
+        public:
+            explicit PreCheckoutQuery(const std::string& encoded);
 			User from;
 			std::string currency;
 			std::string invoicPayload;
@@ -290,6 +344,8 @@ namespace tgbot {
 		};
 
 		struct Update {
+        public:
+            explicit Update(const std::string& encoded);
 			Ptr<Message> message;
 			Ptr<Message> editedMessage;
 			Ptr<Message> channelPost;
@@ -304,33 +360,45 @@ namespace tgbot {
 		};
 		
 		struct ResponseParameters {
-			Ptr<int> migrateToChatId;
-			Ptr<int> retryAfter;
+        public:
+            explicit ResponseParameters(const std::string& encoded);
+			int migrateToChatId;
+			int retryAfter;
 		};
 
 		struct ForceReply {
+        public:
+            explicit ForceReply(const std::string& encoded);
 			bool forceReply : 1;
 			bool selective : 1;
 		};
 
 		struct File {
+        public:
+            explicit File(const std::string& encoded);
 			std::string fileId;
-			Ptr<int> fileSize;
+			int fileSize;
 			Ptr<std::string> filePath;
 		};
 
 		struct UserProfilePhotos {
+        public:
+            explicit UserProfilePhotos(const std::string& encoded);
 			utils::Matrix<PhotoSize> photos;
 			int totalCount;
 		};
 
 		struct KeyboardButton {
+        public:
+            explicit KeyboardButton(const std::string& encoded);
 			std::string text;
 			bool requestContact : 1;
 			bool requestLocation : 1;
 		};
 
 		struct ReplyKeyboardMarkup {
+        public:
+            explicit ReplyKeyboardMarkup(const std::string& encoded);
 			utils::Matrix<KeyboardButton> keyboard;
 			bool resizeKeyboard : 1;
 			bool oneTimeKeyboard : 1;
@@ -338,6 +406,8 @@ namespace tgbot {
 		};
 
 		struct ReplyKeyboardRemove {
+        public:
+            explicit ReplyKeyboardRemove(const std::string& encoded);
 			bool removeKeyboard : 1;
 			bool selective : 1;
 		};
@@ -351,23 +421,29 @@ namespace tgbot {
 		};
 
 		struct InlineKeyboardButton {
+        public:
+            explicit InlineKeyboardButton(const std::string& encoded);
 			std::string text;
 			Ptr<std::string> url;
 			Ptr<std::string> callbackData;
 			Ptr<std::string> switchInlineQuery;
 			Ptr<std::string> switchInlineQueryCurrentChat;
-			Ptr<CallbackGame> callbackGame; 
+			CallbackGame callbackGame;
 			bool pay : 1;
 		};
 
 		struct InlineKeyboardMarkup {
+        public:
+            explicit InlineKeyboardMarkup(const std::string& encoded);
 			utils::Matrix<InlineKeyboardButton> inlineKeyboard;
 		};
 
 		struct ChatMember {
+        public:
+            explicit ChatMember(const std::string& encoded);
 			User user;
 			std::string status;
-			Ptr<int> untilDate;
+			int untilDate;
 			bool canBeEdited : 1;
 			bool canChangeInfo : 1;
 			bool canPostMessages : 1;

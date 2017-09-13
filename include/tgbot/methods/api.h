@@ -2,7 +2,6 @@
 #define TGBOT_METHODS_API_H
 
 #include "types.h"
-#include "../types.h"
 
 namespace tgbot {
 
