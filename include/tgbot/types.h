@@ -165,6 +165,15 @@ namespace tgbot {
 				int fileSize;
 		};
 
+		struct StickerSet {
+			public:
+				explicit StickerSet(const std::string& encoded);
+				std::string name;
+				std::string title;
+				std::vector<Sticker> stickers;
+				bool containsMasks : 1;
+		};
+
 		struct Video {
 			public:
 				explicit Video(const std::string& encoded);

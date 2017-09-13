@@ -36,6 +36,7 @@ namespace tgbot {
 
 			enum class FileSource {
 				EXTERNAL,
+				EXTERNAL_URL,
 				LOCAL_UPLOAD
 			};
 

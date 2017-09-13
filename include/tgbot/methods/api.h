@@ -107,6 +107,52 @@ namespace tgbot {
 						const int& replyToMessageId = -1,
 						const std::string& replyMarkup = "") const;
 
+				api_types::Message sendSticker(const std::string& chatId,
+						const std::string& sticker,
+						const types::FileSource& source = types::FileSource::EXTERNAL,
+						const bool& disableNotifiation = false,
+						const int& replyToMessageId = -1,
+						const std::string& replyMarkup = "") const;
+
+				api_types::StickerSet getStickerSet(const std::string& name) const;
+
+				api_types::File uploadStickerFile(const int& userId,
+						const std::string& pngSticker,
+						const types::FileSource& source = types::FileSource::EXTERNAL) const;
+				
+				bool createNewStickerSet(const int& userId, 
+						const std::string& name,
+						const std::string& title,
+						const std::string& emoji,
+						const std::string& pngSticker,
+						const types::FileSource& source = types::FileSource::EXTERNAL_URL) const;
+
+				bool createNewStickerSet(const int& userId, 
+						const std::string& name,
+						const std::string& title,
+						const std::string& emoji,
+						const std::string& pngSticker,
+						const api_types::MaskPosition& maskPosition,
+						const types::FileSource& source = types::FileSource::EXTERNAL_URL) const;
+
+				bool addStickerToSet(const int& userId, 
+						const std::string& name,
+						const std::string& emoji,
+						const std::string& pngSticker,
+						const types::FileSource& source = types::FileSource::EXTERNAL_URL) const;
+
+				bool addStickerToSet(const int& userId, 
+						const std::string& name,
+						const std::string& emoji,
+						const std::string& pngSticker,
+						const api_types::MaskPosition& maskPosition,
+						const types::FileSource& source = types::FileSource::EXTERNAL_URL) const;
+
+				bool setStickerPositionInSet(const std::string& sticker,
+						const int position) const;
+
+				bool deleteStickerFromSet(const std::string& sticker) const;
+
 				bool sendChatAction(const std::string& chatId, 
 						const types::ChatAction& action) const;
 
