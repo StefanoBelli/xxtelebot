@@ -117,7 +117,7 @@ namespace tgbot {
 			std::vector<api_types::Update> getUpdates(const long long& offset, const int limit = 100,
 					const int timeout = 60);
 			std::vector<api_types::Update> getUpdates(const long long& offset, 
-					const std::vector<std::string> allowedUpdates,
+					const std::vector<api_types::UpdateType> allowedUpdates,
 					const int limit = 100,
 					const int timeout = 60);
 			api_types::User getMe();

@@ -20,6 +20,16 @@ namespace tgbot {
 		
 		struct Message; //forward declaration
 
+		enum class UpdateType {                          
+         MESSAGE,
+         EDITED_MESSAGE,
+         EDITED_CHANNEL_POST,
+         INLINE_QUERY,
+         CHOSEN_INLINE_RESULT,
+         CALLBACK_QUERY,
+         SHIPPING_QUERY,
+         PRE_CHECKOUT_QUERY
+      };
 
 		struct User {
 			std::string firstName;
@@ -289,6 +299,7 @@ namespace tgbot {
 			Ptr<CallbackQuery> callbackQuery;
 			Ptr<ShippingQuery> shippingQuery;
 			Ptr<PreCheckoutQuery> preCheckoutQuery;
+			UpdateType updateType;
 			int updateId;
 		};
 		
