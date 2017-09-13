@@ -5,3 +5,4 @@ docs/
 *.o
 lib/
 version.h
+cmake-build-debug/

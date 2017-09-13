@@ -1,1 +1,0 @@
-CMake: 3.6.3@/opt/CLion/bin/cmake/bin/cmake
