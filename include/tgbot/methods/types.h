@@ -2,12 +2,16 @@
 #define TGBOT_METHODS_TYPES_H 
 
 #include <string>
+#include <memory>
 
 namespace tgbot {
 	
 	namespace methods {
 
 		namespace types {
+
+			template <typename _Ty_Elem>
+			using Ptr = std::unique_ptr<_Ty_Elem>;
 
 			enum class ParseMode {
 				DEFAULT,
@@ -154,6 +158,44 @@ namespace tgbot {
 			struct InlineQueryResultCachedVoice : public InlineQueryResult {
 			public:
 				std::string toString() override;
+			};
+
+			struct InputMessageContent {
+			public:
+				virtual std::string toString() = 0;
+			};
+
+			struct InputTextMessageContent : public InputMessageContent {
+			public:
+				std::string toString() override;
+				std::string messageText;
+				Ptr<ParseMode> parseMode;
+				bool disableWebPagePreview : 1;
+			};
+
+			struct InputLocationMessageContent : public InputMessageContent {
+			public:
+				std::string toString() override;
+				double latitude;
+				double longitude;
+			};
+
+			struct InputContactMessageContent : public InputMessageContent {
+			public:
+				std::string toString() override;
+				std::string phoneNumber;
+				std::string firstName;
+				Ptr<std::string> lastName;
+			};
+
+			struct InputVenueMessageContent : public InputMessageContent {
+			public:
+				std::string toString() override;
+				std::string title;
+				std::string address;
+				Ptr<std::string> foursquareId;
+				double latitude;
+				double longitude;
 			};
 
 		} //types

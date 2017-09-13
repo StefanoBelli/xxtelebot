@@ -66,13 +66,13 @@ namespace tgbot {
 					const bool& disableNotification = false,
 					const int& replyToMessageId = -1,
 					const std::string& replyMarkup = "");
-			api_types::Message sendLocation(const std::string& chatId, const float& latitude,
-					const float& longitude, 
+			api_types::Message sendLocation(const std::string& chatId, const double& latitude,
+					const double& longitude, 
 					const bool& disableNotification = false,
 					const int& replyToMessageId = -1,
 					const std::string& replyMarkup = "");
-			api_types::Message sendVenue(const std::string& chatId, const float& latitude,
-					const float& longitude, 
+			api_types::Message sendVenue(const std::string& chatId, const double& latitude,
+					const double& longitude, 
 					const std::string& title,
 					const std::string& address,
 					const std::string& foursquareId = "",
