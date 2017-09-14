@@ -12,21 +12,24 @@ namespace tgbot {
 		struct CallbackQuery;
 		struct ShippingQuery;
 		struct PreCheckoutQuery;
-		struct EditedMessage;
-		struct EditedChannelPost;
 		struct Update;
 	}
 
+    /*!
+     * @brief refer to RegisterCallback::callback function
+     */
 	template <typename TypeUpdate>
 		using UpdateCallback = std::function<void(const TypeUpdate&, const Bot&)>;
+
+    /*!
+     * @brief refer to RegisterCallback::callback function
+     */
 	using AnyUpdateCallback = std::function<void(const types::Update&, const Bot&)>;
 
 	class RegisterCallback {
 		protected:
 			RegisterCallback() = default;
-			inline void makeCallback(const types::Update& update) const {
-
-			}
+			void makeCallback(const types::Update& update, const Bot& b) const;
 
 		private:
 			UpdateCallback<types::Message> messageCallback;
@@ -35,20 +38,34 @@ namespace tgbot {
 			UpdateCallback<types::CallbackQuery> callbackQueryCallback;
 			UpdateCallback<types::ShippingQuery> shippingQueryCallback;
 			UpdateCallback<types::PreCheckoutQuery> preCheckoutQueryCallback;
-			UpdateCallback<types::EditedMessage> editedMessageCallback;
-			UpdateCallback<types::EditedChannelPost> editedChannelPostCallback;
+			UpdateCallback<types::Message> editedMessageCallback;
+			UpdateCallback<types::Message> editedChannelPostCallback;
 
-			AnyUpdateCallback anyUpdate;
+			AnyUpdateCallback anyUpdateCallback;
 
 		public:
+            /*!
+             * @brief register a callback, template specializations exist,
+             * this one will do nothing
+             * @tparam Ty : update type, see namespace tgbot::types
+             * @param unknownCallback
+             */
 			template <typename Ty>
 				inline void callback(const Ty& unknownCallback) {}
 
+            /*!
+             * @brief register a callback, must be used
+             * for "edited message" or "edited channel post"
+             * @param message
+             * @param which : see types::UpdateType
+             */
+            inline void callback(const UpdateCallback<types::Message>& message,
+                                 const types::UpdateType& which);
 	};
 
 	template<>
 		inline void RegisterCallback::callback<AnyUpdateCallback>(const AnyUpdateCallback& callback) {
-			anyUpdate = callback;
+			anyUpdateCallback = callback;
 		}
 
 	template<>
@@ -81,15 +98,14 @@ namespace tgbot {
 			preCheckoutQueryCallback = callback;
 		}
 
-	template<>
-		inline void RegisterCallback::callback<UpdateCallback<types::EditedMessage>>(const UpdateCallback<types::EditedMessage>& callback) {
-			editedMessageCallback = callback;
-		}
+    inline void RegisterCallback::callback(const UpdateCallback<types::Message>& callback,
+                                           const types::UpdateType& which) {
+            if(which == types::UpdateType::EDITED_MESSAGE)
+                editedMessageCallback = callback;
+            else if(which == types::UpdateType::EDITED_CHANNEL_POST)
+                editedChannelPostCallback = callback;
+    }
 
-	template<>
-		inline void RegisterCallback::callback<UpdateCallback<types::EditedChannelPost>>(const UpdateCallback<types::EditedChannelPost>& callback) {
-			editedChannelPostCallback = callback;
-		}
 }
 
 #endif

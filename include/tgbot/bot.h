@@ -4,7 +4,11 @@
 #include "methods/api.h"
 #include "register_callback.h"
 
+/*!
+ * @brief Main tgbot namespace
+ */
 namespace tgbot {
+
 	class Bot : public methods::Api, public RegisterCallback {
 		public:
 			/*!
@@ -20,12 +24,6 @@ namespace tgbot {
 				const int& timeout = 60);
 
 			/*!
-			 * @brief Set a new update (getUpdates) filter
-			 * @param newFilter : new filter to be set
-			 */
-			void setUpdatesFilter(const std::vector<types::UpdateType>& newFilter);
-
-			/*!
 			 * @brief Start long polling
 			 */
 			void start() const;
@@ -33,6 +31,7 @@ namespace tgbot {
 		private:
 			std::vector<types::UpdateType> updatesFilter;
 	};
-}
+
+} //tgbot
 
 #endif

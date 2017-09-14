@@ -4,6 +4,7 @@
 #include <curl/curl.h>
 #include <string>
 #include <atomic>
+#include <exception>
 
 namespace tgbot {
 
@@ -32,6 +33,14 @@ namespace tgbot {
 			private:
 				std::atomic<CURL*> curlinst;
 		};
+
+        class HttpsException : public std::exception {
+            public:
+                HttpsException(const char* message);
+                virtual const char* what() const noexcept;
+            private:
+                const char* failureMessage;
+        };
 
 	} //utils
 
