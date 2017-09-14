@@ -1,5 +1,4 @@
 #include <tgbot/utils/https.h>
-#include <cstring>
 
 using namespace tgbot::utils;
 
