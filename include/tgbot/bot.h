@@ -1,6 +1,7 @@
 #ifndef TGBOT_BOT_H
 #define TGBOT_BOT_H
 
+#include "types.h"
 #include "methods/api.h"
 #include "register_callback.h"
 
@@ -27,8 +28,9 @@ namespace tgbot {
 			 * @brief Start long polling
 			 */
 			void start() const;
-
+		
 		private:
+			void makeCallback(const types::Update& update) const;
 			std::vector<types::UpdateType> updatesFilter;
 	};
 
