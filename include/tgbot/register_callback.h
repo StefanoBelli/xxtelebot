@@ -1,7 +1,6 @@
 #ifndef TGBOT_REGISTER_CB_H
 #define TGBOT_REGISTER_CB_H
 
-#include <vector>
 #include <functional>
 
 namespace tgbot {
