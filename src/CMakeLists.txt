@@ -12,7 +12,7 @@ else()
 endif()
 
 set(CMAKE_CXX_STANDARD 11)
-set(SOURCES "emoji.cpp")
+set(SOURCES "")
 
 if (NOT CMAKE_PREFIX_DIR AND UNIX)
 	message("-- Probing prefix directory...")
