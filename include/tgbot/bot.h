@@ -10,16 +10,14 @@ namespace tgbot {
 			/*!
 			 * @brief Bot class constructor
 			 * @param token : Bot token
-			 */
-			explicit Bot(const std::string& token);
-
-			/*!
-			 * @brief Bot class constructor
-			 * @param token : Bot token
-			 * @param filterUpdates : accept only certain kinds of UpdateType
+			 * @param filterUpdates : accept only certain kinds of UpdateType (Default everything)
+			 * @param limit : how many updates per-time? (Default 100)
+			 * @param timeout : long poll should stop after N seconds, if not receiving updates (Default 60)
 			 */
 			Bot(const std::string& token, 
-				const std::vector<types::UpdateType>& filterUpdates);
+				const std::vector<types::UpdateType>& filterUpdates = {},
+				const int& limit = 100,
+				const int& timeout = 60);
 
 			/*!
 			 * @brief Set a new update (getUpdates) filter
