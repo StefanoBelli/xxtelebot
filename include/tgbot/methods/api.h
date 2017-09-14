@@ -136,20 +136,20 @@ namespace tgbot {
 						const std::string& emoji,
 						const std::string& pngSticker,
 						const api_types::MaskPosition& maskPosition,
-						const types::FileSource& source = types::FileSource::EXTERNAL_URL) const;
+						const types::FileSource& source = types::FileSource::EXTERNAL) const;
 
 				bool addStickerToSet(const int& userId, 
 						const std::string& name,
 						const std::string& emoji,
 						const std::string& pngSticker,
-						const types::FileSource& source = types::FileSource::EXTERNAL_URL) const;
+						const types::FileSource& source = types::FileSource::EXTERNAL) const;
 
 				bool addStickerToSet(const int& userId, 
 						const std::string& name,
 						const std::string& emoji,
 						const std::string& pngSticker,
 						const api_types::MaskPosition& maskPosition,
-						const types::FileSource& source = types::FileSource::EXTERNAL_URL) const;
+						const types::FileSource& source = types::FileSource::EXTERNAL) const;
 
 				bool setStickerPositionInSet(const std::string& sticker,
 						const int position) const;
@@ -218,6 +218,17 @@ namespace tgbot {
 						const int limit = 100,
 						const int timeout = 60);
 
+				/*!
+				 * @brief this getUpdate method overload will use the private class instance
+				 * offset-keeper variable, instead of taking one
+				 */
+				std::vector<api_types::Update> getUpdates(const int limit = 100,
+						const int timeout = 60);
+
+				std::vector<api_types::Update> getUpdates(const std::vector<api_types::UpdateType> allowedUpdates,
+						const int limit = 100,
+						const int timeout = 60);
+				
 				api_types::Message editMessageText(const std::string& inlineMessageId,
 						const std::string& text,
 						const types::ParseMode& parseMode = types::ParseMode::DEFAULT,
