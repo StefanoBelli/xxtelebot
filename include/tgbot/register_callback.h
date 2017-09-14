@@ -24,8 +24,11 @@ namespace tgbot {
 	class RegisterCallback {
 		protected:
 			RegisterCallback() = default;
-			void makeCallback(const types::Update& update) const;
+			inline void makeCallback(const types::Update& update) const {
 
+			}
+
+		private:
 			UpdateCallback<types::Message> messageCallback;
 			UpdateCallback<types::InlineQuery> inlineQueryCallback;
 			UpdateCallback<types::ChosenInlineResult> chosenInlineResultCallback;
