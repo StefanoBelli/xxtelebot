@@ -34,13 +34,13 @@ namespace tgbot {
 				std::atomic<CURL*> curlinst;
 		};
 
-        class HttpsException : public std::exception {
-            public:
-                HttpsException(const char* message);
-                virtual const char* what() const noexcept;
-            private:
-                const char* failureMessage;
-        };
+		class HttpsException : public std::exception {
+			public:
+				HttpsException(const char* message);
+				virtual const char* what() const noexcept;
+			private:
+				const char* failureMessage;
+		};
 
 	} //utils
 
