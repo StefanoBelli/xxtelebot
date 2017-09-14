@@ -117,6 +117,46 @@ namespace tgbot {
 						const int& replyToMessageId = -1,
 						const std::string& replyMarkup = "") const;
 
+				/*!
+				 * @brief Please refer to tgbot::methods::types::Invoice struct
+				 */
+				api_types::Message sendInvoice(const int& chatId,
+						const types::Invoice& invoice,
+						const bool& disableNotifiation = false,
+						const int& replyToMessageId = -1) const;
+
+				/*!
+				 * @brief Please refer to tgbot::methods::types::Invoice struct
+				 */
+				api_types::Message sendInvoice(const int& chatId,
+						const types::Invoice& invoice,
+						const types::InlineKeyboardMarkup& replyMarkup,
+						const bool& disableNotifiation = false,
+						const int& replyToMessageId = -1) const;
+
+				/*!
+				 * @brief Use this overload if the shipping query cannot proceed
+				 */
+				bool answerShippingQuery(const std::string& shippingQueryId,
+						const std::string& errorMessage) const;
+
+				/*!
+				 * @brief Use this overload if the shipping query CAN proceed 
+				 */
+				bool answerShippingQuery(const std::string& shippingQueryId,
+						const std::vector<types::ShippingOption>& shippingOptions) const;
+
+				/*!
+				 * @brief Use this overload if the checkout phase can take place
+				 */
+				bool answerPreCheckoutQuery(const std::string& preCheckoutQueryId,
+						const std::string& errorMessage) const;
+
+				/*!
+				 * @brief Use this overload if the checkout phase CANNOT take place
+				 */
+				bool answerShippingQuery(const std::string& preCheckoutQueryId) const;
+
 				api_types::StickerSet getStickerSet(const std::string& name) const;
 
 				api_types::File uploadStickerFile(const int& userId,
@@ -128,7 +168,7 @@ namespace tgbot {
 						const std::string& title,
 						const std::string& emoji,
 						const std::string& pngSticker,
-						const types::FileSource& source = types::FileSource::EXTERNAL_URL) const;
+						const types::FileSource& source = types::FileSource::EXTERNAL) const;
 
 				bool createNewStickerSet(const int& userId, 
 						const std::string& name,

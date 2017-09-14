@@ -387,6 +387,42 @@ namespace tgbot {
 					double longitude;
 			};
 
+			struct LabeledPrice {
+				public:
+					std::string label;
+					int amount;
+			};
+
+			/*!
+			 * @brief This struct contains parameters for sendInvoice method
+			 */
+			struct Invoice {
+				public:
+					std::vector<LabeledPrice> prices;
+					std::string title;
+					std::string description;
+					std::string payload;
+					std::string providerToken;
+					std::string startParameter;
+					std::string currency;
+					Ptr<std::string> photoUrl;
+					int photoSize;
+					int photoWidth;
+					int photoHeight;
+					bool needName : 1;
+					bool needPhoneNumber : 1;
+					bool needEmail : 1;
+					bool needShippingAddress : 1;
+					bool isFlexible : 1;
+			};
+
+			struct ShippingOption {
+				public:
+					std::vector<LabeledPrice> prices;
+					std::string id;
+					std::string title;
+			};
+
 		} //types
 
 	} //methods
