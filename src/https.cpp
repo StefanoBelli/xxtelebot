@@ -1,52 +1,38 @@
+#include <curl/curl.h>
 #include <tgbot/utils/https.h>
 
-using namespace tgbot::utils;
+static CURL* gCurlInst = nullptr;
 
-HttpsException::HttpsException(const char *message) :
-	failureMessage(message) {}
+using namespace tgbot::utils::http;
 
-const char* HttpsException::what() const noexcept {
-	return failureMessage;
+const char* HttpException::what() const noexcept {
+	return "Something went wrong while attempting HTTP transaction";
 }
 
-static size_t write(const char* buf, size_t s, size_t nmemb, void* stream) {
-	static_cast<HttpResponse*>(stream)->body.append(buf);
-	return nmemb;
+size_t write_data(const char* ptr, size_t nbs, size_t count, void* dest) {
+	static_cast<Response*>(dest)->body.append(ptr);
+	return count;
 }
 
-Https::Https() {
-	curlinst = curl_easy_init();
-	if(!curlinst)
-		throw HttpsException("Cannot initialize curl easy interface");
+//!!No locking protection!!
+bool tgbot::utils::http::globalCurlInitializer(const std::string& agent) {
+	gCurlInst = curl_easy_init();
+	if(!gCurlInst)
+		return false;
 
-	curl_easy_setopt(curlinst,CURLOPT_FOLLOWLOCATION,1L);
-	curl_easy_setopt(curlinst,CURLOPT_TCP_KEEPALIVE,1L);
-	curl_easy_setopt(curlinst,CURLOPT_TCP_KEEPINTVL,60);
-	curl_easy_setopt(curlinst,CURLOPT_WRITEFUNCTION,write);
+	curl_easy_setopt(gCurlInst,CURLOPT_TCP_KEEPALIVE,1L);
+	curl_easy_setopt(gCurlInst,CURLOPT_TCP_KEEPINTVL,60);
+	curl_easy_setopt(gCurlInst,CURLOPT_USERAGENT,agent.c_str());
+	curl_easy_setopt(gCurlInst,CURLOPT_WRITEFUNCTION,write_data);
+
+	return true;
 }
 
-Https::~Https() {
-	if(curlinst)
-		curl_easy_cleanup(curlinst);
-}
+//!!No locking protection!!
+bool tgbot::utils::http::globalCurlCleanup() {
+	if(!gCurlInst)
+		return false;
 
-HttpResponse Https::get(const std::string &fullUrl) {
-	HttpResponse response { "",-1 };
-
-	curl_easy_setopt(curlinst,CURLOPT_URL,fullUrl.c_str());
-	curl_easy_setopt(curlinst,CURLOPT_WRITEDATA,&response);
-
-	CURLcode curlcode;
-	if((curlcode=curl_easy_perform(curlinst)) != CURLE_OK)
-		throw HttpsException(curl_easy_strerror(curlcode));
-
-	curl_easy_getinfo (curlinst, CURLINFO_RESPONSE_CODE,
-			&(response.code));
-
-	return response;
-}
-
-HttpResponse Https::multiPartUpload(const std::string &fullUrl, 
-		const std::string &localFileName) {
-
+	curl_easy_cleanup(gCurlInst);
+	return true;
 }
