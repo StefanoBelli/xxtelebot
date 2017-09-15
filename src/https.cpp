@@ -1,3 +1,4 @@
+//atomic
 #include <curl/curl.h>
 #include <tgbot/utils/https.h>
 
@@ -58,12 +59,28 @@ Response tgbot::utils::http::get(const std::string &full) {
 
 Response tgbot::utils::http::multiPartUpload(const std::string &operation,
                                              const int &chatId,
-                                             const std::string &type,
+                                             const std::string &mimeType,
                                              const std::string &filename) {
     if(!gCurlInst)
         throw HttpException();
 
     Response res { "", -1 };
+
+	curl_httppost *multiPost = nullptr;
+	curl_httppost *end = nullptr;
+
+	//formadd
+	//formadd
+	
+
+	curl_easy_setopt(gCurlInst,CURLOPT_HTTPPOST,multiPost);
+	curl_easy_setopt(gCurlInst,CURLOPT_WRITEDATA,&res);
+	curl_easy_setopt(gCurlInst,CURLOPT_URL,operation.c_str());
+	
+    if(curl_easy_perform(gCurlInst) != CURLE_OK)
+        throw HttpException();
+
+    curl_easy_getinfo(gCurlInst,CURLINFO_RESPONSE_CODE,&(res.code));
 
     return res;
 }

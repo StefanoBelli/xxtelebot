@@ -21,7 +21,7 @@ namespace tgbot {
 			Response get(const std::string& full);
 			Response multiPartUpload(const std::string& operation, 
 					const int& chatId, 
-					const std::string& type, 
+					const std::string& mimeType, 
 					const std::string& filename);
 
 			bool globalCurlInitializer(const std::string& agent);
