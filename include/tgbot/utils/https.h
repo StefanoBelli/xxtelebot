@@ -1,7 +1,6 @@
 #ifndef TGBOT_HTTPS_H
 #define TGBOT_HTTPS_H
 
-#include <curl/curl.h>
 #include <string>
 #include <atomic>
 #include <exception>
@@ -28,10 +27,9 @@ namespace tgbot {
 
 				HttpResponse get(const std::string& fullUrl);
 				HttpResponse multiPartUpload(const std::string& fullUrl,
-						const std::string& localFileName,
-						std::ifstream& stream);
+						const std::string& localFileName);
 			private:
-				std::atomic<CURL*> curlinst;
+				CURL* curlinst;
 		};
 
 		class HttpsException : public std::exception {

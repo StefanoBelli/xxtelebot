@@ -46,7 +46,7 @@ HttpResponse Https::get(const std::string &fullUrl) {
 	return response;
 }
 
-HttpResponse Https::multiPartUpload(const std::string &fullUrl, const std::string &localFileName,
-		std::ifstream &stream) {
+HttpResponse Https::multiPartUpload(const std::string &fullUrl, 
+		const std::string &localFileName) {
 
 }
