@@ -5,11 +5,11 @@ static CURL* gCurlInst = nullptr;
 
 using namespace tgbot::utils::http;
 
-const char* HttpException::what() const noexcept {
+const char* tgbot::utils::http::HttpException::what() const noexcept {
 	return "Something went wrong while attempting HTTP transaction";
 }
 
-size_t write_data(const char* ptr, size_t nbs, size_t count, void* dest) {
+static size_t write_data(const char* ptr, size_t nbs, size_t count, void* dest) {
 	static_cast<Response*>(dest)->body.append(ptr);
 	return count;
 }
@@ -20,6 +20,7 @@ bool tgbot::utils::http::globalCurlInitializer(const std::string& agent) {
 	if(!gCurlInst)
 		return false;
 
+    curl_easy_setopt(gCurlInst,CURLOPT_FOLLOWLOCATION,1L);
 	curl_easy_setopt(gCurlInst,CURLOPT_TCP_KEEPALIVE,1L);
 	curl_easy_setopt(gCurlInst,CURLOPT_TCP_KEEPINTVL,60);
 	curl_easy_setopt(gCurlInst,CURLOPT_USERAGENT,agent.c_str());
@@ -35,4 +36,34 @@ bool tgbot::utils::http::globalCurlCleanup() {
 
 	curl_easy_cleanup(gCurlInst);
 	return true;
+}
+
+Response tgbot::utils::http::get(const std::string &full) {
+    if(!gCurlInst)
+        throw HttpException();
+
+    Response res { "", -1 };
+
+    curl_easy_setopt(gCurlInst,CURLOPT_HTTPGET,1L);
+    curl_easy_setopt(gCurlInst,CURLOPT_WRITEDATA,&res);
+    curl_easy_setopt(gCurlInst,CURLOPT_URL,full.c_str());
+
+    if(curl_easy_perform(gCurlInst) != CURLE_OK)
+        throw HttpException();
+
+    curl_easy_getinfo(gCurlInst,CURLINFO_RESPONSE_CODE,&(res.code));
+
+    return res;
+}
+
+Response tgbot::utils::http::multiPartUpload(const std::string &operation,
+                                             const int &chatId,
+                                             const std::string &type,
+                                             const std::string &filename) {
+    if(!gCurlInst)
+        throw HttpException();
+
+    Response res { "", -1 };
+
+    return res;
 }
