@@ -15,10 +15,10 @@ namespace tgbot {
 		class Api {
 			public:
 				explicit Api(const std::string& token,
-                             const std::string& useragent,
-                             const std::vector<api_types::UpdateType>& allowedUpdates,
-                             const int& timeout,
-                             const int& limit);
+						const std::string& useragent,
+						const std::vector<api_types::UpdateType>& allowedUpdates,
+						const int& timeout,
+						const int& limit);
 
 				api_types::Message sendMessage(const std::string& chatId, 
 						const std::string& text,
@@ -166,7 +166,7 @@ namespace tgbot {
 				api_types::File uploadStickerFile(const int& userId,
 						const std::string& pngSticker,
 						const types::FileSource& source = types::FileSource::EXTERNAL) const;
-				
+
 				bool createNewStickerSet(const int& userId, 
 						const std::string& name,
 						const std::string& title,
@@ -328,12 +328,12 @@ namespace tgbot {
 						const unsigned& offset = 0,
 						const unsigned& limit = 100) const;
 
-            protected:
-                std::vector<api_types::Update> getUpdates(void* c);
+			protected:
+				std::vector<api_types::Update> getUpdates(void* c);
 			private:
-                const std::string ua;
+				const std::string ua;
 				const std::string baseApi;
-                std::string updateApiRequest;
+				std::string updateApiRequest;
 				long long currentOffset;
 		};
 

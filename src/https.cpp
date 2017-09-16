@@ -7,7 +7,7 @@ const char* tgbot::utils::http::HttpException::what() const noexcept {
 }
 
 static size_t write_data(const char* ptr, size_t nbs, size_t count, void* dest) {
-    static_cast<std::string*>(dest)->append(ptr);
+	static_cast<std::string*>(dest)->append(ptr);
 	return count;
 }
 
@@ -16,7 +16,7 @@ CURL* tgbot::utils::http::curlEasyInit(const std::string& agent) {
 	if(!curlInst)
 		return nullptr;
 
-    curl_easy_setopt(curlInst,CURLOPT_FOLLOWLOCATION,1L);
+	curl_easy_setopt(curlInst,CURLOPT_FOLLOWLOCATION,1L);
 	curl_easy_setopt(curlInst,CURLOPT_USERAGENT,agent.c_str());
 	curl_easy_setopt(curlInst,CURLOPT_WRITEFUNCTION,write_data);
 
@@ -24,32 +24,32 @@ CURL* tgbot::utils::http::curlEasyInit(const std::string& agent) {
 }
 
 std::string tgbot::utils::http::get(CURL* c, const std::string &full) {
-    if(!c)
-        throw HttpException();
+	if(!c)
+		throw HttpException();
 
-    std::string body;
-    curl_easy_setopt(c,CURLOPT_HTTPGET,1L);
-    curl_easy_setopt(c,CURLOPT_WRITEDATA,&body);
-    curl_easy_setopt(c,CURLOPT_URL,full.c_str());
+	std::string body;
+	curl_easy_setopt(c,CURLOPT_HTTPGET,1L);
+	curl_easy_setopt(c,CURLOPT_WRITEDATA,&body);
+	curl_easy_setopt(c,CURLOPT_URL,full.c_str());
 
-    if(curl_easy_perform(c) != CURLE_OK)
-        throw HttpException();
+	if(curl_easy_perform(c) != CURLE_OK)
+		throw HttpException();
 
-    return body;
+	return body;
 }
 
 std::string tgbot::utils::http::multiPartUpload(CURL* c,
-											 const std::string &operation,
-                                             const int &chatId,
-                                             const std::string &mimeType,
-                                             const std::string &type,
-                                             const std::string &filename) {
-    if(!c)
-        throw HttpException();
+		const std::string &operation,
+		const int &chatId,
+		const std::string &mimeType,
+		const std::string &type,
+		const std::string &filename) {
+	if(!c)
+		throw HttpException();
 
 	curl_httppost *multiPost = nullptr;
 	curl_httppost *end = nullptr;
-    std::string body;
+	std::string body;
 
 	curl_formadd(&multiPost,&end,
 			CURLFORM_COPYNAME, "chat_id",
@@ -65,9 +65,9 @@ std::string tgbot::utils::http::multiPartUpload(CURL* c,
 	curl_easy_setopt(c,CURLOPT_HTTPPOST,multiPost);
 	curl_easy_setopt(c,CURLOPT_WRITEDATA,&body);
 	curl_easy_setopt(c,CURLOPT_URL,operation.c_str());
-	
-    if(curl_easy_perform(c) != CURLE_OK)
-        throw HttpException();
 
-    return body;
+	if(curl_easy_perform(c) != CURLE_OK)
+		throw HttpException();
+
+	return body;
 }

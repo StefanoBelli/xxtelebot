@@ -9,7 +9,7 @@
 namespace tgbot {
 
 	namespace utils {
-		
+
 		/*!
 		 * @brief HTTP utilities, meant for project internal usage
 		 */

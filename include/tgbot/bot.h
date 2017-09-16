@@ -30,7 +30,6 @@ namespace tgbot {
 			 * @brief Start long polling
 			 */
 			void start();
-		
 		private:
 			void makeCallback(const std::vector<types::Update>& updates) const;
             const std::string ua;
