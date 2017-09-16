@@ -2,8 +2,6 @@
 #define TGBOT_HTTPS_H
 
 #include <string>
-#include <exception>
-
 #include <curl/curl.h>
 
 namespace tgbot {
@@ -23,11 +21,6 @@ namespace tgbot {
 					const std::string& filename);
 
 			CURL* curlEasyInit(const std::string& agent);
-
-			class HttpException : public std::exception {
-				public:
-					virtual const char* what() const noexcept;
-			};
 
 		} //http
 

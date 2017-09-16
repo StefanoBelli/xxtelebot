@@ -2,6 +2,7 @@
 #include <tgbot/methods/api.h>
 #include <tgbot/utils/https.h>
 #include <jsoncpp/json/json.h>
+#include <tgbot/bot.h>
 
 using namespace tgbot::methods;
 
@@ -57,20 +58,6 @@ tgbot::methods::Api::Api(const std::string &token,
 			updateApiRequest = req;
 		}
 
-std::vector<api_types::Update> tgbot::methods::Api::getUpdates(const long long &offset,
-		const int &limit,
-		const int &timeout) {
-
-}
-
-std::vector<api_types::Update> tgbot::methods::Api::getUpdates(const long long &offset,
-		const std::vector<api_types::UpdateType> &allowedUpdates,
-		const int &limit,
-		const int &timeout) {
-
-}
-
-
 std::vector<api_types::Update> tgbot::methods::Api::getUpdates(void* c) {
 
 	std::stringstream updatesRequest;
@@ -82,8 +69,7 @@ std::vector<api_types::Update> tgbot::methods::Api::getUpdates(void* c) {
 	parser.parse(utils::http::get(c, updatesRequest.str()),rootUpdate);
 
 	if(!rootUpdate.get("ok","").asBool())
-		return {};
-	//TelegramException
+		throw std::runtime_error(rootUpdate.get("description","").asCString());
 
 	std::vector<api_types::Update> finalUpdates;
 
