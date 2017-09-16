@@ -27,14 +27,15 @@ void tgbot::Bot::start() {
 	}
 }
 
+
 void tgbot::Bot::makeCallback(const std::vector<types::Update>& updates) const {
 	for(auto const& update : updates) {
 		switch (update.updateType) {
 			case types::UpdateType::MESSAGE:
 				if (messageCallback) {
 					types::Message *message{update.message.get()};
-					if (message)
-						return messageCallback(*message, *this);
+					if (message) 
+						messageCallback(*message, *this);
 				}
 
 				break;
@@ -44,7 +45,7 @@ void tgbot::Bot::makeCallback(const std::vector<types::Update>& updates) const {
 					{update.editedMessage.get()};
 
 					if (editedMessage)
-						return editedMessageCallback(*editedMessage, *this);
+						editedMessageCallback(*editedMessage, *this);
 				}
 
 				break;
@@ -54,7 +55,7 @@ void tgbot::Bot::makeCallback(const std::vector<types::Update>& updates) const {
 					{update.callbackQuery.get()};
 
 					if (callbackQuery)
-						return callbackQueryCallback(*callbackQuery, *this);
+						callbackQueryCallback(*callbackQuery, *this);
 				}
 
 				break;
@@ -64,7 +65,7 @@ void tgbot::Bot::makeCallback(const std::vector<types::Update>& updates) const {
 					{update.chosenInlineResult.get()};
 
 					if (chosenInlineResult)
-						return chosenInlineResultCallback(*chosenInlineResult, *this);
+						chosenInlineResultCallback(*chosenInlineResult, *this);
 				}
 
 				break;
@@ -74,7 +75,7 @@ void tgbot::Bot::makeCallback(const std::vector<types::Update>& updates) const {
 					{update.editedChannelPost.get()};
 
 					if (editedChannelPost)
-						return editedChannelPostCallback(*editedChannelPost, *this);
+						editedChannelPostCallback(*editedChannelPost, *this);
 				}
 
 				break;
@@ -84,7 +85,7 @@ void tgbot::Bot::makeCallback(const std::vector<types::Update>& updates) const {
 					{update.inlineQuery.get()};
 
 					if (inlineQuery)
-						return inlineQueryCallback(*inlineQuery, *this);
+						inlineQueryCallback(*inlineQuery, *this);
 				}
 
 				break;
@@ -94,7 +95,7 @@ void tgbot::Bot::makeCallback(const std::vector<types::Update>& updates) const {
 					{update.preCheckoutQuery.get()};
 
 					if (preCheckoutQuery)
-						return preCheckoutQueryCallback(*preCheckoutQuery, *this);
+						preCheckoutQueryCallback(*preCheckoutQuery, *this);
 				}
 
 				break;
@@ -104,7 +105,7 @@ void tgbot::Bot::makeCallback(const std::vector<types::Update>& updates) const {
 					{update.shippingQuery.get()};
 
 					if (shippingQuery)
-						return shippingQueryCallback(*shippingQuery, *this);
+						shippingQueryCallback(*shippingQuery, *this);
 				}
 
 				break;

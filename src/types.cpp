@@ -35,26 +35,60 @@ tgbot::types::Update::Update(const Json::Value &object) {
     }
 }
 
-tgbot::types::Message::Message(const Json::Value &object) {
+tgbot::types::Message::Message(const Json::Value &object) :
+    chat(object.get("chat","")) {
 
 }
 
-tgbot::types::CallbackQuery::CallbackQuery(const Json::Value &object) {
+tgbot::types::CallbackQuery::CallbackQuery(const Json::Value &object) :
+    from(object.get("from","")) {
 
 }
 
-tgbot::types::ChosenInlineResult::ChosenInlineResult(const Json::Value &object) {
+tgbot::types::ChosenInlineResult::ChosenInlineResult(const Json::Value &object) :
+    from(object.get("from","")) {
 
 }
 
-tgbot::types::InlineQuery::InlineQuery(const Json::Value &object) {
+tgbot::types::InlineQuery::InlineQuery(const Json::Value &object) :
+    user(object.get("from","")) {
 
 }
 
-tgbot::types::ShippingQuery::ShippingQuery(const Json::Value &object) {
+tgbot::types::ShippingQuery::ShippingQuery(const Json::Value &object) :
+    from(object.get("from","")), shippingAddress(object.get("shipping_address","")){
 
 }
 
-tgbot::types::PreCheckoutQuery::PreCheckoutQuery(const Json::Value &object) {
+tgbot::types::PreCheckoutQuery::PreCheckoutQuery(const Json::Value &object) :
+    from(object.get("from","")) {
 
+
+}
+
+tgbot::types::Chat::Chat(const Json::Value &object) {
+    const std::string& type = object.get("type","").asString();
+    if(type == "private")
+        this->type = ChatType::PRIVATE;
+    else if(type == "supergroup")
+        this->type = ChatType::SUPERGROUP;
+    else if(type == "group")
+        this->type = ChatType::GROUP;
+    else if(type == "channel")
+        this->type = ChatType::CHANNEL;
+
+    id = object.get("id","").asInt();
+
+    if(this->type != ChatType::PRIVATE)
+        allMembersAreAdministrators = object.get("all_members_are_administrators","").asBool();
+}
+
+tgbot::types::User::User(const Json::Value &object) :
+    firstName(object.get("first_name","").asString()),
+    id(object.get("id","").asInt()),
+    isBot(object.get("is_bot","").asBool()) {
+
+}
+
+tgbot::types::ShippingAddress::ShippingAddress(const Json::Value &object) {
 }
