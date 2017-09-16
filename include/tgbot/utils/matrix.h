@@ -2,6 +2,7 @@
 #define TGBOT_MATRIX_H
 
 #include <exception>
+#include <utility>
 
 namespace tgbot {
 
@@ -18,15 +19,11 @@ namespace tgbot {
 		template <typename _TyElems>
 			class Matrix {
 				private:
-					const int maxRow;
-					const int maxCol;
+					int maxRow;
+					int maxCol;
 					_TyElems** _matrix;
 
-				public:
-					Matrix(const Matrix& prev) = delete;
-					Matrix& operator=(const Matrix& prev) = delete;
-					Matrix(Matrix&& prev) = delete;
-
+                public:
 					Matrix(const int& r, const int& c)	:
 						maxRow(r), maxCol(c) {
 
@@ -41,6 +38,47 @@ namespace tgbot {
 
 						delete[] _matrix;
 					}
+
+                    Matrix(const Matrix& prev) :
+                            maxRow(prev.maxRow), maxCol(prev.maxCol) {
+                        _matrix = new _TyElems*[prev.maxRow];
+                        for(int i=0;i<prev.maxRow;i++) {
+                            _matrix[i] = new _TyElems[prev.maxCol];
+                            for(int j=0;j<prev.maxCol;j++)
+                                _matrix[i][j] = prev._matrix[i][j];
+                        }
+                    }
+
+                    Matrix(Matrix&& prev) :
+                            maxRow(std::move(prev.maxRow)),
+                            maxCol(std::move(prev.maxCol)) {
+                        _matrix = new _TyElems*[prev.maxRow];
+                        for(int i=0;i<prev.maxRow;i++) {
+                            _matrix[i] = new _TyElems[prev.maxCol];
+                            for(int j=0;j<prev.maxCol;j++)
+                                _matrix[i][j] = std::move(prev._matrix[i][j]);
+                        }
+                    }
+
+                    Matrix& operator=(const Matrix& prev) {
+                        if(*_matrix) {
+                            for (int i = 0; i < maxRow; i++)
+                                delete[] _matrix[i];
+                            delete[] _matrix;
+                        }
+
+                        _matrix = new _TyElems*[prev.maxRow];
+                        for(int i=0;i<prev.maxRow;i++) {
+                            _matrix[i] = new _TyElems[prev.maxCol];
+                            for(int j=0;j<prev.maxCol;j++)
+                                _matrix[i][j] = std::move(prev._matrix[i][j]);
+                        }
+
+                        maxCol = prev.maxCol;
+                        maxRow = prev.maxRow;
+
+                        return *this;
+                    }
 
 					_TyElems& at(const int& r, const int& c) {
 						if(r > maxRow-1 || c > maxCol-1)
