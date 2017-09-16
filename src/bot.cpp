@@ -9,21 +9,23 @@ tgbot::Bot::Bot(const std::string &token,
 		const int &limit,
 		const int &timeout) :
 	Api(token,useragent,filterUpdates,timeout,limit),
-	ua(useragent) {}
+	ua(useragent) {
 
-	void tgbot::Bot::start() {
-		std::vector<types::Update> updates;
-		CURL* fetchConnection = utils::http::curlEasyInit(ua);
-
-		curl_easy_setopt(fetchConnection,CURLOPT_TCP_KEEPALIVE,1L);
-		curl_easy_setopt(fetchConnection,CURLOPT_TCP_KEEPIDLE,60);
-
-		while(true) {
-			updates = getUpdates(fetchConnection);
-			if(updates.size())
-				makeCallback(updates);
-		}
 	}
+
+void tgbot::Bot::start() {
+	std::vector<types::Update> updates;
+	CURL* fetchConnection = utils::http::curlEasyInit(ua);
+
+	curl_easy_setopt(fetchConnection,CURLOPT_TCP_KEEPALIVE,1L);
+	curl_easy_setopt(fetchConnection,CURLOPT_TCP_KEEPIDLE,60);
+
+	while(true) {
+		updates = getUpdates(fetchConnection);
+		if(updates.size())
+			makeCallback(updates);
+	}
+}
 
 void tgbot::Bot::makeCallback(const std::vector<types::Update>& updates) const {
 	for(auto const& update : updates) {
