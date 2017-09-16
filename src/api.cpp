@@ -1,3 +1,4 @@
+#include <stdexcept>
 #include <sstream>
 #include <tgbot/methods/api.h>
 #include <tgbot/utils/https.h>
@@ -46,6 +47,9 @@ tgbot::methods::Api::Api(const std::string &token,
 						case api_types::UpdateType::EDITED_MESSAGE:
 							fullApiRequest << "\"edited_message\",";
 							break;
+                        case api_types::UpdateType::CHANNEL_POST:
+                            fullApiRequest << "\"channel_post\"";
+                            break;
 					}
 				}
 			}

@@ -32,8 +32,16 @@ namespace tgbot {
 			CHOSEN_INLINE_RESULT,
 			CALLBACK_QUERY,
 			SHIPPING_QUERY,
-			PRE_CHECKOUT_QUERY
+			PRE_CHECKOUT_QUERY,
+            CHANNEL_POST
 		};
+
+        enum class ChatType {
+            PRIVATE,
+            GROUP,
+            SUPERGROUP,
+            CHANNEL
+        };
 
 		struct User {
 			public:
@@ -246,7 +254,7 @@ namespace tgbot {
 		struct Chat {
 			public:
 				explicit Chat(const Json::Value &object);
-				std::string type;
+				ChatType type;
 				Ptr<Message> pinnedMessage;
 				Ptr<ChatPhoto> photo;
 				Ptr<std::string> title;
