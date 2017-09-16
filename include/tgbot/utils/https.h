@@ -4,6 +4,8 @@
 #include <string>
 #include <exception>
 
+#include <curl/curl.h>
+
 namespace tgbot {
 
 	namespace utils {
@@ -18,14 +20,14 @@ namespace tgbot {
 				int code;
 			};
 
-			Response get(const std::string& full);
-			Response multiPartUpload(const std::string& operation, 
+			Response get(CURL* c, const std::string& full);
+			Response multiPartUpload(CURL* c, const std::string& operation, 
 					const int& chatId, 
 					const std::string& mimeType, 
+					const std::string& type,
 					const std::string& filename);
 
-			bool globalCurlInitializer(const std::string& agent);
-			bool globalCurlCleanup();
+			CURL* curlEasyInit(const std::string& agent);
 
 			class HttpException : public std::exception {
 				public:
