@@ -71,7 +71,7 @@ namespace tgbot {
 						for(int i=0;i<prev.maxRow;i++) {
 							_matrix[i] = new _TyElems[prev.maxCol];
 							for(int j=0;j<prev.maxCol;j++)
-								_matrix[i][j] = std::move(prev._matrix[i][j]);
+								_matrix[i][j] = prev._matrix[i][j];
 						}
 
 						maxCol = prev.maxCol;
