@@ -56,7 +56,7 @@ tgbot::types::InlineQuery::InlineQuery(const Json::Value &object) :
 }
 
 tgbot::types::ShippingQuery::ShippingQuery(const Json::Value &object) :
-    from(object.get("from","")), shippingAddress(object.get("shipping_address","")){
+    shippingAddress(object.get("shipping_address","")), from(object.get("from","")) {
 
 }
 

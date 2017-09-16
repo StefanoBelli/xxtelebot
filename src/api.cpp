@@ -82,7 +82,7 @@ std::vector<api_types::Update> tgbot::methods::Api::getUpdates(void* c) {
 		return {};
 
 	for(auto const& singleUpdate : updates)
-		finalUpdates.emplace_back(api_types::Update(singleUpdate));
+		finalUpdates.emplace_back(singleUpdate);
 
 	currentOffset = updates[updates.size()-1].get("update_id","").asInt64();
 	currentOffset++;
