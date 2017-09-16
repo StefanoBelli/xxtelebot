@@ -6,6 +6,10 @@
 #include <memory>
 #include "utils/matrix.h"
 
+namespace Json {
+    struct Value;
+}
+
 namespace tgbot {
 	/*!
 	 * @brief API-interacting types
@@ -33,7 +37,7 @@ namespace tgbot {
 
 		struct User {
 			public:
-				explicit User(const std::string& encoded);
+				explicit User(const Json::Value& object);
 				std::string firstName;
 				Ptr<std::string> lastName;
 				Ptr<std::string> username;
@@ -44,14 +48,14 @@ namespace tgbot {
 
 		struct ChatPhoto {
 			public:
-				explicit ChatPhoto(const std::string& encoded);
+				explicit ChatPhoto(const Json::Value &object);
 				std::string smallFileId;
 				std::string bigFileId;
 		};
 
 		struct MessageEntity {
 			public:
-				explicit MessageEntity(const std::string& encoded);
+				explicit MessageEntity(const Json::Value &object);
 				std::string type;
 				Ptr<User> user;
 				Ptr<std::string> url;
@@ -61,7 +65,7 @@ namespace tgbot {
 
 		struct Audio {
 			public:
-				explicit Audio(const std::string& encoded);
+				explicit Audio(const Json::Value &object);
 				std::string fileId;
 				Ptr<std::string> performer;
 				Ptr<std::string> title;
@@ -72,7 +76,7 @@ namespace tgbot {
 
 		struct PhotoSize {
 			public:
-				explicit PhotoSize(const std::string& encoded);
+				explicit PhotoSize(const Json::Value &object);
 				std::string fileId;
 				int fileSize;
 				int width;
@@ -81,7 +85,7 @@ namespace tgbot {
 
 		struct Document {
 			public:
-				explicit Document(const std::string& encoded);
+				explicit Document(const Json::Value &object);
 				std::string fileId;
 				Ptr<PhotoSize> thumb;
 				Ptr<std::string> fileName;
@@ -91,7 +95,7 @@ namespace tgbot {
 
 		struct Voice {
 			public:
-				explicit Voice(const std::string& encoded);
+				explicit Voice(const Json::Value &object);
 				std::string fileId;
 				Ptr<std::string> mimeType;
 				int fileSize;
@@ -100,7 +104,7 @@ namespace tgbot {
 
 		struct Contact {
 			public:
-				explicit Contact(const std::string& encoded);
+				explicit Contact(const Json::Value &object);
 				std::string phoneNumber;
 				std::string firstName;
 				std::string lastName;
@@ -109,14 +113,14 @@ namespace tgbot {
 
 		struct Location {
 			public:
-				explicit Location(const std::string& encoded);
+				explicit Location(const Json::Value &object);
 				std::string longitude;
 				std::string latitude;
 		};
 
 		struct Animation {
 			public:
-				explicit Animation(const std::string& encoded);
+				explicit Animation(const Json::Value &object);
 				PhotoSize thumb;
 				std::string fileId;
 				std::string fileName;
@@ -126,7 +130,7 @@ namespace tgbot {
 
 		struct Venue {
 			public:
-				explicit Venue(const std::string& encoded);
+				explicit Venue(const Json::Value &object);
 				Ptr<std::string> fourSquareId;
 				Location location;
 				std::string title;
@@ -135,7 +139,7 @@ namespace tgbot {
 
 		struct VideoNote {
 			public:
-				explicit VideoNote(const std::string& encoded);
+				explicit VideoNote(const Json::Value &object);
 				std::string fileId;
 				Ptr<PhotoSize> thumb;
 				int fileSize;
@@ -145,7 +149,7 @@ namespace tgbot {
 
 		struct MaskPosition {
 			public:
-				explicit MaskPosition(const std::string& encoded);
+				explicit MaskPosition(const Json::Value &object);
 				std::string point;
 				double xShift;
 				double yShift;
@@ -154,7 +158,7 @@ namespace tgbot {
 
 		struct Sticker {
 			public:
-				explicit Sticker(const std::string& encoded);
+				explicit Sticker(const Json::Value &object);
 				MaskPosition maskPosition;
 				PhotoSize thumb;
 				std::string fileId;
@@ -167,7 +171,7 @@ namespace tgbot {
 
 		struct StickerSet {
 			public:
-				explicit StickerSet(const std::string& encoded);
+				explicit StickerSet(const Json::Value &object);
 				std::string name;
 				std::string title;
 				std::vector<Sticker> stickers;
@@ -176,7 +180,7 @@ namespace tgbot {
 
 		struct Video {
 			public:
-				explicit Video(const std::string& encoded);
+				explicit Video(const Json::Value &object);
 				std::string fileId;
 				Ptr<PhotoSize> thumb;
 				Ptr<std::string> mimeType;
@@ -188,7 +192,7 @@ namespace tgbot {
 
 		struct Invoice {
 			public:
-				explicit Invoice(const std::string& encoded);
+				explicit Invoice(const Json::Value &object);
 				std::string title;
 				std::string description;
 				std::string startParameter;
@@ -198,7 +202,7 @@ namespace tgbot {
 
 		struct ShippingAddress {
 			public:
-				explicit ShippingAddress(const std::string& encoded);
+				explicit ShippingAddress(const Json::Value &object);
 				std::string countryCode;
 				std::string state;
 				std::string city;
@@ -209,7 +213,7 @@ namespace tgbot {
 
 		struct OrderInfo {
 			public:
-				explicit OrderInfo(const std::string& encoded);
+				explicit OrderInfo(const Json::Value &object);
 				Ptr<ShippingAddress> shippingAddress;
 				Ptr<std::string> name;
 				Ptr<std::string> phoneNumber;
@@ -218,7 +222,7 @@ namespace tgbot {
 
 		struct SuccessfulPayment {
 			public:
-				explicit SuccessfulPayment(const std::string& encoded);
+				explicit SuccessfulPayment(const Json::Value &object);
 				std::string currency;
 				std::string invoicePayload;
 				std::string telegramPaymentChargeId;
@@ -230,7 +234,7 @@ namespace tgbot {
 
 		struct Game {
 			public:
-				explicit Game(const std::string& encoded);
+				explicit Game(const Json::Value &object);
 				std::string title;
 				std::string description;
 				std::vector<PhotoSize> photo;
@@ -241,7 +245,7 @@ namespace tgbot {
 
 		struct Chat {
 			public:
-				explicit Chat(const std::string& encoded);
+				explicit Chat(const Json::Value &object);
 				std::string type;
 				Ptr<Message> pinnedMessage;
 				Ptr<ChatPhoto> photo;
@@ -257,7 +261,7 @@ namespace tgbot {
 
 		struct Message {
 			public:
-				explicit Message(const std::string& encoded);
+				explicit Message(const Json::Value &object);
 				Chat chat;
 				Ptr<User> from;
 				Ptr<User> forwardFrom;
@@ -301,7 +305,7 @@ namespace tgbot {
 
 		struct InlineQuery {
 			public:
-				explicit InlineQuery(const std::string& encoded);
+				explicit InlineQuery(const Json::Value &object);
 				User user;
 				std::string id;
 				std::string query;
@@ -311,7 +315,7 @@ namespace tgbot {
 
 		struct ChosenInlineResult {
 			public:
-				explicit ChosenInlineResult(const std::string& encoded);
+				explicit ChosenInlineResult(const Json::Value &object);
 				User from;
 				std::string resultId;
 				std::string query;
@@ -321,7 +325,7 @@ namespace tgbot {
 
 		struct CallbackQuery {
 			public:
-				explicit CallbackQuery(const std::string& encoded);
+				explicit CallbackQuery(const Json::Value &object);
 				User from;
 				std::string id;
 				std::string chatInstance;
@@ -333,7 +337,7 @@ namespace tgbot {
 
 		struct ShippingQuery {
 			public:
-				explicit ShippingQuery(const std::string& encoded);
+				explicit ShippingQuery(const Json::Value &object);
 				ShippingAddress shippingAddress;
 				User from;
 				std::string id;
@@ -342,7 +346,7 @@ namespace tgbot {
 
 		struct PreCheckoutQuery {
 			public:
-				explicit PreCheckoutQuery(const std::string& encoded);
+				explicit PreCheckoutQuery(const Json::Value &object);
 				User from;
 				std::string currency;
 				std::string invoicPayload;
@@ -354,7 +358,7 @@ namespace tgbot {
 
 		struct Update {
 			public:
-				explicit Update(const std::string& encoded);
+				explicit Update(const Json::Value &object);
 				Ptr<Message> message;
 				Ptr<Message> editedMessage;
 				Ptr<Message> channelPost;
@@ -370,21 +374,21 @@ namespace tgbot {
 
 		struct ResponseParameters {
 			public:
-				explicit ResponseParameters(const std::string& encoded);
+				explicit ResponseParameters(const Json::Value &object);
 				int migrateToChatId;
 				int retryAfter;
 		};
 
 		struct ForceReply {
 			public:
-				explicit ForceReply(const std::string& encoded);
+				explicit ForceReply(const Json::Value &object);
 				bool forceReply : 1;
 				bool selective : 1;
 		};
 
 		struct File {
 			public:
-				explicit File(const std::string& encoded);
+				explicit File(const Json::Value &object);
 				std::string fileId;
 				int fileSize;
 				Ptr<std::string> filePath;
@@ -392,14 +396,14 @@ namespace tgbot {
 
 		struct UserProfilePhotos {
 			public:
-				explicit UserProfilePhotos(const std::string& encoded);
+				explicit UserProfilePhotos(const Json::Value &object);
 				utils::Matrix<PhotoSize> photos;
 				int totalCount;
 		};
 
 		struct KeyboardButton {
 			public:
-				explicit KeyboardButton(const std::string& encoded);
+				explicit KeyboardButton(const Json::Value &object);
 				std::string text;
 				bool requestContact : 1;
 				bool requestLocation : 1;
@@ -407,7 +411,7 @@ namespace tgbot {
 
 		struct ReplyKeyboardMarkup {
 			public:
-				explicit ReplyKeyboardMarkup(const std::string& encoded);
+				explicit ReplyKeyboardMarkup(const Json::Value &object);
 				utils::Matrix<KeyboardButton> keyboard;
 				bool resizeKeyboard : 1;
 				bool oneTimeKeyboard : 1;
@@ -416,7 +420,7 @@ namespace tgbot {
 
 		struct ReplyKeyboardRemove {
 			public:
-				explicit ReplyKeyboardRemove(const std::string& encoded);
+				explicit ReplyKeyboardRemove(const Json::Value &object);
 				bool removeKeyboard : 1;
 				bool selective : 1;
 		};
@@ -431,7 +435,7 @@ namespace tgbot {
 
 		struct InlineKeyboardButton {
 			public:
-				explicit InlineKeyboardButton(const std::string& encoded);
+				explicit InlineKeyboardButton(const Json::Value &object);
 				std::string text;
 				Ptr<std::string> url;
 				Ptr<std::string> callbackData;
@@ -443,13 +447,13 @@ namespace tgbot {
 
 		struct InlineKeyboardMarkup {
 			public:
-				explicit InlineKeyboardMarkup(const std::string& encoded);
+				explicit InlineKeyboardMarkup(const Json::Value &object);
 				utils::Matrix<InlineKeyboardButton> inlineKeyboard;
 		};
 
 		struct ChatMember {
 			public:
-				explicit ChatMember(const std::string& encoded);
+				explicit ChatMember(const Json::Value &object);
 				User user;
 				std::string status;
 				int untilDate;

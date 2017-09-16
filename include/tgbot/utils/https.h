@@ -15,13 +15,8 @@ namespace tgbot {
 		 */
 		namespace http {
 
-			struct Response {
-				std::string body;
-				int code;
-			};
-
-			Response get(CURL* c, const std::string& full);
-			Response multiPartUpload(CURL* c, const std::string& operation, 
+			std::string get(CURL* c, const std::string& full);
+			std::string multiPartUpload(CURL* c, const std::string& operation,
 					const int& chatId, 
 					const std::string& mimeType, 
 					const std::string& type,

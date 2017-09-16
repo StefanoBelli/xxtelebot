@@ -12,7 +12,7 @@ else()
 endif()
 
 set(CMAKE_CXX_STANDARD 11)
-set(SOURCES https.cpp bot.cpp api.cpp matrix.cpp)
+set(SOURCES https.cpp bot.cpp api.cpp matrix.cpp types.cpp)
 
 if (NOT CMAKE_PREFIX_DIR AND UNIX)
 	message("-- Probing prefix directory...")

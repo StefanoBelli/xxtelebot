@@ -7,7 +7,7 @@ const char* tgbot::utils::http::HttpException::what() const noexcept {
 }
 
 static size_t write_data(const char* ptr, size_t nbs, size_t count, void* dest) {
-	static_cast<Response*>(dest)->body.append(ptr);
+    static_cast<std::string*>(dest)->append(ptr);
 	return count;
 }
 
@@ -23,25 +23,22 @@ CURL* tgbot::utils::http::curlEasyInit(const std::string& agent) {
 	return curlInst;
 }
 
-Response tgbot::utils::http::get(CURL* c, const std::string &full) {
+std::string tgbot::utils::http::get(CURL* c, const std::string &full) {
     if(!c)
         throw HttpException();
 
-    Response res { "", -1 };
-
+    std::string body;
     curl_easy_setopt(c,CURLOPT_HTTPGET,1L);
-    curl_easy_setopt(c,CURLOPT_WRITEDATA,&res);
+    curl_easy_setopt(c,CURLOPT_WRITEDATA,&body);
     curl_easy_setopt(c,CURLOPT_URL,full.c_str());
 
     if(curl_easy_perform(c) != CURLE_OK)
         throw HttpException();
 
-    curl_easy_getinfo(c,CURLINFO_RESPONSE_CODE,&(res.code));
-
-    return res;
+    return body;
 }
 
-Response tgbot::utils::http::multiPartUpload(CURL* c,
+std::string tgbot::utils::http::multiPartUpload(CURL* c,
 											 const std::string &operation,
                                              const int &chatId,
                                              const std::string &mimeType,
@@ -50,10 +47,9 @@ Response tgbot::utils::http::multiPartUpload(CURL* c,
     if(!c)
         throw HttpException();
 
-    Response res { "", -1 };
-    
 	curl_httppost *multiPost = nullptr;
 	curl_httppost *end = nullptr;
+    std::string body;
 
 	curl_formadd(&multiPost,&end,
 			CURLFORM_COPYNAME, "chat_id",
@@ -67,13 +63,11 @@ Response tgbot::utils::http::multiPartUpload(CURL* c,
 			CURLFORM_END);
 
 	curl_easy_setopt(c,CURLOPT_HTTPPOST,multiPost);
-	curl_easy_setopt(c,CURLOPT_WRITEDATA,&res);
+	curl_easy_setopt(c,CURLOPT_WRITEDATA,&body);
 	curl_easy_setopt(c,CURLOPT_URL,operation.c_str());
 	
     if(curl_easy_perform(c) != CURLE_OK)
         throw HttpException();
 
-    curl_easy_getinfo(c,CURLINFO_RESPONSE_CODE,&(res.code));
-
-    return res;
+    return body;
 }

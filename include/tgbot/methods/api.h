@@ -14,7 +14,11 @@ namespace tgbot {
 
 		class Api {
 			public:
-				explicit Api(const std::string& token);
+				explicit Api(const std::string& token,
+                             const std::string& useragent,
+                             const std::vector<api_types::UpdateType>& allowedUpdates,
+                             const int& timeout,
+                             const int& limit);
 
 				api_types::Message sendMessage(const std::string& chatId, 
 						const std::string& text,
@@ -250,25 +254,14 @@ namespace tgbot {
 						const std::string& switchPmParameter = "") const;
 
 				std::vector<api_types::Update> getUpdates(const long long& offset, 
-						const int limit = 100,
-						const int timeout = 60);
+						const int& limit = 100,
+						const int& timeout = 60);
 
 				std::vector<api_types::Update> getUpdates(const long long& offset, 
-						const std::vector<api_types::UpdateType> allowedUpdates,
-						const int limit = 100,
-						const int timeout = 60);
+						const std::vector<api_types::UpdateType>& allowedUpdates,
+						const int& limit = 100,
+						const int& timeout = 60);
 
-				/*!
-				 * @brief this getUpdate method overload will use the private class instance
-				 * offset-keeper variable, instead of taking one
-				 */
-				std::vector<api_types::Update> getUpdates(const int limit = 100,
-						const int timeout = 60);
-
-				std::vector<api_types::Update> getUpdates(const std::vector<api_types::UpdateType> allowedUpdates,
-						const int limit = 100,
-						const int timeout = 60);
-				
 				api_types::Message editMessageText(const std::string& inlineMessageId,
 						const std::string& text,
 						const types::ParseMode& parseMode = types::ParseMode::DEFAULT,
@@ -335,9 +328,12 @@ namespace tgbot {
 						const unsigned& offset = 0,
 						const unsigned& limit = 100) const;
 
-
+            protected:
+                std::vector<api_types::Update> getUpdates(void* c);
 			private:
-				const std::string token;
+                const std::string ua;
+				const std::string baseApi;
+                std::string updateApiRequest;
 				long long currentOffset;
 		};
 

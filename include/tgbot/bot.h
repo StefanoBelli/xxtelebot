@@ -15,11 +15,13 @@ namespace tgbot {
 			/*!
 			 * @brief Bot class constructor
 			 * @param token : Bot token
+			 * @param useragent : User-Agent HTTP header field
 			 * @param filterUpdates : accept only certain kinds of UpdateType (Default everything)
 			 * @param limit : how many updates per-time? (Default 100)
 			 * @param timeout : long poll should stop after N seconds, if not receiving updates (Default 60)
 			 */
-			Bot(const std::string& token, 
+			Bot(const std::string& token,
+                const std::string& useragent,
 				const std::vector<types::UpdateType>& filterUpdates = {},
 				const int& limit = 100,
 				const int& timeout = 60);
@@ -27,11 +29,11 @@ namespace tgbot {
 			/*!
 			 * @brief Start long polling
 			 */
-			void start() const;
+			void start();
 		
 		private:
-			void makeCallback(const types::Update& update) const;
-			std::vector<types::UpdateType> updatesFilter;
+			void makeCallback(const std::vector<types::Update>& updates) const;
+            const std::string ua;
 	};
 
 } //tgbot
