@@ -22,11 +22,6 @@ namespace tgbot {
 	template <typename TypeUpdate>
 		using UpdateCallback = std::function<void(const TypeUpdate&, const Bot&)>;
 
-	/*!
-	 * @brief refer to RegisterCallback::callback function
-	 */
-	using AnyUpdateCallback = std::function<void(const types::Update&, const Bot&)>;
-
 	class RegisterCallback {
 		protected:
 			RegisterCallback() = default;
@@ -39,8 +34,6 @@ namespace tgbot {
 			UpdateCallback<types::Message> editedMessageCallback;
 			UpdateCallback<types::Message> editedChannelPostCallback;
             UpdateCallback<types::Message> channelPostCallback;
-
-			AnyUpdateCallback anyUpdateCallback;
 
 		public:
 			/*!
@@ -61,11 +54,6 @@ namespace tgbot {
 			inline void callback(const UpdateCallback<types::Message>& message,
 					const types::UpdateType& which);
 	};
-
-	template<>
-		inline void RegisterCallback::callback<AnyUpdateCallback>(const AnyUpdateCallback& callback) {
-			anyUpdateCallback = callback;
-		}
 
 	template<>
 		inline void RegisterCallback::callback<UpdateCallback<types::Message>>(const UpdateCallback<types::Message>& callback) {

@@ -1,3 +1,4 @@
+#include <thread>
 #include <tgbot/bot.h>
 #include <tgbot/utils/https.h>
 
@@ -29,13 +30,14 @@ void tgbot::Bot::start() {
 
 
 void tgbot::Bot::makeCallback(const std::vector<types::Update>& updates) const {
+	std::thread tmpHolder;
 	for(auto const& update : updates) {
 		switch (update.updateType) {
 			case types::UpdateType::MESSAGE:
 				if (messageCallback) {
 					types::Message *message{update.message.get()};
-					if (message) 
-						messageCallback(*message, *this);
+					if (message)
+						tmpHolder = std::thread(messageCallback,std::move(*message), *this);
 				}
 
 				break;
@@ -45,7 +47,7 @@ void tgbot::Bot::makeCallback(const std::vector<types::Update>& updates) const {
 					{update.editedMessage.get()};
 
 					if (editedMessage)
-						editedMessageCallback(*editedMessage, *this);
+						tmpHolder = std::thread(editedMessageCallback, std::move(*editedMessage), *this);
 				}
 
 				break;
@@ -55,7 +57,7 @@ void tgbot::Bot::makeCallback(const std::vector<types::Update>& updates) const {
 					{update.callbackQuery.get()};
 
 					if (callbackQuery)
-						callbackQueryCallback(*callbackQuery, *this);
+						tmpHolder = std::thread(callbackQueryCallback, std::move(*callbackQuery), *this);
 				}
 
 				break;
@@ -65,7 +67,7 @@ void tgbot::Bot::makeCallback(const std::vector<types::Update>& updates) const {
 					{update.chosenInlineResult.get()};
 
 					if (chosenInlineResult)
-						chosenInlineResultCallback(*chosenInlineResult, *this);
+						tmpHolder = std::thread(chosenInlineResultCallback, std::move(*chosenInlineResult), *this);
 				}
 
 				break;
@@ -75,7 +77,7 @@ void tgbot::Bot::makeCallback(const std::vector<types::Update>& updates) const {
 					{update.editedChannelPost.get()};
 
 					if (editedChannelPost)
-						editedChannelPostCallback(*editedChannelPost, *this);
+						tmpHolder = std::thread(editedChannelPostCallback, std::move(*editedChannelPost), *this);
 				}
 
 				break;
@@ -85,7 +87,7 @@ void tgbot::Bot::makeCallback(const std::vector<types::Update>& updates) const {
 					{update.inlineQuery.get()};
 
 					if (inlineQuery)
-						inlineQueryCallback(*inlineQuery, *this);
+						tmpHolder = std::thread(inlineQueryCallback, std::move(*inlineQuery), *this);
 				}
 
 				break;
@@ -95,7 +97,7 @@ void tgbot::Bot::makeCallback(const std::vector<types::Update>& updates) const {
 					{update.preCheckoutQuery.get()};
 
 					if (preCheckoutQuery)
-						preCheckoutQueryCallback(*preCheckoutQuery, *this);
+						tmpHolder = std::thread(preCheckoutQueryCallback, std::move(*preCheckoutQuery), *this);
 				}
 
 				break;
@@ -105,13 +107,23 @@ void tgbot::Bot::makeCallback(const std::vector<types::Update>& updates) const {
 					{update.shippingQuery.get()};
 
 					if (shippingQuery)
-						shippingQueryCallback(*shippingQuery, *this);
+						tmpHolder = std::thread(shippingQueryCallback, std::move(*shippingQuery), *this);
+				}
+
+				break;
+			case types::UpdateType::CHANNEL_POST:
+				if (channelPostCallback) {
+					types::Message *message 
+					{update.channelPost.get()};
+
+					if(message)
+						tmpHolder = std::thread(channelPostCallback, std::move(*message), *this);
 				}
 
 				break;
 		}
 
-		if (anyUpdateCallback)
-			anyUpdateCallback(update, *this);
+		if(tmpHolder.joinable())
+			tmpHolder.detach();
 	}
 }
