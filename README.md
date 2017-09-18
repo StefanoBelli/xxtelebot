@@ -23,87 +23,87 @@ May take long time... :)
     
     * [x] Bot class
 
-    [x] RegisterCallback class
+    * [x] RegisterCallback class
     
  * API Types [ file: *include/tgbot/types.h* ]
  
-    [x] User
+    * [x] User
 
-	[x]	ChatPhoto
+	* [x]	ChatPhoto
 
-	[x]	MessageEntity
+	* [x]	MessageEntity
 	
-	[x]	Audio
+	* [x]	Audio
 	
-	[x]	PhotoSize
+	* [x]	PhotoSize
 	
-	[x]	Document
+	* [x]	Document
 	
-	[x]	Voice
+	* [x]	Voice
 	
-	[x]	Contact
+	* [x]	Contact
 	
-	[x]	Location
+	* [x]	Location
 	
-	[x]	Animation
+	* [x]	Animation
 	
-	[x]	Venue
+	* [x]	Venue
 	
-	[x]	VideoNote
+	* [x]	VideoNote
 	
-	[x]	MaskPosition
+	* [x]	MaskPosition
 	
-	[x]	Sticker
+	* [x]	Sticker
 	
-	[ ]	StickerSet
+	* [ ]	StickerSet
 	
-	[x]	Video
+	* [x]	Video
 	
-	[x]	Invoice
+	* [x]	Invoice
 	
-	[x]	ShippingAddress
+	* [x]	ShippingAddress
 	
-	[ ]	OrderInfo
+	* [ ]	OrderInfo
 	
-	[x]	SuccessfulPayment
+	* [x]	SuccessfulPayment
 	
-	[x]	Game
+	* [x]	Game
 	
-	[x]	Chat
+	* [x]	Chat
 	
-	[ ]	Message
+	* [ ]	Message
 	
-	[x]	InlineQuery
+	* [x]	InlineQuery
 	
-	[x]	ChosenInlineResult
+	* [x]	ChosenInlineResult
 	
-	[x]	CallbackQuery
+	* [x]	CallbackQuery
 	
-	[x]	ShippingQuery
+	* [x]	ShippingQuery
 	
-	[x]	PreCheckoutQuery
+	* [x]	PreCheckoutQuery
 	
-	[x]	Update
+	* [x]	Update
 	
-	[ ]	ResponseParameters
+	* [ ]	ResponseParameters
 	
-	[ ]	ForceReply
+	* [ ]	ForceReply
 	
-	[ ]	File
+	* [ ]	File
 	
-	[ ]	UserProfilePhotos
+	* [ ]	UserProfilePhotos
 	
-	[ ]	KeyboardButton
+	* [ ]	KeyboardButton
 	
-	[ ]	ReplyKeyboardMarkup
+	* [ ]	ReplyKeyboardMarkup
 	
-	[ ]	ReplyKeyboardRemove
+	* [ ]	ReplyKeyboardRemove
 	
-	[ ]	InlineKeyboardButton
+	* [ ]	InlineKeyboardButton
 	
-	[ ]	InlineKeyboardMarkup
+	* [ ]	InlineKeyboardMarkup
 	
-	[ ]	ChatMember
+	* [ ]	ChatMember
 	
  * API Methods and input types [ directory: *include/tgbot/methods* ]
  
