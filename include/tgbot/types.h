@@ -43,6 +43,20 @@ namespace tgbot {
             CHANNEL
         };
 
+        enum class MessageEntityType {
+        	MENTION,
+        	HASHTAG,
+        	BOT_COMMAND,
+        	URL,
+        	EMAIL,
+        	BOLD,
+        	ITALIC,
+        	CODE,
+        	PRE,
+        	TEXT_LINK,
+        	TEXT_MENTION
+        };
+
 		struct User {
 			public:
 				explicit User(const Json::Value& object);
@@ -64,11 +78,11 @@ namespace tgbot {
 		struct MessageEntity {
 			public:
 				explicit MessageEntity(const Json::Value &object);
-				std::string type;
 				Ptr<User> user;
 				Ptr<std::string> url;
 				int offset;
 				int length;
+				MessageEntityType type;
 		};
 
 		struct Audio {
@@ -115,7 +129,7 @@ namespace tgbot {
 				explicit Contact(const Json::Value &object);
 				std::string phoneNumber;
 				std::string firstName;
-				std::string lastName;
+				Ptr<std::string> lastName;
 				int userId;
 		};
 
@@ -167,11 +181,11 @@ namespace tgbot {
 		struct Sticker {
 			public:
 				explicit Sticker(const Json::Value &object);
-				MaskPosition maskPosition;
-				PhotoSize thumb;
 				std::string fileId;
-				std::string emoji;
-				std::string setName;
+				Ptr<MaskPosition> maskPosition;
+				Ptr<PhotoSize> thumb;
+				Ptr<std::string> emoji;
+				Ptr<std::string> setName;
 				int width;
 				int height;
 				int fileSize;
@@ -357,7 +371,7 @@ namespace tgbot {
 				explicit PreCheckoutQuery(const Json::Value &object);
 				User from;
 				std::string currency;
-				std::string invoicPayload;
+				std::string invoicePayload;
 				std::string id;
 				Ptr<std::string> shippingOptionId;
 				Ptr<OrderInfo> orderInfo;
