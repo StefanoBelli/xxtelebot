@@ -24,6 +24,7 @@ namespace tgbot {
 					_TyElems** _matrix;
 
 				public:
+					Matrix() = default;
 					Matrix(const int& r, const int& c)	:
 						maxRow(r), maxCol(c) {
 

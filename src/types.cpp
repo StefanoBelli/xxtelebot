@@ -1,6 +1,10 @@
+#include <sstream>
 #include <string>
 #include <jsoncpp/json/json.h>
 #include <tgbot/types.h>
+
+#define BOOL_TOSTR(xvalue) \
+	((xvalue) ? "true" : "false")
 
 using namespace tgbot::types;
 
@@ -473,13 +477,6 @@ tgbot::types::ResponseParameters::ResponseParameters(const Json::Value &object) 
 		this->retryAfter = object.get("retry_after","").asInt();
 }
 
-tgbot::types::ForceReply::ForceReply(const Json::Value &object) :
-	forceReply(true) {
-
-	if(object.isMember("selective"))
-		this->selective = object.get("selective","").asBool();
-}
-
 tgbot::types::File::File(const Json::Value &object) :
 	fileId(object.get("file_id","").asCString()) {
 	
@@ -497,12 +494,12 @@ tgbot::types::UserProfilePhotos::UserProfilePhotos(const Json::Value &object) :
 
 }*/
 
-tgbot::types::KeyboardButton::KeyboardButton(const Json::Value &object) :
-	text(object.get("text","").asCString()) {
+std::string tgbot::types::KeyboardButton::toString() const {
+	std::stringstream jsonify;
+	jsonify << "{ \"text\":" << this->text
+			<< "\", \"request_contact\": " << BOOL_TOSTR(this->requestContact)
+			<< ", \"request_location\": " << BOOL_TOSTR(this->requestLocation)
+			<< " } ";
 	
-	if(object.isMember("request_contact"))
-		this->requestContact = object.get("request_contact","").asBool();
-
-	if(object.isMember("request_location"))
-		this->requestLocation = object.get("request_location","").asBool();
+	return jsonify.str();
 }

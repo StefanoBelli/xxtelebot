@@ -15,7 +15,8 @@ namespace tgbot {
 			template <typename _Ty_Elem>
 				using Ptr = std::unique_ptr<_Ty_Elem>;
 
-			using InlineKeyboardMarkup = ::tgbot::types::InlineKeyboardMarkup;
+			using KeyboardButton = ::tgbot::types::KeyboardButton;
+			using CallbackGame = ::tgbot::types::CallbackGame;
 
 			struct InputMessageContent;
 
@@ -63,14 +64,69 @@ namespace tgbot {
 					bool canPromoteMembers : 1;
 			};
 
+			struct InlineKeyboardButton {
+				public:
+					std::string toString() const;
+					std::string text;
+					Ptr<std::string> url;
+					Ptr<std::string> callbackData;
+					Ptr<std::string> switchInlineQuery;
+					Ptr<std::string> switchInlineQueryCurrentChat;
+					CallbackGame callbackGame;
+					bool pay : 1;
+			};
+
+			//
+			// ReplyMarkup
+			//
+			struct ReplyMarkup {
+				public:
+					virtual std::string toString() const = 0;
+			};
+			
+			struct EmptyReplyMarkup : public ReplyMarkup {
+				public:
+					std::string toString() const override;
+			};
+
+			struct InlineKeyboardMarkup : public ReplyMarkup {
+				public:
+					std::string toString() const override;
+					utils::Matrix<InlineKeyboardButton> inlineKeyboard;
+			};
+
+			struct ReplyKeyboardMarkup : public ReplyMarkup {
+				public:
+					std::string toString() const override;
+					utils::Matrix<KeyboardButton> keyboard;
+					bool resizeKeyboard : 1;
+					bool oneTimeKeyboard : 1;
+					bool selective : 1;
+			};
+
+			struct ReplyKeyboardRemove : public ReplyMarkup {
+				public:
+					std::string toString() const override;
+					bool selective : 1;
+			};
+
+			struct ForceReply : public ReplyMarkup {
+				public:
+					std::string toString() const override;
+					bool selective : 1;
+			};
+
+			//
+			// InlineQueryResult
+			//
 			struct InlineQueryResult {
 				public:
-					virtual std::string toString() = 0;
+					virtual std::string toString() const = 0;
 			};
 
 			struct InlineQueryResultAudio : public InlineQueryResult {
 				public:
-					std::string toString() override;
+					std::string toString() const override;
 					std::string type;
 					std::string id;
 					std::string audioUrl;
@@ -84,7 +140,7 @@ namespace tgbot {
 
 			struct InlineQueryResultArticle : public InlineQueryResult {
 				public:
-					std::string toString() override;
+					std::string toString() const override;
 					std::string type;
 					std::string id;
 					std::string title;
@@ -100,7 +156,7 @@ namespace tgbot {
 
 			struct InlineQueryResultContact : public InlineQueryResult {
 				public:
-					std::string toString() override;
+					std::string toString() const override;
 					std::string type;
 					std::string id;
 					std::string phoneNumber;
@@ -115,7 +171,7 @@ namespace tgbot {
 
 			struct InlineQueryResultGame : public InlineQueryResult {
 				public:
-					std::string toString() override;
+					std::string toString() const override;
 					std::string type;
 					std::string id;
 					std::string gameShortName;
@@ -124,7 +180,7 @@ namespace tgbot {
 
 			struct InlineQueryResultDocument : public InlineQueryResult {
 				public:
-					std::string toString() override;
+					std::string toString() const override;
 					std::string type;
 					std::string id;
 					std::string title;
@@ -141,7 +197,7 @@ namespace tgbot {
 
 			struct InlineQueryResultGif : public InlineQueryResult {
 				public:
-					std::string toString() override;
+					std::string toString() const override;
 					std::string type;
 					std::string id;
 					std::string gifUrl;
@@ -157,7 +213,7 @@ namespace tgbot {
 
 			struct InlineQueryResultLocation : public InlineQueryResult {
 				public:
-					std::string toString() override;
+					std::string toString() const override;
 					std::string type;
 					std::string id;
 					std::string title;
@@ -172,7 +228,7 @@ namespace tgbot {
 
 			struct InlineQueryResultMpeg4Gif : public InlineQueryResult {
 				public:
-					std::string toString() override;
+					std::string toString() const override;
 					std::string type;
 					std::string id;
 					std::string mpeg4Url;
@@ -188,7 +244,7 @@ namespace tgbot {
 
 			struct InlineQueryResultPhoto : public InlineQueryResult {
 				public:
-					std::string toString() override;
+					std::string toString() const override;
 					std::string type;
 					std::string id;
 					std::string photoUrl;
@@ -204,7 +260,7 @@ namespace tgbot {
 
 			struct InlineQueryResultVenue : public InlineQueryResult {
 				public:
-					std::string toString() override;
+					std::string toString() const override;
 					std::string type;
 					std::string id;
 					std::string title;
@@ -221,7 +277,7 @@ namespace tgbot {
 
 			struct InlineQueryResultVideo : public InlineQueryResult {
 				public:
-					std::string toString() override;
+					std::string toString() const override;
 					std::string type;
 					std::string id;
 					std::string videoUrl;
@@ -239,7 +295,7 @@ namespace tgbot {
 
 			struct InlineQueryResultVoice : public InlineQueryResult {
 				public:
-					std::string toString() override;
+					std::string toString() const override;
 					std::string type;
 					std::string id;
 					std::string title;
@@ -252,7 +308,7 @@ namespace tgbot {
 
 			struct InlineQueryResultCachedAudio : public InlineQueryResult {
 				public:
-					std::string toString() override;
+					std::string toString() const override;
 					std::string type;
 					std::string id;
 					std::string audioFileId;
@@ -263,7 +319,7 @@ namespace tgbot {
 
 			struct InlineQueryResultCachedDocument : public InlineQueryResult {
 				public:
-					std::string toString() override;
+					std::string toString() const override;
 					std::string type;
 					std::string id;
 					std::string documentFileId;
@@ -276,7 +332,7 @@ namespace tgbot {
 
 			struct InlineQueryResultCachedGif : public InlineQueryResult {
 				public:
-					std::string toString() override;
+					std::string toString() const override;
 					std::string type;
 					std::string id;
 					std::string gifFileId;
@@ -288,7 +344,7 @@ namespace tgbot {
 
 			struct InlineQueryResultCachedMpeg4Gif : public InlineQueryResult {
 				public:
-					std::string toString() override;
+					std::string toString() const override;
 					std::string type;
 					std::string id;
 					std::string mpeg4FileId;
@@ -300,7 +356,7 @@ namespace tgbot {
 
 			struct InlineQueryResultCachedPhoto : public InlineQueryResult {
 				public:
-					std::string toString() override;
+					std::string toString() const override;
 					std::string type;
 					std::string id;
 					std::string photoFileId;
@@ -313,7 +369,7 @@ namespace tgbot {
 
 			struct InlineQueryResultCachedSticker : public InlineQueryResult {
 				public:
-					std::string toString() override;
+					std::string toString() const override;
 					std::string type;
 					std::string id;
 					std::string stickerFileId;
@@ -323,7 +379,7 @@ namespace tgbot {
 
 			struct InlineQueryResultCachedVideo : public InlineQueryResult {
 				public:
-					std::string toString() override;
+					std::string toString() const override;
 					std::string type;
 					std::string id;
 					std::string title;
@@ -336,7 +392,7 @@ namespace tgbot {
 
 			struct InlineQueryResultCachedVoice : public InlineQueryResult {
 				public:
-					std::string toString() override;
+					std::string toString() const override;
 					std::string type;
 					std::string id;
 					std::string title;
@@ -351,12 +407,12 @@ namespace tgbot {
 			//
 			struct InputMessageContent {
 				public:
-					virtual std::string toString() = 0;
+					virtual std::string toString() const = 0;
 			};
 
 			struct InputTextMessageContent : public InputMessageContent {
 				public:
-					std::string toString() override;
+					std::string toString() const override;
 					std::string messageText;
 					ParseMode parseMode;
 					bool disableWebPagePreview : 1;
@@ -364,14 +420,14 @@ namespace tgbot {
 
 			struct InputLocationMessageContent : public InputMessageContent {
 				public:
-					std::string toString() override;
+					std::string toString() const override;
 					double latitude;
 					double longitude;
 			};
 
 			struct InputContactMessageContent : public InputMessageContent {
 				public:
-					std::string toString() override;
+					std::string toString() const override;
 					std::string phoneNumber;
 					std::string firstName;
 					Ptr<std::string> lastName;
@@ -379,7 +435,7 @@ namespace tgbot {
 
 			struct InputVenueMessageContent : public InputMessageContent {
 				public:
-					std::string toString() override;
+					std::string toString() const override;
 					std::string title;
 					std::string address;
 					Ptr<std::string> foursquareId;

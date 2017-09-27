@@ -401,13 +401,6 @@ namespace tgbot {
 				int retryAfter;
 		};
 
-		struct ForceReply {
-			public:
-				explicit ForceReply(const Json::Value &object);
-				bool forceReply : 1;
-				bool selective : 1;
-		};
-
 		struct File {
 			public:
 				explicit File(const Json::Value &object);
@@ -425,26 +418,10 @@ namespace tgbot {
 
 		struct KeyboardButton {
 			public:
-				explicit KeyboardButton(const Json::Value &object);
+				std::string toString() const;
 				std::string text;
 				bool requestContact : 1;
 				bool requestLocation : 1;
-		};
-
-		struct ReplyKeyboardMarkup {
-			public:
-				explicit ReplyKeyboardMarkup(const Json::Value &object);
-				utils::Matrix<KeyboardButton> keyboard;
-				bool resizeKeyboard : 1;
-				bool oneTimeKeyboard : 1;
-				bool selective : 1;
-		};
-
-		struct ReplyKeyboardRemove {
-			public:
-				explicit ReplyKeyboardRemove(const Json::Value &object);
-				bool removeKeyboard : 1;
-				bool selective : 1;
 		};
 
 		/*!
@@ -453,24 +430,6 @@ namespace tgbot {
 		 */
 		enum class CallbackGame {
 			GAME_CALLBACK
-		};
-
-		struct InlineKeyboardButton {
-			public:
-				explicit InlineKeyboardButton(const Json::Value &object);
-				std::string text;
-				Ptr<std::string> url;
-				Ptr<std::string> callbackData;
-				Ptr<std::string> switchInlineQuery;
-				Ptr<std::string> switchInlineQueryCurrentChat;
-				CallbackGame callbackGame;
-				bool pay : 1;
-		};
-
-		struct InlineKeyboardMarkup {
-			public:
-				explicit InlineKeyboardMarkup(const Json::Value &object);
-				utils::Matrix<InlineKeyboardButton> inlineKeyboard;
 		};
 
 		struct ChatMember {

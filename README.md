@@ -94,16 +94,16 @@ May take long time... :)
 	* [ ]	UserProfilePhotos (fix templated class Matrix DFL constructor)
 	
 	* [x]	KeyboardButton
+
+	* [ ]   ChatMember
+
+	~~~* [ ]	ReplyKeyboardMarkup~~~ (moved to methods/types)
 	
-	* [ ]	ReplyKeyboardMarkup
+	~~~* [ ]	ReplyKeyboardRemove~~~
 	
-	* [ ]	ReplyKeyboardRemove
+	~~~* [ ]	InlineKeyboardButton~~~
 	
-	* [ ]	InlineKeyboardButton
-	
-	* [ ]	InlineKeyboardMarkup
-	
-	* [ ]	ChatMember
+	~~~* [ ]	InlineKeyboardMarkup~~~
 	
  * API Methods and input types [ directory: *include/tgbot/methods* ]
  

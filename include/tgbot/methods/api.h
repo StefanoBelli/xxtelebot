@@ -26,7 +26,7 @@ namespace tgbot {
 						const bool& disableWebPagePreview = false,
 						const bool& disableNotification = false,
 						const int& replyToMessageId = -1,
-						const std::string& replyMarkup = "") const;
+						const types::ReplyMarkup& replyMarkup = types::EmptyReplyMarkup()) const;
 
 				api_types::Message forwardMessage(const std::string& chatId, 
 						const std::string& fromChatId,
@@ -39,7 +39,7 @@ namespace tgbot {
 						const std::string& caption = "", 
 						const bool& disableNotification = false,
 						const int& replyToMessageId = -1,
-						const std::string& replyMarkup = "") const;
+						const types::ReplyMarkup& replyMarkup = types::EmptyReplyMarkup()) const;
 
 				api_types::Message sendAudio(const std::string& chatId, 
 						const std::string& audio,
@@ -50,7 +50,7 @@ namespace tgbot {
 						const std::string& title = "",
 						const bool& disableNotification = false,
 						const int& replyToMessageId = -1,
-						const std::string& replyMarkup = "") const;
+						const types::ReplyMarkup& replyMarkup = types::EmptyReplyMarkup()) const;
 
 				api_types::Message sendDocument(const std::string& chatId, 
 						const std::string& document,
@@ -58,7 +58,7 @@ namespace tgbot {
 						const std::string& caption = "", 
 						const bool& disableNotification = false,
 						const int& replyToMessageId = -1,
-						const std::string& replyMarkup = "") const;
+						const types::ReplyMarkup& replyMarkup = types::EmptyReplyMarkup()) const;
 
 				api_types::Message sendVideo(const std::string& chatId, 
 						const std::string& video,
@@ -69,7 +69,7 @@ namespace tgbot {
 						const std::string& caption = "",
 						const bool& disableNotification = false,
 						const int& replyToMessageId = -1,
-						const std::string& replyMarkup = "") const;
+						const types::ReplyMarkup& replyMarkup = types::EmptyReplyMarkup()) const;
 
 				api_types::Message sendVoice(const std::string& chatId, 
 						const std::string& voice,
@@ -78,7 +78,7 @@ namespace tgbot {
 						const int& duration = -1,
 						const bool& disableNotification = false,
 						const int& replyToMessageId = -1,
-						const std::string& replyMarkup = "") const;
+						const types::ReplyMarkup& replyMarkup = types::EmptyReplyMarkup()) const;
 
 				api_types::Message sendVideoNote(const std::string& chatId, 
 						const std::string& voice,
@@ -87,14 +87,14 @@ namespace tgbot {
 						const int& duration = -1,
 						const bool& disableNotification = false,
 						const int& replyToMessageId = -1,
-						const std::string& replyMarkup = "") const;
+						const types::ReplyMarkup& replyMarkup = types::EmptyReplyMarkup()) const;
 
 				api_types::Message sendLocation(const std::string& chatId, 
 						const double& latitude,
 						const double& longitude, 
 						const bool& disableNotification = false,
 						const int& replyToMessageId = -1,
-						const std::string& replyMarkup = "") const;
+						const types::ReplyMarkup& replyMarkup = types::EmptyReplyMarkup()) const;
 
 				api_types::Message sendVenue(const std::string& chatId, 
 						const double& latitude,
@@ -104,7 +104,7 @@ namespace tgbot {
 						const std::string& foursquareId = "",
 						const bool& disableNotification = false,
 						const int& replyToMessageId = -1,
-						const std::string& replyMarkup = "") const;
+						const types::ReplyMarkup& replyMarkup = types::EmptyReplyMarkup()) const;
 
 				api_types::Message sendContact(const std::string& chatId, 
 						const std::string& phoneNumber,
@@ -112,14 +112,14 @@ namespace tgbot {
 						const std::string& lastName = "",
 						const bool& disableNotification = false,
 						const int& replyToMessageId = -1,
-						const std::string& replyMarkup = "") const;
+						const types::ReplyMarkup& replyMarkup = types::EmptyReplyMarkup()) const;
 
 				api_types::Message sendSticker(const std::string& chatId,
 						const std::string& sticker,
 						const types::FileSource& source = types::FileSource::EXTERNAL,
 						const bool& disableNotifiation = false,
 						const int& replyToMessageId = -1,
-						const std::string& replyMarkup = "") const;
+						const types::ReplyMarkup& replyMarkup = types::EmptyReplyMarkup()) const;
 
 				/*!
 				 * @brief Please refer to tgbot::methods::types::Invoice struct
