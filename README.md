@@ -17,7 +17,7 @@ May take long time... :)
     
     * [x] HTTPS interface (libcurl wrapper)
     
-    * [x] template<typename T> Matrix<T> class template
+    * [ ] template<typename T> Matrix<T> class template (automatic growing impl)
 
  * Basic Bot interface [ files: *include/tgbot/bot.h* and *include/tgbot/register_callback.h* ]
     
@@ -27,7 +27,7 @@ May take long time... :)
     
  * API Types [ file: *include/tgbot/types.h* ]
  
-    * [x] User
+    * [x]   User
 
 	* [x]	ChatPhoto
 
@@ -91,19 +91,11 @@ May take long time... :)
 	
 	* [x]	File
 	
-	* [ ]	UserProfilePhotos (fix templated class Matrix DFL constructor)
+	* [ ]	UserProfilePhotos (pending)
 	
 	* [x]	KeyboardButton
 
-	* [ ]   ChatMember
-
-	~~~* [ ]	ReplyKeyboardMarkup~~~ (moved to methods/types)
-	
-	~~~* [ ]	ReplyKeyboardRemove~~~
-	
-	~~~* [ ]	InlineKeyboardButton~~~
-	
-	~~~* [ ]	InlineKeyboardMarkup~~~
+	* [x]   ChatMember
 	
  * API Methods and input types [ directory: *include/tgbot/methods* ]
  

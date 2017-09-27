@@ -488,7 +488,7 @@ tgbot::types::File::File(const Json::Value &object) :
 				new std::string(object.get("file_path","").asCString()));
 }
 
-/*
+/* implementation pending (Matrix needs automatic growing)
 tgbot::types::UserProfilePhotos::UserProfilePhotos(const Json::Value &object) :
 	totalCount(object.get("total_count","").asInt()) {
 
@@ -502,4 +502,49 @@ std::string tgbot::types::KeyboardButton::toString() const {
 			<< " } ";
 	
 	return jsonify.str();
+}
+
+tgbot::types::ChatMember::ChatMember(const Json::Value &object) :
+	user(object.get("user","")),
+	status(object.get("status","").asCString()),
+	untilDate(object.get("until_date","").asInt()) {
+
+	if(object.isMember("can_be_edited"))
+		this->canBeEdited = object.get("can_be_edited","").asBool();
+	
+	if(object.isMember("can_change_info"))
+		this->canChangeInfo = object.get("can_change_info","").asBool();
+	
+	if(object.isMember("can_post_messages"))
+		this->canPostMessages = object.get("can_post_messages","").asBool();
+	
+	if(object.isMember("can_edit_messages"))
+		this->canEditMessages = object.get("can_edit_messages","").asBool();
+	
+	if(object.isMember("can_delete_messages"))
+		this->canDeleteMessages = object.get("can_delete_messages","").asBool();
+	
+	if(object.isMember("can_invite_users"))
+		this->canInviteUsers = object.get("can_invite_users","").asBool();
+	
+	if(object.isMember("can_restrict_members"))
+		this->canRestrictMembers = object.get("can_restrict_members","").asBool();
+	
+	if(object.isMember("can_pin_messages"))
+		this->canPinMessages = object.get("can_pin_messages","").asBool();
+	
+	if(object.isMember("can_promote_members"))
+		this->canPromoteMembers = object.get("can_promote_members","").asBool();
+	
+	if(object.isMember("can_send_messages"))
+		this->canSendMessages = object.get("can_send_messages","").asBool();
+	
+	if(object.isMember("can_send_media_messages"))
+		this->canSendMediaMessages = object.get("can_send_media_messages","").asBool();
+	
+	if(object.isMember("can_send_other_messages"))
+		this->canSendOtherMessages = object.get("can_send_other_messages","").asBool();
+
+	if(object.isMember("can_add_web_page_previews"))
+		this->canAddWebPagePreviews = object.get("can_add_web_page_previews","").asBool();
 }
