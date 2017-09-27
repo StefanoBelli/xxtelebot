@@ -17,7 +17,7 @@ May take long time... :)
     
     * [x] HTTPS interface (libcurl wrapper)
     
-    * [ ] template<typename T> Matrix<T> class template (automatic growing impl)
+    * [x] template<typename T> Matrix<T> class template
 
  * Basic Bot interface [ files: *include/tgbot/bot.h* and *include/tgbot/register_callback.h* ]
     

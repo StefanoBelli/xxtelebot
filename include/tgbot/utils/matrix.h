@@ -3,6 +3,7 @@
 
 #include <exception>
 #include <utility>
+#include <cstdlib>
 
 namespace tgbot {
 
@@ -10,10 +11,19 @@ namespace tgbot {
 	 * @brief Project-provided utilities, most of them used within the project
 	 */
 	namespace utils {
-
 		class MatrixException : public std::exception {
+			private:
+				unsigned char code;
+
 			public:
-				virtual const char* what() const noexcept;
+				explicit MatrixException(const unsigned char& whatCode) : code(whatCode) {}
+				const unsigned char& getCode() const noexcept {
+					return code;
+				}
+
+				virtual const char* what() const noexcept {
+					return (code) ? "Exceeding matrix limits" : "Exhausted memory, can't allocate more";
+				}
 		};
 
 		template <typename _TyElems>
@@ -24,23 +34,26 @@ namespace tgbot {
 					_TyElems** _matrix;
 
 				public:
-					Matrix() = default;
-					Matrix(const int& r, const int& c)	:
+					inline Matrix() : maxRow(0), maxCol(0) {
+						_matrix = new _TyElems*;
+					}
+
+					inline Matrix(const int& r, const int& c)	:
 						maxRow(r), maxCol(c) {
 
 							_matrix = new _TyElems*[r];
 							for(int i=0;i<r;i++)
 								_matrix[i] = new _TyElems[c];
-						}
+					}
 
-					~Matrix() {
+					inline ~Matrix() {
 						for(int i=0;i<maxRow;i++)
 							delete[] _matrix[i];
 
 						delete[] _matrix;
 					}
 
-					Matrix(const Matrix& prev) :
+					inline Matrix(const Matrix& prev) :
 						maxRow(prev.maxRow), maxCol(prev.maxCol) {
 							_matrix = new _TyElems*[prev.maxRow];
 							for(int i=0;i<prev.maxRow;i++) {
@@ -48,9 +61,9 @@ namespace tgbot {
 								for(int j=0;j<prev.maxCol;j++)
 									_matrix[i][j] = prev._matrix[i][j];
 							}
-						}
+					}
 
-					Matrix(Matrix&& prev) :
+					inline Matrix(Matrix&& prev) :
 						maxRow(std::move(prev.maxRow)),
 						maxCol(std::move(prev.maxCol)) {
 							_matrix = new _TyElems*[prev.maxRow];
@@ -61,7 +74,7 @@ namespace tgbot {
 							}
 						}
 
-					Matrix& operator=(const Matrix& prev) {
+					inline Matrix& operator=(const Matrix& prev) {
 						if(*_matrix) {
 							for (int i = 0; i < maxRow; i++)
 								delete[] _matrix[i];
@@ -81,18 +94,48 @@ namespace tgbot {
 						return *this;
 					}
 
-					_TyElems& at(const int& r, const int& c) {
+					inline const _TyElems& at(const int& r, const int& c) const {
 						if(r > maxRow-1 || c > maxCol-1)
-							throw MatrixException();
-
+							throw MatrixException(1);
+					
 						return _matrix[r][c];
 					}
 
-					const int& getMaxRows() const {
+					inline const _TyElems& _at(const int& r, const int& c) const noexcept {
+						return _matrix[r][c];
+					}
+
+					inline void put(const _TyElems& what, const int& r, const int& c) {
+						if(r > maxRow-1) {
+							_matrix = (_TyElems**) realloc(_matrix, (r+1) * sizeof(_TyElems*));
+							if(!_matrix) //nullptr
+								throw MatrixException(0);
+
+							for(int i = maxRow; i < r+1; i++)
+								_matrix[i] = new _TyElems[maxCol];
+
+							maxRow = r + 1;
+						}
+
+						if(c > maxCol-1) {
+							for (int i=0; i < maxRow; i++) {
+								_matrix[i] = (_TyElems*) realloc(_matrix[i], (c+1) * sizeof(_TyElems));
+
+								if(!_matrix[i]) //nullptr
+									throw MatrixException(0);
+							}
+
+							maxCol = c + 1;
+						}
+
+						_matrix[r][c] = what;
+					}
+					
+					inline const int& getMaxRows() const {
 						return maxRow;
 					}
 
-					const int& getMaxCols() const {
+					inline const int& getMaxCols() const {
 						return maxCol;
 					}
 			};
