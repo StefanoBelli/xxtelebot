@@ -436,3 +436,73 @@ tgbot::types::MessageEntity::MessageEntity(const Json::Value &object) :
 		this->url = Ptr<std::string>(
 				new std::string(object.get("url","").asCString()));
 }
+
+tgbot::types::OrderInfo::OrderInfo(const Json::Value &object) {
+	if(object.isMember("shipping_address"))
+		this->shippingAddress = Ptr<ShippingAddress>(
+				new ShippingAddress(object.get("shipping_address","")));
+
+	if(object.isMember("name"))
+		this->name = Ptr<std::string>(
+				new std::string(object.get("name","").asCString()));
+
+	if(object.isMember("phone_number"))
+		this->phoneNumber = Ptr<std::string>(
+				new std::string(object.get("phone_number","").asCString()));
+
+	if(object.isMember("email"))
+		this->email = Ptr<std::string>(
+				new std::string(object.get("email","").asCString()));
+}
+
+tgbot::types::StickerSet::StickerSet(const Json::Value &object) :
+	name(object.get("name","").asCString()),
+	title(object.get("title","").asCString()),
+	stickers({}),
+	containsMasks(object.get("contains_masks","").asBool()) {
+
+	for(auto const& singleSticker : object.get("stickers",""))
+		stickers.emplace_back(singleSticker);
+}
+
+tgbot::types::ResponseParameters::ResponseParameters(const Json::Value &object) {
+	if(object.isMember("migrate_to_chat_id"))
+		this->migrateToChatId = object.get("migrate_to_chat_id","").asInt();
+
+	if(object.isMember("retry_after"))
+		this->retryAfter = object.get("retry_after","").asInt();
+}
+
+tgbot::types::ForceReply::ForceReply(const Json::Value &object) :
+	forceReply(true) {
+
+	if(object.isMember("selective"))
+		this->selective = object.get("selective","").asBool();
+}
+
+tgbot::types::File::File(const Json::Value &object) :
+	fileId(object.get("file_id","").asCString()) {
+	
+	if(object.isMember("file_size"))
+		this->fileSize = object.get("file_size","").asInt();
+
+	if(object.isMember("file_path"))
+		this->filePath = Ptr<std::string>(
+				new std::string(object.get("file_path","").asCString()));
+}
+
+/*
+tgbot::types::UserProfilePhotos::UserProfilePhotos(const Json::Value &object) :
+	totalCount(object.get("total_count","").asInt()) {
+
+}*/
+
+tgbot::types::KeyboardButton::KeyboardButton(const Json::Value &object) :
+	text(object.get("text","").asCString()) {
+	
+	if(object.isMember("request_contact"))
+		this->requestContact = object.get("request_contact","").asBool();
+
+	if(object.isMember("request_location"))
+		this->requestLocation = object.get("request_location","").asBool();
+}
