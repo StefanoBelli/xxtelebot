@@ -1,6 +1,7 @@
 #ifndef TGBOT_BOT_H
 #define TGBOT_BOT_H
 
+#include <exception>
 #include "types.h"
 #include "methods/api.h"
 #include "register_callback.h"
@@ -9,6 +10,14 @@
  * @brief Main tgbot namespace
  */
 namespace tgbot {
+
+	class TelegramException : public std::exception {
+		public:
+			explicit TelegramException(const char* _what);
+			virtual const char* what() const noexcept;
+		private:
+			const char* _what;
+	};
 
 	class Bot : public methods::Api, public RegisterCallback {
 		public:

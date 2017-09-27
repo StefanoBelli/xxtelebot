@@ -1,4 +1,3 @@
-#include <stdexcept>
 #include <sstream>
 #include <tgbot/methods/api.h>
 #include <tgbot/utils/https.h>
@@ -73,7 +72,7 @@ std::vector<api_types::Update> tgbot::methods::Api::getUpdates(void* c) {
 	parser.parse(utils::http::get(c, updatesRequest.str()),rootUpdate);
 
 	if(!rootUpdate.get("ok","").asBool())
-		throw std::runtime_error(rootUpdate.get("description","").asCString());
+		throw TelegramException(rootUpdate.get("description","").asCString());
 
 	std::vector<api_types::Update> finalUpdates;
 
