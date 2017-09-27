@@ -458,7 +458,7 @@ tgbot::types::OrderInfo::OrderInfo(const Json::Value &object) {
 tgbot::types::StickerSet::StickerSet(const Json::Value &object) :
 	name(object.get("name","").asCString()),
 	title(object.get("title","").asCString()),
-	stickers({}),
+	stickers(std::vector<Sticker>{}),
 	containsMasks(object.get("contains_masks","").asBool()) {
 
 	for(auto const& singleSticker : object.get("stickers",""))

@@ -412,8 +412,8 @@ namespace tgbot {
 			public:
 				explicit File(const Json::Value &object);
 				std::string fileId;
-				int fileSize;
 				Ptr<std::string> filePath;
+				int fileSize;
 		};
 
 		struct UserProfilePhotos {

@@ -55,7 +55,7 @@ May take long time... :)
 	
 	* [x]	Sticker
 	
-	* [ ]	StickerSet
+	* [x]	StickerSet
 	
 	* [x]	Video
 	
@@ -63,7 +63,7 @@ May take long time... :)
 	
 	* [x]	ShippingAddress
 	
-	* [ ]	OrderInfo
+	* [x]	OrderInfo
 	
 	* [x]	SuccessfulPayment
 	
@@ -85,15 +85,15 @@ May take long time... :)
 	
 	* [x]	Update
 	
-	* [ ]	ResponseParameters
+	* [x]	ResponseParameters
 	
-	* [ ]	ForceReply
+	* [x]	ForceReply
 	
-	* [ ]	File
+	* [x]	File
 	
-	* [ ]	UserProfilePhotos
+	* [ ]	UserProfilePhotos (fix templated class Matrix DFL constructor)
 	
-	* [ ]	KeyboardButton
+	* [x]	KeyboardButton
 	
 	* [ ]	ReplyKeyboardMarkup
 	
