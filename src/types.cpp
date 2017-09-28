@@ -488,11 +488,22 @@ tgbot::types::File::File(const Json::Value &object) :
 				new std::string(object.get("file_path","").asCString()));
 }
 
-/* implementation pending (Matrix needs automatic growing)
 tgbot::types::UserProfilePhotos::UserProfilePhotos(const Json::Value &object) :
 	totalCount(object.get("total_count","").asInt()) {
 
-}*/
+	int i = 0;
+	int j = 0;
+
+	for(auto const &motherArr : object.get("photos","")) {
+		for(auto const &arr : motherArr) {
+			this->photos.put(PhotoSize(arr),i,j);
+			j++;
+		}
+
+		i++;
+		j = 0;
+	}
+}
 
 std::string tgbot::types::KeyboardButton::toString() const {
 	std::stringstream jsonify;

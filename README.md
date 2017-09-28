@@ -87,11 +87,9 @@ May take long time... :)
 	
 	* [x]	ResponseParameters
 	
-	* [x]	ForceReply
-	
 	* [x]	File
 	
-	* [ ]	UserProfilePhotos (pending)
+	* [x]	UserProfilePhotos
 	
 	* [x]	KeyboardButton
 
