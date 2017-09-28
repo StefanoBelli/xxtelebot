@@ -6,6 +6,7 @@
 #define BOOL_TOSTR(xvalue) \
 	((xvalue) ? "true" : "false")
 
+using ArrayIndex = Json::Value::ArrayIndex;
 using namespace tgbot::types;
 
 tgbot::types::Update::Update(const Json::Value &object) : 
@@ -490,19 +491,10 @@ tgbot::types::File::File(const Json::Value &object) :
 
 tgbot::types::UserProfilePhotos::UserProfilePhotos(const Json::Value &object) :
 	totalCount(object.get("total_count","").asInt()) {
-
-	int i = 0;
-	int j = 0;
-
-	for(auto const &motherArr : object.get("photos","")) {
-		for(auto const &arr : motherArr) {
-			this->photos.put(PhotoSize(arr),i,j);
-			j++;
-		}
-
-		i++;
-		j = 0;
-	}
+    const Json::Value& matArr { object.get("photos","") };
+    for(ArrayIndex i=0; i < matArr.size(); i++)
+        for(ArrayIndex j=0; j < matArr[i].size(); j++)
+            this->photos.put(PhotoSize(matArr[i][j]),i,j);
 }
 
 std::string tgbot::types::KeyboardButton::toString() const {
