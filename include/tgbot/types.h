@@ -98,6 +98,7 @@ namespace tgbot {
 
 		struct PhotoSize {
 			public:
+                PhotoSize() = default;
 				explicit PhotoSize(const Json::Value &object);
 				std::string fileId;
 				int fileSize;
