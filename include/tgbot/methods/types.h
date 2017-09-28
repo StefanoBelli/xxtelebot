@@ -479,6 +479,8 @@ namespace tgbot {
 					std::string title;
 			};
 
+			std::string toString(const ParseMode& parseMode);
+
 		} //types
 
 	} //methods

@@ -159,13 +159,13 @@ May take long time... :)
 
 	* [x]  InputMessageContent 
 
-	* [ ]  InputTextMessageContent 
+	* [x]  InputTextMessageContent 
 
-	* [ ]  InputLocationMessageContent 
+	* [x]  InputLocationMessageContent 
 
-	* [ ]  InputContactMessageContent 
+	* [x]  InputContactMessageContent 
 
-	* [ ]  InputVenueMessageContent 
+	* [x]  InputVenueMessageContent 
 
 	* [x]  LabeledPrice 
 
@@ -173,3 +173,4 @@ May take long time... :)
 
 	* [x]  ShippingOption 
 
+	*Implementation pending for API methods*
