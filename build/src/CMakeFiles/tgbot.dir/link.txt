@@ -1,0 +1,2 @@
+/usr/bin/ar qc ../../lib/libtgbot.a  CMakeFiles/tgbot.dir/https.cpp.o CMakeFiles/tgbot.dir/bot.cpp.o CMakeFiles/tgbot.dir/api.cpp.o CMakeFiles/tgbot.dir/types.cpp.o
+/usr/bin/ranlib ../../lib/libtgbot.a

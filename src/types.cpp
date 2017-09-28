@@ -497,16 +497,6 @@ tgbot::types::UserProfilePhotos::UserProfilePhotos(const Json::Value &object) :
             this->photos.put(PhotoSize(matArr[i][j]),i,j);
 }
 
-std::string tgbot::types::KeyboardButton::toString() const {
-	std::stringstream jsonify;
-	jsonify << "{ \"text\":" << this->text
-			<< "\", \"request_contact\": " << BOOL_TOSTR(this->requestContact)
-			<< ", \"request_location\": " << BOOL_TOSTR(this->requestLocation)
-			<< " } ";
-	
-	return jsonify.str();
-}
-
 tgbot::types::ChatMember::ChatMember(const Json::Value &object) :
 	user(object.get("user","")),
 	status(object.get("status","").asCString()),

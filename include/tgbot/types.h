@@ -419,7 +419,6 @@ namespace tgbot {
 
 		struct KeyboardButton {
 			public:
-				std::string toString() const;
 				std::string text;
 				bool requestContact : 1;
 				bool requestLocation : 1;

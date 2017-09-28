@@ -105,15 +105,15 @@ May take long time... :)
 
 	* [x]  ReplyMarkup 
 
-	* [ ]  EmptyReplyMarkup 
+	* [x]  EmptyReplyMarkup 
 
-	* [ ]  InlineKeyboardMarkup 
+	* [x]  InlineKeyboardMarkup 
 
-	* [ ]  ReplyKeyboardMarkup 
+	* [x]  ReplyKeyboardMarkup 
 
-	* [ ]  ReplyKeyboardRemove 
+	* [x]  ReplyKeyboardRemove 
 
-	* [ ]  ForceReply 
+	* [x]  ForceReply 
 
 	* [x]  InlineQueryResult 
 

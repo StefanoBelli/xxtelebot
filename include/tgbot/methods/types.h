@@ -175,6 +175,7 @@ namespace tgbot {
 					std::string id;
 					std::string gameShortName;
 					Ptr<InlineKeyboardMarkup> replyMarkup;
+
 			};
 
 			struct InlineQueryResultDocument : public InlineQueryResult {

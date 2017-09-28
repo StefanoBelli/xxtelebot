@@ -1,0 +1,14 @@
+/home/ssynx/Devel/telegram-bot-api/build/CMakeFiles/install/strip.dir
+/home/ssynx/Devel/telegram-bot-api/build/CMakeFiles/install/local.dir
+/home/ssynx/Devel/telegram-bot-api/build/CMakeFiles/install.dir
+/home/ssynx/Devel/telegram-bot-api/build/CMakeFiles/list_install_components.dir
+/home/ssynx/Devel/telegram-bot-api/build/CMakeFiles/rebuild_cache.dir
+/home/ssynx/Devel/telegram-bot-api/build/CMakeFiles/edit_cache.dir
+/home/ssynx/Devel/telegram-bot-api/build/CMakeFiles/docs.dir
+/home/ssynx/Devel/telegram-bot-api/build/src/CMakeFiles/install/strip.dir
+/home/ssynx/Devel/telegram-bot-api/build/src/CMakeFiles/install/local.dir
+/home/ssynx/Devel/telegram-bot-api/build/src/CMakeFiles/install.dir
+/home/ssynx/Devel/telegram-bot-api/build/src/CMakeFiles/list_install_components.dir
+/home/ssynx/Devel/telegram-bot-api/build/src/CMakeFiles/edit_cache.dir
+/home/ssynx/Devel/telegram-bot-api/build/src/CMakeFiles/rebuild_cache.dir
+/home/ssynx/Devel/telegram-bot-api/build/src/CMakeFiles/tgbot.dir
