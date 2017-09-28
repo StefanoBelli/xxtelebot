@@ -37,13 +37,12 @@ namespace tgbot {
 
 		public:
 			/*!
-			 * @brief register a callback, template specializations exist,
-			 * this one will do nothing
+			 * @brief (deleted) register a callback, template specializations exist,
 			 * @tparam Ty : update type, see namespace tgbot::types
 			 * @param unknownCallback
 			 */
 			template <typename Ty>
-				inline void callback(const Ty& unknownCallback) {}
+				inline void callback(const UpdateCallback<Ty>&) = delete;
 
 			/*!
 			 * @brief register a callback, must be used
@@ -56,32 +55,32 @@ namespace tgbot {
 	};
 
 	template<>
-		inline void RegisterCallback::callback<UpdateCallback<types::Message>>(const UpdateCallback<types::Message>& callback) {
+		inline void RegisterCallback::callback<types::Message>(const UpdateCallback<types::Message>& callback) {
 			messageCallback = callback;
 		}
 
 	template<>
-		inline void RegisterCallback::callback<UpdateCallback<types::InlineQuery>>(const UpdateCallback<types::InlineQuery>& callback) {
+		inline void RegisterCallback::callback<types::InlineQuery>(const UpdateCallback<types::InlineQuery>& callback) {
 			inlineQueryCallback = callback;
 		}
 
 	template<>
-		inline void RegisterCallback::callback<UpdateCallback<types::ChosenInlineResult>>(const UpdateCallback<types::ChosenInlineResult>& callback) {
+		inline void RegisterCallback::callback<types::ChosenInlineResult>(const UpdateCallback<types::ChosenInlineResult>& callback) {
 			chosenInlineResultCallback = callback;
 		}
 
 	template<>
-		inline void RegisterCallback::callback<UpdateCallback<types::CallbackQuery>>(const UpdateCallback<types::CallbackQuery>& callback) {
+		inline void RegisterCallback::callback<types::CallbackQuery>(const UpdateCallback<types::CallbackQuery>& callback) {
 			callbackQueryCallback = callback;
 		}
 
 	template<>
-		inline void RegisterCallback::callback<UpdateCallback<types::ShippingQuery>>(const UpdateCallback<types::ShippingQuery>& callback) {
+		inline void RegisterCallback::callback<types::ShippingQuery>(const UpdateCallback<types::ShippingQuery>& callback) {
 			shippingQueryCallback = callback;
 		}
 
 	template<>
-		inline void RegisterCallback::callback<UpdateCallback<types::PreCheckoutQuery>>(const UpdateCallback<types::PreCheckoutQuery>& callback) {
+		inline void RegisterCallback::callback<types::PreCheckoutQuery>(const UpdateCallback<types::PreCheckoutQuery>& callback) {
 			preCheckoutQueryCallback = callback;
 		}
 
