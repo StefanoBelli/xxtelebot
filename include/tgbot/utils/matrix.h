@@ -33,8 +33,10 @@ namespace tgbot {
 					_TyElems** _matrix;
 
 				public:
+					//Move operation not allowed here
 					Matrix(Matrix&& prev) = delete;
-					
+					Matrix& operator=(Matrix&& prev) = delete;
+
 					inline Matrix() : maxRow(0), maxCol(0) {
 						_matrix = new _TyElems*[0];
 					}
@@ -121,11 +123,11 @@ namespace tgbot {
 						_matrix[r][c] = what;
 					}
 					
-					inline const int& getMaxRows() const {
+					inline const int& getMaxRows() const noexcept {
 						return maxRow;
 					}
 
-					inline const int& getMaxCols() const {
+					inline const int& getMaxCols() const noexcept {
 						return maxCol;
 					}
 			};
