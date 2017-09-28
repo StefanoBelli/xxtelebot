@@ -34,6 +34,8 @@ namespace tgbot {
 					_TyElems** _matrix;
 
 				public:
+					Matrix(Matrix&& prev) = delete;
+					
 					inline Matrix() : maxRow(0), maxCol(0) {
 						_matrix = new _TyElems*[0];
 					}
@@ -62,17 +64,6 @@ namespace tgbot {
 									_matrix[i][j] = prev._matrix[i][j];
 							}
 					}
-
-					inline Matrix(Matrix&& prev) :
-						maxRow(std::move(prev.maxRow)),
-						maxCol(std::move(prev.maxCol)) {
-							_matrix = new _TyElems*[prev.maxRow];
-							for(int i=0;i<prev.maxRow;i++) {
-								_matrix[i] = new _TyElems[prev.maxCol];
-								for(int j=0;j<prev.maxCol;j++)
-									_matrix[i][j] = std::move(prev._matrix[i][j]);
-							}
-						}
 
 					inline Matrix& operator=(const Matrix& prev) {
 						if(*_matrix) {
