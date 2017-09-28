@@ -96,5 +96,80 @@ May take long time... :)
 	* [x]   ChatMember
 	
  * API Methods and input types [ directory: *include/tgbot/methods* ]
- 
-    Implementation pending
+
+	* [x]  ChatMemberRestrict 
+
+	* [x]  ChatMemberPromote 
+
+	* [x]  InlineKeyboardButton 
+
+	* [x]  ReplyMarkup 
+
+	* [ ]  EmptyReplyMarkup 
+
+	* [ ]  InlineKeyboardMarkup 
+
+	* [ ]  ReplyKeyboardMarkup 
+
+	* [ ]  ReplyKeyboardRemove 
+
+	* [ ]  ForceReply 
+
+	* [x]  InlineQueryResult 
+
+	* [ ]  InlineQueryResultAudio 
+
+	* [ ]  InlineQueryResultArticle 
+
+	* [ ]  InlineQueryResultContact 
+
+	* [ ]  InlineQueryResultGame 
+
+	* [ ]  InlineQueryResultDocument 
+
+	* [ ]  InlineQueryResultGif 
+
+	* [ ]  InlineQueryResultLocation 
+
+	* [ ]  InlineQueryResultMpeg4Gif 
+
+	* [ ]  InlineQueryResultPhoto 
+
+	* [ ]  InlineQueryResultVenue 
+
+	* [ ]  InlineQueryResultVideo 
+
+	* [ ]  InlineQueryResultVoice 
+
+	* [ ]  InlineQueryResultCachedAudio 
+
+	* [ ]  InlineQueryResultCachedDocument 
+
+	* [ ]  InlineQueryResultCachedGif 
+
+	* [ ]  InlineQueryResultCachedMpeg4Gif 
+
+	* [ ]  InlineQueryResultCachedPhoto 
+
+	* [ ]  InlineQueryResultCachedSticker 
+
+	* [ ]  InlineQueryResultCachedVideo 
+
+	* [ ]  InlineQueryResultCachedVoice 
+
+	* [x]  InputMessageContent 
+
+	* [ ]  InputTextMessageContent 
+
+	* [ ]  InputLocationMessageContent 
+
+	* [ ]  InputContactMessageContent 
+
+	* [ ]  InputVenueMessageContent 
+
+	* [x]  LabeledPrice 
+
+	* [x]  Invoice 
+
+	* [x]  ShippingOption 
+
