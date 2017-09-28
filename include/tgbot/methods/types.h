@@ -66,7 +66,6 @@ namespace tgbot {
 
 			struct InlineKeyboardButton {
 				public:
-					std::string toString() const;
 					std::string text;
 					Ptr<std::string> url;
 					Ptr<std::string> callbackData;
