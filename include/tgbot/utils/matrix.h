@@ -34,8 +34,8 @@ namespace tgbot {
 					_TyElems** _matrix;
 
 				public:
-					inline Matrix() : maxRow(1), maxCol(0) {
-						_matrix = new _TyElems*;
+					inline Matrix() : maxRow(0), maxCol(0) {
+						_matrix = new _TyElems*[0];
 					}
 
 					inline Matrix(const int& r, const int& c)	:
