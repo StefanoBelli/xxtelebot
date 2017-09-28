@@ -2,7 +2,6 @@
 #define TGBOT_MATRIX_H
 
 #include <exception>
-#include <utility>
 #include <cstdlib>
 
 namespace tgbot {
