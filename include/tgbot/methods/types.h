@@ -12,6 +12,19 @@ namespace tgbot {
 		 */
 		namespace types {
 
+			constexpr char const* iqrTypeArticle 	= "article";
+			constexpr char const* iqrTypeDocument 	= "document";
+			constexpr char const* iqrTypeGif     	= "gif";
+			constexpr char const* iqrTypeMpeg4Gif 	= "mpeg4_gif";
+			constexpr char const* iqrTypePhoto  	= "photo";
+			constexpr char const* iqrTypeVideo  	= "video";
+			constexpr char const* iqrTypeAudio  	= "audio";
+			constexpr char const* iqrTypeLocation 	= "location";
+			constexpr char const* iqrTypeVenue  	= "venue";
+			constexpr char const* iqrTypeContact  	= "contact";
+			constexpr char const* iqrTypeGame   	= "game";
+			constexpr char const* iqrTypeVoice   	= "voice";
+			
 			template <typename _Ty_Elem>
 				using Ptr = std::unique_ptr<_Ty_Elem>;
 
@@ -143,7 +156,7 @@ namespace tgbot {
 					std::string type;
 					std::string id;
 					std::string title;
-					Ptr<InputMessageContent> inputMessageContent;
+					InputMessageContent inputMessageContent;
 					Ptr<InlineKeyboardMarkup> replyMarkup;
 					Ptr<std::string> url;
 					Ptr<std::string> description;
@@ -175,7 +188,6 @@ namespace tgbot {
 					std::string id;
 					std::string gameShortName;
 					Ptr<InlineKeyboardMarkup> replyMarkup;
-
 			};
 
 			struct InlineQueryResultDocument : public InlineQueryResult {

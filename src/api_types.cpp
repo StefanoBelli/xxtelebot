@@ -150,3 +150,164 @@ std::string tgbot::methods::types::InputVenueMessageContent::toString() const {
 
 	return jsonify.str();
 }
+
+std::string tgbot::methods::types::InlineQueryResultAudio::toString() const {
+	std::stringstream jsonify;
+	jsonify << "{ \"type\": \"" << type << "\", \"id\": \"" << id << "\","
+		<< "\"audio_url\": \"" << audioUrl << "\", \"title\": \"" << title << "\"";
+
+	if(caption)
+		jsonify << ",\"caption\": \"" << *(caption.get()) << "\"";
+
+	if(performer)
+		jsonify << ",\"performer\": \"" << *(performer.get()) << "\"";
+
+	if(replyMarkup)
+		jsonify << ",\"reply_markup\": " << replyMarkup->toString();
+	
+	if(inputMessageContent)
+		jsonify << ",\"input_message_content\": " << inputMessageContent->toString();
+
+	if(audioDuration)
+		jsonify << ",\"audio_duration\": " << audioDuration;
+
+	jsonify << "}";
+	
+	return jsonify.str();
+}
+
+std::string tgbot::methods::types::InlineQueryResultGame::toString() const {
+	std::stringstream jsonify;
+	jsonify << "{ \"type\": \"" << type << "\", \"id\": \"" << id << "\""
+		<< ",\"game_short_name\": \"" << gameShortName << "\"";
+
+	if(replyMarkup)
+		jsonify << ",\"reply_markup\": " << replyMarkup->toString();
+
+	jsonify << "}";
+
+	return jsonify.str();
+}
+
+std::string tgbot::methods::types::InlineQueryResultArticle::toString() const {
+	std::stringstream jsonify;
+	jsonify << "{ \"type\": \"" << type << "\", \"id\": \"" << id << "\""
+		<< ",\"title\": \"" << title << "\","
+		<< "\"input_message_content\": " << inputMessageContent.toString()
+		<< ",\"hide_url\": " << hideUrl;
+
+	if(replyMarkup)
+		jsonify << ",\"reply_markup\": " << replyMarkup->toString();
+	
+	if(url)
+		jsonify << ",\"url\": \"" << *(url.get()) << "\"";
+	
+	if(description)
+		jsonify << ",\"description\": \"" << *(description.get()) << "\"";
+	
+	if(thumbUrl)
+		jsonify << ",\"thumb_url\": \"" << *(thumbUrl.get()) << "\"";
+	
+	if(thumbWidth)
+		jsonify << ",\"thumb_width\": " << thumbWidth;
+
+	if(thumbHeight)
+		jsonify << ",\"thumb_height\": " << thumbHeight;
+
+	jsonify << "}";
+
+	return jsonify.str();
+}
+
+std::string tgbot::methods::types::InlineQueryResultContact::toString() const {
+	std::stringstream jsonify;
+	jsonify << "{ \"type\": \"" << type << "\", \"id\": \"" << id << "\""
+		<< ",\"phone_number\": \"" << phoneNumber << "\", \"first_name\": \""
+		<< firstName << "\"";
+
+	if(lastName)
+		jsonify << ",\"last_name\": \"" << *(lastName.get()) << "\"";
+
+	if(thumbUrl)
+		jsonify << ",\"thumb_url\": \"" << *(thumbUrl.get()) << "\"";
+
+	if(thumbWidth)
+		jsonify << ",\"thumb_width\": " << thumbWidth;
+
+	if(thumbHeight)
+		jsonify << ",\"thumb_height\": " << thumbHeight;
+
+	if(replyMarkup)
+		jsonify << ",\"reply_markup\": " << replyMarkup->toString();
+	 
+	if(inputMessageContent)
+		jsonify << ",\"input_message_content\": " << inputMessageContent->toString();
+
+	jsonify << "}";
+	
+	return jsonify.str();
+}
+
+std::string tgbot::methods::types::InlineQueryResultDocument::toString() const {
+
+}
+
+std::string tgbot::methods::types::InlineQueryResultGif::toString() const {
+
+}
+
+std::string tgbot::methods::types::InlineQueryResultLocation::toString() const {
+
+}
+
+std::string tgbot::methods::types::InlineQueryResultMpeg4Gif::toString() const {
+
+}
+
+std::string tgbot::methods::types::InlineQueryResultPhoto::toString() const {
+
+}
+
+std::string tgbot::methods::types::InlineQueryResultVenue::toString() const {
+
+}
+
+std::string tgbot::methods::types::InlineQueryResultVideo::toString() const {
+
+}
+
+std::string tgbot::methods::types::InlineQueryResultVoice::toString() const {
+
+}
+
+std::string tgbot::methods::types::InlineQueryResultCachedAudio::toString() const {
+
+}
+
+std::string tgbot::methods::types::InlineQueryResultCachedDocument::toString() const {
+
+}
+
+std::string tgbot::methods::types::InlineQueryResultCachedGif::toString() const {
+
+}
+
+std::string tgbot::methods::types::InlineQueryResultCachedMpeg4Gif::toString() const {
+
+}
+
+std::string tgbot::methods::types::InlineQueryResultCachedPhoto::toString() const {
+
+}
+
+std::string tgbot::methods::types::InlineQueryResultCachedSticker::toString() const {
+
+}
+
+std::string tgbot::methods::types::InlineQueryResultCachedVideo::toString() const {
+
+}
+
+std::string tgbot::methods::types::InlineQueryResultCachedVoice::toString() const {
+
+}
