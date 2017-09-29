@@ -14,12 +14,6 @@ namespace tgbot {
 
 		class Api {
 			public:
-				explicit Api(const std::string& token,
-						const std::string& useragent,
-						const std::vector<api_types::UpdateType>& allowedUpdates,
-						const int& timeout,
-						const int& limit);
-
 				api_types::Message sendMessage(const std::string& chatId, 
 						const std::string& text,
 						const types::ParseMode& = types::ParseMode::DEFAULT,
@@ -329,7 +323,14 @@ namespace tgbot {
 						const unsigned& limit = 100) const;
 
 			protected:
+				Api(const std::string& token,
+						const std::string& useragent,
+						const std::vector<api_types::UpdateType>& allowedUpdates,
+						const int& timeout,
+						const int& limit);
+				
 				std::vector<api_types::Update> getUpdates(void* c);
+			
 			private:
 				const std::string ua;
 				const std::string baseApi;

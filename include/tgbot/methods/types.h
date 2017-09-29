@@ -26,7 +26,7 @@ namespace tgbot {
 			constexpr char const* iqrTypeVoice   	= "voice";
 			
 			template <typename _Ty_Elem>
-				using Ptr = std::unique_ptr<_Ty_Elem>;
+				using Ptr = ::tgbot::types::Ptr<_Ty_Elem>;
 
 			using KeyboardButton = ::tgbot::types::KeyboardButton;
 			using CallbackGame = ::tgbot::types::CallbackGame;
