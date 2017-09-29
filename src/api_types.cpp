@@ -193,7 +193,7 @@ std::string tgbot::methods::types::InlineQueryResultArticle::toString() const {
 	std::stringstream jsonify;
 	jsonify << "{ \"type\": \"" << type << "\", \"id\": \"" << id << "\""
 		<< ",\"title\": \"" << title << "\","
-		<< "\"input_message_content\": " << inputMessageContent.toString()
+		<< "\"input_message_content\": " << inputMessageContent->toString()
 		<< ",\"hide_url\": " << hideUrl;
 
 	if(replyMarkup)

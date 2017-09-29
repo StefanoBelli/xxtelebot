@@ -129,6 +129,47 @@ namespace tgbot {
 			};
 
 			//
+			//InputMessageContent
+			//
+			struct InputMessageContent {
+				public:
+					virtual std::string toString() const = 0;
+			};
+
+			struct InputTextMessageContent : public InputMessageContent {
+				public:
+					std::string toString() const override;
+					std::string messageText;
+					ParseMode parseMode;
+					bool disableWebPagePreview : 1;
+			};
+
+			struct InputLocationMessageContent : public InputMessageContent {
+				public:
+					std::string toString() const override;
+					double latitude;
+					double longitude;
+			};
+
+			struct InputContactMessageContent : public InputMessageContent {
+				public:
+					std::string toString() const override;
+					std::string phoneNumber;
+					std::string firstName;
+					Ptr<std::string> lastName;
+			};
+
+			struct InputVenueMessageContent : public InputMessageContent {
+				public:
+					std::string toString() const override;
+					std::string title;
+					std::string address;
+					Ptr<std::string> foursquareId;
+					double latitude;
+					double longitude;
+			};
+
+			//
 			// InlineQueryResult
 			//
 			struct InlineQueryResult {
@@ -156,7 +197,7 @@ namespace tgbot {
 					std::string type;
 					std::string id;
 					std::string title;
-					InputMessageContent inputMessageContent;
+					Ptr<InputMessageContent> inputMessageContent;
 					Ptr<InlineKeyboardMarkup> replyMarkup;
 					Ptr<std::string> url;
 					Ptr<std::string> description;
@@ -412,47 +453,6 @@ namespace tgbot {
 					Ptr<std::string> caption;
 					Ptr<InputMessageContent> inputMessageContent;
 					Ptr<InlineKeyboardMarkup> replyMarkup;
-			};
-
-			//
-			//InputMessageContent
-			//
-			struct InputMessageContent {
-				public:
-					virtual std::string toString() const = 0;
-			};
-
-			struct InputTextMessageContent : public InputMessageContent {
-				public:
-					std::string toString() const override;
-					std::string messageText;
-					ParseMode parseMode;
-					bool disableWebPagePreview : 1;
-			};
-
-			struct InputLocationMessageContent : public InputMessageContent {
-				public:
-					std::string toString() const override;
-					double latitude;
-					double longitude;
-			};
-
-			struct InputContactMessageContent : public InputMessageContent {
-				public:
-					std::string toString() const override;
-					std::string phoneNumber;
-					std::string firstName;
-					Ptr<std::string> lastName;
-			};
-
-			struct InputVenueMessageContent : public InputMessageContent {
-				public:
-					std::string toString() const override;
-					std::string title;
-					std::string address;
-					Ptr<std::string> foursquareId;
-					double latitude;
-					double longitude;
 			};
 
 			struct LabeledPrice {
