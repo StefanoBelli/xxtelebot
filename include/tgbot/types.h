@@ -7,7 +7,7 @@
 #include "utils/matrix.h"
 
 namespace Json {
-    struct Value;
+	struct Value;
 }
 
 namespace tgbot {
@@ -33,29 +33,29 @@ namespace tgbot {
 			CALLBACK_QUERY,
 			SHIPPING_QUERY,
 			PRE_CHECKOUT_QUERY,
-            CHANNEL_POST
+			CHANNEL_POST
 		};
 
-        enum class ChatType {
-            PRIVATE,
-            GROUP,
-            SUPERGROUP,
-            CHANNEL
-        };
+		enum class ChatType {
+			PRIVATE,
+			GROUP,
+			SUPERGROUP,
+			CHANNEL
+		};
 
-        enum class MessageEntityType {
-        	MENTION,
-        	HASHTAG,
-        	BOT_COMMAND,
-        	URL,
-        	EMAIL,
-        	BOLD,
-        	ITALIC,
-        	CODE,
-        	PRE,
-        	TEXT_LINK,
-        	TEXT_MENTION
-        };
+		enum class MessageEntityType {
+			MENTION,
+			HASHTAG,
+			BOT_COMMAND,
+			URL,
+			EMAIL,
+			BOLD,
+			ITALIC,
+			CODE,
+			PRE,
+			TEXT_LINK,
+			TEXT_MENTION
+		};
 
 		struct User {
 			public:
@@ -98,7 +98,7 @@ namespace tgbot {
 
 		struct PhotoSize {
 			public:
-                PhotoSize() = default;
+				PhotoSize() = default;
 				explicit PhotoSize(const Json::Value &object);
 				std::string fileId;
 				int fileSize;

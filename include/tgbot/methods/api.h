@@ -328,9 +328,9 @@ namespace tgbot {
 						const std::vector<api_types::UpdateType>& allowedUpdates,
 						const int& timeout,
 						const int& limit);
-				
+
 				std::vector<api_types::Update> getUpdates(void* c);
-			
+
 			private:
 				const std::string ua;
 				const std::string baseApi;

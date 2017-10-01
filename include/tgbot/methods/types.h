@@ -12,19 +12,19 @@ namespace tgbot {
 		 */
 		namespace types {
 
-			constexpr char const* iqrTypeArticle 	= "article";
-			constexpr char const* iqrTypeDocument 	= "document";
-			constexpr char const* iqrTypeGif     	= "gif";
-			constexpr char const* iqrTypeMpeg4Gif 	= "mpeg4_gif";
-			constexpr char const* iqrTypePhoto  	= "photo";
-			constexpr char const* iqrTypeVideo  	= "video";
-			constexpr char const* iqrTypeAudio  	= "audio";
-			constexpr char const* iqrTypeLocation 	= "location";
-			constexpr char const* iqrTypeVenue  	= "venue";
-			constexpr char const* iqrTypeContact  	= "contact";
-			constexpr char const* iqrTypeGame   	= "game";
-			constexpr char const* iqrTypeVoice   	= "voice";
-			
+			constexpr char const* iqrTypeArticle	= "article";
+			constexpr char const* iqrTypeDocument	= "document";
+			constexpr char const* iqrTypeGif		= "gif";
+			constexpr char const* iqrTypeMpeg4Gif	= "mpeg4_gif";
+			constexpr char const* iqrTypePhoto		= "photo";
+			constexpr char const* iqrTypeVideo		= "video";
+			constexpr char const* iqrTypeAudio		= "audio";
+			constexpr char const* iqrTypeLocation	= "location";
+			constexpr char const* iqrTypeVenue		= "venue";
+			constexpr char const* iqrTypeContact	= "contact";
+			constexpr char const* iqrTypeGame		= "game";
+			constexpr char const* iqrTypeVoice		= "voice";
+
 			template <typename _Ty_Elem>
 				using Ptr = ::tgbot::types::Ptr<_Ty_Elem>;
 
@@ -93,14 +93,14 @@ namespace tgbot {
 			//
 			struct ReplyMarkup {
 				public:
-                    //Not explicit constructor
-                    ReplyMarkup() = default;
-                    ReplyMarkup(const char* customMarkup);
-                    ReplyMarkup(const std::string& customMarkup);
+					//Not explicit constructor
+					ReplyMarkup() = default;
+					ReplyMarkup(const char* customMarkup);
+					ReplyMarkup(const std::string& customMarkup);
 
 					virtual std::string toString() const;
-                private:
-                    const std::string& what { "" };
+				private:
+					const std::string& what { "" };
 			};
 
 			struct InlineKeyboardMarkup : public ReplyMarkup {
@@ -135,14 +135,14 @@ namespace tgbot {
 			//
 			struct InputMessageContent {
 				public:
-                    //Not explicit constructor
-                    InputMessageContent() = default;
-                    InputMessageContent(const char* customMarkup);
-                    InputMessageContent(const std::string& customMarkup);
+					//Not explicit constructor
+					InputMessageContent() = default;
+					InputMessageContent(const char* customMarkup);
+					InputMessageContent(const std::string& customMarkup);
 
 					virtual std::string toString() const;
-                private:
-                    const std::string what { "" };
+				private:
+					const std::string what { "" };
 			};
 
 			struct InputTextMessageContent : public InputMessageContent {
@@ -182,15 +182,15 @@ namespace tgbot {
 			// InlineQueryResult
 			//
 			struct InlineQueryResult {
-                public:
-                    //Not explicit constructor
-                    InlineQueryResult() = default;
-                    InlineQueryResult(const char* customMarkup);
-                    InlineQueryResult(const std::string& customMarkup);
+				public:
+					//Not explicit constructor
+					InlineQueryResult() = default;
+					InlineQueryResult(const char* customMarkup);
+					InlineQueryResult(const std::string& customMarkup);
 
-                    virtual std::string toString() const;
-                private:
-                    const std::string what { "" };
+					virtual std::string toString() const;
+				private:
+					const std::string what { "" };
 			};
 
 			struct InlineQueryResultAudio : public InlineQueryResult {
@@ -200,7 +200,7 @@ namespace tgbot {
 					std::string id;
 					std::string audioUrl;
 					std::string title;
-                    InputMessageContent inputMessageContent;
+					InputMessageContent inputMessageContent;
 					Ptr<std::string> caption;
 					Ptr<std::string> performer;
 					Ptr<InlineKeyboardMarkup> replyMarkup;
