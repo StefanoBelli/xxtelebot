@@ -307,42 +307,201 @@ std::string tgbot::methods::types::InlineQueryResultDocument::toString() const {
 
 std::string tgbot::methods::types::InlineQueryResultGif::toString() const {
 	std::stringstream jsonify;
+	jsonify << "{ \"type\": \"" << type << "\", \"id\": \"" << id << "\", \"gif_url\": \""
+			<< gifUrl << "\", \"thumb_url\": \"" << thumbUrl << "\"";
+
+	if(gifWidth)
+		jsonify << ",\"gif_width\": " << gifWidth;
+
+	if(gifHeight)
+		jsonify << ",\"gif_height\": " << gifHeight;
+
+	if(gifDuration)
+		jsonify << ",\"gif_duration\": " << gifDuration;
+
+	if(title)
+		jsonify << ",\"title\": \"" << *(title.get()) << "\"";
+
+	if(caption)
+		jsonify << ",\"title\": \"" << *(caption.get()) << "\"";
+	
+	if(replyMarkup)
+		jsonify << ",\"reply_markup\": " << replyMarkup->toString();
+
+	if(inputMessageContent)
+		jsonify << ",\"input_message_content\": " << inputMessageContent->toString();
+
+	jsonify << "}";
 
 	return jsonify.str();
 }
 
 std::string tgbot::methods::types::InlineQueryResultLocation::toString() const {
 	std::stringstream jsonify;
+	jsonify << "{ \"type\": \"" << type << "\", \"id\": \"" << id << "\", \"title\": \""
+			<< title << "\", \"latitude\": " << latitude << ", \"longitude\": " << longitude;
+
+	if(thumbWidth)
+		jsonify << ",\"thumb_width\": " << thumbWidth;
+
+	if(thumbHeight)
+		jsonify << ",\"thumb_height\": " << thumbHeight;
+
+	if(thumbUrl)
+		jsonify << ",\"thumb_url\": \"" << *(thumbUrl.get()) << "\"";
+	
+	if(replyMarkup)
+		jsonify << ",\"reply_markup\": " << replyMarkup->toString();
+
+	if(inputMessageContent)
+		jsonify << ",\"input_message_content\": " << inputMessageContent->toString();
+
+	jsonify << "}";
 
 	return jsonify.str();
 }
 
 std::string tgbot::methods::types::InlineQueryResultMpeg4Gif::toString() const {
 	std::stringstream jsonify;
+	jsonify << "{ \"type\": \"" << type << "\", \"id\": \"" << id << "\", \"mpeg4_url\": \""
+			<< mpeg4Url << "\", \"thumb_url\": \"" << thumbUrl << "\"";
+	
+	if(title)
+		jsonify << ",\"title\": \"" << *(title.get()) << "\"";
+
+	if(caption)
+		jsonify << ",\"caption\": \"" << *(caption.get()) << "\"";
+
+	if(replyMarkup)
+		jsonify << ",\"reply_markup\": " << replyMarkup->toString();
+
+	if(inputMessageContent)
+		jsonify << ",\"input_message_content\": " << inputMessageContent->toString();
+
+	if(mpeg4Width)
+		jsonify << ",\"mpeg4_width\": " << mpeg4Width;
+	
+	if(mpeg4Height)
+		jsonify << ",\"mpeg4_height\": " << mpeg4Height;
+
+	if(mpeg4Duration)
+		jsonify << ",\"mpeg4_duration\": " << mpeg4Duration;
+
+	jsonify << "}";
 
 	return jsonify.str();
 }
 
 std::string tgbot::methods::types::InlineQueryResultPhoto::toString() const {
 	std::stringstream jsonify;
+	jsonify << "{ \"type\": \"" << type << "\", \"id\": \"" << id << "\", \"photo_url\": \""
+			<< photoUrl << "\", \"thumb_url\": \"" << thumbUrl << "\"";
+
+	if(title)
+		jsonify << ",\"title\": \"" << *(title.get()) << "\"";
+
+	if(description)
+		jsonify << ",\"description\": \"" << *(description.get()) << "\"";
+
+	if(caption)
+		jsonify << ",\"caption\": \"" << *(caption.get()) << "\"";
+	
+	if(replyMarkup)
+		jsonify << ",\"reply_markup\": " << replyMarkup->toString();
+
+	if(inputMessageContent)
+		jsonify << ",\"input_message_content\": " << inputMessageContent->toString();
+
+	if(photoWidth)
+		jsonify << ",\"photo_width\": " << photoWidth;
+
+	if(photoHeight)
+		jsonify << ",\"photo_height\": " << photoHeight;
+
+	jsonify << "}";
 
 	return jsonify.str();
 }
 
 std::string tgbot::methods::types::InlineQueryResultVenue::toString() const {
 	std::stringstream jsonify;
+	jsonify << "{ \"type\": \"" << type << "\", \"id\": \"" << id << "\", \"title\": \""
+			<< title << "\", \"latitude\": " << latitude << ", \"longitude\": " << longitude
+			<< ", \"address\": \"" << address << "\"";
+
+	if(thumbWidth)
+		jsonify << ",\"thumb_width\": " << thumbWidth;
+
+	if(thumbHeight)
+		jsonify << ",\"thumb_height\": " << thumbHeight;
+
+	if(thumbUrl)
+		jsonify << ",\"thumb_url\": \"" << *(thumbUrl.get()) << "\"";
+	
+	if(foursquareId)
+		jsonify << ",\"foursquare_id\": \"" << *(foursquareId.get()) << "\"";
+	
+	if(replyMarkup)
+		jsonify << ",\"reply_markup\": " << replyMarkup->toString();
+
+	if(inputMessageContent)
+		jsonify << ",\"input_message_content\": " << inputMessageContent->toString();
+	
+	jsonify << "}";
 
 	return jsonify.str();
 }
 
 std::string tgbot::methods::types::InlineQueryResultVideo::toString() const {
 	std::stringstream jsonify;
+	jsonify << "{ \"type\": \"" << type << "\", \"id\": \"" << id << "\", \"video_url\": \""
+			<< videoUrl << "\", \"thumb_url\": \"" << thumbUrl << "\", \"title\": \"" << title
+			<< "\", \"mime_type\": \"" << mimeType << "\"";
+	
+	if(caption)
+		jsonify << ",\"caption\": \"" << *(caption.get()) << "\"";
+	
+	if(description)
+		jsonify << ",\"description\": \"" << *(description.get()) << "\"";
+
+	if(replyMarkup)
+		jsonify << ",\"reply_markup\": " << replyMarkup->toString();
+
+	if(inputMessageContent)
+		jsonify << ",\"input_message_content\": " << inputMessageContent->toString();
+	
+	if(videoWidth)
+		jsonify << ",\"video_width\": " << videoWidth;
+	
+	if(videoHeight)
+		jsonify << ",\"video_height\": " << videoHeight;
+	
+	if(videoDuration)
+		jsonify << ",\"video_duration\": " << videoDuration;
+	
+	jsonify << "}";
 
 	return jsonify.str();
 }
 
 std::string tgbot::methods::types::InlineQueryResultVoice::toString() const {
 	std::stringstream jsonify;
+	jsonify << "{ \"type\": \"" << type << "\", \"id\": \"" << id << "\", \"title\": \""
+			<< title << "\", \"voice_url\": \"" << voiceUrl << "\"";
+
+	if(caption)
+		jsonify << ",\"caption\": \"" << *(caption.get()) << "\"";
+	
+	if(voiceDuration)
+		jsonify << ",\"voice_duration\": " << voiceDuration;
+
+	if(replyMarkup)
+		jsonify << ",\"reply_markup\": " << replyMarkup->toString();
+
+	if(inputMessageContent)
+		jsonify << ",\"input_message_content\": " << inputMessageContent->toString();
+	
+	jsonify << "}";
 
 	return jsonify.str();
 }

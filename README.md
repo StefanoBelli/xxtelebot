@@ -117,29 +117,29 @@ May take long time... :)
 
 	* [x]  InlineQueryResult 
 
-	* [ ]  InlineQueryResultAudio 
+	* [x]  InlineQueryResultAudio 
 
-	* [ ]  InlineQueryResultArticle 
+	* [x]  InlineQueryResultArticle 
 
-	* [ ]  InlineQueryResultContact 
+	* [x]  InlineQueryResultContact 
 
-	* [ ]  InlineQueryResultGame 
+	* [x]  InlineQueryResultGame 
 
-	* [ ]  InlineQueryResultDocument 
+	* [x]  InlineQueryResultDocument 
 
-	* [ ]  InlineQueryResultGif 
+	* [x]  InlineQueryResultGif 
 
-	* [ ]  InlineQueryResultLocation 
+	* [x]  InlineQueryResultLocation 
 
-	* [ ]  InlineQueryResultMpeg4Gif 
+	* [x]  InlineQueryResultMpeg4Gif 
 
-	* [ ]  InlineQueryResultPhoto 
+	* [x]  InlineQueryResultPhoto 
 
-	* [ ]  InlineQueryResultVenue 
+	* [x]  InlineQueryResultVenue 
 
-	* [ ]  InlineQueryResultVideo 
+	* [x]  InlineQueryResultVideo 
 
-	* [ ]  InlineQueryResultVoice 
+	* [x]  InlineQueryResultVoice 
 
 	* [ ]  InlineQueryResultCachedAudio 
 
