@@ -33,7 +33,7 @@ namespace tgbot {
 			UpdateCallback<types::PreCheckoutQuery> preCheckoutQueryCallback;
 			UpdateCallback<types::Message> editedMessageCallback;
 			UpdateCallback<types::Message> editedChannelPostCallback;
-            UpdateCallback<types::Message> channelPostCallback;
+			UpdateCallback<types::Message> channelPostCallback;
 
 		public:
 			/*!
@@ -90,8 +90,8 @@ namespace tgbot {
 			editedMessageCallback = callback;
 		else if(which == types::UpdateType::EDITED_CHANNEL_POST)
 			editedChannelPostCallback = callback;
-        else if(which == types::UpdateType::CHANNEL_POST)
-            channelPostCallback = callback;
+		else if(which == types::UpdateType::CHANNEL_POST)
+			channelPostCallback = callback;
 	}
 
 }
