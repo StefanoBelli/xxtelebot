@@ -93,12 +93,14 @@ namespace tgbot {
 			//
 			struct ReplyMarkup {
 				public:
-					virtual std::string toString() const = 0;
-			};
-			
-			struct EmptyReplyMarkup : public ReplyMarkup {
-				public:
-					std::string toString() const override;
+                    //Not explicit constructor
+                    ReplyMarkup() = default;
+                    ReplyMarkup(const char* customMarkup);
+                    ReplyMarkup(const std::string& customMarkup);
+
+					virtual std::string toString() const;
+                private:
+                    const std::string& what { "" };
 			};
 
 			struct InlineKeyboardMarkup : public ReplyMarkup {
@@ -133,7 +135,14 @@ namespace tgbot {
 			//
 			struct InputMessageContent {
 				public:
-					virtual std::string toString() const = 0;
+                    //Not explicit constructor
+                    InputMessageContent() = default;
+                    InputMessageContent(const char* customMarkup);
+                    InputMessageContent(const std::string& customMarkup);
+
+					virtual std::string toString() const;
+                private:
+                    const std::string what { "" };
 			};
 
 			struct InputTextMessageContent : public InputMessageContent {
@@ -173,8 +182,15 @@ namespace tgbot {
 			// InlineQueryResult
 			//
 			struct InlineQueryResult {
-				public:
-					virtual std::string toString() const = 0;
+                public:
+                    //Not explicit constructor
+                    InlineQueryResult() = default;
+                    InlineQueryResult(const char* customMarkup);
+                    InlineQueryResult(const std::string& customMarkup);
+
+                    virtual std::string toString() const;
+                private:
+                    const std::string what { "" };
 			};
 
 			struct InlineQueryResultAudio : public InlineQueryResult {
@@ -184,10 +200,10 @@ namespace tgbot {
 					std::string id;
 					std::string audioUrl;
 					std::string title;
+                    InputMessageContent inputMessageContent;
 					Ptr<std::string> caption;
 					Ptr<std::string> performer;
 					Ptr<InlineKeyboardMarkup> replyMarkup;
-					Ptr<InputMessageContent> inputMessageContent;
 					int audioDuration;
 			};
 
