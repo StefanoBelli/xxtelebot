@@ -285,7 +285,7 @@ namespace tgbot {
 		struct Message {
 			public:
 				explicit Message(const Json::Value &object);
-				Chat chat;
+				Chat chat; //guranteed
 				Ptr<User> from;
 				Ptr<User> forwardFrom;
 				Ptr<Chat> forwardFromChat;
@@ -316,8 +316,8 @@ namespace tgbot {
 				int forwardFromMessageId;
 				int forwardDate;
 				int editDate;
-				int messageId;
-				int date;
+				int messageId; //guranteed
+				int date; //guranteed
 				int migrateToChatId;
 				int migrateFromChatId;
 				bool deleteChatPhoto : 1;

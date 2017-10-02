@@ -13,41 +13,41 @@ tgbot::types::Update::Update(const Json::Value &object) :
 	updateId(object.get("update_id", "").asInt()) {
 
 		if (object.isMember("message")) {
-			message = Ptr<Message>(
+			this->message = Ptr<Message>(
 					new Message(object.get("message", "")));
-			updateType = UpdateType::MESSAGE;
+			this->updateType = UpdateType::MESSAGE;
 		} else if (object.isMember("edited_message")) {
-			editedMessage = Ptr<Message>(
+			this->editedMessage = Ptr<Message>(
 					new Message(object.get("edited_message", "")));
-			updateType = UpdateType::EDITED_MESSAGE;
+			this->updateType = UpdateType::EDITED_MESSAGE;
 		} else if (object.isMember("callback_query")) {
-			callbackQuery = Ptr<CallbackQuery>(
+			this->callbackQuery = Ptr<CallbackQuery>(
 					new CallbackQuery(object.get("callback_query", "")));
-			updateType = UpdateType::CALLBACK_QUERY;
+			this->updateType = UpdateType::CALLBACK_QUERY;
 		} else if (object.isMember("chosen_inline_result")) {
-			chosenInlineResult = Ptr<ChosenInlineResult>(
+			this->chosenInlineResult = Ptr<ChosenInlineResult>(
 					new ChosenInlineResult(object.get("chosen_inline_result", "")));
-			updateType = UpdateType::CHOSEN_INLINE_RESULT;
+			this->updateType = UpdateType::CHOSEN_INLINE_RESULT;
 		} else if (object.isMember("inline_query")) {
-			inlineQuery = Ptr<InlineQuery>(
+			this->inlineQuery = Ptr<InlineQuery>(
 					new InlineQuery(object.get("inline_query", "")));
-			updateType = UpdateType::INLINE_QUERY;
+			this->updateType = UpdateType::INLINE_QUERY;
 		} else if (object.isMember("shipping_query")) {
-			shippingQuery = Ptr<ShippingQuery>(
+			this->shippingQuery = Ptr<ShippingQuery>(
 					new ShippingQuery(object.get("shipping_query", "")));
-			updateType = UpdateType::SHIPPING_QUERY;
+			this->updateType = UpdateType::SHIPPING_QUERY;
 		} else if (object.isMember("pre_checkout_query")) {
-			preCheckoutQuery = Ptr<PreCheckoutQuery>(
+			this->preCheckoutQuery = Ptr<PreCheckoutQuery>(
 					new PreCheckoutQuery(object.get("pre_checkout_query", "")));
-			updateType = UpdateType::PRE_CHECKOUT_QUERY;
+			this->updateType = UpdateType::PRE_CHECKOUT_QUERY;
 		} else if (object.isMember("edited_channel_post")) {
-			editedChannelPost = Ptr<Message>(
+			this->editedChannelPost = Ptr<Message>(
 					new Message(object.get("edited_channel_post", "")));
-			updateType = UpdateType::EDITED_CHANNEL_POST;
+			this->updateType = UpdateType::EDITED_CHANNEL_POST;
 		} else if (object.isMember("channel_post")) {
-			channelPost = Ptr<Message>(
+			this->channelPost = Ptr<Message>(
 					new Message(object.get("channel_post", "")));
-			updateType = UpdateType::CHANNEL_POST;
+			this->updateType = UpdateType::CHANNEL_POST;
 		}
 	}
 
@@ -56,6 +56,156 @@ tgbot::types::Message::Message(const Json::Value &object) :
 	messageId(object.get("message_id", "").asInt()),
 	date(object.get("date", "").asInt()) {
 
+		if(object.isMember("forward_from_message_id"))
+			this->forwardFromMessageId = object.get("forward_from_message_id","").asInt();
+
+		if(object.isMember("forward_date"))
+			this->forwardDate = object.get("forward_date","").asInt();
+
+		if(object.isMember("edit_date"))
+			this->editDate = object.get("edit_date","").asInt();
+
+		if(object.isMember("migrate_to_chat_id"))
+			this->migrateToChatId = object.get("migrate_to_chat_id","").asInt();
+
+		if(object.isMember("migrate_from_chat_id"))
+			this->migrateFromChatId = object.get("migrate_from_chat_id","").asInt();
+
+		if(object.isMember("delete_chat_photo"))
+			this->deleteChatPhoto = object.get("delete_chat_photo","").asBool();
+
+		if(object.isMember("group_chat_created"))
+			this->groupChatCreated = object.get("group_chat_created","").asBool();
+
+		if(object.isMember("supergroup_chat_created"))
+			this->supergroupChatCreated = object.get("supergroup_chat_created","").asBool();
+
+		if(object.isMember("channel_chat_created"))
+			this->channelChatCreated = object.get("channel_chat_created","").asBool();
+
+		if(object.isMember("from"))
+			this->from = Ptr<User>(
+					new User(object.get("from","")));
+
+		if(object.isMember("forward_from"))
+			this->forwardFrom = Ptr<User>(
+					new User(object.get("forward_from","")));
+
+		if(object.isMember("forward_from_chat"))
+			this->forwardFromChat = Ptr<Chat>(
+					new Chat(object.get("from","")));
+
+		if(object.isMember("forward_signature"))
+			this->forwardSignature = Ptr<std::string>(
+					new std::string(object.get("forward_signature","").asCString()));
+
+		if(object.isMember("reply_to_message"))
+			this->replyToMessage = Ptr<Message>(
+					new Message(object.get("reply_to_message","")));
+
+		if(object.isMember("author_signature"))
+			this->authorSignature = Ptr<std::string>(
+					new std::string(object.get("author_signature","").asCString()));
+
+		if(object.isMember("text"))
+			this->text = Ptr<std::string>(
+					new std::string(object.get("text","").asCString()));
+
+		if(object.isMember("entities")) {
+			this->entities = Ptr<std::vector<MessageEntity>>(
+					new std::vector<MessageEntity> {});
+
+			for(auto const& singleEntity : object.get("entities",""))
+				this->entities->emplace_back(singleEntity);
+		}
+
+		if(object.isMember("audio")) 
+			this->audio = Ptr<Audio>(
+					new Audio(object.get("audio","")));
+
+		if(object.isMember("document"))
+			this->document = Ptr<Document>(
+					new Document(object.get("document","")));
+
+		if(object.isMember("game"))
+			this->game = Ptr<Game>(
+					new Game(object.get("game","")));
+
+		if(object.isMember("photo")) {
+			this->photo = Ptr<std::vector<PhotoSize>>(
+					new std::vector<PhotoSize> {});
+
+			for(auto const& singlePhoto : object.get("photo",""))
+				this->photo->emplace_back(singlePhoto);
+		}
+
+		if(object.isMember("sticker"))
+			this->sticker = Ptr<Sticker>(
+					new Sticker(object.get("sticker","")));
+
+		if(object.isMember("video"))
+			this->video = Ptr<Video>(
+					new Video(object.get("video","")));
+
+		if(object.isMember("video_note"))
+			this->videoNote = Ptr<VideoNote>(
+					new VideoNote(object.get("video_note","")));
+
+		if(object.isMember("caption"))
+			this->caption = Ptr<std::string>(
+					new std::string(object.get("caption","").asCString()));
+
+		if(object.isMember("contact"))
+			this->contact = Ptr<Contact>(
+					new Contact(object.get("contact","")));
+
+		if(object.isMember("location"))
+			this->location = Ptr<Location>(
+					new Location(object.get("location","")));
+
+		if(object.isMember("venue"))
+			this->venue = Ptr<Venue>(
+					new Venue(object.get("venue","")));
+
+		if(object.isMember("new_chat_members")) {
+			this->newChatMembers = Ptr<std::vector<User>>(
+					new std::vector<User> {});
+
+			for(auto const& singleUser : object.get("new_chat_members",""))
+				this->newChatMembers->emplace_back(singleUser);
+		}
+
+		if(object.isMember("left_chat_members")) {
+			this->leftChatMembers = Ptr<std::vector<User>>(
+					new std::vector<User> {});
+
+			for(auto const& singleUser : object.get("left_chat_members",""))
+				this->newChatMembers->emplace_back(singleUser);
+		}
+
+		if(object.isMember("new_chat_title"))
+			this->newChatTitle = Ptr<std::string>(
+					new std::string(object.get("new_chat_title","").asCString()));
+
+		if(object.isMember("new_chat_photo")) {
+			this->newChatPhoto = Ptr<std::vector<PhotoSize>>(
+					new std::vector<PhotoSize> {});
+
+			for(auto const& singlePhoto : object.get("new_chat_photo",""))
+				this->photo->emplace_back(singlePhoto);
+		}
+
+		if(object.isMember("pinned_message"))
+			this->pinnedMessage = Ptr<Message>(
+					new Message(object.get("pinned_message","")));
+
+		if(object.isMember("invoice"))
+			this->invoice = Ptr<Invoice>(
+					new Invoice(object.get("invoice","")));
+
+		if(object.isMember("successful_payment"))
+			this->successfulPayment = Ptr<SuccessfulPayment>(
+					new SuccessfulPayment(object.get("successful_payment","")));
 	}
 
 tgbot::types::CallbackQuery::CallbackQuery(const Json::Value &object) :
