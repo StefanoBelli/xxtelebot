@@ -74,7 +74,7 @@ UPDATE(Oct 2, 2017): Implementations done, unit tests **NEEDED** before continui
 	
 	* [x]	Chat
 	
-	* xx]	Message
+	* [x]	Message
 	
 	* [x]	InlineQuery
 	
