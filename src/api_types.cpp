@@ -508,6 +508,19 @@ std::string tgbot::methods::types::InlineQueryResultVoice::toString() const {
 
 std::string tgbot::methods::types::InlineQueryResultCachedAudio::toString() const {
 	std::stringstream jsonify;
+	jsonify << "{ \"type\": \"" << type << "\", \"id\": \"" << id << "\", \"audio_file_id\": \""
+			<< audioFileId << "\"";
+
+	if(caption)
+		jsonify << ",\"caption\": \"" << *(caption.get()) << "\"";
+
+	if(inputMessageContent)
+		jsonify << ",\"input_message_content\": " << inputMessageContent->toString();
+
+	if(replyMarkup)
+		jsonify << ",\"reply_markup\": " << replyMarkup->toString();
+
+	jsonify << "}";
 
 	return jsonify.str();
 }
@@ -515,41 +528,150 @@ std::string tgbot::methods::types::InlineQueryResultCachedAudio::toString() cons
 std::string tgbot::methods::types::InlineQueryResultCachedDocument::toString() const {
 	std::stringstream jsonify;
 
+	jsonify << "{ \"type\": \"" << type << "\", \"id\": \"" << id << "\", \"title\": \""
+			<< title << "\", \"document_file_id\": \"" << documentFileId << "\"";
+
+	if(caption)
+		jsonify << ",\"caption\": \"" << *(caption.get()) << "\"";
+	
+	if(description)
+		jsonify << ",\"description\": \"" << *(description.get()) << "\"";
+	
+	if(inputMessageContent)
+		jsonify << ",\"input_message_content\": " << inputMessageContent->toString();
+
+	if(replyMarkup)
+		jsonify << ",\"reply_markup\": " << replyMarkup->toString();
+
+	jsonify << "}";
+	
 	return jsonify.str();
 }
 
 std::string tgbot::methods::types::InlineQueryResultCachedGif::toString() const {
 	std::stringstream jsonify;
+	jsonify << "{ \"type\": \"" << type << "\", \"id\": \"" << id 
+		    << "\", \"gif_file_id\": \"" << gifFileId << "\"";
+	
+	if(caption)
+		jsonify << ",\"caption\": \"" << *(caption.get()) << "\"";
+	
+	if(title)
+		jsonify << ",\"title\": \"" << *(title.get()) << "\"";
+	
+	if(inputMessageContent)
+		jsonify << ",\"input_message_content\": " << inputMessageContent->toString();
+
+	if(replyMarkup)
+		jsonify << ",\"reply_markup\": " << replyMarkup->toString();
+
+	jsonify << "}";
 
 	return jsonify.str();
 }
 
 std::string tgbot::methods::types::InlineQueryResultCachedMpeg4Gif::toString() const {
 	std::stringstream jsonify;
+	jsonify << "{ \"type\": \"" << type << "\", \"id\": \"" << id 
+		    << "\", \"mpeg4_file_id\": \"" << mpeg4FileId << "\"";
+	
+	if(caption)
+		jsonify << ",\"caption\": \"" << *(caption.get()) << "\"";
+	
+	if(title)
+		jsonify << ",\"title\": \"" << *(title.get()) << "\"";
+	
+	if(inputMessageContent)
+		jsonify << ",\"input_message_content\": " << inputMessageContent->toString();
+
+	if(replyMarkup)
+		jsonify << ",\"reply_markup\": " << replyMarkup->toString();
+
+	jsonify << "}";
 
 	return jsonify.str();
 }
 
 std::string tgbot::methods::types::InlineQueryResultCachedPhoto::toString() const {
 	std::stringstream jsonify;
+	jsonify << "{ \"type\": \"" << type << "\", \"id\": \"" << id 
+		    << "\", \"photo_file_id\": \"" << photoFileId << "\"";
 
+	if(title)
+		jsonify << ",\"title\": \"" << *(title.get()) << "\"";
+	
+	if(description)
+		jsonify << ",\"description\": \"" << *(description.get()) << "\"";
+
+	if(caption)
+		jsonify << ",\"caption\": \"" << *(caption.get()) << "\"";
+	
+	if(inputMessageContent)
+		jsonify << ",\"input_message_content\": " << inputMessageContent->toString();
+
+	if(replyMarkup)
+		jsonify << ",\"reply_markup\": " << replyMarkup->toString();
+
+	jsonify << "}";
+	
 	return jsonify.str();
 }
 
 std::string tgbot::methods::types::InlineQueryResultCachedSticker::toString() const {
 	std::stringstream jsonify;
+	jsonify << "{ \"type\": \"" << type << "\", \"id\": \"" << id 
+		    << "\", \"sticker_file_id\": \"" << stickerFileId << "\"";
 
+	if(inputMessageContent)
+		jsonify << ",\"input_message_content\": " << inputMessageContent->toString();
+
+	if(replyMarkup)
+		jsonify << ",\"reply_markup\": " << replyMarkup->toString();
+
+	jsonify << "}";
+	
 	return jsonify.str();
 }
 
 std::string tgbot::methods::types::InlineQueryResultCachedVideo::toString() const {
 	std::stringstream jsonify;
+	jsonify << "{ \"type\": \"" << type << "\", \"id\": \"" << id 
+		    << "\", \"video_file_id\": \"" << videoFileId << "\","
+		    << "\"title\": \"" << title << "\"";
 
+	if(description)
+		jsonify << ",\"description\": \"" << *(description.get()) << "\"";
+
+	if(caption)
+		jsonify << ",\"caption\": \"" << *(caption.get()) << "\"";
+	
+	if(inputMessageContent)
+		jsonify << ",\"input_message_content\": " << inputMessageContent->toString();
+
+	if(replyMarkup)
+		jsonify << ",\"reply_markup\": " << replyMarkup->toString();
+
+	jsonify << "}";
+	
 	return jsonify.str();
 }
 
 std::string tgbot::methods::types::InlineQueryResultCachedVoice::toString() const {
 	std::stringstream jsonify;
+	jsonify << "{ \"type\": \"" << type << "\", \"id\": \"" << id 
+		    << "\", \"voice_file_id\": \"" << voiceFileId << "\","
+		    << "\"title\": \"" << title << "\"";
 
+	if(caption)
+		jsonify << ",\"caption\": \"" << *(caption.get()) << "\"";
+	
+	if(inputMessageContent)
+		jsonify << ",\"input_message_content\": " << inputMessageContent->toString();
+
+	if(replyMarkup)
+		jsonify << ",\"reply_markup\": " << replyMarkup->toString();
+
+	jsonify << "}";
+	
 	return jsonify.str();
 }

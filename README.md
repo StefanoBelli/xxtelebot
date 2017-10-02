@@ -143,22 +143,22 @@ May take long time... :)
 	* [x]  InlineQueryResultVideo 
 
 	* [x]  InlineQueryResultVoice 
+	
+	* [x]  InlineQueryResultCachedAudio 
 
-	* [ ]  InlineQueryResultCachedAudio 
+	* [x]  InlineQueryResultCachedDocument 
 
-	* [ ]  InlineQueryResultCachedDocument 
+	* [x]  InlineQueryResultCachedGif 
 
-	* [ ]  InlineQueryResultCachedGif 
+	* [x]  InlineQueryResultCachedMpeg4Gif 
 
-	* [ ]  InlineQueryResultCachedMpeg4Gif 
+	* [x]  InlineQueryResultCachedPhoto 
 
-	* [ ]  InlineQueryResultCachedPhoto 
+	* [x]  InlineQueryResultCachedSticker 
 
-	* [ ]  InlineQueryResultCachedSticker 
+	* [x]  InlineQueryResultCachedVideo 
 
-	* [ ]  InlineQueryResultCachedVideo 
-
-	* [ ]  InlineQueryResultCachedVoice 
+	* [x]  InlineQueryResultCachedVoice 
 
 	* [x]  InputMessageContent 
 
