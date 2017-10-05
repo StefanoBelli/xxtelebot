@@ -54,7 +54,7 @@ tgbot::methods::Api::Api(const std::string &token,
 			}
 		}
 
-		std::string &req = fullApiRequest.str();
+		std::string &&req = fullApiRequest.str();
 		char &endpos = req.at(req.size() - 1);
 		if (endpos == ',')
 			endpos = ']';
