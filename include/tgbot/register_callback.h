@@ -20,7 +20,7 @@ namespace tgbot {
 	 * @brief refer to RegisterCallback::callback function
 	 */
 	template <typename TypeUpdate>
-		using UpdateCallback = std::function<void(const TypeUpdate&, const Bot&)>;
+		using UpdateCallback = std::function<void(const TypeUpdate, const Bot&)>;
 
 	class RegisterCallback {
 		protected:
