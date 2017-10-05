@@ -48,13 +48,13 @@ tgbot::methods::Api::Api(const std::string &token,
 						fullApiRequest << "\"edited_message\",";
 						break;
 					case api_types::UpdateType::CHANNEL_POST:
-						fullApiRequest << "\"channel_post\"";
+						fullApiRequest << "\"channel_post\",";
 						break;
 				}
 			}
 		}
 
-		std::string req = fullApiRequest.str();
+		std::string &req = fullApiRequest.str();
 		char &endpos = req.at(req.size() - 1);
 		if (endpos == ',')
 			endpos = ']';
