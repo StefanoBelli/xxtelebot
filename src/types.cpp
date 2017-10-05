@@ -521,16 +521,17 @@ tgbot::types::Contact::Contact(const Json::Value &object) :
 tgbot::types::Location::Location(const Json::Value &object) :
 	longitude(object.get("longitude", "").asCString()),
 	latitude(object.get("latitude", "").asCString()) {}
-
-	tgbot::types::Venue::Venue(const Json::Value &object) :
-		location(object.get("location", "")),
-		title(object.get("title", "").asCString()),
-		address(object.get("address", "").asCString()) {
-
-			if (object.isMember("foursquare_id"))
-				this->fourSquareId = Ptr<std::string>(
-						new std::string(object.get("foursquare_id", "").asCString()));
-		}
+	
+	
+tgbot::types::Venue::Venue(const Json::Value &object) :
+	location(object.get("location", "")),
+	title(object.get("title", "").asCString()),
+	address(object.get("address", "").asCString()) {
+		
+	if (object.isMember("foursquare_id"))
+			this->fourSquareId = Ptr<std::string>(
+				new std::string(object.get("foursquare_id", "").asCString()));
+	}
 
 tgbot::types::Invoice::Invoice(const Json::Value &object) :
 	title(object.get("title", "").asCString()),
@@ -690,4 +691,23 @@ tgbot::types::ChatMember::ChatMember(const Json::Value &object) :
 
 		if (object.isMember("can_add_web_page_previews"))
 			this->canAddWebPagePreviews = object.get("can_add_web_page_previews", "").asBool();
+	}
+
+tgbot::types::Animation::Animation(const Json::Value& object) :
+	fileId(object.get("file_id","").asCString()) {
+
+		if(object.isMember("file_size"))
+			this->fileSize = object.get("file_size","").asInt();
+
+		if(object.isMember("thumb"))
+			this->thumb = Ptr<PhotoSize>(
+					new PhotoSize(object.get("photo_size","")));
+
+		if(object.isMember("file_name"))
+			this->fileName = Ptr<std::string>(
+					new std::string(object.get("file_name","").asCString()));
+
+		if(object.isMember("mime_type"))
+			this->mimeType = Ptr<std::string>(
+					new std::string(object.get("mime_type","").asCString()));
 	}

@@ -47,7 +47,7 @@
 #define CHECK_EQ_VALUES(xval, yval) \
 		if(xval != yval) { \
 			testFailure++; \
-			__OUT_TEST_FAIL(xvalue,rv); \
+			__OUT_TEST_FAIL(yval, xval); \
 		}
 		
 #define TEST_END() \

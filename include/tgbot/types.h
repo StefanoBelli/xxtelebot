@@ -144,20 +144,20 @@ namespace tgbot {
 		struct Animation {
 			public:
 				explicit Animation(const Json::Value &object);
-				PhotoSize thumb;
 				std::string fileId;
-				std::string fileName;
-				std::string mimeType;
+				Ptr<PhotoSize> thumb;
+				Ptr<std::string> fileName;
+				Ptr<std::string> mimeType;
 				int fileSize;
 		};
 
 		struct Venue {
 			public:
 				explicit Venue(const Json::Value &object);
-				Ptr<std::string> fourSquareId;
 				Location location;
 				std::string title;
 				std::string address;
+				Ptr<std::string> fourSquareId;
 		};
 
 		struct VideoNote {
