@@ -34,91 +34,48 @@ void tgbot::Bot::makeCallback(const std::vector<types::Update> &updates) const {
 	for (auto const &update : updates) {
 		switch (update.updateType) {
 			case types::UpdateType::MESSAGE:
-				if (messageCallback) {
-					types::Message *message{update.message.get()};
-					if (message)
-						tmpHolder = std::thread(messageCallback, std::move(*message), *this);
-				}
+				if (messageCallback)
+					tmpHolder = std::thread(messageCallback, std::move(*update.message.get()), *this);
 
 				break;
 			case types::UpdateType::EDITED_MESSAGE:
-				if (editedMessageCallback) {
-					types::Message *editedMessage
-					{update.editedMessage.get()};
-
-					if (editedMessage)
-						tmpHolder = std::thread(editedMessageCallback, std::move(*editedMessage), *this);
-				}
+				if (editedMessageCallback)
+					tmpHolder = std::thread(editedMessageCallback, std::move(*update.editedMessage.get()), *this);
 
 				break;
 			case types::UpdateType::CALLBACK_QUERY:
-				if (callbackQueryCallback) {
-					types::CallbackQuery *callbackQuery
-					{update.callbackQuery.get()};
-
-					if (callbackQuery)
-						tmpHolder = std::thread(callbackQueryCallback, std::move(*callbackQuery), *this);
-				}
+				if (callbackQueryCallback)
+					tmpHolder = std::thread(callbackQueryCallback, std::move(*update.callbackQuery.get()), *this);
 
 				break;
 			case types::UpdateType::CHOSEN_INLINE_RESULT:
-				if (chosenInlineResultCallback) {
-					types::ChosenInlineResult *chosenInlineResult
-					{update.chosenInlineResult.get()};
-
-					if (chosenInlineResult)
-						tmpHolder = std::thread(chosenInlineResultCallback, std::move(*chosenInlineResult), *this);
-				}
+				if (chosenInlineResultCallback)
+					tmpHolder = std::thread(chosenInlineResultCallback, std::move(*update.chosenInlineResult.get()), *this);
 
 				break;
 			case types::UpdateType::EDITED_CHANNEL_POST:
-				if (editedChannelPostCallback) {
-					types::Message *editedChannelPost
-					{update.editedChannelPost.get()};
-
-					if (editedChannelPost)
-						tmpHolder = std::thread(editedChannelPostCallback, std::move(*editedChannelPost), *this);
-				}
+				if (editedChannelPostCallback)
+					tmpHolder = std::thread(editedChannelPostCallback, std::move(*update.editedChannelPost.get()), *this);
 
 				break;
 			case types::UpdateType::INLINE_QUERY:
-				if (inlineQueryCallback) {
-					types::InlineQuery *inlineQuery
-					{update.inlineQuery.get()};
-
-					if (inlineQuery)
-						tmpHolder = std::thread(inlineQueryCallback, std::move(*inlineQuery), *this);
-				}
+				if (inlineQueryCallback) 
+					tmpHolder = std::thread(inlineQueryCallback, std::move(*update.inlineQuery.get()), *this);
 
 				break;
 			case types::UpdateType::PRE_CHECKOUT_QUERY:
-				if (preCheckoutQueryCallback) {
-					types::PreCheckoutQuery *preCheckoutQuery
-					{update.preCheckoutQuery.get()};
-
-					if (preCheckoutQuery)
-						tmpHolder = std::thread(preCheckoutQueryCallback, std::move(*preCheckoutQuery), *this);
-				}
+				if (preCheckoutQueryCallback) 
+					tmpHolder = std::thread(preCheckoutQueryCallback, std::move(*update.preCheckoutQuery.get()), *this);
 
 				break;
 			case types::UpdateType::SHIPPING_QUERY:
-				if (shippingQueryCallback) {
-					types::ShippingQuery *shippingQuery
-					{update.shippingQuery.get()};
-
-					if (shippingQuery)
-						tmpHolder = std::thread(shippingQueryCallback, std::move(*shippingQuery), *this);
-				}
+				if (shippingQueryCallback)
+					tmpHolder = std::thread(shippingQueryCallback, std::move(*update.shippingQuery.get()), *this);
 
 				break;
 			case types::UpdateType::CHANNEL_POST:
-				if (channelPostCallback) {
-					types::Message *message
-					{update.channelPost.get()};
-
-					if (message)
-						tmpHolder = std::thread(channelPostCallback, std::move(*message), *this);
-				}
+				if (channelPostCallback)
+					tmpHolder = std::thread(channelPostCallback, std::move(*update.channelPost.get()), *this);
 
 				break;
 		}
@@ -130,7 +87,7 @@ void tgbot::Bot::makeCallback(const std::vector<types::Update> &updates) const {
 
 tgbot::TelegramException::TelegramException(const char *_what) :
 	_what(_what) {}
-
-	const char *tgbot::TelegramException::what() const noexcept {
-		return _what;
-	}
+	
+const char *tgbot::TelegramException::what() const noexcept {
+	return _what;
+}
