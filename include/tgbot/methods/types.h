@@ -100,7 +100,7 @@ namespace tgbot {
 
 					virtual std::string toString() const;
 				private:
-					const std::string& what { "" };
+					const std::string what;
 			};
 
 			struct InlineKeyboardMarkup : public ReplyMarkup {
@@ -142,7 +142,7 @@ namespace tgbot {
 
 					virtual std::string toString() const;
 				private:
-					const std::string what { "" };
+					const std::string what;
 			};
 
 			struct InputTextMessageContent : public InputMessageContent {
@@ -190,7 +190,7 @@ namespace tgbot {
 
 					virtual std::string toString() const;
 				private:
-					const std::string what { "" };
+					const std::string what;
 			};
 
 			struct InlineQueryResultAudio : public InlineQueryResult {
