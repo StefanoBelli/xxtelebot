@@ -3,7 +3,6 @@
 
 #include <utility>
 #include <exception>
-#include <iostream>
 
 #include "types.h"
 #include "methods/api.h"
