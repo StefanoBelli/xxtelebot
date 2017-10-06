@@ -6,3 +6,6 @@ docs/
 lib/
 version.h
 cmake-build-debug/
+build/
+a.out
+bot_test.cpp
