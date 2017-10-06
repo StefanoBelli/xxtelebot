@@ -419,7 +419,7 @@ tgbot::types::Game::Game(const Json::Value &object) :
 
 		if (object.isMember("text_entities")) {
 			this->textEntities = Ptr<std::vector<MessageEntity>>(
-					new std::vector<MessageEntity>);
+					new std::vector<MessageEntity> {});
 
 			for (auto const &singleEntity : object.get("text_entities", ""))
 				this->textEntities->emplace_back(singleEntity);
@@ -540,7 +540,8 @@ tgbot::types::Invoice::Invoice(const Json::Value &object) :
 	currency(object.get("currency", "").asCString()),
 	totalAmount(object.get("total_amount", "").asInt()) {}
 
-	tgbot::types::SuccessfulPayment::SuccessfulPayment(const Json::Value &object) :
+
+tgbot::types::SuccessfulPayment::SuccessfulPayment(const Json::Value &object) :
 		currency(object.get("currency", "").asCString()),
 		invoicePayload(object.get("invoice_payload", "").asCString()),
 		telegramPaymentChargeId(object.get("telegram_payment_charge_id", "").asCString()),
@@ -710,4 +711,27 @@ tgbot::types::Animation::Animation(const Json::Value& object) :
 		if(object.isMember("mime_type"))
 			this->mimeType = Ptr<std::string>(
 					new std::string(object.get("mime_type","").asCString()));
+	}
+
+
+tgbot::types::WebhookInfo::WebhookInfo(const Json::Value& object) :
+	url(object.get("url","").asCString()),
+	pendingUpdateCount(object.get("pending_update_count","").asInt()),
+	hasCustomCertificate(object.get("has_custom_certificate","").asBool()) {
+		if(object.isMember("last_error_date"))
+			this->lastErrorDate = object.get("last_error_date","").asInt();
+
+		if(object.isMember("last_error_message"))
+			this->lastErrorMessage = Ptr<std::string>(
+					new std::string(object.get("last_error_message","").asCString()));
+
+		if(object.isMember("max_connections"))
+			this->maxConnections = object.get("max_connections","").asInt();
+
+		if(object.isMember("allowed_updates")) {
+			this->allowedUpdates = Ptr<std::vector<std::string>>(
+					new std::vector<std::string>{});
+			for(auto const& singleAllowedUpdate : object.get("allowed_updates",""))
+				this->allowedUpdates->emplace_back(singleAllowedUpdate.asCString());
+		}
 	}

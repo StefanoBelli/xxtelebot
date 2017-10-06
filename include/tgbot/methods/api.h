@@ -322,17 +322,39 @@ namespace tgbot {
 						const unsigned& offset = 0,
 						const unsigned& limit = 100) const;
 
-			protected:
+				bool setWebhook(const std::string& url,
+						const int& maxConnections = 40,
+						const std::vector<api_types::UpdateType>& allowedUpdates = {}) const;
+
+				bool setWebhook(const std::string& url,
+						const std::string& certificate,
+						const int& maxConnections = 40,
+						const std::vector<api_types::UpdateType>& allowedUpdates = {}) const;
+
+				bool deleteWebhook() const;
+				
+				api_types::WebhookInfo getWebhookInfo() const;
+
+		protected:
 				Api(const std::string& token,
-						const std::string& useragent,
 						const std::vector<api_types::UpdateType>& allowedUpdates,
 						const int& timeout,
 						const int& limit);
+				
+				Api(const std::string& token,
+						const std::string& url,
+						const int& maxConnections,
+						const std::vector<api_types::UpdateType>& allowedUpdates);
+
+				Api(const std::string& token,
+						const std::string& url,
+						const std::string& certificate,
+						const int& maxConnections,
+						const std::vector<api_types::UpdateType>& allowedUpdates);
 
 				std::vector<api_types::Update> getUpdates(void* c);
 
 			private:
-				const std::string ua;
 				const std::string baseApi;
 				std::string updateApiRequest;
 				long long currentOffset;

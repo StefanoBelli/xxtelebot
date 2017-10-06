@@ -6,12 +6,25 @@
 
 using namespace tgbot::methods;
 
+tgbot::methods::Api::Api(const std::string& token,
+		const std::string& url,
+		const int& maxConnections,
+		const std::vector<api_types::UpdateType>& allowedUpdates) {
+
+}
+
+tgbot::methods::Api::Api(const std::string& token,
+		const std::string& url,
+		const std::string& certificate,
+		const int& maxConnections,
+		const std::vector<api_types::UpdateType>& allowedUpdates) {
+
+}
+
 tgbot::methods::Api::Api(const std::string &token,
-		const std::string &useragent,
 		const std::vector<api_types::UpdateType> &allowedUpdates,
 		const int &timeout,
 		const int &limit) :
-	ua(useragent),
 	baseApi("https://api.telegram.org/bot" + token),
 	currentOffset(0) {
 

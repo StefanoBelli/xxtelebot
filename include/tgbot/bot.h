@@ -1,7 +1,10 @@
 #ifndef TGBOT_BOT_H
 #define TGBOT_BOT_H
 
+#include <utility>
 #include <exception>
+#include <iostream>
+
 #include "types.h"
 #include "methods/api.h"
 #include "register_callback.h"
@@ -21,29 +24,46 @@ namespace tgbot {
 
 	class Bot : public methods::Api, public RegisterCallback {
 		public:
+			virtual void start() {}
+		protected:
+			template<typename ... TyArgs>
+				Bot(TyArgs&& ... many) : Api(std::forward<TyArgs>(many)...) {}
+
+			void makeCallback(const std::vector<types::Update>& updates) const;
+	};
+
+	class LongPollBot : public Bot {
+		public:
 			/*!
 			 * @brief Bot class constructor
 			 * @param token : Bot token
-			 * @param useragent : User-Agent HTTP header field
 			 * @param filterUpdates : accept only certain kinds of UpdateType (Default everything)
 			 * @param limit : how many updates per-time? (Default 100)
 			 * @param timeout : long poll should stop after N seconds, if not receiving updates (Default 60)
 			 */
-			Bot(const std::string& token,
-                const std::string& useragent,
+			LongPollBot(const std::string& token,
 				const std::vector<types::UpdateType>& filterUpdates = {},
 				const int& limit = 100,
 				const int& timeout = 60);
 
-			/*!
-			 * @brief Start long polling
-			 */
-			void start();
-		private:
-			void makeCallback(const std::vector<types::Update>& updates) const;
-            const std::string ua;
+			void start() override;
 	};
 
+	class WebhookBot : public Bot {
+		public:
+			WebhookBot(const std::string& token,
+					const std::string& url,
+					const int& maxConnections = 40,
+					const std::vector<types::UpdateType>& filterUpdates = {});
+			
+			WebhookBot(const std::string& token,
+					const std::string& url,
+					const std::string& certificate,
+					const int& maxConnections = 40,
+					const std::vector<types::UpdateType>& filterUpdates = {});
+			
+			void start() override;
+	};
 } //tgbot
 
 #endif

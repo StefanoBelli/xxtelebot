@@ -424,6 +424,18 @@ namespace tgbot {
 				bool requestLocation : 1;
 		};
 
+		struct WebhookInfo {
+			public:
+				explicit WebhookInfo(const Json::Value &object);
+				std::string url;
+				Ptr<std::string> lastErrorMessage;
+				Ptr<std::vector<std::string>> allowedUpdates;
+				int pendingUpdateCount;
+				int lastErrorDate;
+				int maxConnections;
+				bool hasCustomCertificate : 1;
+		};
+
 		/*!
 		 * @brief (note) according to telegram API documentation, 
 		 * this is only a placeholder

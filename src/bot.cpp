@@ -4,18 +4,30 @@
 
 using namespace tgbot;
 
-tgbot::Bot::Bot(const std::string &token,
-		const std::string &useragent,
+tgbot::LongPollBot::LongPollBot(const std::string &token,
 		const std::vector<types::UpdateType> &filterUpdates,
 		const int &limit,
 		const int &timeout) :
-	Api(token, useragent, filterUpdates, timeout, limit),
-	ua(useragent) {
+	Bot(token,filterUpdates,limit,timeout)
+{}
 
-	}
+tgbot::WebhookBot::WebhookBot(const std::string& token,
+		const std::string& url,
+		const int& maxConnections,
+		const std::vector<types::UpdateType>& filterUpdates) :
+	Bot(token,url,maxConnections,filterUpdates)
+{}
 
-void tgbot::Bot::start() {
-	CURL *fetchConnection = utils::http::curlEasyInit(ua);
+tgbot::WebhookBot::WebhookBot(const std::string& token,
+		const std::string& url,
+		const std::string& certificate,
+		const int& maxConnections,
+		const std::vector<types::UpdateType>& filterUpdates) :
+	Bot(token,url,certificate,maxConnections,filterUpdates)
+{}
+
+void tgbot::LongPollBot::start() {
+	CURL *fetchConnection = utils::http::curlEasyInit();
 
 	curl_easy_setopt(fetchConnection, CURLOPT_TCP_KEEPALIVE, 1L);
 	curl_easy_setopt(fetchConnection, CURLOPT_TCP_KEEPIDLE, 60);
@@ -27,6 +39,9 @@ void tgbot::Bot::start() {
 	}
 }
 
+void tgbot::WebhookBot::start() {
+
+}
 
 void tgbot::Bot::makeCallback(const std::vector<types::Update> &updates) const {
 	std::thread tmpHolder;

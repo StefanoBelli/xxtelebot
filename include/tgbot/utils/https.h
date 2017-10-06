@@ -20,7 +20,7 @@ namespace tgbot {
 					const std::string& type,
 					const std::string& filename);
 
-			CURL* curlEasyInit(const std::string& agent);
+			CURL* curlEasyInit();
 
 		} //http
 

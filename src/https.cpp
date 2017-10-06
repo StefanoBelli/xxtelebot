@@ -9,13 +9,12 @@ static size_t write_data(const char *ptr, size_t nbs, size_t count, void *dest) 
 	return count;
 }
 
-CURL *tgbot::utils::http::curlEasyInit(const std::string &agent) {
+CURL *tgbot::utils::http::curlEasyInit() {
 	CURL *curlInst = curl_easy_init();
 	if (!curlInst)
 		return nullptr;
 
 	curl_easy_setopt(curlInst, CURLOPT_FOLLOWLOCATION, 1L);
-	curl_easy_setopt(curlInst, CURLOPT_USERAGENT, agent.c_str());
 	curl_easy_setopt(curlInst, CURLOPT_WRITEFUNCTION, write_data);
 
 	return curlInst;
