@@ -701,7 +701,7 @@ tgbot::types::Animation::Animation(const Json::Value& object) :
 
 		if(object.isMember("thumb"))
 			this->thumb = Ptr<PhotoSize>(
-					new PhotoSize(object.get("photo_size","")));
+					new PhotoSize(object.get("thumb","")));
 
 		if(object.isMember("file_name"))
 			this->fileName = Ptr<std::string>(

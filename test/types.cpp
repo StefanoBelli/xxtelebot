@@ -209,5 +209,105 @@ int main()
 
 	//KEYBOARD BUTTON NOT HERE
 	
+	TEST_BEGIN("TypesMessageEntity");
+	{
+		PARSE(MessageEntity messageEntity,
+				"{ \"offset\": 10, \"length\": 11, \"type\": \"bot_command\" }");
+		CHECK_EQ_VALUES(messageEntity.offset,10);
+		CHECK_EQ_VALUES(messageEntity.length, 11);
+		CHECK_EQ_VALUES(messageEntity.type, MessageEntityType::BOT_COMMAND);
+	}
+	
+	{
+		PARSE(MessageEntity messageEntity,
+				"{ \"user\": {\"first_name\": \"name\",\"id\":100, \"is_bot\": false}, \"offset\": 10, \"length\": 11, \"type\": \"bot_command\", \"url\":\"some_url\"}");
+		CHECK_EQ_VALUES(messageEntity.offset,10);
+		CHECK_EQ_VALUES(messageEntity.length, 11);
+		CHECK_EQ_VALUES(messageEntity.type, MessageEntityType::BOT_COMMAND);
+		CHECK_EQ_VALUES(messageEntity.user.operator bool(),true);
+		CHECK_EQ_VALUES(*messageEntity.url.get(),"some_url");
+	}
+	TEST_END();
+
+	TEST_BEGIN("TypesDocument");
+	{
+		PARSE(Document document,
+				"{ \"file_id\": \"111000\", \"file_size\":10000 }");
+
+		CHECK_EQ_VALUES(document.fileId, "111000");
+		CHECK_EQ_VALUES(document.fileSize, 10000);
+	}
+	
+	{
+		PARSE(Document document,
+				"{ \"file_id\": \"111000\", \"file_size\":10000, \"file_name\":\"name.txt\", \"mime_type\":\"text/plain\", \"thumb\": { \"file_id\": \"111001\", \"file_size\":11111, \"width\": 100, \"height\": 10 } }");
+
+		CHECK_EQ_VALUES(document.fileId,"111000");
+		CHECK_EQ_VALUES(document.fileSize,10000);
+		CHECK_EQ_VALUES(*document.fileName.get(), "name.txt");
+		CHECK_EQ_VALUES(*document.mimeType.get(), "text/plain");
+		CHECK_EQ_VALUES(document.thumb.operator bool(), true);
+	}
+	TEST_END();
+
+	TEST_BEGIN("TypesAnimation");
+	{
+		PARSE(Animation animation,
+				"{ \"file_id\": \"111000\", \"file_size\":10000 }");
+
+		CHECK_EQ_VALUES(animation.fileId, "111000");
+		CHECK_EQ_VALUES(animation.fileSize, 10000);
+	}
+
+	{
+		PARSE(Animation animation,
+				"{ \"file_id\": \"111000\", \"file_size\":10000, \"file_name\":\"name.txt\", \"mime_type\":\"text/plain\", \"thumb\": { \"file_id\": \"111001\", \"file_size\":11111, \"width\": 100, \"height\": 10 } }");
+
+		CHECK_EQ_VALUES(animation.fileId,"111000");
+		CHECK_EQ_VALUES(animation.fileSize,10000);
+		CHECK_EQ_VALUES(*animation.fileName.get(), "name.txt");
+		CHECK_EQ_VALUES(*animation.mimeType.get(), "text/plain");
+		CHECK_EQ_VALUES(animation.thumb.operator bool(), true);
+	}
+	TEST_END();
+
+	TEST_BEGIN("TypesVenue");
+	{
+		PARSE(Venue venue,
+				"{ \"location\": { \"longitude\": \"10\", \"latitude\": \"11\" }, \"title\": \"Title\", \"address\": \"Address\" }");
+
+		CHECK_EQ_VALUES(venue.title, "Title");
+		CHECK_EQ_VALUES(venue.address,"Address");
+	}
+
+	{
+		PARSE(Venue venue,
+				"{ \"foursquare_id\": \"some_fsid\", \"location\": { \"longitude\": \"10\", \"latitude\": \"11\" }, \"title\": \"Title\", \"address\": \"Address\" }");
+
+		CHECK_EQ_VALUES(*venue.fourSquareId.get(), "some_fsid");
+		CHECK_EQ_VALUES(venue.title, "Title");
+		CHECK_EQ_VALUES(venue.address,"Address");
+	}
+	TEST_END();
+
+	TEST_BEGIN("TypesVideoNote");
+	{
+		PARSE(VideoNote videoNote,
+				"{ \"file_id\": \"123456\", \"file_size\": 10000, \"length\": 10, \"duration\": 11 }");
+		
+		CHECK_EQ_VALUES(videoNote.fileId, "123456");
+		CHECK_EQ_VALUES(videoNote.fileSize, 10000);
+		CHECK_EQ_VALUES(videoNote.duration,11);
+	}
+	{
+		PARSE(VideoNote videoNote,
+				"{ \"file_id\": \"123456\", \"file_size\": 10000, \"length\": 10, \"duration\": 11, \"thumb\": { \"file_id\": \"111001\", \"file_size\":11111, \"width\": 100, \"height\": 10 }}");
+		CHECK_EQ_VALUES(videoNote.thumb.operator bool(), true);
+		CHECK_EQ_VALUES(videoNote.fileId, "123456");
+		CHECK_EQ_VALUES(videoNote.fileSize, 10000);
+		CHECK_EQ_VALUES(videoNote.duration,11);
+	}
+	TEST_END();
+
 	UNIT_END();
 }
