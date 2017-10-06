@@ -11,9 +11,8 @@ tgbot::methods::Api::Api(const std::string &token,
 		const std::vector<api_types::UpdateType> &allowedUpdates,
 		const int &timeout,
 		const int &limit) :
-
-	baseApi("https://api.telegram.org/bot" + token),
 	ua(useragent),
+	baseApi("https://api.telegram.org/bot" + token),
 	currentOffset(0) {
 
 		std::stringstream fullApiRequest;
@@ -52,14 +51,14 @@ tgbot::methods::Api::Api(const std::string &token,
 						break;
 				}
 			}
-		}
-
-		std::string &&req = fullApiRequest.str();
-		char &endpos = req.at(req.size() - 1);
-		if (endpos == ',')
-			endpos = ']';
-
-		updateApiRequest = req;
+			
+			std::string &&req = fullApiRequest.str();
+			char &endpos = req.at(req.size() - 1);
+			if (endpos == ',')
+				endpos = ']';
+			updateApiRequest = req;
+		} else 
+			updateApiRequest = fullApiRequest.str();
 	}
 
 std::vector<api_types::Update> tgbot::methods::Api::getUpdates(void *c) {
