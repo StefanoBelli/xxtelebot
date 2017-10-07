@@ -735,3 +735,9 @@ tgbot::types::WebhookInfo::WebhookInfo(const Json::Value& object) :
 				this->allowedUpdates->emplace_back(singleAllowedUpdate.asCString());
 		}
 	}
+
+tgbot::types::GameHighScore::GameHighScore(const Json::Value& object) :
+	user(object.get("user","")),
+	position(object.get("position","").asInt()),
+	score(object.get("score","").asInt()) {}
+

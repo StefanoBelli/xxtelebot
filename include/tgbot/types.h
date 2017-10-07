@@ -266,6 +266,14 @@ namespace tgbot {
 				Ptr<std::string> text;
 		};
 
+		struct GameHighScore {
+			public:
+				explicit GameHighScore(const Json::Value &object);
+				User user;
+				int position;
+				int score;
+		};
+
 		struct Chat {
 			public:
 				explicit Chat(const Json::Value &object);

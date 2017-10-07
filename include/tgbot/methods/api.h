@@ -132,6 +132,32 @@ namespace tgbot {
 						const bool& disableNotifiation = false,
 						const int& replyToMessageId = -1) const;
 
+				api_types::Message sendGame(const int& chatId,
+						const std::string& gameShortName,
+						const bool& disableNotifiation = false,
+						const int& replyToMessageId = -1,
+						const types::ReplyMarkup& replyMarkup = "") const;
+
+				api_types::Message setGameScore(const std::string& userId,
+						const int& score,
+						const std::string& inlineMessageId,
+						const bool& force = false,
+						const bool& disableEditMessage = false) const;
+
+				api_types::Message setGameScore(const std::string& userId,
+						const int& score,
+						const int& chatId,
+						const int& messageId,
+						const bool& force = false,
+						const bool& disableEditMessage = false) const;
+
+				std::vector<api_types::GameHighScore> getGameHighScores(const int& userId,
+						const std::string& inlineMessageId) const;
+
+				std::vector<api_types::GameHighScore> getGameHighScores(const int& userId,
+						const int& chatId,
+						const int& messageId) const;
+				
 				/*!
 				 * @brief Use this overload if the shipping query cannot proceed
 				 */
