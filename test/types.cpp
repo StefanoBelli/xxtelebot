@@ -309,5 +309,155 @@ int main()
 	}
 	TEST_END();
 
+	TEST_BEGIN("TypesSticker");
+	{
+		PARSE(Sticker sticker,
+				"{ \"file_id\": \"123456\", \"width\": 10, \"height\": 11, \"file_size\": 120 }");
+
+		CHECK_EQ_VALUES(sticker.fileId, "123456");
+		CHECK_EQ_VALUES(sticker.width,10);
+		CHECK_EQ_VALUES(sticker.height,11);
+		CHECK_EQ_VALUES(sticker.fileSize,120);
+	}
+
+	{
+		PARSE(Sticker sticker,
+				"{ \"emoji\": \"some_emoji_bytes\", \"set_name\": \"favset\", \"thumb\": { \"file_id\": \"123456\", \"file_size\": 123456, \"width\": 1366, \"height\": 768 }, \"file_id\":\"123456\", \"width\": 10, \"height\": 11, \"file_size\": 120, \"mask_position\": { \"point\": \"RandomPointPosition\", \"scale\": 10.0, \"x_shift\": 11.1, \"y_shift\": 11.2 }");
+
+		CHECK_EQ_VALUES(sticker.fileId, "123456");
+		CHECK_EQ_VALUES(sticker.width,10);
+		CHECK_EQ_VALUES(sticker.height,11);
+		CHECK_EQ_VALUES(sticker.fileSize,120);
+		CHECK_EQ_VALUES(sticker.emoji.operator bool(), true);
+		CHECK_EQ_VALUES(sticker.setName.operator bool(), true);
+		CHECK_EQ_VALUES(sticker.thumb.operator bool(), true);
+		CHECK_EQ_VALUES(sticker.maskPosition.operator bool(), true);
+	}
+	TEST_END();
+
+	TEST_BEGIN("TypesVideo");
+	{
+		PARSE(Video video,
+				"{ \"file_id\":\"123456\", \"width\": 10, \"height\": 11, \"file_size\": 120, \"duration\": 100 }");
+
+		CHECK_EQ_VALUES(video.width, 10);
+		CHECK_EQ_VALUES(video.height,11);
+		CHECK_EQ_VALUES(video.fileSize,120);
+		CHECK_EQ_VALUES(video.duration, 100);
+		CHECK_EQ_VALUES(video.fileId, "123456");
+	}
+
+	{
+		PARSE(Video video,
+				"{ \"mime_type\": \"video/mp4\", \"thumb\": { \"file_id\": \"123456\", \"file_size\": 123456, \"width\": 1366, \"height\": 768 },\"file_id\":\"123456\", \"width\": 10, \"height\": 11, \"file_size\": 120, \"duration\": 100 }");
+
+		CHECK_EQ_VALUES(video.width, 10);
+		CHECK_EQ_VALUES(video.height,11);
+		CHECK_EQ_VALUES(video.fileSize,120);
+		CHECK_EQ_VALUES(video.duration, 100);
+		CHECK_EQ_VALUES(video.fileId, "123456");
+		CHECK_EQ_VALUES(video.mimeType.operator bool(), true);
+		CHECK_EQ_VALUES(video.thumb.operator bool(), true);
+	}
+	TEST_END();
+
+	TEST_BEGIN("TypesOrderInfo");
+	{
+		PARSE(OrderInfo orderInfo,
+				"{}");
+	}
+	
+	{
+		PARSE(OrderInfo orderInfo,
+				"{ \"name\": \"Name\", \"phone_number\": \"911\", \"email\": \"lol@lol.troll\", \"shipping_address\": { \"country_code\": \"IT\", \"state\":\"Italy\", \"city\": \"Rome\", \"street_line_one\":\"streetLine\",\"street_line_two\": \"streetLineTwo\", \"post_code\": \"000111\"}");
+		
+		CHECK_EQ_VALUES(orderInfo.shippingAddress.operator bool(), true);
+		CHECK_EQ_VALUES(orderInfo.name.operator bool(), true);
+		CHECK_EQ_VALUES(orderInfo.email.operator bool(), true);
+		CHECK_EQ_VALUES(orderInfo.phoneNumber.operator bool(), true);
+	}
+	TEST_END();
+
+	TEST_BEGIN("TypesSuccessfulPayment");
+	{
+		PARSE(SuccessfulPayment successfulPayment,
+				"{ \"currency\": \"EUR\", \"invoice_payload\": \"payload\", \"telegram_payment_charge_id\": \"some_id\", \"provider_payment_charge_id\": \"some_id_prov\", \"total_amount\": 100 }");
+
+		CHECK_EQ_VALUES(successfulPayment.invoicePayload, "payload");
+		CHECK_EQ_VALUES(successfulPayment.currency, "EUR");
+		CHECK_EQ_VALUES(successfulPayment.telegramPaymentChargeId,"some_id");
+		CHECK_EQ_VALUES(successfulPayment.providerPaymentChargeId,"some_id_prov");
+		CHECK_EQ_VALUES(successfulPayment.totalAmount,100);
+	}
+	 
+	{
+		PARSE(SuccessfulPayment successfulPayment,
+				"{ \"order_info\": { \"name\": \"Name\", \"phone_number\": \"911\", \"email\": \"lol@lol.troll\", \"shipping_address\": { \"country_code\": \"IT\", \"state\":\"Italy\", \"city\": \"Rome\", \"street_line_one\":\"streetLine\",\"street_line_two\": \"streetLineTwo\", \"post_code\": \"000111\"} }, \"shipping_option_id\": \"some_id\", \"currency\": \"EUR\", \"invoice_payload\": \"payload\", \"telegram_payment_charge_id\": \"some_id\", \"provider_payment_charge_id\": \"some_id_prov\", \"total_amount\": 100 }");
+
+		CHECK_EQ_VALUES(successfulPayment.invoicePayload, "payload");
+		CHECK_EQ_VALUES(successfulPayment.currency, "EUR");
+		CHECK_EQ_VALUES(successfulPayment.telegramPaymentChargeId,"some_id");
+		CHECK_EQ_VALUES(successfulPayment.providerPaymentChargeId,"some_id_prov");
+		CHECK_EQ_VALUES(successfulPayment.totalAmount,100);
+		CHECK_EQ_VALUES(successfulPayment.shippingOptionId.operator bool(), true);
+		CHECK_EQ_VALUES(successfulPayment.orderInfo.operator bool(), true);
+	}
+	TEST_END();
+
+	TEST_BEGIN("TypesGame");
+	{
+		PARSE(Game game,
+				"{ \"title\": \"MyVeryOwnGame\", \"description\": \"such a description\", \"photo\": [{ \"file_id\": \"123456\", \"file_size\": 123456, \"width\": 1366, \"height\": 768 }]}");
+		CHECK_EQ_VALUES(game.title,"MyVeryOwnGame");
+		CHECK_EQ_VALUES(game.description, "such a description");
+		CHECK_EQ_VALUES(game.photo.at(0).fileId, "123456");
+	}
+	
+	{
+		PARSE(Game game,
+				"{ \"text_entities\": [  { \"offset\": 10, \"length\": 11, \"type\": \"bot_command\"}, { \"offset\": 10, \"length\": 11, \"type\": \"bot_command\"} ],\"animation\": { \"file_id\": \"111000\", \"file_size\":10000 }, \"text\": \"some game text\", \"title\": \"MyVeryOwnGame\", \"description\": \"such a description\", \"photo\": [{ \"file_id\": \"123456\", \"file_size\": 123456, \"width\": 1366, \"height\": 768 }, { \"file_id\": \"223456\", \"file_size\": 123456, \"width\": 1366, \"height\": 768 }]}");
+		CHECK_EQ_VALUES(game.title,"MyVeryOwnGame");
+		CHECK_EQ_VALUES(game.description, "such a description");
+		CHECK_EQ_VALUES(game.photo.at(1).fileId,"223456"); 
+		CHECK_EQ_VALUES(game.animation.operator bool(), true);
+		CHECK_EQ_VALUES(game.textEntities.operator bool(), true);
+	}
+	TEST_END();
+
+	TEST_BEGIN("TypesGameHighScore");
+	PARSE(GameHighScore gameHighScore,
+			"{ \"user\": { \"first_name\": \"MyName\", \"is_bot\": false, \"id\": 1000 }, \"position\": 11, \"score\": 10000 }");
+
+	CHECK_EQ_VALUES(gameHighScore.score,10000);
+	CHECK_EQ_VALUES(gameHighScore.position,11);
+	TEST_END();
+
+	TEST_BEGIN("TypesInlineQuery");
+	{
+		PARSE(InlineQuery inlineQuery,
+				"{ \"from\": { \"first_name\": \"MyName\", \"is_bot\": false, \"id\": 1000 }, \"id\": \"iqid\", \"query\": \"query_terms\", \"offset\": \"quoffset\" }");
+
+		CHECK_EQ_VALUES(inlineQuery.id,"iqid");
+		CHECK_EQ_VALUES(inlineQuery.query,"query_terms");
+		CHECK_EQ_VALUES(inlineQuery.offset,"quoffset");
+	}
+	 
+	{
+		PARSE(InlineQuery inlineQuery,
+				"{ \"location\": { \"longitude\": \"3.450040\", \"latitude\": \"4.56757545\" },\"from\": { \"first_name\": \"MyName\", \"is_bot\": false, \"id\": 1000 }, \"id\": \"iqid\", \"query\": \"query_terms\", \"offset\": \"quoffset\" }");
+
+		CHECK_EQ_VALUES(inlineQuery.id,"iqid");
+		CHECK_EQ_VALUES(inlineQuery.query,"query_terms");
+		CHECK_EQ_VALUES(inlineQuery.offset,"quoffset");
+		CHECK_EQ_VALUES(inlineQuery.location.operator bool(), true);
+	}
+	TEST_END();
+
+	TEST_BEGIN("TypesUserProfilePhotos");
+	PARSE(UserProfilePhotos userProfilePhotos,
+			"{ \"total_count\": 4, \"photos\": [   [  { \"file_id\": \"123456\", \"file_size\": 123456, \"width\": 1366, \"height\": 768 }], [  { \"file_id\": \"123456\", \"file_size\": 123456, \"width\": 1366, \"height\": 768 },{ \"file_id\": \"123456\", \"file_size\": 123456, \"width\": 1366, \"height\": 768 }] ] }");
+
+	TEST_END();
+
 	UNIT_END();
 }

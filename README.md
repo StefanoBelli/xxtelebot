@@ -20,7 +20,7 @@ UPDATE(Oct 2, 2017): Implementations done, unit tests **NEEDED** before continui
     
     * [x] HTTPS interface (libcurl wrapper)
     
-    * [x] template<typename T> Matrix<T> class template
+    * ~~~[x] template<typename T> Matrix<T> class template~~~
 
  * Basic Bot interface [ files: *include/tgbot/bot.h* and *include/tgbot/register_callback.h* ]
     

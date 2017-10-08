@@ -44,10 +44,9 @@ tgbot::methods::types::InlineQueryResult::InlineQueryResult(const std::string &c
 	what(customMarkup) {}
 
 std::string tgbot::methods::types::InlineKeyboardMarkup::toString() const {
-	const int &r = inlineKeyboard.getMaxRows();
-	const int &c = inlineKeyboard.getMaxCols();
+	const int &r = inlineKeyboard.size();
 
-	if (!r || !c)
+	if (!r)
 		return "";
 
 	std::stringstream jsonify;
@@ -55,8 +54,10 @@ std::string tgbot::methods::types::InlineKeyboardMarkup::toString() const {
 
 	for (int i = 0; i < r; i++) {
 		jsonify << "[";
-		for (int j = 0; j < c; j++) {
-			const InlineKeyboardButton &currentButton = inlineKeyboard.at(i, j);
+		
+		const std::vector<InlineKeyboardButton>& ikb = inlineKeyboard.at(i);
+		for (size_t j = 0; j < ikb.size(); j++) {
+			const InlineKeyboardButton &currentButton = ikb.at(j);
 			jsonify << "{ \"text\": \"" << currentButton.text
 					<< "\", \"pay\": " << BOOL_TOSTR(currentButton.pay);
 
@@ -85,10 +86,9 @@ std::string tgbot::methods::types::InlineKeyboardMarkup::toString() const {
 }
 
 std::string tgbot::methods::types::ReplyKeyboardMarkup::toString() const {
-	const int &r = keyboard.getMaxRows();
-	const int &c = keyboard.getMaxCols();
+	const int &r = keyboard.size();
 
-	if (!r || !c)
+	if (!r)
 		return "";
 
 	std::stringstream jsonify;
@@ -96,8 +96,9 @@ std::string tgbot::methods::types::ReplyKeyboardMarkup::toString() const {
 
 	for (int i = 0; i < r; i++) {
 		jsonify << "[";
-		for (int j = 0; j < c; j++) {
-			const KeyboardButton &currentButton = keyboard.at(i, j);
+		const std::vector<KeyboardButton>& kb = keyboard.at(i);
+		for (size_t j = 0; j < kb.size(); j++) {
+			const KeyboardButton &currentButton = kb.at(j);
 			jsonify << "{ \"text\": \"" << currentButton.text << "\","
 					<< "\"request_contact\": " << BOOL_TOSTR(currentButton.requestContact)
 					<< ",\"request_location\": " << BOOL_TOSTR(currentButton.requestLocation)

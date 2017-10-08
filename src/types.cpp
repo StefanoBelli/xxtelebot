@@ -245,7 +245,7 @@ tgbot::types::ChosenInlineResult::ChosenInlineResult(const Json::Value &object) 
 	}
 
 tgbot::types::InlineQuery::InlineQuery(const Json::Value &object) :
-	user(object.get("from", "")),
+	from(object.get("from", "")),
 	id(object.get("id", "").asCString()),
 	query(object.get("query", "").asCString()),
 	offset(object.get("offset", "").asCString()) {
@@ -456,7 +456,7 @@ tgbot::types::MaskPosition::MaskPosition(const Json::Value &object) :
 
 			if (object.isMember("mask_position"))
 				this->maskPosition = Ptr<MaskPosition>(
-						new MaskPosition(object.get("mask_position", "").asCString()));
+						new MaskPosition(object.get("mask_position", "")));
 
 			if (object.isMember("file_size"))
 				this->fileSize = object.get("file_size", "").asInt();
@@ -644,9 +644,11 @@ tgbot::types::File::File(const Json::Value &object) :
 tgbot::types::UserProfilePhotos::UserProfilePhotos(const Json::Value &object) :
 	totalCount(object.get("total_count", "").asInt()) {
 		const Json::Value &matArr{object.get("photos", "")};
-		for (ArrayIndex i = 0; i < matArr.size(); i++)
+		for (ArrayIndex i = 0; i < matArr.size(); i++) {
+			this->photos.emplace_back();
 			for (ArrayIndex j = 0; j < matArr[i].size(); j++)
-				this->photos.put(PhotoSize(matArr[i][j]), i, j);
+				this->photos.at(i).emplace_back(matArr[i][j]);
+		}
 	}
 
 tgbot::types::ChatMember::ChatMember(const Json::Value &object) :

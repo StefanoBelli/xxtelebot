@@ -106,13 +106,13 @@ namespace tgbot {
 			struct InlineKeyboardMarkup : public ReplyMarkup {
 				public:
 					std::string toString() const override;
-					utils::Matrix<InlineKeyboardButton> inlineKeyboard;
+					std::vector<std::vector<InlineKeyboardButton>> inlineKeyboard;
 			};
 
 			struct ReplyKeyboardMarkup : public ReplyMarkup {
 				public:
 					std::string toString() const override;
-					utils::Matrix<KeyboardButton> keyboard;
+					std::vector<std::vector<KeyboardButton>> keyboard;
 					bool resizeKeyboard : 1;
 					bool oneTimeKeyboard : 1;
 					bool selective : 1;

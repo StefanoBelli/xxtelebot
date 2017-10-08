@@ -4,7 +4,6 @@
 #include <string>
 #include <vector>
 #include <memory>
-#include "utils/matrix.h"
 
 namespace Json {
 	struct Value;
@@ -337,7 +336,7 @@ namespace tgbot {
 		struct InlineQuery {
 			public:
 				explicit InlineQuery(const Json::Value &object);
-				User user;
+				User from;
 				std::string id;
 				std::string query;
 				std::string offset;
@@ -421,7 +420,7 @@ namespace tgbot {
 		struct UserProfilePhotos {
 			public:
 				explicit UserProfilePhotos(const Json::Value &object);
-				utils::Matrix<PhotoSize> photos;
+				std::vector<std::vector<PhotoSize>> photos;
 				int totalCount;
 		};
 
