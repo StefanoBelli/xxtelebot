@@ -459,5 +459,25 @@ int main()
 
 	TEST_END();
 
+	TEST_BEGIN("TypesChosenInlineResult");
+	{
+		PARSE(ChosenInlineResult chosenInlineResult,
+				"{ \"from\": { \"first_name\": \"MyName\", \"is_bot\": false, \"id\": 1000 }, \"result_id\": \"result\", \"query\":\"wordquery\" }");
+		
+		CHECK_EQ_VALUES(chosenInlineResult.resultId,"result");
+		CHECK_EQ_VALUES(chosenInlineResult.query,"wordquery");
+	}
+	
+	{
+		PARSE(ChosenInlineResult chosenInlineResult,
+				"{ \"inline_message_id\": \"my_id\", \"location\": { \"longitude\": \"3.450040\", \"latitude\": \"4.56757545\" }, \"from\": { \"first_name\": \"MyName\", \"is_bot\": false, \"id\": 1000 }, \"result_id\": \"result\", \"query\":\"wordquery\" }");
+		
+		CHECK_EQ_VALUES(chosenInlineResult.resultId,"result");
+		CHECK_EQ_VALUES(chosenInlineResult.query,"wordquery");
+		CHECK_EQ_VALUES(chosenInlineResult.inlineMessageId.operator bool(),true);
+		CHECK_EQ_VALUES(chosenInlineResult.location.operator bool(),true);
+	}
+	TEST_END();
+
 	UNIT_END();
 }
