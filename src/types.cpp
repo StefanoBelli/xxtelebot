@@ -653,9 +653,22 @@ tgbot::types::UserProfilePhotos::UserProfilePhotos(const Json::Value &object) :
 
 tgbot::types::ChatMember::ChatMember(const Json::Value &object) :
 	user(object.get("user", "")),
-	status(object.get("status", "").asCString()),
 	untilDate(object.get("until_date", "").asInt()) {
-
+		
+		const std::string& statusStr { object.get("status","").asString() };
+		if(statusStr == "creator")
+			status = ChatMemberStatus::CREATOR;
+		else if(statusStr == "administrator")
+			status = ChatMemberStatus::ADMINISTRATOR;
+		else if(statusStr == "member")
+			status = ChatMemberStatus::MEMBER;
+		else if(statusStr == "restricted")
+			status = ChatMemberStatus::RESTRICTED;
+		else if(statusStr == "left")
+			status = ChatMemberStatus::LEFT;
+		else if(statusStr == "kicked")
+			status = ChatMemberStatus::KICKED;
+		
 		if (object.isMember("can_be_edited"))
 			this->canBeEdited = object.get("can_be_edited", "").asBool();
 

@@ -55,6 +55,15 @@ namespace tgbot {
 			TEXT_LINK,
 			TEXT_MENTION
 		};
+		
+		enum class ChatMemberStatus {
+			CREATOR,
+			ADMINISTRATOR,
+			MEMBER,
+			RESTRICTED,
+			LEFT,
+			KICKED
+		};
 
 		struct User {
 			public:
@@ -455,7 +464,7 @@ namespace tgbot {
 			public:
 				explicit ChatMember(const Json::Value &object);
 				User user;
-				std::string status;
+				ChatMemberStatus status;
 				int untilDate;
 				bool canBeEdited : 1;
 				bool canChangeInfo : 1;
