@@ -478,6 +478,73 @@ int main()
 		CHECK_EQ_VALUES(chosenInlineResult.location.operator bool(),true);
 	}
 	TEST_END();
-
+	
+	TEST_BEGIN("TypesWebhookInfo")
+	{
+		PARSE(WebhookInfo webhookInfo,
+				"{ \"url\": \"my_url\", \"pending_update_count\": 3, \"last_error_date\": 53550, \"max_connections\": 10, \"has_custom_certificate\": true }");
+				
+		CHECK_EQ_VALUES(webhookInfo.url, "my_url");
+		CHECK_EQ_VALUES(webhookInfo.pendingUpdateCount, 3);
+		CHECK_EQ_VALUES(webhookInfo.lastErrorDate, 53550);
+		CHECK_EQ_VALUES(webhookInfo.maxConnections, 10);
+		CHECK_EQ_VALUES(webhookInfo.hasCustomCertificate, true);
+	}
+	{
+		PARSE(WebhookInfo webhookInfo,
+				"{ \"last_error_message\": \"pork dio\", \"allowed_updates\": [ \"message\", \"inline_query\" ], \"url\": \"my_url\", \"pending_update_count\": 3, \"last_error_date\": 53550, \"max_connections\": 10, \"has_custom_certificate\": true }");
+				
+		CHECK_EQ_VALUES(webhookInfo.url, "my_url");
+		CHECK_EQ_VALUES(webhookInfo.pendingUpdateCount, 3);
+		CHECK_EQ_VALUES(webhookInfo.lastErrorDate, 53550);
+		CHECK_EQ_VALUES(webhookInfo.maxConnections, 10);
+		CHECK_EQ_VALUES(webhookInfo.hasCustomCertificate, true);
+		CHECK_EQ_VALUES(webhookInfo.lastErrorMessage.operator bool(),true);
+		CHECK_EQ_VALUES(webhookInfo.allowedUpdates.operator bool(), true);
+	}
+	TEST_END();
+	
+	TEST_BEGIN("TypesCallbackQuery");
+	{
+		PARSE(CallbackQuery callbackQuery,
+				"{ \"from\": { \"first_name\": \"TestBot\", \"id\": 123456, \"is_bot\": true }, \"id\": \"1111\", \"chat_instance\": \"instance\" }");
+				
+		CHECK_EQ_VALUES(callbackQuery.id, "1111");
+		CHECK_EQ_VALUES(callbackQuery.chatInstance, "instance");
+	}
+	
+	{
+		PARSE(CallbackQuery callbackQuery,
+				"{ \"inline_message_id\": \"id\", \"data\": \"my_data\", \"game_short_name\":\"short\", \"from\": { \"first_name\": \"TestBot\", \"id\": 123456, \"is_bot\": true }, \"id\": \"1111\", \"chat_instance\": \"instance\" }");
+				
+		CHECK_EQ_VALUES(callbackQuery.id, "1111");
+		CHECK_EQ_VALUES(callbackQuery.chatInstance, "instance");
+		CHECK_EQ_VALUES(callbackQuery.inlineMessageId.operator bool(), true);
+		CHECK_EQ_VALUES(callbackQuery.data.operator bool(), true);
+		CHECK_EQ_VALUES(callbackQuery.gameShortName.operator bool(), true);
+	}
+	TEST_END();
+	
+	TEST_BEGIN("TypesShippingQuery");
+	PARSE(ShippingQuery shippingQuery,
+			"{\"id\": \"myId\", \"invoice_payload\": \"payload\",\"shipping_address\": { \"country_code\": \"IT\", \"state\":\"Italy\", \"city\": \"Rome\", \"street_line_one\":\"streetLine\",\"street_line_two\": \"streetLineTwo\", \"post_code\": \"000111\"}, \"from\": { \"first_name\": \"TestBot\", \"id\": 123456, \"is_bot\": true }}");
+	CHECK_EQ_VALUES(shippingQuery.id, "myId");
+	CHECK_EQ_VALUES(shippingQuery.invoicePayload, "payload");
+	TEST_END();
+	
+	TEST_BEGIN("TypesPreCheckoutQuery");
+	{
+		PARSE(PreCheckoutQuery preCheckoutQuery,
+			"{ \"shipping_option_id\": \"some_options\", \"order_info\": { \"name\": \"Name\", \"phone_number\": \"911\", \"email\": \"lol@lol.troll\", \"shipping_address\": { \"country_code\": \"IT\", \"state\":\"Italy\", \"city\": \"Rome\", \"street_line_one\":\"streetLine\",\"street_line_two\": \"streetLineTwo\", \"post_code\": \"000111\"}},\"from\": { \"first_name\": \"TestBot\", \"id\": 123456, \"is_bot\": true }, \"currency\": \"USD\", \"id\": \"myId\", \"invoice_payload\": \"payload\", \"total_amount\": 10}");
+			
+		CHECK_EQ_VALUES(preCheckoutQuery.currency,"USD");
+		CHECK_EQ_VALUES(preCheckoutQuery.id,"myId");
+		CHECK_EQ_VALUES(preCheckoutQuery.invoicePayload,"payload");
+		CHECK_EQ_VALUES(preCheckoutQuery.totalAmount, 10);
+		CHECK_EQ_VALUES(preCheckoutQuery.shippingOptionId.operator bool(), true);
+		CHECK_EQ_VALUES(preCheckoutQuery.orderInfo.operator bool(), true)
+	}
+	TEST_END();
+	
 	UNIT_END();
 }
