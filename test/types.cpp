@@ -545,6 +545,30 @@ int main()
 		CHECK_EQ_VALUES(preCheckoutQuery.orderInfo.operator bool(), true)
 	}
 	TEST_END();
+
+	TEST_BEGIN("TypesChatMember");
+	PARSE(ChatMember chatMember,
+			"{ \"status\": \"creator\", \"until_date\":303030, \"can_be_edited\": true, \"can_change_info\": false, \"can_post_messages\": true, \"can_edit_messages\": true, \"can_delete_messages\": true, \"can_invite_users\": true, \"can_restrict_members\": false, \"can_pin_messages\": true, \"can_promote_members\": false, \"can_send_messages\": true, \"can_send_media_messages\": true, \"can_send_other_messages\": true, \"can_add_web_page_previews\": true, \"user\": { \"first_name\": \"TestBot\", \"id\": 123456, \"is_bot\": false } }");
+	CHECK_EQ_VALUES(chatMember.status, ChatMemberStatus::CREATOR);
+	CHECK_EQ_VALUES(chatMember.untilDate, 303030);
+	CHECK_EQ_VALUES(chatMember.canBeEdited,true);
+	CHECK_EQ_VALUES(chatMember.canChangeInfo,false);
+	CHECK_EQ_VALUES(chatMember.canPostMessages,true);
+	CHECK_EQ_VALUES(chatMember.canEditMessages,true);
+	CHECK_EQ_VALUES(chatMember.canDeleteMessages,true);
+	CHECK_EQ_VALUES(chatMember.canInviteUsers,true);
+	CHECK_EQ_VALUES(chatMember.canRestrictMembers,false);
+	CHECK_EQ_VALUES(chatMember.canPinMessages,true);
+	CHECK_EQ_VALUES(chatMember.canPromoteMembers,false);
+	CHECK_EQ_VALUES(chatMember.canSendMessages,true);
+	CHECK_EQ_VALUES(chatMember.canSendMediaMessages,true);
+	CHECK_EQ_VALUES(chatMember.canSendOtherMessages,true);
+	CHECK_EQ_VALUES(chatMember.canAddWebPagePreviews,true);
+	TEST_END();
+	
+	//chat
+	//message
+	//update
 	
 	UNIT_END();
 }
