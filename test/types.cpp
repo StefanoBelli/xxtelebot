@@ -565,10 +565,118 @@ int main()
 	CHECK_EQ_VALUES(chatMember.canSendOtherMessages,true);
 	CHECK_EQ_VALUES(chatMember.canAddWebPagePreviews,true);
 	TEST_END();
+
+	TEST_BEGIN("TypesChat");
+	{
+		PARSE(Chat chat,
+				"{ \"type\": \"private\", \"id\": 120 }");
+		
+		CHECK_EQ_VALUES(chat.type, ChatType::PRIVATE);
+		CHECK_EQ_VALUES(chat.id, 120);
+	}
 	
-	//chat
-	//message
-	//update
+	{
+		PARSE(Chat chat,
+				"{ \"type\": \"group\", \"id\": 140, \"all_members_are_administrators\": true }");
+
+		CHECK_EQ_VALUES(chat.type, ChatType::GROUP);
+		CHECK_EQ_VALUES(chat.id,140);
+		CHECK_EQ_VALUES(chat.allMembersAreAdministrators,true);
+	}
 	
+	{
+		PARSE(Chat chat,
+				"{ \"type\": \"group\", \"id\": 140, \"all_members_are_administrators\": true, \"title\":\"mychat\", \"username\":\"user\", \"first_name\":\"Name\", \"last_name\":\"Last\", \"description\":\"some description\", \"invite_link\":\"my.link\" }");
+	
+		CHECK_EQ_VALUES(chat.type, ChatType::GROUP);
+		CHECK_EQ_VALUES(chat.id,140);
+		CHECK_EQ_VALUES(chat.allMembersAreAdministrators,true);	
+		CHECK_EQ_VALUES(chat.title.operator bool(),true);
+		CHECK_EQ_VALUES(chat.username.operator bool(), true);
+		CHECK_EQ_VALUES(chat.firstName.operator bool(), true);
+		CHECK_EQ_VALUES(chat.lastName.operator bool(), true);
+		CHECK_EQ_VALUES(chat.description.operator bool(), true);
+		CHECK_EQ_VALUES(chat.inviteLink.operator bool(), true);
+	}
+
+	{
+		PARSE(Chat chat,
+				"{ \"pinned_message\": { \"chat\": { \"type\": \"private\", \"id\": 120 }, \"message_id\": 101010, \"date\": 697887 }, \"photo\": { \"small_file_id\": \"123456\", \"big_file_id\": \"654321\" }, \"type\": \"private\", \"id\": 120 }");
+		
+		CHECK_EQ_VALUES(chat.type, ChatType::PRIVATE);
+		CHECK_EQ_VALUES(chat.id, 120);
+	}
+	TEST_END()
+		
+	
+	TEST_BEGIN("TypesMessage");
+	PARSE(Message message,
+			"{ \"chat\": { \"type\": \"private\", \"id\": 120 }, \"message_id\": 101010, \"date\": 697887 }");
+
+	CHECK_EQ_VALUES(message.messageId,101010);
+	CHECK_EQ_VALUES(message.date,697887);
+	TEST_END();
+	
+	TEST_BEGIN("TypesUpdate");
+	{
+		PARSE(Update update,
+				"{ \"update_id\": 101010, \"message\": { \"chat\": { \"type\": \"private\", \"id\": 120 }, \"message_id\": 101010, \"date\": 697887 }");
+		
+		CHECK_EQ_VALUES(update.updateId,101010);
+		CHECK_EQ_VALUES(update.updateType, UpdateType::MESSAGE);
+	}
+	{
+		PARSE(Update update,
+				"{ \"update_id\": 101010, \"edited_message\": { \"chat\": { \"type\": \"private\", \"id\": 120 }, \"message_id\": 101010, \"date\": 697887 }");
+		
+		CHECK_EQ_VALUES(update.updateId,101010);
+		CHECK_EQ_VALUES(update.updateType, UpdateType::EDITED_MESSAGE);
+	}
+	{
+		PARSE(Update update,
+				"{ \"update_id\": 101010, \"channel_post\": { \"chat\": { \"type\": \"private\", \"id\": 120 }, \"message_id\": 101010, \"date\": 697887 }");
+		
+		CHECK_EQ_VALUES(update.updateId,101010);
+		CHECK_EQ_VALUES(update.updateType, UpdateType::CHANNEL_POST);
+	}
+	{
+		PARSE(Update update,
+				"{ \"update_id\": 101010, \"edited_channel_post\": { \"chat\": { \"type\": \"private\", \"id\": 120 }, \"message_id\": 101010, \"date\": 697887 }");
+		
+		CHECK_EQ_VALUES(update.updateId,101010);
+		CHECK_EQ_VALUES(update.updateType, UpdateType::EDITED_CHANNEL_POST);
+	}
+	{
+		PARSE(Update update,
+				"{ \"update_id\": 101010, \"inline_query\": { \"from\": { \"first_name\": \"MyName\", \"is_bot\": false, \"id\": 1000 }, \"id\": \"iqid\", \"query\": \"query_terms\", \"offset\": \"quoffset\" }");
+
+		
+		CHECK_EQ_VALUES(update.updateId,101010);
+		CHECK_EQ_VALUES(update.updateType, UpdateType::INLINE_QUERY);
+	}
+	{
+		PARSE(Update update,
+				"{ \"update_id\": 101010, \"chosen_inline_result\":{ \"from\": { \"first_name\": \"MyName\", \"is_bot\": false, \"id\": 1000 }, \"result_id\": \"result\", \"query\":\"wordquery\" }");
+		
+		CHECK_EQ_VALUES(update.updateId,101010);
+		CHECK_EQ_VALUES(update.updateType, UpdateType::CHOSEN_INLINE_RESULT);
+	}
+	{
+		PARSE(Update update,
+				"{ \"update_id\": 101010, \"shipping_query\":{\"id\": \"myId\", \"invoice_payload\": \"payload\",\"shipping_address\": { \"country_code\": \"IT\", \"state\":\"Italy\", \"city\": \"Rome\", \"street_line_one\":\"streetLine\",\"street_line_two\": \"streetLineTwo\", \"post_code\": \"000111\"}, \"from\": { \"first_name\": \"TestBot\", \"id\": 123456, \"is_bot\": true }}");
+			
+		CHECK_EQ_VALUES(update.updateId,101010);
+		CHECK_EQ_VALUES(update.updateType, UpdateType::SHIPPING_QUERY);
+	}
+	{
+		PARSE(Update update,
+				"{ \"update_id\": 101010, \"pre_checkout_query\":{ \"shipping_option_id\": \"some_options\", \"order_info\": { \"name\": \"Name\", \"phone_number\": \"911\", \"email\": \"lol@lol.troll\", \"shipping_address\": { \"country_code\": \"IT\", \"state\":\"Italy\", \"city\": \"Rome\", \"street_line_one\":\"streetLine\",\"street_line_two\": \"streetLineTwo\", \"post_code\": \"000111\"}},\"from\": { \"first_name\": \"TestBot\", \"id\": 123456, \"is_bot\": true }, \"currency\": \"USD\", \"id\": \"myId\", \"invoice_payload\": \"payload\", \"total_amount\": 10}");
+			
+		CHECK_EQ_VALUES(update.updateId,101010);
+		CHECK_EQ_VALUES(update.updateType, UpdateType::PRE_CHECKOUT_QUERY);
+	}
+
+	TEST_END();
+
 	UNIT_END();
 }

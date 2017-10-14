@@ -291,7 +291,7 @@ tgbot::types::Chat::Chat(const Json::Value &object) {
 	id = object.get("id", "").asInt();
 
 	if (this->type != ChatType::PRIVATE)
-		allMembersAreAdministrators =
+		this->allMembersAreAdministrators =
 			object.get("all_members_are_administrators", "").asBool();
 
 	if (object.isMember("title"))
@@ -324,7 +324,7 @@ tgbot::types::Chat::Chat(const Json::Value &object) {
 
 	if (object.isMember("photo"))
 		this->photo = Ptr<ChatPhoto>(
-				new ChatPhoto(object.get("first_name", "")));
+				new ChatPhoto(object.get("photo", "")));
 }
 
 tgbot::types::User::User(const Json::Value &object) :
