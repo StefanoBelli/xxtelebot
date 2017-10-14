@@ -15,6 +15,7 @@ Units for test being developed
 
 ### Implementation status
 UPDATE(Oct 14, 2017): Tests for *types* done
+
 UPDATE(Oct 2, 2017): Implementations done, unit tests **NEEDED** before continuing with **API METHODS** impls.
 
  * Internal project utils [ directory: *include/tgbot/utils* ]
