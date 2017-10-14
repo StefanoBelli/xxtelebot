@@ -52,11 +52,11 @@ std::string tgbot::methods::types::InlineKeyboardMarkup::toString() const {
 	std::stringstream jsonify;
 	jsonify << "{ \"inline_keyboard\": [";
 
-	for (int i = 0; i < r; i++) {
+	for (int i = 0; i < r; ++i) {
 		jsonify << "[";
 		
 		const std::vector<InlineKeyboardButton>& ikb = inlineKeyboard.at(i);
-		for (size_t j = 0; j < ikb.size(); j++) {
+		for (size_t j = 0; j < ikb.size(); ++j) {
 			const InlineKeyboardButton &currentButton = ikb.at(j);
 			jsonify << "{ \"text\": \"" << currentButton.text
 					<< "\", \"pay\": " << BOOL_TOSTR(currentButton.pay);
@@ -94,10 +94,10 @@ std::string tgbot::methods::types::ReplyKeyboardMarkup::toString() const {
 	std::stringstream jsonify;
 	jsonify << "[";
 
-	for (int i = 0; i < r; i++) {
+	for (int i = 0; i < r; ++i) {
 		jsonify << "[";
 		const std::vector<KeyboardButton>& kb = keyboard.at(i);
-		for (size_t j = 0; j < kb.size(); j++) {
+		for (size_t j = 0; j < kb.size(); ++j) {
 			const KeyboardButton &currentButton = kb.at(j);
 			jsonify << "{ \"text\": \"" << currentButton.text << "\","
 					<< "\"request_contact\": " << BOOL_TOSTR(currentButton.requestContact)

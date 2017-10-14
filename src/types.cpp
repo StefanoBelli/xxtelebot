@@ -644,9 +644,9 @@ tgbot::types::File::File(const Json::Value &object) :
 tgbot::types::UserProfilePhotos::UserProfilePhotos(const Json::Value &object) :
 	totalCount(object.get("total_count", "").asInt()) {
 		const Json::Value &matArr{object.get("photos", "")};
-		for (ArrayIndex i = 0; i < matArr.size(); i++) {
+		for (ArrayIndex i = 0; i < matArr.size(); ++i) {
 			this->photos.emplace_back();
-			for (ArrayIndex j = 0; j < matArr[i].size(); j++)
+			for (ArrayIndex j = 0; j < matArr[i].size(); ++j)
 				this->photos.at(i).emplace_back(matArr[i][j]);
 		}
 	}
