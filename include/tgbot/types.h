@@ -454,7 +454,8 @@ namespace tgbot {
 
 		/*!
 		 * @brief (note) according to telegram API documentation, 
-		 * this is only a placeholder
+		 * this is only a placeholder, currently using this has no effects
+		 * until specified
 		 */
 		enum class CallbackGame {
 			GAME_CALLBACK

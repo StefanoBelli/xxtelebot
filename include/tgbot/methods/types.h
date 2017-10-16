@@ -84,6 +84,9 @@ namespace tgbot {
 					Ptr<std::string> callbackData;
 					Ptr<std::string> switchInlineQuery;
 					Ptr<std::string> switchInlineQueryCurrentChat;
+					/*!
+					 * @brief check tgbot::types::CallbackGame for further infos
+					 */
 					CallbackGame callbackGame;
 					bool pay : 1;
 			};
