@@ -3,6 +3,10 @@
 
 #define BOOL_TOSTR(xvalue) \
 	((xvalue) ? "true" : "false")
+	
+#define SEPARATE(k) \
+	if(k)\
+		jsonify << ','
 
 std::string tgbot::methods::types::toString(const ParseMode &parseMode) {
 	if (parseMode == ParseMode::HTML)
@@ -53,10 +57,13 @@ std::string tgbot::methods::types::InlineKeyboardMarkup::toString() const {
 	jsonify << "{ \"inline_keyboard\": [";
 
 	for (int i = 0; i < r; ++i) {
+		SEPARATE(i);
 		jsonify << "[";
 		
 		const std::vector<InlineKeyboardButton>& ikb = inlineKeyboard.at(i);
 		for (size_t j = 0; j < ikb.size(); ++j) {
+			SEPARATE(j);
+			
 			const InlineKeyboardButton &currentButton = ikb.at(j);
 			jsonify << "{ \"text\": \"" << currentButton.text
 					<< "\", \"pay\": " << BOOL_TOSTR(currentButton.pay);
@@ -80,7 +87,7 @@ std::string tgbot::methods::types::InlineKeyboardMarkup::toString() const {
 		jsonify << "]";
 	}
 
-	jsonify << "]";
+	jsonify << "}";
 
 	return jsonify.str();
 }
@@ -95,9 +102,13 @@ std::string tgbot::methods::types::ReplyKeyboardMarkup::toString() const {
 	jsonify << "[";
 
 	for (int i = 0; i < r; ++i) {
+		SEPARATE(i);
 		jsonify << "[";
+		
 		const std::vector<KeyboardButton>& kb = keyboard.at(i);
 		for (size_t j = 0; j < kb.size(); ++j) {
+			SEPARATE(j);
+			
 			const KeyboardButton &currentButton = kb.at(j);
 			jsonify << "{ \"text\": \"" << currentButton.text << "\","
 					<< "\"request_contact\": " << BOOL_TOSTR(currentButton.requestContact)

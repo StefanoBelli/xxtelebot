@@ -73,5 +73,20 @@ int main()
 	}
 	TEST_END();
 	
+	TEST_BEGIN("TestReplyKeyboardRemove");
+
+	const ReplyMarkup& replyMarkup = ReplyKeyboardRemove();
+	CHECK_EQ_VALUES(replyMarkup.toString(), "{\"remove_keyboard\": true, \"selective\": false}");
+	
+	TEST_END();
+	
+	TEST_BEGIN("TestInlineKeyboardMarkup");
+
+	TEST_END();
+	
+	TEST_BEGIN("TestReplyKeyboardMarkup");
+	
+	TEST_END();
+	
 	UNIT_END();
 }
