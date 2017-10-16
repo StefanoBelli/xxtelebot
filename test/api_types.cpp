@@ -150,6 +150,12 @@ int main()
 	const ReplyMarkup& replyMarkup = replyKeyboardMarkup;
 	CHECK_EQ_VALUES(replyMarkup.toString(), "{ \"resize_keyboard\": true, \"one_time_keyboard\": true, \"selective\": false, [[{ \"text\": \"ok\",\"request_contact\": false,\"request_location\": false},{ \"text\": \"not ok\",\"request_contact\": false,\"request_location\": false}],[{ \"text\": \"abort\",\"request_contact\": true,\"request_location\": false}]]}");
 	TEST_END();
-	
+
+	TEST_BEGIN("TestForceReply");
+
+	const ReplyMarkup& replyMarkup = ForceReply();
+	CHECK_EQ_VALUES(replyMarkup.toString(), "{\"force_reply\": true, \"selective\": false}");
+	TEST_END();
+
 	UNIT_END();
 }
