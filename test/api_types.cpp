@@ -157,5 +157,91 @@ int main()
 	CHECK_EQ_VALUES(replyMarkup.toString(), "{\"force_reply\": true, \"selective\": false}");
 	TEST_END();
 
+	TEST_BEGIN("TestInputTextMessageContent");
+	{
+		InputTextMessageContent inputTextMessageContent;
+		inputTextMessageContent.messageText = "some text";
+		inputTextMessageContent.disableWebPagePreview = true;
+
+		const InputMessageContent& inputMessageContent = inputTextMessageContent;
+		CHECK_EQ_VALUES(inputMessageContent.toString(), "{ \"message_text\": \"some text\",\"disable_web_page_preview\": true}");
+	}
+	
+	{
+		InputTextMessageContent inputTextMessageContent;
+		inputTextMessageContent.messageText = "some text";
+		inputTextMessageContent.parseMode = ParseMode::MARKDOWN;
+		inputTextMessageContent.disableWebPagePreview = false;
+
+		const InputMessageContent& inputMessageContent = inputTextMessageContent;
+		CHECK_EQ_VALUES(inputMessageContent.toString(), "{ \"message_text\": \"some text\",\"disable_web_page_preview\": false,\"parse_mode\": \"Markdown\"}");
+	}
+	
+	{
+		InputTextMessageContent inputTextMessageContent;
+		inputTextMessageContent.messageText = "some text";
+		inputTextMessageContent.parseMode = ParseMode::HTML;
+		inputTextMessageContent.disableWebPagePreview = false;
+
+		const InputMessageContent& inputMessageContent = inputTextMessageContent;
+		CHECK_EQ_VALUES(inputMessageContent.toString(), "{ \"message_text\": \"some text\",\"disable_web_page_preview\": false,\"parse_mode\": \"HTML\"}");
+	}
+	TEST_END();
+
+	TEST_BEGIN("TestInputLocationMessageContent");
+	InputLocationMessageContent inputLocationMessageContent;
+	inputLocationMessageContent.longitude = 10.4567;
+	inputLocationMessageContent.latitude = 11.1456;
+
+	const InputMessageContent& inputMessageContent = inputLocationMessageContent;
+	CHECK_EQ_VALUES(inputMessageContent.toString(), "{ \"latitude\": 11.1456,\"longitude\": 10.4567}");
+	TEST_END();
+
+	TEST_BEGIN("TestInputContactMessageContent");
+	{
+		InputContactMessageContent inputContactMessageContent;
+		inputContactMessageContent.firstName = "Loller";
+		inputContactMessageContent.phoneNumber = "666666";
+		
+		const InputMessageContent& inputMessageContent = inputContactMessageContent;
+		CHECK_EQ_VALUES(inputMessageContent.toString(), "{ \"phone_number\": \"666666\", \"first_name\": \"Loller\"}");
+	}
+	
+	{
+		InputContactMessageContent inputContactMessageContent;
+		inputContactMessageContent.firstName = "Loller";
+		inputContactMessageContent.phoneNumber = "666666";
+		inputContactMessageContent.lastName = tgbot::utils::makePtr<std::string>("lolname");
+
+		const InputMessageContent& inputMessageContent = inputContactMessageContent;
+		CHECK_EQ_VALUES(inputMessageContent.toString(), "{ \"phone_number\": \"666666\", \"first_name\": \"Loller\",\"last_name\": \"lolname\"}");
+	}
+	TEST_END();
+	
+	TEST_BEGIN("TestInputVenueMessageContent");
+	{
+		InputVenueMessageContent inputVenueMessageContent;
+		inputVenueMessageContent.title = "VenueTitle";
+		inputVenueMessageContent.address = "address";
+		inputVenueMessageContent.latitude = 10.113;
+		inputVenueMessageContent.longitude = 11.114;
+
+		const InputMessageContent& inputMessageContent = inputVenueMessageContent;
+		CHECK_EQ_VALUES(inputMessageContent.toString(), "{ \"title\": \"VenueTitle\", \"address\":\"address\", \"latitude\": 10.113, \"longitude\": 11.114}");
+	}
+	
+	{
+		InputVenueMessageContent inputVenueMessageContent;
+		inputVenueMessageContent.title = "VenueTitle";
+		inputVenueMessageContent.address = "address";
+		inputVenueMessageContent.latitude = 10.113;
+		inputVenueMessageContent.longitude = 11.114;
+		inputVenueMessageContent.foursquareId = tgbot::utils::makePtr<std::string>("some_id");
+
+		const InputMessageContent& inputMessageContent = inputVenueMessageContent;
+		CHECK_EQ_VALUES(inputMessageContent.toString(), "{ \"title\": \"VenueTitle\", \"address\":\"address\", \"latitude\": 10.113, \"longitude\": 11.114,\"foursquare_id\":\"some_id\"}");
+	}
+	TEST_END();
+	
 	UNIT_END();
 }
