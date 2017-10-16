@@ -99,7 +99,8 @@ std::string tgbot::methods::types::ReplyKeyboardMarkup::toString() const {
 		return "";
 
 	std::stringstream jsonify;
-	jsonify << "[";
+	jsonify << "{ \"resize_keyboard\": " << BOOL_TOSTR(resizeKeyboard) << ", \"one_time_keyboard\": " << BOOL_TOSTR(oneTimeKeyboard)
+			<< ", \"selective\": " << BOOL_TOSTR(selective) << ", [";
 
 	for (int i = 0; i < r; ++i) {
 		SEPARATE(i);
@@ -118,7 +119,7 @@ std::string tgbot::methods::types::ReplyKeyboardMarkup::toString() const {
 		jsonify << "]";
 	}
 
-	jsonify << "]";
+	jsonify << "]}";
 
 	return jsonify.str();
 }
