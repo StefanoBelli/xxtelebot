@@ -37,7 +37,7 @@ namespace tgbot {
 
 		public:
 			inline void callback(void(&callback)(const types::Message,const Bot&)) {
-				messageCallback = UpdateCallback<types::Message>(callback);
+				messageCallback = callback;
 			}
 
 
