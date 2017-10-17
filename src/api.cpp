@@ -74,7 +74,7 @@ tgbot::methods::Api::Api(const std::string &token,
 			updateApiRequest = fullApiRequest.str();
 	}
 
-std::vector<api_types::Update> tgbot::methods::Api::getUpdates(void *c) {
+int tgbot::methods::Api::getUpdates(void *c, std::vector<api_types::Update>& updates) {
 	std::stringstream updatesRequest;
 	updatesRequest << updateApiRequest << "&offset=" << currentOffset;
 
@@ -86,17 +86,15 @@ std::vector<api_types::Update> tgbot::methods::Api::getUpdates(void *c) {
 	if (!rootUpdate.get("ok", "").asBool())
 		throw TelegramException(rootUpdate.get("description", "").asCString());
 
-	std::vector<api_types::Update> finalUpdates;
+	Json::Value valueUpdates = rootUpdate.get("result", "");
+	const int& updatesCount = valueUpdates.size();
+	if (!updatesCount)
+		return 0;
 
-	Json::Value updates = rootUpdate.get("result", "");
-	if (!updates.size())
-		return {};
+	for (auto const &singleUpdate : valueUpdates)
+		updates.emplace_back(singleUpdate);
 
-	for (auto const &singleUpdate : updates)
-		finalUpdates.emplace_back(singleUpdate);
+	currentOffset = 1 + valueUpdates[updatesCount - 1].get("update_id", "").asInt64();
 
-	currentOffset = updates[updates.size() - 1].get("update_id", "").asInt64();
-	currentOffset++;
-
-	return finalUpdates;
+	return updatesCount;
 }

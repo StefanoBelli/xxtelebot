@@ -31,11 +31,13 @@ void tgbot::LongPollBot::start() {
 
 	curl_easy_setopt(fetchConnection, CURLOPT_TCP_KEEPALIVE, 1L);
 	curl_easy_setopt(fetchConnection, CURLOPT_TCP_KEEPIDLE, 60);
-
+	
+	std::vector<types::Update> updates;
 	while (true) {
-		std::vector<types::Update> updates = getUpdates(fetchConnection);
-		if (updates.size())
+		if(getUpdates(fetchConnection,updates)) {
 			makeCallback(updates);
+			updates.clear();
+		}
 	}
 }
 
@@ -49,47 +51,47 @@ void tgbot::Bot::makeCallback(const std::vector<types::Update> &updates) const {
 		switch (update.updateType) {
 			case types::UpdateType::MESSAGE:
 				if (messageCallback)
-					tmpHolder = std::thread(messageCallback, std::move(*update.message.get()), *this);
+					tmpHolder = std::thread(messageCallback, std::move(*update.message), *this);
 
 				break;
 			case types::UpdateType::EDITED_MESSAGE:
 				if (editedMessageCallback)
-					tmpHolder = std::thread(editedMessageCallback, std::move(*update.editedMessage.get()), *this);
+					tmpHolder = std::thread(editedMessageCallback, std::move(*update.editedMessage), *this);
 
 				break;
 			case types::UpdateType::CALLBACK_QUERY:
 				if (callbackQueryCallback)
-					tmpHolder = std::thread(callbackQueryCallback, std::move(*update.callbackQuery.get()), *this);
+					tmpHolder = std::thread(callbackQueryCallback, std::move(*update.callbackQuery), *this);
 
 				break;
 			case types::UpdateType::CHOSEN_INLINE_RESULT:
 				if (chosenInlineResultCallback)
-					tmpHolder = std::thread(chosenInlineResultCallback, std::move(*update.chosenInlineResult.get()), *this);
+					tmpHolder = std::thread(chosenInlineResultCallback, std::move(*update.chosenInlineResult), *this);
 
 				break;
 			case types::UpdateType::EDITED_CHANNEL_POST:
 				if (editedChannelPostCallback)
-					tmpHolder = std::thread(editedChannelPostCallback, std::move(*update.editedChannelPost.get()), *this);
+					tmpHolder = std::thread(editedChannelPostCallback, std::move(*update.editedChannelPost), *this);
 
 				break;
 			case types::UpdateType::INLINE_QUERY:
 				if (inlineQueryCallback) 
-					tmpHolder = std::thread(inlineQueryCallback, std::move(*update.inlineQuery.get()), *this);
+					tmpHolder = std::thread(inlineQueryCallback, std::move(*update.inlineQuery), *this);
 
 				break;
 			case types::UpdateType::PRE_CHECKOUT_QUERY:
 				if (preCheckoutQueryCallback) 
-					tmpHolder = std::thread(preCheckoutQueryCallback, std::move(*update.preCheckoutQuery.get()), *this);
+					tmpHolder = std::thread(preCheckoutQueryCallback, std::move(*update.preCheckoutQuery), *this);
 
 				break;
 			case types::UpdateType::SHIPPING_QUERY:
 				if (shippingQueryCallback)
-					tmpHolder = std::thread(shippingQueryCallback, std::move(*update.shippingQuery.get()), *this);
+					tmpHolder = std::thread(shippingQueryCallback, std::move(*update.shippingQuery), *this);
 
 				break;
 			case types::UpdateType::CHANNEL_POST:
 				if (channelPostCallback)
-					tmpHolder = std::thread(channelPostCallback, std::move(*update.channelPost.get()), *this);
+					tmpHolder = std::thread(channelPostCallback, std::move(*update.channelPost), *this);
 
 				break;
 		}

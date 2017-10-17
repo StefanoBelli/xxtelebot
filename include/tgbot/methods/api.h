@@ -378,7 +378,7 @@ namespace tgbot {
 						const int& maxConnections,
 						const std::vector<api_types::UpdateType>& allowedUpdates);
 
-				std::vector<api_types::Update> getUpdates(void* c);
+				int getUpdates(void* c, std::vector<api_types::Update>& updates);
 
 			private:
 				const std::string baseApi;
