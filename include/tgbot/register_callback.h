@@ -36,36 +36,36 @@ namespace tgbot {
 			UpdateCallback<types::Message> channelPostCallback;
 
 		public:
-			inline void callback(const void(*callback)(const types::Message,const Bot&)) {
+			inline void callback(void(*callback)(const types::Message,const Bot&)) {
 				messageCallback = callback;
 			}
 
 
-			inline void callback(const void(*callback)(const types::InlineQuery, const Bot&)) {
+			inline void callback(void(*callback)(const types::InlineQuery, const Bot&)) {
 				inlineQueryCallback = callback;
 			}
 
 
-			inline void callback(const void(*callback)(const types::ChoaenInlineResult, const Bot&)) {
+			inline void callback(void(*callback)(const types::ChoaenInlineResult, const Bot&)) {
 				chosenInlineResultCallback = callback;
 			}
 
 
-			inline void callback(const void(*callback)(const types::CallbackQuery, const Bot&)) {
+			inline void callback(void(*callback)(const types::CallbackQuery, const Bot&)) {
 				callbackQueryCallback = callback;
 			}
 
 
-			inline void callback(const void(*callback)(const types::ShippingQuery, const Bot&)) {
+			inline void callback(void(*callback)(const types::ShippingQuery, const Bot&)) {
 				shippingQueryCallback = callback;
 			}
 
 
-			inline void callback(const void(*callback)(const types::PreCheckoutQuery, const Bot&)) {
+			inline void callback(void(*callback)(const types::PreCheckoutQuery, const Bot&)) {
 				preCheckoutQueryCallback = callback;
 			}
 
-			inline void callback(const void(*callback)(const types::Message),
+			inline void callback(void(*callback)(const types::Message, const Bot&),
 					const types::UpdateType& which) {
 				if(which == types::UpdateType::EDITED_MESSAGE)
 					editedMessageCallback = callback;
