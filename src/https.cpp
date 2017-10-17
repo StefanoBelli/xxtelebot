@@ -70,3 +70,44 @@ std::string tgbot::utils::http::multiPartUpload(CURL *c,
 
 	return body;
 }
+
+std::string tgbot::utils::http::multiPartUpload(CURL *c, const std::string &operation, const std::string &cert,
+                                                const std::string &url, const int &maxConn, const std::string& allowedUpdates) {
+    if (!c)
+        throw std::runtime_error("CURL is actually a null pointer");
+
+    curl_httppost *multiPost = nullptr;
+    curl_httppost *end = nullptr;
+    std::string body;
+
+    curl_formadd(&multiPost, &end,
+                 CURLFORM_COPYNAME, "url",
+                 CURLFORM_COPYCONTENTS, url.c_str(),
+                 CURLFORM_END);
+
+    curl_formadd(&multiPost, &end,
+                 CURLFORM_COPYNAME, "certificate",
+                 CURLFORM_FILE, cert.c_str(),
+                 CURLFORM_END);
+
+    curl_formadd(&multiPost, &end,
+                 CURLFORM_COPYNAME, "max_connections",
+                 CURLFORM_COPYCONTENTS, std::to_string(maxConn).c_str(),
+                 CURLFORM_END);
+
+    if(allowedUpdates != "")
+        curl_formadd(&multiPost, &end,
+                     CURLFORM_COPYNAME, "allowed_updates",
+                     CURLFORM_COPYCONTENTS, allowedUpdates.c_str(),
+                     CURLFORM_END);
+
+    curl_easy_setopt(c, CURLOPT_HTTPPOST, multiPost);
+    curl_easy_setopt(c, CURLOPT_WRITEDATA, &body);
+    curl_easy_setopt(c, CURLOPT_URL, operation.c_str());
+
+    CURLcode code;
+    if ((code = curl_easy_perform(c)) != CURLE_OK)
+        throw std::runtime_error(curl_easy_strerror(code));
+
+    return body;
+}
