@@ -17,7 +17,7 @@ namespace tgbot {
 	}
 
 	/*!
-	 * @brief refer to RegisterCallback::callback function
+	 * @brief refer to callback function
 	 */
 	template <typename TypeUpdate>
 		using UpdateCallback = std::function<void(const TypeUpdate, const Bot&)>;
@@ -36,64 +36,45 @@ namespace tgbot {
 			UpdateCallback<types::Message> channelPostCallback;
 
 		public:
-			/*!
-			 * @brief (deleted) register a callback, template specializations exist,
-			 * @tparam Ty : update type, see namespace tgbot::types
-			 * @param unknownCallback
-			 */
-			template <typename Ty>
-				inline void callback(const UpdateCallback<Ty>&) = delete;
+			inline void callback(const void(&callback)(const types::Message,const Bot&)) {
+				messageCallback = callback;
+			}
 
-			/*!
-			 * @brief register a callback, must be used
-			 * for "edited message" or "edited channel post"
-			 * @param message
-			 * @param which : see types::UpdateType
-			 */
-			inline void callback(const UpdateCallback<types::Message>& message,
-					const types::UpdateType& which);
+
+			inline void callback(const UpdateCallback<types::InlineQuery>& callback) {
+				inlineQueryCallback = callback;
+			}
+
+
+			inline void callback(const UpdateCallback<types::ChosenInlineResult>& callback) {
+				chosenInlineResultCallback = callback;
+			}
+
+
+			inline void callback(const UpdateCallback<types::CallbackQuery>& callback) {
+				callbackQueryCallback = callback;
+			}
+
+
+			inline void callback(const UpdateCallback<types::ShippingQuery>& callback) {
+				shippingQueryCallback = callback;
+			}
+
+
+			inline void callback(const UpdateCallback<types::PreCheckoutQuery>& callback) {
+				preCheckoutQueryCallback = callback;
+			}
+
+			inline void callback(const void(&callback)(const types::Messagek,
+					const types::UpdateType& which) {
+				if(which == types::UpdateType::EDITED_MESSAGE)
+					editedMessageCallback = callback;
+				else if(which == types::UpdateType::EDITED_CHANNEL_POST)
+					editedChannelPostCallback = callback;
+				else if(which == types::UpdateType::CHANNEL_POST)
+					channelPostCallback = callback;
+			}
 	};
-
-	template<>
-		inline void RegisterCallback::callback<types::Message>(const UpdateCallback<types::Message>& callback) {
-			messageCallback = callback;
-		}
-
-	template<>
-		inline void RegisterCallback::callback<types::InlineQuery>(const UpdateCallback<types::InlineQuery>& callback) {
-			inlineQueryCallback = callback;
-		}
-
-	template<>
-		inline void RegisterCallback::callback<types::ChosenInlineResult>(const UpdateCallback<types::ChosenInlineResult>& callback) {
-			chosenInlineResultCallback = callback;
-		}
-
-	template<>
-		inline void RegisterCallback::callback<types::CallbackQuery>(const UpdateCallback<types::CallbackQuery>& callback) {
-			callbackQueryCallback = callback;
-		}
-
-	template<>
-		inline void RegisterCallback::callback<types::ShippingQuery>(const UpdateCallback<types::ShippingQuery>& callback) {
-			shippingQueryCallback = callback;
-		}
-
-	template<>
-		inline void RegisterCallback::callback<types::PreCheckoutQuery>(const UpdateCallback<types::PreCheckoutQuery>& callback) {
-			preCheckoutQueryCallback = callback;
-		}
-
-	inline void RegisterCallback::callback(const UpdateCallback<types::Message>& callback,
-			const types::UpdateType& which) {
-		if(which == types::UpdateType::EDITED_MESSAGE)
-			editedMessageCallback = callback;
-		else if(which == types::UpdateType::EDITED_CHANNEL_POST)
-			editedChannelPostCallback = callback;
-		else if(which == types::UpdateType::CHANNEL_POST)
-			channelPostCallback = callback;
-	}
-
 }
 
 #endif
