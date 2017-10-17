@@ -46,7 +46,7 @@ namespace tgbot {
 			}
 
 
-			inline void callback(void(&callback)(const types::ChoaenInlineResult, const Bot&)) {
+			inline void callback(void(&callback)(const types::ChosenInlineResult, const Bot&)) {
 				chosenInlineResultCallback = callback;
 			}
 
