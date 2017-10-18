@@ -51,6 +51,9 @@ static inline void removeComma(const std::stringstream& stream, std::string& tar
     target = req;
 }
 
+//Api constructors
+
+//Webhook
 tgbot::methods::Api::Api(const std::string& token,
 		const std::string& url,
 		const int& maxConnections,
@@ -62,6 +65,7 @@ tgbot::methods::Api::Api(const std::string& token,
             throw TelegramException("Unable to set webhook");
 }
 
+//Webhook with cert
 tgbot::methods::Api::Api(const std::string& token,
 		const std::string& url,
 		const std::string& certificate,
@@ -74,6 +78,7 @@ tgbot::methods::Api::Api(const std::string& token,
             throw TelegramException("Unable to set webhook");
 }
 
+//HTTP Long polling
 tgbot::methods::Api::Api(const std::string &token,
 		const std::vector<api_types::UpdateType> &allowedUpdates,
 		const int &timeout,
@@ -92,6 +97,11 @@ tgbot::methods::Api::Api(const std::string &token,
 			updateApiRequest = fullApiRequest.str();
 }
 
+//
+//API implementations
+//
+
+//getUpdates (internal usage)
 int tgbot::methods::Api::getUpdates(void *c, std::vector<api_types::Update>& updates) {
 	std::stringstream updatesRequest;
 	updatesRequest << updateApiRequest << "&offset=" << currentOffset;
@@ -117,6 +127,7 @@ int tgbot::methods::Api::getUpdates(void *c, std::vector<api_types::Update>& upd
 	return updatesCount;
 }
 
+//setWebhook (internal usage)
 bool tgbot::methods::Api::setWebhook(const std::string &url, const int &maxConnections,
                                      const std::vector<api_types::UpdateType> &allowedUpdates) const {
     std::stringstream request;
@@ -140,6 +151,7 @@ bool tgbot::methods::Api::setWebhook(const std::string &url, const int &maxConne
     return value.get("ok","").asBool();
 }
 
+//setWebhook (internal usage)
 bool tgbot::methods::Api::setWebhook(const std::string &url, const std::string &certificate,
                                      const int &maxConnections,
                                      const std::vector<api_types::UpdateType> &allowedUpdates) const {
@@ -166,6 +178,11 @@ bool tgbot::methods::Api::setWebhook(const std::string &url, const std::string &
     return value.get("ok","").asBool();
 }
 
+// ---------------------
+// Availible API methods
+// ---------------------
+
+//deleteWebhook
 bool tgbot::methods::Api::deleteWebhook() const {
     CURL* inst = http::curlEasyInit();
     bool isOk = (http::get(inst,baseApi + "/deleteWebhook").find("\"ok\":true") != std::string::npos);
@@ -173,6 +190,7 @@ bool tgbot::methods::Api::deleteWebhook() const {
     return isOk;
 }
 
+//getWebhookInfo
 api_types::WebhookInfo tgbot::methods::Api::getWebhookInfo() const {
     CURL* inst = http::curlEasyInit();
     Json::Value value;
