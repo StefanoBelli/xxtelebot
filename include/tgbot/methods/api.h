@@ -12,6 +12,9 @@ namespace tgbot {
 
 		namespace api_types = ::tgbot::types;
 
+        /*!
+         * @brief Contains Telegram bot API methods
+         */
 		class Api {
 			public:
 				api_types::Message sendMessage(const std::string& chatId, 
@@ -339,23 +342,12 @@ namespace tgbot {
 						const unsigned& offset = 0,
 						const unsigned& limit = 100) const;
 
-				bool setWebhook(const std::string& url,
-						const int& maxConnections = 40,
-						const std::vector<api_types::UpdateType>& allowedUpdates = {}) const;
-
-				bool setWebhook(const std::string& url,
-						const std::string& certificate,
-						const int& maxConnections = 40,
-						const std::vector<api_types::UpdateType>& allowedUpdates = {}) const;
-
 				bool deleteWebhook() const;
 				
 				api_types::WebhookInfo getWebhookInfo() const;
 
 		protected:
                 Api() = default;
-            
-                Api(const std::string& token);
 
 				Api(const std::string& token,
 						const std::vector<api_types::UpdateType>& allowedUpdates,
@@ -375,7 +367,16 @@ namespace tgbot {
 
 				int getUpdates(void* c, std::vector<api_types::Update>& updates);
 
+                bool setWebhook(const std::string& url,
+                                const int& maxConnections = 40,
+                                const std::vector<api_types::UpdateType>& allowedUpdates = {}) const;
+
+                bool setWebhook(const std::string& url,
+                                const std::string& certificate,
+                                const int& maxConnections = 40,
+                                const std::vector<api_types::UpdateType>& allowedUpdates = {}) const;
 			private:
+                const std::string urlWebhook;
 				const std::string baseApi;
 				std::string updateApiRequest;
 				long long currentOffset;

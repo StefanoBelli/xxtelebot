@@ -17,11 +17,14 @@ namespace tgbot {
 	}
 
 	/*!
-	 * @brief refer to callback function
+	 * @brief refer to RegisterCallback::callback() function (overloads)
 	 */
 	template <typename TypeUpdate>
 		using UpdateCallback = std::function<void(const TypeUpdate, const Bot&)>;
 
+    /*!
+     * @brief registers and holds callbacks for each type of update
+     */
 	class RegisterCallback {
 		protected:
 			RegisterCallback() = default;
@@ -36,35 +39,60 @@ namespace tgbot {
 			UpdateCallback<types::Message> channelPostCallback;
 
 		public:
+            /*!
+             * @brief Message update callback
+             * @param callback
+             */
 			inline void callback(void(&callback)(const types::Message,const Bot&)) {
 				messageCallback = callback;
 			}
 
-
+            /*!
+             * @brief Inline query update callback
+             * @param callback
+             */
 			inline void callback(void(&callback)(const types::InlineQuery, const Bot&)) {
 				inlineQueryCallback = callback;
 			}
 
-
+            /*!
+             * @brief Chosen inline result update callback
+             * @param callback
+             */
 			inline void callback(void(&callback)(const types::ChosenInlineResult, const Bot&)) {
 				chosenInlineResultCallback = callback;
 			}
 
-
+            /*!
+             * @brief Callback query update callback
+             * @param callback
+             */
 			inline void callback(void(&callback)(const types::CallbackQuery, const Bot&)) {
 				callbackQueryCallback = callback;
 			}
 
-
+            /*!
+             * @brief Shipping query update callback
+             * @param callback
+             */
 			inline void callback(void(&callback)(const types::ShippingQuery, const Bot&)) {
 				shippingQueryCallback = callback;
 			}
 
-
+            /*!
+             * @brief Pre checkout query update callback
+             * @param callback
+             */
 			inline void callback(void(&callback)(const types::PreCheckoutQuery, const Bot&)) {
 				preCheckoutQueryCallback = callback;
 			}
 
+            /*!
+            * @brief Multiple-options update callback
+            * @param callback
+            * @param which : accepted values: EDITED_MESSAGE, EDITED_CHANNEL_POST, CHANNEL_POST.
+            * Others ignored
+            */
 			inline void callback(void(&callback)(const types::Message, const Bot&),
 					const types::UpdateType& which) {
 				if(which == types::UpdateType::EDITED_MESSAGE)

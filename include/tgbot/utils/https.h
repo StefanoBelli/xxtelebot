@@ -6,27 +6,61 @@
 
 namespace tgbot {
 
+    /*!
+     * @brief various utilities
+     */
 	namespace utils {
 
 		/*!
 		 * @brief HTTP utilities, meant for project internal usage
 		 */
 		namespace http {
-
+            /*!
+             * @brief Very easy HTTP GET request using curl (see also: curlEasyInit() )
+             * @param c : curl instance
+             * @param full : complete URL
+             * @return HTTP response body
+             */
 			std::string get(CURL* c, const std::string& full);
 
+            /*!
+             * @brief HTTP POST multipart file-upload specific to Telegram Bot API
+             * (see also: curlEasyInit() )
+             * @param c : curl instance
+             * @param operation : full Telegram Bot API URL
+             * @param chatId : target chat_id
+             * @param mimeType : file MIME type (e.g. text/plain)
+             * @param type : can be "document", "photo", ...
+             * @param filename : file local path
+             * @return HTTP response body
+             */
 			std::string multiPartUpload(CURL* c, const std::string& operation,
 					const int& chatId, 
 					const std::string& mimeType, 
 					const std::string& type,
 					const std::string& filename);
 
+            /*!
+             * @brief HTTP POST multipart file-upload specific to Telegram Bot API
+             * self-signed certificates for webhooks (see also: curlEasyInit() )
+             * @param c : curl instance
+             * @param operation : full Telegram Bot API URL
+             * @param cert : self-signed certificate local path
+             * @param url : where we should get updates
+             * @param maxConn : max connections
+             * @param allowedUpdates : allowed updates
+             * @return HTTP response body
+             */
             std::string multiPartUpload(CURL* c, const std::string& operation,
                                         const std::string& cert,
                                         const std::string& url,
                                         const int& maxConn,
                                         const std::string& allowedUpdates = "");
 
+            /*!
+             * @brief Initialize CURL
+             * @return new CURL instance
+             */
 			CURL* curlEasyInit();
 
 		} //http

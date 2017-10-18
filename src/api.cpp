@@ -51,13 +51,11 @@ static inline void removeComma(const std::stringstream& stream, std::string& tar
     target = req;
 }
 
-tgbot::methods::Api::Api(const std::string& token) :
-    baseApi("https://api.telegram.org/bot" + token) {}
-
 tgbot::methods::Api::Api(const std::string& token,
 		const std::string& url,
 		const int& maxConnections,
 		const std::vector<api_types::UpdateType>& allowedUpdates) :
+            urlWebhook(url),
             baseApi("https://api.telegram.org/bot" + token) {
 
         if(!setWebhook(url,maxConnections,allowedUpdates))
@@ -69,6 +67,7 @@ tgbot::methods::Api::Api(const std::string& token,
 		const std::string& certificate,
 		const int& maxConnections,
 		const std::vector<api_types::UpdateType>& allowedUpdates) :
+            urlWebhook(url),
             baseApi("https://api.telegram.org/bot" + token) {
 
         if(!setWebhook(url,certificate,maxConnections,allowedUpdates))

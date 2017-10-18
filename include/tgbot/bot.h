@@ -13,6 +13,9 @@
  */
 namespace tgbot {
 
+    /*!
+     * @brief Exception raised when Bot API reports some kind of error
+     */
 	class TelegramException : public std::exception {
 		public:
 			explicit TelegramException(const char* _what);
@@ -21,6 +24,9 @@ namespace tgbot {
 			const char* _what;
 	};
 
+    /*!
+     * @brief Basic Bot interface
+     */
 	class Bot : public methods::Api, public RegisterCallback {
 		public:
 			virtual void start() {}
@@ -31,6 +37,9 @@ namespace tgbot {
 			void makeCallback(const std::vector<types::Update>& updates) const;
 	};
 
+    /*!
+     * @brief Long polling bot, (see LongPollBot::start() function)
+     */
 	class LongPollBot : public Bot {
 		public:
 			/*!
@@ -45,24 +54,48 @@ namespace tgbot {
 				const int& limit = 100,
 				const int& timeout = 60);
 
+            /*!
+             * @brief start long polling
+             */
 			void start() override;
 	};
 
+    /*!
+     * @brief Webhook bot (see WebhookBot::start() function)
+     */
 	class WebhookBot : public Bot {
 		public:
-            WebhookBot(const std::string& token);
-
+            /*!
+             * @brief Call setWebhook() after field initialization, if something wrong, then
+             * throw TelegramException. No self-signed certificate upload
+             * @param token : Bot token
+             * @param url : Where would you like to get updates?
+             * @param maxConnections : number of maximum connections
+             * @param filterUpdates : allowed updates
+             */
 			WebhookBot(const std::string& token,
 					const std::string& url,
 					const int& maxConnections = 40,
 					const std::vector<types::UpdateType>& filterUpdates = {});
-			
+
+            /*!
+             * @brief Call setWebhook() after field initialization, if something wrong, then
+             * throw TelegramException. *UPLOADS SELF-SIGNED CERTIFICATE*
+             * @param certificate : local path to certificate
+             * @param token : Bot token
+             * @param url : Where would you like to get updates?
+             * @param maxConnections : number of maximum connections
+             * @param filterUpdates : allowed updates
+             */
 			WebhookBot(const std::string& token,
 					const std::string& url,
 					const std::string& certificate,
 					const int& maxConnections = 40,
 					const std::vector<types::UpdateType>& filterUpdates = {});
-			
+
+            /*!
+             * @brief Start listening for events on target URL
+             */
 			void start() override;
 	};
 } //tgbot

@@ -11,9 +11,6 @@ tgbot::LongPollBot::LongPollBot(const std::string &token,
 	Bot(token,filterUpdates,limit,timeout)
 {}
 
-tgbot::WebhookBot::WebhookBot(const std::string &token) :
-    Bot(token) {}
-
 tgbot::WebhookBot::WebhookBot(const std::string& token,
 		const std::string& url,
 		const int& maxConnections,
