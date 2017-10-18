@@ -362,6 +362,10 @@ namespace tgbot {
 				api_types::WebhookInfo getWebhookInfo() const;
 
 		protected:
+                Api() = default;
+            
+                Api(const std::string& token);
+
 				Api(const std::string& token,
 						const std::vector<api_types::UpdateType>& allowedUpdates,
 						const int& timeout,

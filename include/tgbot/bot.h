@@ -50,6 +50,8 @@ namespace tgbot {
 
 	class WebhookBot : public Bot {
 		public:
+            WebhookBot(const std::string& token);
+
 			WebhookBot(const std::string& token,
 					const std::string& url,
 					const int& maxConnections = 40,
