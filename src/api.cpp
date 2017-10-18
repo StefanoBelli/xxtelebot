@@ -166,3 +166,24 @@ bool tgbot::methods::Api::setWebhook(const std::string &url, const std::string &
 
     return value.get("ok","").asBool();
 }
+
+bool tgbot::methods::Api::deleteWebhook() const {
+    CURL* inst = http::curlEasyInit();
+    bool isOk = (http::get(inst,baseApi + "/deleteWebhook").find("\"ok\":true") != std::string::npos);
+    curl_easy_cleanup(inst);
+    return isOk;
+}
+
+api_types::WebhookInfo tgbot::methods::Api::getWebhookInfo() const {
+    CURL* inst = http::curlEasyInit();
+    Json::Value value;
+    Json::Reader reader;
+
+    reader.parse(http::get(inst,baseApi + "/getWebhookInfo"), value);
+    curl_easy_cleanup(inst);
+
+    if(!value.get("ok","").asBool())
+        throw TelegramException(value.get("description","").asCString());
+
+    return api_types::WebhookInfo(value.get("result",""));
+}

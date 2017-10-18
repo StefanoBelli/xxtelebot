@@ -273,15 +273,6 @@ namespace tgbot {
 						const std::string& switchPmText = "",
 						const std::string& switchPmParameter = "") const;
 
-				std::vector<api_types::Update> getUpdates(const long long& offset, 
-						const int& limit = 100,
-						const int& timeout = 60) const;
-
-				std::vector<api_types::Update> getUpdates(const long long& offset, 
-						const std::vector<api_types::UpdateType>& allowedUpdates,
-						const int& limit = 100,
-						const int& timeout = 60) const;
-
 				api_types::Message editMessageText(const std::string& inlineMessageId,
 						const std::string& text,
 						const types::ParseMode& parseMode = types::ParseMode::DEFAULT,
