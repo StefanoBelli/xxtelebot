@@ -53,12 +53,16 @@ static inline void removeComma(const std::stringstream& stream, std::string& tar
 
 //Api constructors
 
+//Webhook, no further action
+tgbot::methods::Api::Api(const std::string& token) :
+    baseApi("https://api.telegram.org/bot" + token)
+{}
+
 //Webhook
 tgbot::methods::Api::Api(const std::string& token,
 		const std::string& url,
 		const int& maxConnections,
 		const std::vector<api_types::UpdateType>& allowedUpdates) :
-            urlWebhook(url),
             baseApi("https://api.telegram.org/bot" + token) {
 
         if(!setWebhook(url,maxConnections,allowedUpdates))
@@ -71,7 +75,6 @@ tgbot::methods::Api::Api(const std::string& token,
 		const std::string& certificate,
 		const int& maxConnections,
 		const std::vector<api_types::UpdateType>& allowedUpdates) :
-            urlWebhook(url),
             baseApi("https://api.telegram.org/bot" + token) {
 
         if(!setWebhook(url,certificate,maxConnections,allowedUpdates))
@@ -127,9 +130,13 @@ int tgbot::methods::Api::getUpdates(void *c, std::vector<api_types::Update>& upd
 	return updatesCount;
 }
 
-//setWebhook (internal usage)
+//
+// Availible API Methods
+//
+
+//setWebhook
 bool tgbot::methods::Api::setWebhook(const std::string &url, const int &maxConnections,
-                                     const std::vector<api_types::UpdateType> &allowedUpdates) const {
+                                     const std::vector<api_types::UpdateType> &allowedUpdates) {
     std::stringstream request;
     request << baseApi << "/setWebhook?url=" << url << "&max_connections=" << maxConnections;
 
@@ -148,13 +155,16 @@ bool tgbot::methods::Api::setWebhook(const std::string &url, const int &maxConne
     reader.parse(http::get(inst,setWebhookRequest),value);
     curl_easy_cleanup(inst);
 
-    return value.get("ok","").asBool();
+    bool isOk = value.get("ok","").asBool();
+    if(isOk)
+        urlWebhook = url;
+
+    return isOk;
 }
 
-//setWebhook (internal usage)
 bool tgbot::methods::Api::setWebhook(const std::string &url, const std::string &certificate,
                                      const int &maxConnections,
-                                     const std::vector<api_types::UpdateType> &allowedUpdates) const {
+                                     const std::vector<api_types::UpdateType> &allowedUpdates) {
     CURL* inst = http::curlEasyInit();
     Json::Value value;
     Json::Reader reader;
@@ -175,12 +185,12 @@ bool tgbot::methods::Api::setWebhook(const std::string &url, const std::string &
 
     curl_easy_cleanup(inst);
 
-    return value.get("ok","").asBool();
-}
+    bool isOk = value.get("ok","").asBool();
+    if(isOk)
+        urlWebhook = url;
 
-// ---------------------
-// Availible API methods
-// ---------------------
+    return isOk;
+}
 
 //deleteWebhook
 bool tgbot::methods::Api::deleteWebhook() const {

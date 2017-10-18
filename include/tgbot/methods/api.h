@@ -346,8 +346,18 @@ namespace tgbot {
 				
 				api_types::WebhookInfo getWebhookInfo() const;
 
+                bool setWebhook(const std::string& url,
+                            const int& maxConnections = 40,
+                            const std::vector<api_types::UpdateType>& allowedUpdates = {});
+
+                bool setWebhook(const std::string& url,
+                            const std::string& certificate,
+                            const int& maxConnections = 40,
+                            const std::vector<api_types::UpdateType>& allowedUpdates = {});
 		protected:
                 Api() = default;
+
+                Api(const std::string& token);
 
 				Api(const std::string& token,
 						const std::vector<api_types::UpdateType>& allowedUpdates,
@@ -365,18 +375,11 @@ namespace tgbot {
 						const int& maxConnections,
 						const std::vector<api_types::UpdateType>& allowedUpdates);
 
-				int getUpdates(void* c, std::vector<api_types::Update>& updates);
+                int getUpdates(void* c, std::vector<api_types::Update>& updates);
 
-                bool setWebhook(const std::string& url,
-                                const int& maxConnections = 40,
-                                const std::vector<api_types::UpdateType>& allowedUpdates = {}) const;
+                std::string urlWebhook;
 
-                bool setWebhook(const std::string& url,
-                                const std::string& certificate,
-                                const int& maxConnections = 40,
-                                const std::vector<api_types::UpdateType>& allowedUpdates = {}) const;
 			private:
-                const std::string urlWebhook;
 				const std::string baseApi;
 				std::string updateApiRequest;
 				long long currentOffset;

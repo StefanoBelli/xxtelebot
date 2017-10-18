@@ -66,6 +66,12 @@ namespace tgbot {
 	class WebhookBot : public Bot {
 		public:
             /*!
+             * @brief Construct and nothing more. Call setWebhook() before start() :)
+             * @param token : Bot token
+             */
+            WebhookBot(const std::string& token);
+
+            /*!
              * @brief Call setWebhook() after field initialization, if something wrong, then
              * throw TelegramException. No self-signed certificate upload
              * @param token : Bot token
