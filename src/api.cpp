@@ -282,7 +282,7 @@ api_types::ChatMember tgbot::methods::Api::getChatMember(const std::string &chat
     Json::Reader reader;
 
     std::stringstream url;
-    url << baseApi << "/getFile?chat_id=" << chatId << "&user_id=" << userId;
+    url << baseApi << "/getChatMember?chat_id=" << chatId << "&user_id=" << userId;
 
     reader.parse(http::get(inst,url.str()), value);
     curl_easy_cleanup(inst);
