@@ -214,3 +214,81 @@ api_types::WebhookInfo tgbot::methods::Api::getWebhookInfo() const {
 
     return api_types::WebhookInfo(value.get("result",""));
 }
+
+//getMe
+api_types::User tgbot::methods::Api::getMe() const {
+    CURL* inst = http::curlEasyInit();
+    Json::Value value;
+    Json::Reader reader;
+
+    reader.parse(http::get(inst,baseApi + "/getMe"), value);
+    curl_easy_cleanup(inst);
+
+    if(!value.get("ok","").asBool())
+        throw TelegramException(value.get("description","").asCString());
+
+    return api_types::User(value.get("result",""));
+}
+
+//getChat
+api_types::Chat tgbot::methods::Api::getChat(const std::string &chatId) const {
+    CURL* inst = http::curlEasyInit();
+    Json::Value value;
+    Json::Reader reader;
+
+    reader.parse(http::get(inst,baseApi + "/getChat?chat_id=" + chatId), value);
+    curl_easy_cleanup(inst);
+
+    if(!value.get("ok","").asBool())
+        throw TelegramException(value.get("description","").asCString());
+
+    return api_types::Chat(value.get("result",""));
+}
+
+//getChatMembersCount
+unsigned tgbot::methods::Api::getChatMembersCount(const std::string &chatId) const {
+    CURL* inst = http::curlEasyInit();
+    Json::Value value;
+    Json::Reader reader;
+
+    reader.parse(http::get(inst,baseApi + "/getChatMembersCount?chat_id=" + chatId), value);
+    curl_easy_cleanup(inst);
+
+    if(!value.get("ok","").asBool())
+        throw TelegramException(value.get("description","").asCString());
+
+    return value.get("result","").asUInt();
+}
+
+//getFile
+api_types::File tgbot::methods::Api::getFile(const std::string &fileId) const {
+    CURL* inst = http::curlEasyInit();
+    Json::Value value;
+    Json::Reader reader;
+
+    reader.parse(http::get(inst,baseApi + "/getFile?file_id=" + fileId), value);
+    curl_easy_cleanup(inst);
+
+    if(!value.get("ok","").asBool())
+        throw TelegramException(value.get("description","").asCString());
+
+    return api_types::File(value.get("result","").asUInt());
+}
+
+//getChatMember
+api_types::ChatMember tgbot::methods::Api::getChatMember(const std::string &chatId, const int &userId) const {
+    CURL* inst = http::curlEasyInit();
+    Json::Value value;
+    Json::Reader reader;
+
+    std::stringstream url;
+    url << baseApi << "/getFile?chat_id=" << chatId << "&user_id=" << userId;
+
+    reader.parse(http::get(inst,url.str()), value);
+    curl_easy_cleanup(inst);
+
+    if(!value.get("ok","").asBool())
+        throw TelegramException(value.get("description","").asCString());
+
+    return api_types::ChatMember(value.get("result","").asUInt());
+}
