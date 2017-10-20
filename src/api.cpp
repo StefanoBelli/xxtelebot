@@ -236,7 +236,7 @@ api_types::Chat tgbot::methods::Api::getChat(const std::string &chatId) const {
     Json::Value value;
     Json::Reader reader;
 
-    reader.parse(http::get(inst,baseApi + "/getChat?chat_id=" + chatId), value);
+    reader.parse(http::get(inst,baseApi + "/getChat?chat_id=\"" + chatId + "\""), value);
     curl_easy_cleanup(inst);
 
     if(!value.get("ok","").asBool())
@@ -251,7 +251,7 @@ unsigned tgbot::methods::Api::getChatMembersCount(const std::string &chatId) con
     Json::Value value;
     Json::Reader reader;
 
-    reader.parse(http::get(inst,baseApi + "/getChatMembersCount?chat_id=" + chatId), value);
+    reader.parse(http::get(inst,baseApi + "/getChatMembersCount?chat_id=\"" + chatId + "\""), value);
     curl_easy_cleanup(inst);
 
     if(!value.get("ok","").asBool())
@@ -266,13 +266,13 @@ api_types::File tgbot::methods::Api::getFile(const std::string &fileId) const {
     Json::Value value;
     Json::Reader reader;
 
-    reader.parse(http::get(inst,baseApi + "/getFile?file_id=" + fileId), value);
+    reader.parse(http::get(inst,baseApi + "/getFile?file_id=\"" + fileId + "\""), value);
     curl_easy_cleanup(inst);
 
     if(!value.get("ok","").asBool())
         throw TelegramException(value.get("description","").asCString());
 
-    return api_types::File(value.get("result","").asUInt());
+    return api_types::File(value.get("result",""));
 }
 
 //getChatMember
@@ -282,7 +282,7 @@ api_types::ChatMember tgbot::methods::Api::getChatMember(const std::string &chat
     Json::Reader reader;
 
     std::stringstream url;
-    url << baseApi << "/getChatMember?chat_id=" << chatId << "&user_id=" << userId;
+    url << baseApi << "/getChatMember?chat_id=\"" << chatId << "\"&user_id=" << userId;
 
     reader.parse(http::get(inst,url.str()), value);
     curl_easy_cleanup(inst);
@@ -290,5 +290,106 @@ api_types::ChatMember tgbot::methods::Api::getChatMember(const std::string &chat
     if(!value.get("ok","").asBool())
         throw TelegramException(value.get("description","").asCString());
 
-    return api_types::ChatMember(value.get("result","").asUInt());
+    return api_types::ChatMember(value.get("result",""));
+}
+
+//getStickerSet
+api_types::StickerSet tgbot::methods::Api::getStickerSet(const std::string &name) const {
+    CURL* inst = http::curlEasyInit();
+    Json::Value value;
+    Json::Reader reader;
+
+    reader.parse(http::get(inst,baseApi + "/getStickerSet?name=\"" + name + "\""), value);
+    curl_easy_cleanup(inst);
+
+    if(!value.get("ok","").asBool())
+        throw TelegramException(value.get("description","").asCString());
+
+    return api_types::StickerSet(value.get("result",""));
+}
+
+//getUserProfilePhotos
+api_types::UserProfilePhotos tgbot::methods::Api::getUserProfilePhotos(const int &userId, const unsigned int &offset,
+                                                                       const unsigned int &limit) const {
+    CURL* inst = http::curlEasyInit();
+    Json::Value value;
+    Json::Reader reader;
+
+    std::stringstream url;
+    url << baseApi << "/getUserProfilePhotos?user_id=" << userId << "&offset=" << offset
+            << "&limit=" << limit;
+
+    reader.parse(http::get(inst,url.str()), value);
+    curl_easy_cleanup(inst);
+
+    if(!value.get("ok","").asBool())
+        throw TelegramException(value.get("description","").asCString());
+
+    return api_types::UserProfilePhotos(value.get("result",""));
+}
+
+//getChatAdministrators
+std::vector<api_types::ChatMember> tgbot::methods::Api::getChatAdministrators(const std::string &chatId) const {
+    CURL* inst = http::curlEasyInit();
+    Json::Value value;
+    Json::Reader reader;
+
+    reader.parse(http::get(inst,baseApi + "/getChatAdministrators?chat_id=\"" + chatId + "\""), value);
+    curl_easy_cleanup(inst);
+
+    if(!value.get("ok","").asBool())
+        throw TelegramException(value.get("description","").asCString());
+
+    std::vector<api_types::ChatMember> members;
+    for(auto const member : value.get("result",""))
+        members.emplace_back(member);
+
+    return members;
+}
+
+//getGameHighScores
+std::vector<api_types::GameHighScore> tgbot::methods::Api::getGameHighScores(const int &userId, const int &chatId,
+                                                                             const int &messageId) const {
+    CURL* inst = http::curlEasyInit();
+    Json::Value value;
+    Json::Reader reader;
+
+    std::stringstream url;
+    url << baseApi << "/getGameHighScores?user_id=" << userId << "&chat_id=" << chatId
+            << "&message_id=" << messageId;
+
+    reader.parse(http::get(inst,url.str()), value);
+    curl_easy_cleanup(inst);
+
+    if(!value.get("ok","").asBool())
+        throw TelegramException(value.get("description","").asCString());
+
+    std::vector<api_types::GameHighScore> members;
+    for(auto const member : value.get("result",""))
+        members.emplace_back(member);
+
+    return members;
+}
+
+std::vector<api_types::GameHighScore> tgbot::methods::Api::getGameHighScores(const int &userId,
+                                                                             const std::string &inlineMessageId) const {
+    CURL* inst = http::curlEasyInit();
+    Json::Value value;
+    Json::Reader reader;
+
+    std::stringstream url;
+    url << baseApi << "/getGameHighScores?user_id=" << userId << "&inline_message_id=\""
+            << inlineMessageId << "\"";
+
+    reader.parse(http::get(inst,url.str()), value);
+    curl_easy_cleanup(inst);
+
+    if(!value.get("ok","").asBool())
+        throw TelegramException(value.get("description","").asCString());
+
+    std::vector<api_types::GameHighScore> members;
+    for(auto const member : value.get("result",""))
+        members.emplace_back(member);
+
+    return members;
 }
