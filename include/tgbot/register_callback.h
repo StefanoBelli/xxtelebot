@@ -1,26 +1,18 @@
 #ifndef TGBOT_REGISTER_CB_H
 #define TGBOT_REGISTER_CB_H
 
+#include "types.h"
+#include "methods/api.h"
+
 #include <functional>
 
 namespace tgbot {
-	class Bot;
-	namespace types {
-		struct Message;
-		struct InlineQuery;
-		struct ChosenInlineResult;
-		struct CallbackQuery;
-		struct ShippingQuery;
-		struct PreCheckoutQuery;
-		struct Update;
-		enum class UpdateType;
-	}
 
 	/*!
 	 * @brief refer to RegisterCallback::callback() function (overloads)
 	 */
 	template <typename TypeUpdate>
-		using UpdateCallback = std::function<void(const TypeUpdate, const Bot&)>;
+		using UpdateCallback = std::function<void(const TypeUpdate, const methods::Api&)>;
 
     /*!
      * @brief registers and holds callbacks for each type of update
@@ -43,7 +35,7 @@ namespace tgbot {
              * @brief Message update callback
              * @param callback
              */
-			inline void callback(void(&callback)(const types::Message,const Bot&)) {
+			inline void callback(void(&callback)(const types::Message,const methods::Api&)) {
 				messageCallback = callback;
 			}
 
@@ -51,7 +43,7 @@ namespace tgbot {
              * @brief Inline query update callback
              * @param callback
              */
-			inline void callback(void(&callback)(const types::InlineQuery, const Bot&)) {
+			inline void callback(void(&callback)(const types::InlineQuery, const methods::Api&)) {
 				inlineQueryCallback = callback;
 			}
 
@@ -59,7 +51,7 @@ namespace tgbot {
              * @brief Chosen inline result update callback
              * @param callback
              */
-			inline void callback(void(&callback)(const types::ChosenInlineResult, const Bot&)) {
+			inline void callback(void(&callback)(const types::ChosenInlineResult, const methods::Api&)) {
 				chosenInlineResultCallback = callback;
 			}
 
@@ -67,7 +59,7 @@ namespace tgbot {
              * @brief Callback query update callback
              * @param callback
              */
-			inline void callback(void(&callback)(const types::CallbackQuery, const Bot&)) {
+			inline void callback(void(&callback)(const types::CallbackQuery, const methods::Api&)) {
 				callbackQueryCallback = callback;
 			}
 
@@ -75,7 +67,7 @@ namespace tgbot {
              * @brief Shipping query update callback
              * @param callback
              */
-			inline void callback(void(&callback)(const types::ShippingQuery, const Bot&)) {
+			inline void callback(void(&callback)(const types::ShippingQuery, const methods::Api&)) {
 				shippingQueryCallback = callback;
 			}
 
@@ -83,7 +75,7 @@ namespace tgbot {
              * @brief Pre checkout query update callback
              * @param callback
              */
-			inline void callback(void(&callback)(const types::PreCheckoutQuery, const Bot&)) {
+			inline void callback(void(&callback)(const types::PreCheckoutQuery, const methods::Api&)) {
 				preCheckoutQueryCallback = callback;
 			}
 
@@ -93,7 +85,7 @@ namespace tgbot {
             * @param which : accepted values: EDITED_MESSAGE, EDITED_CHANNEL_POST, CHANNEL_POST.
             * Others ignored
             */
-			inline void callback(void(&callback)(const types::Message, const Bot&),
+			inline void callback(void(&callback)(const types::Message, const methods::Api&),
 					const types::UpdateType& which) {
 				if(which == types::UpdateType::EDITED_MESSAGE)
 					editedMessageCallback = callback;

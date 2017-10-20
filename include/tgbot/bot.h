@@ -4,8 +4,6 @@
 #include <utility>
 #include <exception>
 
-#include "types.h"
-#include "methods/api.h"
 #include "register_callback.h"
 
 /*!
