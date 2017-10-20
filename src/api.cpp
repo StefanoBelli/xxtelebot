@@ -155,11 +155,11 @@ bool tgbot::methods::Api::setWebhook(const std::string &url, const int &maxConne
     reader.parse(http::get(inst,setWebhookRequest),value);
     curl_easy_cleanup(inst);
 
-    bool isOk = value.get("ok","").asBool();
-    if(isOk)
-        urlWebhook = url;
+    if(!value.get("ok","").asBool())
+        throw TelegramException(value.get("description","").asCString());
 
-    return isOk;
+    urlWebhook = url;
+    return true;
 }
 
 bool tgbot::methods::Api::setWebhook(const std::string &url, const std::string &certificate,
@@ -185,11 +185,11 @@ bool tgbot::methods::Api::setWebhook(const std::string &url, const std::string &
 
     curl_easy_cleanup(inst);
 
-    bool isOk = value.get("ok","").asBool();
-    if(isOk)
-        urlWebhook = url;
+    if(!value.get("ok","").asBool())
+        throw TelegramException(value.get("description","").asCString());
 
-    return isOk;
+    urlWebhook = url;
+    return true;
 }
 
 //deleteWebhook
@@ -197,7 +197,11 @@ bool tgbot::methods::Api::deleteWebhook() const {
     CURL* inst = http::curlEasyInit();
     bool isOk = (http::get(inst,baseApi + "/deleteWebhook").find("\"ok\":true") != std::string::npos);
     curl_easy_cleanup(inst);
-    return isOk;
+
+    if(!isOk)
+        throw TelegramException("Cannot delete webhook");
+
+    return true;
 }
 
 //getWebhookInfo
@@ -392,4 +396,52 @@ std::vector<api_types::GameHighScore> tgbot::methods::Api::getGameHighScores(con
         members.emplace_back(member);
 
     return members;
+}
+
+//deleteChatPhoto
+bool tgbot::methods::Api::deleteChatPhoto(const std::string &chatId) const {
+    CURL* inst = http::curlEasyInit();
+    Json::Value value;
+    Json::Reader reader;
+
+    reader.parse(http::get(inst,baseApi + "/deleteChatPhoto?chat_id=" + chatId), value);
+    curl_easy_cleanup(inst);
+
+    if(!value.get("ok","").asBool())
+        throw TelegramException(value.get("description","").asCString());
+
+    return true;
+}
+
+//deleteMessage
+bool tgbot::methods::Api::deleteMessage(const std::string &chatId, const std::string &messageId) const {
+    CURL* inst = http::curlEasyInit();
+    Json::Value value;
+    Json::Reader reader;
+
+    std::stringstream url;
+    url << baseApi << "/deleteMessage?chat_id=" << chatId << "&message_id=" << messageId;
+
+    reader.parse(http::get(inst,url.str()), value);
+    curl_easy_cleanup(inst);
+
+    if(!value.get("ok","").asBool())
+        throw TelegramException(value.get("description","").asCString());
+
+    return true;
+}
+
+//deleteStickerFromSet
+bool tgbot::methods::Api::deleteStickerFromSet(const std::string &sticker) const {
+    CURL* inst = http::curlEasyInit();
+    Json::Value value;
+    Json::Reader reader;
+
+    reader.parse(http::get(inst,baseApi + "/deleteStickerFromSet?sticker=" + sticker), value);
+    curl_easy_cleanup(inst);
+
+    if(!value.get("ok","").asBool())
+        throw TelegramException(value.get("description","").asCString());
+
+    return true;
 }
