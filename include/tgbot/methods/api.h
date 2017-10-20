@@ -244,7 +244,9 @@ namespace tgbot {
 
 				std::string exportChatInviteLink(const std::string& chatId) const;
 
-				bool setChatPhoto(const std::string& chatId,const std::string& filename) const;
+				bool setChatPhoto(const std::string& chatId,
+                                  const std::string& filename,
+                                  const std::string& mimeType) const;
 
 				bool deleteChatPhoto(const std::string& chatId) const;
 

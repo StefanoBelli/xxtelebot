@@ -35,7 +35,7 @@ namespace tgbot {
              * @return HTTP response body
              */
 			std::string multiPartUpload(CURL* c, const std::string& operation,
-					const int& chatId, 
+					const std::string& chatId,
 					const std::string& mimeType, 
 					const std::string& type,
 					const std::string& filename);
@@ -56,6 +56,19 @@ namespace tgbot {
                                         const std::string& url,
                                         const int& maxConn,
                                         const std::string& allowedUpdates = "");
+
+            /*!
+             * @brief HTTP POST multipart sticker file (PNG) upload specific to Telegram Bot API
+             * (see also: curlEasyInit() )
+             * @param c : curl instance
+             * @param operation : full Telegram Bot API URL
+             * @param userId : target user_id
+             * @param filename : file local path
+             * @return HTTP response body
+             */
+            std::string multiPartUpload(CURL* c, const std::string& operation,
+                                        const int& userId,
+                                        const std::string& filename);
 
             /*!
              * @brief Initialize CURL

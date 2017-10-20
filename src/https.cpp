@@ -38,7 +38,7 @@ std::string tgbot::utils::http::get(CURL *c, const std::string &full) {
 
 std::string tgbot::utils::http::multiPartUpload(CURL *c,
 		const std::string &operation,
-		const int &chatId,
+		const std::string &chatId,
 		const std::string &mimeType,
 		const std::string &type,
 		const std::string &filename) {
@@ -51,7 +51,7 @@ std::string tgbot::utils::http::multiPartUpload(CURL *c,
 
 	curl_formadd(&multiPost, &end,
 			CURLFORM_COPYNAME, "chat_id",
-			CURLFORM_COPYCONTENTS, std::to_string(chatId).c_str(),
+			CURLFORM_COPYCONTENTS, chatId.c_str(),
 			CURLFORM_END);
 
 	curl_formadd(&multiPost, &end,
@@ -100,6 +100,37 @@ std::string tgbot::utils::http::multiPartUpload(CURL *c, const std::string &oper
                      CURLFORM_COPYNAME, "allowed_updates",
                      CURLFORM_COPYCONTENTS, allowedUpdates.c_str(),
                      CURLFORM_END);
+
+    curl_easy_setopt(c, CURLOPT_HTTPPOST, multiPost);
+    curl_easy_setopt(c, CURLOPT_WRITEDATA, &body);
+    curl_easy_setopt(c, CURLOPT_URL, operation.c_str());
+
+    CURLcode code;
+    if ((code = curl_easy_perform(c)) != CURLE_OK)
+        throw std::runtime_error(curl_easy_strerror(code));
+
+    return body;
+}
+
+std::string tgbot::utils::http::multiPartUpload(CURL *c, const std::string &operation, const int &userId,
+                                                const std::string &filename) {
+    if (!c)
+        throw std::runtime_error("CURL is actually a null pointer");
+
+    curl_httppost *multiPost = nullptr;
+    curl_httppost *end = nullptr;
+    std::string body;
+
+    curl_formadd(&multiPost, &end,
+                 CURLFORM_COPYNAME, "user_id",
+                 CURLFORM_COPYCONTENTS, std::to_string(userId).c_str(),
+                 CURLFORM_END);
+
+    curl_formadd(&multiPost, &end,
+                 CURLFORM_COPYNAME, "png_sticker",
+                 CURLFORM_CONTENTTYPE, "image/png",
+                 CURLFORM_FILE, filename.c_str(),
+                 CURLFORM_END);
 
     curl_easy_setopt(c, CURLOPT_HTTPPOST, multiPost);
     curl_easy_setopt(c, CURLOPT_WRITEDATA, &body);

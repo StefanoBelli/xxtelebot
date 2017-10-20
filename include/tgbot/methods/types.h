@@ -52,8 +52,19 @@ namespace tgbot {
 				UPLOAD_VIDEO_NOTE
 			};
 
+            /*!
+             * @brief Choose if filename should be treated as file_id
+             * or uploaded via multipart
+             */
 			enum class FileSource {
+                /*!
+                 * @brief trait as file_id
+                 */
 				EXTERNAL,
+
+                /*!
+                 * @brief trait as local upload via multipart
+                 */
 				LOCAL_UPLOAD
 			};
 

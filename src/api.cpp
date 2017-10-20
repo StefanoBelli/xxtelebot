@@ -4,6 +4,9 @@
 #include <jsoncpp/json/json.h>
 #include <tgbot/bot.h>
 
+#define BOOL_TOSTR(xvalue) \
+	((xvalue) ? "true" : "false")
+
 using namespace tgbot::methods;
 using namespace tgbot::utils;
 
@@ -444,4 +447,322 @@ bool tgbot::methods::Api::deleteStickerFromSet(const std::string &sticker) const
         throw TelegramException(value.get("description","").asCString());
 
     return true;
+}
+
+//exportChatInviteLink
+std::string tgbot::methods::Api::exportChatInviteLink(const std::string &chatId) const {
+    CURL* inst = http::curlEasyInit();
+    Json::Value value;
+    Json::Reader reader;
+
+    reader.parse(http::get(inst,baseApi + "/exportChatInviteLink?chat_id=" + chatId), value);
+    curl_easy_cleanup(inst);
+
+    if(!value.get("ok","").asBool())
+        throw TelegramException(value.get("description","").asCString());
+
+    return value.get("result","").asCString();
+}
+
+//kickChatMember
+bool tgbot::methods::Api::kickChatMember(const std::string &chatId, const int &userId,
+                                         const int &untilDate) const {
+    CURL* inst = http::curlEasyInit();
+    Json::Value value;
+    Json::Reader reader;
+
+    std::stringstream url;
+    url << baseApi << "/kickChatMember?chat_id=" << chatId << "&user_id=" << userId;
+
+    if(untilDate != -1)
+        url << "&until_date=" << untilDate;
+
+    reader.parse(http::get(inst,url.str()), value);
+    curl_easy_cleanup(inst);
+
+    if(!value.get("ok","").asBool())
+        throw TelegramException(value.get("description","").asCString());
+
+    return true;
+}
+
+//leaveChat
+bool tgbot::methods::Api::leaveChat(const std::string &chatId) const {
+    CURL* inst = http::curlEasyInit();
+    Json::Value value;
+    Json::Reader reader;
+
+    reader.parse(http::get(inst,baseApi + "/leaveChat?chat_id=" + chatId), value);
+    curl_easy_cleanup(inst);
+
+    if(!value.get("ok","").asBool())
+        throw TelegramException(value.get("description","").asCString());
+
+    return true;
+}
+
+//pinChatMessage
+bool tgbot::methods::Api::pinChatMessage(const std::string &chatId, const std::string &messageId,
+                                         const bool &disableNotifiation) const {
+    CURL* inst = http::curlEasyInit();
+    Json::Value value;
+    Json::Reader reader;
+
+    std::stringstream url;
+    url << baseApi << "/pinChatMessage?chat_id=" << chatId << "&message_id=" << messageId;
+
+    if(disableNotifiation)
+        url << "&disable_notification=true";
+
+    reader.parse(http::get(inst,url.str()), value);
+    curl_easy_cleanup(inst);
+
+    if(!value.get("ok","").asBool())
+        throw TelegramException(value.get("description","").asCString());
+
+    return true;
+}
+
+//promoteChatMember
+bool tgbot::methods::Api::promoteChatMember(const std::string &chatId, const int &userId,
+                                            const types::ChatMemberPromote &permissions) const {
+    CURL* inst = http::curlEasyInit();
+    Json::Value value;
+    Json::Reader reader;
+
+    std::stringstream url;
+    url << baseApi << "/promoteChatMember?chat_id=" << chatId << "&user_id=" << userId
+            << "&can_post_messages=" << BOOL_TOSTR(permissions.canPostMessages)
+            << "&can_change_info=" << BOOL_TOSTR(permissions.canChangeInfo)
+            << "&can_edit_messages=" << BOOL_TOSTR(permissions.canEditMessages)
+            << "&can_delete_messages=" << BOOL_TOSTR(permissions.canDeleteMessages)
+            << "&can_invite_users=" << BOOL_TOSTR(permissions.canInviteUsers)
+            << "&can_restrict_members=" << BOOL_TOSTR(permissions.canRestrictMembers)
+            << "&can_pin_messages=" << BOOL_TOSTR(permissions.canPinMessages)
+            << "&can_promote_members=" << BOOL_TOSTR(permissions.canPromoteMembers);
+
+    reader.parse(http::get(inst,url.str()), value);
+    curl_easy_cleanup(inst);
+
+    if(!value.get("ok","").asBool())
+        throw TelegramException(value.get("description","").asCString());
+
+    return true;
+}
+
+//restrictChatMember
+bool tgbot::methods::Api::restrictChatMember(const std::string &chatId, const int &userId,
+                                             const types::ChatMemberRestrict &permissions,
+                                             const int &untilDate) const {
+    CURL* inst = http::curlEasyInit();
+    Json::Value value;
+    Json::Reader reader;
+
+    std::stringstream url;
+    url << baseApi << "/promoteChatMember?chat_id=" << chatId << "&user_id=" << userId
+            << "&can_send_messages=" << BOOL_TOSTR(permissions.canSendMessages)
+            << "&can_send_media_messages=" << BOOL_TOSTR(permissions.canSendMediaMessages)
+            << "&can_send_other_messages=" << BOOL_TOSTR(permissions.canSendOtherMessages)
+            << "&can_add_web_page_previews=" << BOOL_TOSTR(permissions.canAddWebPagePreviews);
+
+    if(untilDate != -1)
+        url << "&until_date=" << untilDate;
+
+    reader.parse(http::get(inst,url.str()), value);
+    curl_easy_cleanup(inst);
+
+    if(!value.get("ok","").asBool())
+        throw TelegramException(value.get("description","").asCString());
+
+    return true;
+}
+
+//unbanChatMember
+bool tgbot::methods::Api::unbanChatMember(const std::string &chatId, const int &userId) const {
+    CURL* inst = http::curlEasyInit();
+    Json::Value value;
+    Json::Reader reader;
+
+    std::stringstream url;
+    url << baseApi << "/unbanChatMember?chat_id=" << chatId << "&user_id=" << userId;
+
+    reader.parse(http::get(inst,url.str()), value);
+    curl_easy_cleanup(inst);
+
+    if(!value.get("ok","").asBool())
+        throw TelegramException(value.get("description","").asCString());
+
+    return true;
+}
+
+//unpinChatMessage
+bool tgbot::methods::Api::unpinChatMessage(const std::string &chatId) const {
+    CURL* inst = http::curlEasyInit();
+    Json::Value value;
+    Json::Reader reader;
+
+    std::stringstream url;
+    url << baseApi << "/unpinChatMessage?chat_id=" << chatId;
+
+    reader.parse(http::get(inst,url.str()), value);
+    curl_easy_cleanup(inst);
+
+    if(!value.get("ok","").asBool())
+        throw TelegramException(value.get("description","").asCString());
+
+    return true;
+}
+
+//setChatDescription
+bool tgbot::methods::Api::setChatDescription(const std::string &chatId, const std::string &description) const {
+    CURL* inst = http::curlEasyInit();
+    Json::Value value;
+    Json::Reader reader;
+
+    std::stringstream url;
+    url << baseApi << "/setChatDescription?chat_id=" << chatId << "&description=" << description;
+
+    reader.parse(http::get(inst,url.str()), value);
+    curl_easy_cleanup(inst);
+
+    if(!value.get("ok","").asBool())
+        throw TelegramException(value.get("description","").asCString());
+
+    return true;
+}
+
+//setChatTitle
+bool tgbot::methods::Api::setChatTitle(const std::string &chatId, const std::string &title) const {
+    CURL* inst = http::curlEasyInit();
+    Json::Value value;
+    Json::Reader reader;
+
+    std::stringstream url;
+    url << baseApi << "/setChatTitle?chat_id=" << chatId << "&title=" << title;
+
+    reader.parse(http::get(inst,url.str()), value);
+    curl_easy_cleanup(inst);
+
+    if(!value.get("ok","").asBool())
+        throw TelegramException(value.get("description","").asCString());
+
+    return true;
+}
+
+//setChatPhoto
+bool tgbot::methods::Api::setChatPhoto(const std::string &chatId, const std::string &filename,
+                                        const std::string& mimeType) const {
+    CURL* inst = http::curlEasyInit();
+    Json::Value value;
+    Json::Reader reader;
+
+    reader.parse(http::multiPartUpload(inst,
+                                       baseApi + "/setChatPhoto",
+                                       chatId,
+                                       mimeType,
+                                       "photo",
+                                       filename), value);
+    curl_easy_cleanup(inst);
+
+    if(!value.get("ok","").asBool())
+        throw TelegramException(value.get("description","").asCString());
+
+    return true;
+}
+
+//setGameScore
+api_types::Message tgbot::methods::Api::setGameScore(const std::string &userId, const int &score,
+                                                     const int &chatId,
+                                                     const int &messageId, const bool &force,
+                                                     const bool &disableEditMessage) const {
+    CURL* inst = http::curlEasyInit();
+    Json::Value value;
+    Json::Reader reader;
+
+    std::stringstream url;
+    url << baseApi << "/setGameScore?user_id=" << userId << "&score=" << score
+            << "&chat_id=" << chatId << "&message_id=" << messageId;
+
+    if(force)
+        url << "&force=true";
+
+    if(disableEditMessage)
+        url << "&disable_edit_message=true";
+
+    reader.parse(http::get(inst,url.str()), value);
+    curl_easy_cleanup(inst);
+
+    if(!value.get("ok","").asBool())
+        throw TelegramException(value.get("description","").asCString());
+
+    return api_types::Message(value.get("result",""));
+}
+
+api_types::Message tgbot::methods::Api::setGameScore(const std::string &userId, const int &score,
+                                                     const std::string &inlineMessageId, const bool &force,
+                                                     const bool &disableEditMessage) const {
+    CURL* inst = http::curlEasyInit();
+    Json::Value value;
+    Json::Reader reader;
+
+    std::stringstream url;
+    url << baseApi << "/setGameScore?user_id=" << userId << "&score=" << score
+            << "&inline_message_id=" << inlineMessageId;
+
+    if(force)
+        url << "&force=true";
+
+    if(disableEditMessage)
+        url << "&disable_edit_message=true";
+
+    reader.parse(http::get(inst,url.str()), value);
+    curl_easy_cleanup(inst);
+
+    if(!value.get("ok","").asBool())
+        throw TelegramException(value.get("description","").asCString());
+
+    return api_types::Message(value.get("result",""));
+}
+
+//setStickerPositionInSet
+bool tgbot::methods::Api::setStickerPositionInSet(const std::string &sticker, const int position) const {
+    CURL* inst = http::curlEasyInit();
+    Json::Value value;
+    Json::Reader reader;
+
+    std::stringstream url;
+    url << baseApi << "/setStickerPositionInSet?sticker=" << sticker << "&position=" << position;
+
+    reader.parse(http::get(inst,url.str()), value);
+    curl_easy_cleanup(inst);
+
+    if(!value.get("ok","").asBool())
+        throw TelegramException(value.get("description","").asCString());
+
+    return true;
+}
+
+//uploadStickerFile
+api_types::File tgbot::methods::Api::uploadStickerFile(const int &userId, const std::string &pngSticker,
+                                                       const types::FileSource &source) const {
+    CURL* inst = http::curlEasyInit();
+    Json::Value value;
+    Json::Reader reader;
+
+    if(source == types::FileSource::EXTERNAL) {
+        std::stringstream url;
+        url << baseApi << "/uploadStickerFile?user_id=" << userId << "&png_sticker=" << pngSticker;
+
+        reader.parse(http::get(inst,url.str()), value);
+    } else
+        reader.parse(http::multiPartUpload(inst,
+                                           baseApi + "/uploadStickerFile",
+                                           userId,
+                                           pngSticker), value);
+    curl_easy_cleanup(inst);
+
+    if(!value.get("ok","").asBool())
+        throw TelegramException(value.get("description","").asCString());
+
+    return api_types::File(value.get("result",""));
 }
