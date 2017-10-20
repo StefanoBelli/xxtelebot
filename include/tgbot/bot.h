@@ -18,10 +18,14 @@ namespace tgbot {
      */
 	class TelegramException : public std::exception {
 		public:
-			explicit TelegramException(const char* _what);
-			virtual const char* what() const noexcept;
+			explicit TelegramException(const std::string &_what) :
+				__what(_what) { }
+			
+			virtual const char* what() const noexcept {
+				return __what.c_str();
+			}
 		private:
-			const char* _what;
+			const std::string __what;
 	};
 
     /*!

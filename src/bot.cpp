@@ -104,10 +104,3 @@ void tgbot::Bot::makeCallback(const std::vector<types::Update> &updates) const {
 			tmpHolder.detach();
 	}
 }
-
-tgbot::TelegramException::TelegramException(const char *_what) :
-	_what(_what) {}
-	
-const char *tgbot::TelegramException::what() const noexcept {
-	return _what;
-}
