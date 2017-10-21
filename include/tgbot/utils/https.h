@@ -34,11 +34,12 @@ namespace tgbot {
              * @param filename : file local path
              * @return HTTP response body
              */
-			std::string multiPartUpload(CURL* c, const std::string& operation,
-					const std::string& chatId,
-					const std::string& mimeType, 
-					const std::string& type,
-					const std::string& filename);
+			std::string multiPartUpload(CURL* c,
+                                        const std::string& operation,
+                                        const std::string& chatId,
+                                        const std::string& mimeType,
+                                        const std::string& type,
+                                        const std::string& filename);
 
             /*!
              * @brief HTTP POST multipart file-upload specific to Telegram Bot API
@@ -51,7 +52,8 @@ namespace tgbot {
              * @param allowedUpdates : allowed updates
              * @return HTTP response body
              */
-            std::string multiPartUpload(CURL* c, const std::string& operation,
+            std::string multiPartUpload(CURL* c,
+                                        const std::string& operation,
                                         const std::string& cert,
                                         const std::string& url,
                                         const int& maxConn,
@@ -66,9 +68,54 @@ namespace tgbot {
              * @param filename : file local path
              * @return HTTP response body
              */
-            std::string multiPartUpload(CURL* c, const std::string& operation,
+            std::string multiPartUpload(CURL* c,
+                                        const std::string& operation,
                                         const int& userId,
                                         const std::string& filename);
+
+            /*!
+             * @brief HTTP POST multipart sticker file (add and create)
+             * (PNG) upload specific to Telegram Bot API
+             * (see also: curlEasyInit() )
+             * @param c : curl instance
+             * @param operation : full Telegram Bot API URL
+             * @param userId : target user_id
+             * @param name : Sticker set name
+             * @param emoji : associated emoji with your new sticker
+             * @param filename : PNG sticker local path
+             * @param title : "" by default
+             * @return HTTP response body
+             */
+            std::string multiPartUpload(CURL* c,
+                                        const std::string& operation,
+                                        const int& userId,
+                                        const std::string& name,
+                                        const std::string& emoji,
+                                        const std::string& filename,
+                                        const std::string& title);
+
+            /*!
+             * @brief HTTP POST multipart sticker file (add and create)
+             * (PNG) upload specific to Telegram Bot API
+             * (see also: curlEasyInit() )
+             * @param c : curl instance
+             * @param operation : full Telegram Bot API URL
+             * @param userId : target user_id
+             * @param name : Sticker set name
+             * @param emoji : associated emoji with your new sticker
+             * @param serializedMaskPosition : JSON-encoded mask position object
+             * @param filename : PNG sticker local path
+             * @param title
+             * @return HTTP response body
+             */
+            std::string multiPartUpload(CURL* c,
+                                        const std::string& operation,
+                                        const int& userId,
+                                        const std::string& name,
+                                        const std::string& emoji,
+                                        const std::string& serializedMaskPosition,
+                                        const std::string& filename,
+                                        const std::string& title);
 
             /*!
              * @brief Initialize CURL

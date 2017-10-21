@@ -142,3 +142,107 @@ std::string tgbot::utils::http::multiPartUpload(CURL *c, const std::string &oper
 
     return body;
 }
+
+std::string tgbot::utils::http::multiPartUpload(CURL *c, const std::string &operation, const int &userId,
+                                                const std::string &name, const std::string &emoji,
+                                                const std::string &filename, const std::string &title) {
+    if (!c)
+        throw std::runtime_error("CURL is actually a null pointer");
+
+    curl_httppost *multiPost = nullptr;
+    curl_httppost *end = nullptr;
+    std::string body;
+
+    curl_formadd(&multiPost, &end,
+                 CURLFORM_COPYNAME, "user_id",
+                 CURLFORM_COPYCONTENTS, std::to_string(userId).c_str(),
+                 CURLFORM_END);
+
+    curl_formadd(&multiPost, &end,
+                 CURLFORM_COPYNAME, "name",
+                 CURLFORM_COPYCONTENTS, name.c_str(),
+                 CURLFORM_END);
+
+    curl_formadd(&multiPost, &end,
+                 CURLFORM_COPYNAME, "emoji",
+                 CURLFORM_COPYCONTENTS, emoji.c_str(),
+                 CURLFORM_END);
+
+    curl_formadd(&multiPost, &end,
+                 CURLFORM_COPYNAME, "png_sticker",
+                 CURLFORM_CONTENTTYPE, "image/png",
+                 CURLFORM_FILE, filename.c_str(),
+                 CURLFORM_END);
+
+    if(title != "")
+        curl_formadd(&multiPost, &end,
+                     CURLFORM_COPYNAME, "title",
+                     CURLFORM_COPYCONTENTS, title.c_str(),
+                     CURLFORM_END);
+
+
+    curl_easy_setopt(c, CURLOPT_HTTPPOST, multiPost);
+    curl_easy_setopt(c, CURLOPT_WRITEDATA, &body);
+    curl_easy_setopt(c, CURLOPT_URL, operation.c_str());
+
+    CURLcode code;
+    if ((code = curl_easy_perform(c)) != CURLE_OK)
+        throw std::runtime_error(curl_easy_strerror(code));
+
+    return body;
+}
+
+std::string tgbot::utils::http::multiPartUpload(CURL *c, const std::string &operation, const int &userId,
+                                                const std::string &name, const std::string &emoji,
+                                                const std::string &serializedMaskPosition, const std::string &filename,
+                                                const std::string &title) {
+    if (!c)
+        throw std::runtime_error("CURL is actually a null pointer");
+
+    curl_httppost *multiPost = nullptr;
+    curl_httppost *end = nullptr;
+    std::string body;
+
+    curl_formadd(&multiPost, &end,
+                 CURLFORM_COPYNAME, "user_id",
+                 CURLFORM_COPYCONTENTS, std::to_string(userId).c_str(),
+                 CURLFORM_END);
+
+    curl_formadd(&multiPost, &end,
+                 CURLFORM_COPYNAME, "name",
+                 CURLFORM_COPYCONTENTS, name.c_str(),
+                 CURLFORM_END);
+
+    curl_formadd(&multiPost, &end,
+                 CURLFORM_COPYNAME, "emoji",
+                 CURLFORM_COPYCONTENTS, emoji.c_str(),
+                 CURLFORM_END);
+
+    curl_formadd(&multiPost, &end,
+                 CURLFORM_COPYNAME, "mask_position",
+                 CURLFORM_COPYCONTENTS, serializedMaskPosition.c_str(),
+                 CURLFORM_END);
+
+    curl_formadd(&multiPost, &end,
+                 CURLFORM_COPYNAME, "png_sticker",
+                 CURLFORM_CONTENTTYPE, "image/png",
+                 CURLFORM_FILE, filename.c_str(),
+                 CURLFORM_END);
+
+    if(title != "")
+        curl_formadd(&multiPost, &end,
+                     CURLFORM_COPYNAME, "title",
+                     CURLFORM_COPYCONTENTS, title.c_str(),
+                     CURLFORM_END);
+
+
+    curl_easy_setopt(c, CURLOPT_HTTPPOST, multiPost);
+    curl_easy_setopt(c, CURLOPT_WRITEDATA, &body);
+    curl_easy_setopt(c, CURLOPT_URL, operation.c_str());
+
+    CURLcode code;
+    if ((code = curl_easy_perform(c)) != CURLE_OK)
+        throw std::runtime_error(curl_easy_strerror(code));
+
+    return body;
+}

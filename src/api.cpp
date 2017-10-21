@@ -54,6 +54,14 @@ static inline void removeComma(const std::stringstream& stream, std::string& tar
     target = req;
 }
 
+static std::string maskPositionToString(const api_types::MaskPosition& maskPosition) {
+    std::stringstream jsonify;
+    jsonify << "{ \"point\": \"" << maskPosition.point << "\",\"x_shift\": " << maskPosition.xShift
+            << ",\"y_shift\": " << maskPosition.yShift << ",\"scale\": " << maskPosition.scale;
+
+    return jsonify.str();
+}
+
 //Api constructors
 
 //Webhook, no further action
@@ -765,4 +773,111 @@ api_types::File tgbot::methods::Api::uploadStickerFile(const int &userId, const 
         throw TelegramException(value.get("description","").asCString());
 
     return api_types::File(value.get("result",""));
+}
+
+//addStickerToSet
+bool tgbot::methods::Api::addStickerToSet(const int &userId, const std::string &name, const std::string &emoji,
+                                          const std::string &pngSticker, const types::FileSource &source) const {
+    CURL* inst = http::curlEasyInit();
+    Json::Value value;
+    Json::Reader reader;
+
+    if(source == types::FileSource::EXTERNAL) {
+        std::stringstream url;
+        url << baseApi << "/addStickerToSet?user_id=" << userId << "&png_sticker=" << pngSticker
+                << "&name=" << name << "&emoji=" << emoji;
+
+        reader.parse(http::get(inst,url.str()), value);
+    } else
+        reader.parse(http::multiPartUpload(inst, baseApi + "/addStickerToSet",
+                                           userId,name,emoji,pngSticker,""),
+                    value);
+    curl_easy_cleanup(inst);
+
+    if(!value.get("ok","").asBool())
+        throw TelegramException(value.get("description","").asCString());
+
+    return true;
+}
+
+bool tgbot::methods::Api::addStickerToSet(const int &userId, const std::string &name, const std::string &emoji,
+                                          const std::string &pngSticker, const api_types::MaskPosition &maskPosition,
+                                          const types::FileSource &source) const {
+    CURL* inst = http::curlEasyInit();
+    Json::Value value;
+    Json::Reader reader;
+
+    const std::string&& serMaskPosition = maskPositionToString(maskPosition);
+
+    if(source == types::FileSource::EXTERNAL) {
+        std::stringstream url;
+        url << baseApi << "/addStickerToSet?user_id=" << userId << "&png_sticker=" << pngSticker
+                << "&name=" << name << "&emoji=" << emoji
+                << "&mask_position=" << serMaskPosition;
+
+        reader.parse(http::get(inst,url.str()), value);
+    } else
+        reader.parse(http::multiPartUpload(inst,baseApi + "/addStickerToSet",userId,name,
+                                           emoji,serMaskPosition,pngSticker,""),value);
+    curl_easy_cleanup(inst);
+
+    if(!value.get("ok","").asBool())
+        throw TelegramException(value.get("description","").asCString());
+
+    return true;
+}
+
+//createNewStickerSet
+bool tgbot::methods::Api::createNewStickerSet(const int &userId, const std::string &name, const std::string &title,
+                                              const std::string &emoji, const std::string &pngSticker,
+                                              const types::FileSource &source) const {
+    CURL* inst = http::curlEasyInit();
+    Json::Value value;
+    Json::Reader reader;
+
+    if(source == types::FileSource::EXTERNAL) {
+        std::stringstream url;
+        url << baseApi << "/createNewStickerSet?user_id=" << userId << "&png_sticker=" << pngSticker
+                << "&name=" << name << "&emoji=" << emoji << "&title=" << title;
+
+        reader.parse(http::get(inst,url.str()), value);
+    } else
+        reader.parse(http::multiPartUpload(inst, baseApi + "/addStickerToSet",
+                                           userId,name,emoji,pngSticker,title), value);
+
+    curl_easy_cleanup(inst);
+
+    if(!value.get("ok","").asBool())
+        throw TelegramException(value.get("description","").asCString());
+
+    return true;
+}
+
+bool tgbot::methods::Api::createNewStickerSet(const int &userId, const std::string &name, const std::string &title,
+                                              const std::string &emoji, const std::string &pngSticker,
+                                              const api_types::MaskPosition &maskPosition,
+                                              const types::FileSource &source) const {
+    CURL* inst = http::curlEasyInit();
+    Json::Value value;
+    Json::Reader reader;
+
+    const std::string&& serMaskPosition = maskPositionToString(maskPosition);
+
+    if(source == types::FileSource::EXTERNAL) {
+        std::stringstream url;
+        url << baseApi << "/createNewStickerSet?user_id=" << userId << "&png_sticker=" << pngSticker
+                << "&name=" << name << "&emoji=" << emoji << "&title=" << title
+                << "&mask_position=" << serMaskPosition;
+
+        reader.parse(http::get(inst,url.str()), value);
+    } else
+        reader.parse(http::multiPartUpload(inst,baseApi + "/addStickerToSet",userId,name,
+                                           emoji,serMaskPosition,pngSticker,title),value);
+
+    curl_easy_cleanup(inst);
+
+    if(!value.get("ok","").asBool())
+        throw TelegramException(value.get("description","").asCString());
+
+    return true;
 }
