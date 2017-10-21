@@ -182,7 +182,7 @@ namespace tgbot {
 				/*!
 				 * @brief Use this overload if the checkout phase CANNOT take place
 				 */
-				bool answerShippingQuery(const std::string& preCheckoutQueryId) const;
+				bool answerPreCheckoutQuery(const std::string& preCheckoutQueryId) const;
 
 				api_types::StickerSet getStickerSet(const std::string& name) const;
 
