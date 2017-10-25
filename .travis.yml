@@ -11,7 +11,7 @@ addons:
          - doxygen
          - libjsoncpp-dev
 script:
-   - cmake . -DCMAKE_CXX_FLAGS="-O2 -finline-functions"
+   - cmake . -DOTHER_HDR_DIR="/usr/include/jsoncpp" -DCMAKE_CXX_FLAGS="-O2 -finline-functions"
    - make -j3
 
 before_deploy:

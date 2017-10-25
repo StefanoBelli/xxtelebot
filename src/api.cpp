@@ -1,7 +1,7 @@
 #include <sstream>
 #include <tgbot/methods/api.h>
 #include <tgbot/utils/https.h>
-#include <jsoncpp/json/json.h>
+#include <json/json.h>
 #include <tgbot/bot.h>
 
 #define BOOL_TOSTR(xvalue) \

@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.8)
 
-include_directories(${HEADERS_DIR})
+include_directories(${HEADERS_DIR} ${OTHER_HDR_DIR})
 
 find_package(CURL REQUIRED)
 find_library(JSONCPP "jsoncpp")

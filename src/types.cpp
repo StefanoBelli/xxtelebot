@@ -1,6 +1,6 @@
 #include <sstream>
 #include <string>
-#include <jsoncpp/json/json.h>
+#include <json/json.h>
 #include <tgbot/types.h>
 
 #define BOOL_TOSTR(xvalue) \
