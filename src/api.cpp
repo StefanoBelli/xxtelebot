@@ -1,14 +1,59 @@
-#include <sstream>
 #include <tgbot/methods/api.h>
 #include <tgbot/utils/https.h>
-#include <json/json.h>
 #include <tgbot/bot.h>
+#include <json/json.h>
+#include <sstream>
 
 #define BOOL_TOSTR(xvalue) \
 	((xvalue) ? "true" : "false")
 
+#define SEPARATE(k, sstr) \
+    if(k)\
+        sstr << ','
+
 using namespace tgbot::methods;
 using namespace tgbot::utils;
+
+static constexpr const char* toString(const types::ChatAction& chatAction) {
+    if(chatAction == types::ChatAction::FIND_LOCATION)
+        return "Find location";
+    else if(chatAction == types::ChatAction::RECORD_AUDIO)
+        return "Record audio";
+    else if(chatAction == types::ChatAction::RECORD_VIDEO)
+        return "Record video";
+    else if(chatAction == types::ChatAction::RECORD_VIDEO_NOTE)
+        return "Record video note";
+    else if(chatAction == types::ChatAction::TYPING)
+        return "Typing";
+    else if(chatAction == types::ChatAction::UPLOAD_AUDIO)
+        return "Upload audio";
+    else if(chatAction == types::ChatAction::UPLOAD_DOCUMENT)
+        return "Upload document";
+    else if(chatAction == types::ChatAction::UPLOAD_PHOTO)
+        return "Upload photo";
+    else if(chatAction == types::ChatAction::UPLOAD_VIDEO)
+        return "Upload video";
+
+    return "Upload video note";
+}
+
+static inline std::string toString(const types::ShippingOption& shippingOption) {
+    std::stringstream jsonify;
+    jsonify << "{ \"id\": \"" << shippingOption.id << "\", \"title\": \"" << shippingOption.title << "\""
+            << ", \"prices\": [";
+
+    const size_t& nPrices = shippingOption.prices.size();
+    for(size_t i = 0; i < nPrices; i++) {
+        SEPARATE(i,jsonify);
+
+        const types::LabeledPrice& price = shippingOption.prices.at(i);
+        jsonify << "{ \"amount\":" << price.amount << ", \"label\":\"" << price.label << "\" }";
+    }
+
+    jsonify << "]}";
+
+    return jsonify.str();
+}
 
 static inline void allowedUpdatesToString(const std::vector<api_types::UpdateType>& updates,
                                     std::stringstream& stream) {
@@ -54,7 +99,7 @@ static inline void removeComma(const std::stringstream& stream, std::string& tar
     target = req;
 }
 
-static std::string maskPositionToString(const api_types::MaskPosition& maskPosition) {
+static std::string toString(const api_types::MaskPosition& maskPosition) {
     std::stringstream jsonify;
     jsonify << "{ \"point\": \"" << maskPosition.point << "\",\"x_shift\": " << maskPosition.xShift
             << ",\"y_shift\": " << maskPosition.yShift << ",\"scale\": " << maskPosition.scale;
@@ -807,7 +852,7 @@ bool tgbot::methods::Api::addStickerToSet(const int &userId, const std::string &
     Json::Value value;
     Json::Reader reader;
 
-    const std::string&& serMaskPosition = maskPositionToString(maskPosition);
+    const std::string&& serMaskPosition = toString(maskPosition);
 
     if(source == types::FileSource::EXTERNAL) {
         std::stringstream url;
@@ -861,7 +906,7 @@ bool tgbot::methods::Api::createNewStickerSet(const int &userId, const std::stri
     Json::Value value;
     Json::Reader reader;
 
-    const std::string&& serMaskPosition = maskPositionToString(maskPosition);
+    const std::string&& serMaskPosition = toString(maskPosition);
 
     if(source == types::FileSource::EXTERNAL) {
         std::stringstream url;
@@ -881,3 +926,167 @@ bool tgbot::methods::Api::createNewStickerSet(const int &userId, const std::stri
 
     return true;
 }
+
+//answerPreCheckoutQuery
+bool tgbot::methods::Api::answerPreCheckoutQuery(const std::string &preCheckoutQueryId) const {
+    CURL* inst = http::curlEasyInit();
+    Json::Value value;
+    Json::Reader reader;
+
+    std::stringstream url;
+    url << baseApi << "/answerPreCheckoutQuery?pre_checkout_query_id="
+        << preCheckoutQueryId << "&ok=true";
+
+    reader.parse(http::get(inst,url.str()), value);
+    curl_easy_cleanup(inst);
+
+    if(!value.get("ok","").asBool())
+        throw TelegramException(value.get("description","").asCString());
+
+    return true;
+}
+
+bool tgbot::methods::Api::answerPreCheckoutQuery(const std::string &preCheckoutQueryId, const std::string &errorMessage) const {
+    CURL* inst = http::curlEasyInit();
+    Json::Value value;
+    Json::Reader reader;
+
+    std::stringstream url;
+    url << baseApi << "/answerPreCheckoutQuery?pre_checkout_query_id="
+        << preCheckoutQueryId << "&ok=false" << "&error_message=" << errorMessage;
+
+    reader.parse(http::get(inst,url.str()), value);
+    curl_easy_cleanup(inst);
+
+    if(!value.get("ok","").asBool())
+        throw TelegramException(value.get("description","").asCString());
+
+    return true;
+}
+
+//answerShippingQuery
+bool tgbot::methods::Api::answerShippingQuery(const std::string &shippingQueryId, const std::string &errorMessage) const {
+    CURL* inst = http::curlEasyInit();
+    Json::Value value;
+    Json::Reader reader;
+
+    std::stringstream url;
+    url << baseApi << "/answerShippingQuery?shipping_query_id="
+        << shippingQueryId << "&ok=false" << "&error_message=" << errorMessage;
+
+    reader.parse(http::get(inst,url.str()), value);
+    curl_easy_cleanup(inst);
+
+    if(!value.get("ok","").asBool())
+        throw TelegramException(value.get("description","").asCString());
+
+    return true;
+}
+
+bool tgbot::methods::Api::answerShippingQuery(const std::string &shippingQueryId,
+                                              const std::vector<types::ShippingOption> &shippingOptions) const {
+    CURL* inst = http::curlEasyInit();
+    Json::Value value;
+    Json::Reader reader;
+
+    std::stringstream url;
+    url << baseApi << "/answerShippingQuery?shipping_query_id="
+        << shippingQueryId << "&ok=true&shipping_options=[";
+
+    const size_t& nOptions = shippingOptions.size();
+    for(size_t i = 0; i < nOptions;i++) {
+        SEPARATE(i, url);
+        url << toString(shippingOptions.at(i));
+    }
+
+    url << "]";
+
+    reader.parse(http::get(inst,url.str()), value);
+    curl_easy_cleanup(inst);
+
+    if(!value.get("ok","").asBool())
+        throw TelegramException(value.get("description","").asCString());
+
+    return true;
+}
+
+//answerCallbackQuery
+bool tgbot::methods::Api::answerCallbackQuery(const std::string &callbackQueryId, const std::string &text,
+                                              const bool &showAlert, const std::string &url,
+                                              const int &cacheTime) const {
+    CURL* inst = http::curlEasyInit();
+    Json::Value value;
+    Json::Reader reader;
+
+    std::stringstream surl;
+    surl << baseApi << "/answerCallbackQuery?callback_query_id=" << callbackQueryId;
+
+    if(text != "")
+        surl << "&text=" << text;
+
+    if(showAlert)
+        surl << "&show_alert=true";
+
+    if(url != "")
+        surl << "&url=" << url;
+
+    if(cacheTime)
+        surl << "&cache_time=" << cacheTime;
+
+    reader.parse(http::get(inst,surl.str()), value);
+    curl_easy_cleanup(inst);
+
+    if(!value.get("ok","").asBool())
+        throw TelegramException(value.get("description","").asCString());
+
+    return true;
+}
+
+//answerInlineQuery
+bool tgbot::methods::Api::answerInlineQuery(const std::string &inlineQueryId,
+                                            const std::vector<types::InlineQueryResult> &results,
+                                            const int &cacheTime, const bool &isPersonal,
+                                            const std::string &nextOffset, const std::string &switchPmText,
+                                            const std::string &switchPmParameter) const {
+    CURL* inst = http::curlEasyInit();
+    Json::Value value;
+    Json::Reader reader;
+
+    std::stringstream url;
+    url << baseApi << "/answerInlineQuery?inline_query_id=" << inlineQueryId
+        << "&results=[";
+
+    const size_t& nResults = results.size();
+    for(size_t i = 0; i < nResults;i++) {
+        SEPARATE(i, url);
+        url << results.at(i).toString();
+    }
+
+    url << "]";
+
+    if(cacheTime)
+        url << "&cache_time=" << cacheTime;
+
+    if(isPersonal)
+        url << "&is_personal=true";
+
+    if(nextOffset != "")
+        url << "&next_offset=" << nextOffset;
+
+    if(switchPmText != "")
+        url << "&switch_pm_text=" << switchPmText;
+
+    if(switchPmParameter != "")
+        url << "&switch_pm_parameter=" << switchPmParameter;
+
+    reader.parse(http::get(inst,url.str()), value);
+    curl_easy_cleanup(inst);
+
+    if(!value.get("ok","").asBool())
+        throw TelegramException(value.get("description","").asCString());
+
+    return true;
+}
+
+
+

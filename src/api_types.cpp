@@ -1,5 +1,5 @@
-#include <sstream>
 #include <tgbot/methods/types.h>
+#include <sstream>
 
 #define BOOL_TOSTR(xvalue) \
 	((xvalue) ? "true" : "false")
@@ -8,13 +8,13 @@
 	if(k)\
 		jsonify << ','
 
-std::string tgbot::methods::types::toString(const ParseMode &parseMode) {
-	if (parseMode == ParseMode::HTML)
-		return "HTML";
-	else if (parseMode == ParseMode::MARKDOWN)
-		return "Markdown";
+static constexpr const char* toString(const tgbot::methods::types::ParseMode& parseMode) {
+    if (parseMode == tgbot::methods::types::ParseMode::HTML)
+        return "HTML";
+    else if (parseMode == tgbot::methods::types::ParseMode::MARKDOWN)
+        return "Markdown";
 
-	return "";
+    return "";
 }
 
 std::string tgbot::methods::types::InputMessageContent::toString() const {
@@ -147,7 +147,7 @@ std::string tgbot::methods::types::InputTextMessageContent::toString() const {
 	jsonify << "{ \"message_text\": \"" << messageText
 			<< "\",\"disable_web_page_preview\": " << BOOL_TOSTR(disableWebPagePreview);
 
-	const std::string &mode = types::toString(parseMode);
+    const std::string &mode = ::toString(parseMode);
 	if (mode != "")
 		jsonify << ",\"parse_mode\": \"" << mode << "\"";
 

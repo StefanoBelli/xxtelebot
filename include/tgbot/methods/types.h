@@ -33,12 +33,18 @@ namespace tgbot {
 
 			struct InputMessageContent;
 
+            /*!
+             * @brief Parsing mode to be used
+             */
 			enum class ParseMode {
 				DEFAULT,
 				MARKDOWN,
 				HTML
 			};
 
+            /*!
+             * @brief What the bot is doing
+             */
 			enum class ChatAction {
 				TYPING,
 				UPLOAD_PHOTO,
@@ -520,8 +526,6 @@ namespace tgbot {
 					std::string id;
 					std::string title;
 			};
-
-			std::string toString(const ParseMode& parseMode);
 
 		} //types
 

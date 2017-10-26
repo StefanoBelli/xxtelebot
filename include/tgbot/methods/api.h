@@ -271,7 +271,7 @@ namespace tgbot {
 						const int& cacheTime = 0) const;
 
 				bool answerInlineQuery(const std::string& inlineQueryId, 
-						const std::vector<types::InlineQueryResult>& result,
+                        const std::vector<types::InlineQueryResult>& results,
 						const int& cacheTime = 0,
 						const bool& isPersonal = true,
 						const std::string& nextOffset = "",
