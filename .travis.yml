@@ -5,11 +5,12 @@ compiler:
    - clang
 
 addons:
-   apt:
+   apt:      
       packages:
          - cmake
          - doxygen
          - libjsoncpp-dev
+
 script:
    - cmake . -DOTHER_HDR_DIR="/usr/include/jsoncpp" -DCMAKE_CXX_FLAGS="-O2 -finline-functions"
    - make -j3

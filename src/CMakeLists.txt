@@ -11,7 +11,7 @@ else()
 	message(FATAL_ERROR "!! Cannot find JsonCpp")
 endif()
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 11)
 set(SOURCES https.cpp bot.cpp api.cpp api_types.cpp types.cpp)
 
 if (NOT CMAKE_PREFIX_DIR AND UNIX)

@@ -14,29 +14,6 @@
 using namespace tgbot::methods;
 using namespace tgbot::utils;
 
-static constexpr const char* toString(const types::ChatAction& chatAction) {
-    if(chatAction == types::ChatAction::FIND_LOCATION)
-        return "Find location";
-    else if(chatAction == types::ChatAction::RECORD_AUDIO)
-        return "Record audio";
-    else if(chatAction == types::ChatAction::RECORD_VIDEO)
-        return "Record video";
-    else if(chatAction == types::ChatAction::RECORD_VIDEO_NOTE)
-        return "Record video note";
-    else if(chatAction == types::ChatAction::TYPING)
-        return "Typing";
-    else if(chatAction == types::ChatAction::UPLOAD_AUDIO)
-        return "Upload audio";
-    else if(chatAction == types::ChatAction::UPLOAD_DOCUMENT)
-        return "Upload document";
-    else if(chatAction == types::ChatAction::UPLOAD_PHOTO)
-        return "Upload photo";
-    else if(chatAction == types::ChatAction::UPLOAD_VIDEO)
-        return "Upload video";
-
-    return "Upload video note";
-}
-
 static inline std::string toString(const types::ShippingOption& shippingOption) {
     std::stringstream jsonify;
     jsonify << "{ \"id\": \"" << shippingOption.id << "\", \"title\": \"" << shippingOption.title << "\""

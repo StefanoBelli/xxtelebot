@@ -8,15 +8,6 @@
 	if(k)\
 		jsonify << ','
 
-static constexpr const char* toString(const tgbot::methods::types::ParseMode& parseMode) {
-    if (parseMode == tgbot::methods::types::ParseMode::HTML)
-        return "HTML";
-    else if (parseMode == tgbot::methods::types::ParseMode::MARKDOWN)
-        return "Markdown";
-
-    return "";
-}
-
 std::string tgbot::methods::types::InputMessageContent::toString() const {
 	return what;
 }
@@ -147,9 +138,10 @@ std::string tgbot::methods::types::InputTextMessageContent::toString() const {
 	jsonify << "{ \"message_text\": \"" << messageText
 			<< "\",\"disable_web_page_preview\": " << BOOL_TOSTR(disableWebPagePreview);
 
-    const std::string &mode = ::toString(parseMode);
-	if (mode != "")
-		jsonify << ",\"parse_mode\": \"" << mode << "\"";
+    if (parseMode == ParseMode::HTML)
+        jsonify << ",\"parse_mode\": \"HTML\"";
+    else if (parseMode == ParseMode::MARKDOWN)
+        jsonify << ",\"parse_mode\": \"Markdown\"";
 
 	jsonify << "}";
 
