@@ -5,6 +5,15 @@
 # telegram-bot-api
 C++ Telegram Bot APIs
 
+### Note on building
+If API build cannot get done because of missing headers, the problem is more likely to be related with *jsoncpp* headers: many package management systems are instructed to place headers to */usr/include* or */usr/include/json*, so I cannot tell compiler to look for *jsoncpp/json/json.h*.
+
+In case compiler exits with failure saying it couldn't find any *json/json.h*, just do the following:
+
+ * clean CMake project directory
+ * re-run cmake with previous parameters, PLUS, *-DOTHER_HDR_DIR="/usr/include/jsoncpp"*
+ * it should work now
+
 ### getUpdates
 Is used within project implementation, and not "publicly" availible
 
