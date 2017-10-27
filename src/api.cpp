@@ -1,4 +1,4 @@
-#include <tgbot/methods/api.h>
+﻿#include <tgbot/methods/api.h>
 #include <tgbot/utils/https.h>
 #include <tgbot/bot.h>
 #include <json/json.h>
@@ -1065,5 +1065,347 @@ bool tgbot::methods::Api::answerInlineQuery(const std::string &inlineQueryId,
     return true;
 }
 
+//sendMessage
+api_types::Message tgbot::methods::Api::sendMessage(const std::string &chatId,
+                                                    const std::string &text,
+                                                    const types::ParseMode &parseMode,
+                                                    const bool &disableWebPagePreview,
+                                                    const bool &disableNotification,
+                                                    const types::ReplyMarkup &replyMarkup) const {
+    CURL* inst = http::curlEasyInit();
+    Json::Value value;
+    Json::Reader reader;
+
+    std::stringstream url;
+    url << baseApi << "/sendMessage?chat_id=" << chatId << "&text=" << text;
+
+    if(parseMode == types::ParseMode::HTML)
+        url << "&parse_mode=HTML";
+    else if(parseMode == types::ParseMode::MARKDOWN)
+        url << "&parse_mode=Markdown";
+
+    if(disableWebPagePreview)
+        url << "&disable_web_page_preview=true";
+
+    if(disableNotification)
+        url << "&disable_notificatiton=true";
+
+    const std::string&& markup = replyMarkup.toString();
+    if(markup != "")
+        url << "&replyMarkup=" << markup;
+
+    reader.parse(http::get(inst,url.str()), value);
+    curl_easy_cleanup(inst);
+
+    if(!value.get("ok","").asBool())
+        throw TelegramException(value.get("description","").asCString());
+
+    return api_types::Message(value.get("result",""));
+}
+
+api_types::Message tgbot::methods::Api::sendMessage(const std::string &chatId,
+                                                    const std::string &text,
+                                                    const int replyToMessageId,
+                                                    const types::ParseMode &parseMode,
+                                                    const bool &disableWebPagePreview,
+                                                    const bool &disableNotification,
+                                                    const types::ReplyMarkup &replyMarkup) const {
+    CURL* inst = http::curlEasyInit();
+    Json::Value value;
+    Json::Reader reader;
+
+    std::stringstream url;
+    url << baseApi << "/sendMessage?chat_id=" << chatId << "&text=" << text
+        << "&reply_to_message_id=" << replyToMessageId;
+
+    if(parseMode == types::ParseMode::HTML)
+        url << "&parse_mode=HTML";
+    else if(parseMode == types::ParseMode::MARKDOWN)
+        url << "&parse_mode=Markdown";
+
+    if(disableWebPagePreview)
+        url << "&disable_web_page_preview=true";
+
+    if(disableNotification)
+        url << "&disable_notificatiton=true";
+
+    const std::string&& markup = replyMarkup.toString();
+    if(markup != "")
+        url << "&replyMarkup=" << markup;
+
+    reader.parse(http::get(inst,url.str()), value);
+    curl_easy_cleanup(inst);
+
+    if(!value.get("ok","").asBool())
+        throw TelegramException(value.get("description","").asCString());
+
+    return api_types::Message(value.get("result",""));
+}
+
+//forwardMessage
+api_types::Message tgbot::methods::Api::forwardMessage(const std::string &chatId,
+                                                       const std::string &fromChatId,
+                                                       const int &messageId,
+                                                       const bool &disableNotification) const {
+    CURL* inst = http::curlEasyInit();
+    Json::Value value;
+    Json::Reader reader;
+
+    std::stringstream url;
+    url << baseApi << "/forwardMessage?chat_id=" << chatId << "&from_chat_id=" << fromChatId
+        << "&message_id=" << messageId;
+
+    if(disableNotification)
+        url << "&disable_notification=true";
+
+    reader.parse(http::get(inst,url.str()), value);
+    curl_easy_cleanup(inst);
+
+    if(!value.get("ok","").asBool())
+        throw TelegramException(value.get("description","").asCString());
+
+    return api_types::Message(value.get("result",""));
+}
+
+//editMessageText
+api_types::Message tgbot::methods::Api::editMessageText(const std::string &chatId,
+                                                        const std::string &messageId,
+                                                        const std::string &text,
+                                                        const types::ParseMode &parseMode,
+                                                        const bool &disableWebPagePreview) const {
+    CURL* inst = http::curlEasyInit();
+    Json::Value value;
+    Json::Reader reader;
+
+    std::stringstream url;
+    url << baseApi << "/editMessageText?chat_id=" << chatId << "&message_id=" << messageId
+        << "&text=" << text;
+
+    if(parseMode == types::ParseMode::HTML)
+        url << "&parse_mode=HTML";
+    else if(parseMode == types::ParseMode::MARKDOWN)
+        url << "&parse_mode=Markdown";
+
+    if(disableWebPagePreview)
+        url << "&disable_web_page_preview=true";
+
+    reader.parse(http::get(inst,url.str()), value);
+    curl_easy_cleanup(inst);
+
+    if(!value.get("ok","").asBool())
+        throw TelegramException(value.get("description","").asCString());
+
+    return api_types::Message(value.get("result",""));
+}
+
+api_types::Message tgbot::methods::Api::editMessageText(const std::string &chatId,
+                                                        const std::string messageId,
+                                                        const types::InlineKeyboardMarkup &replyMarkup,
+                                                        const std::string &text,
+                                                        const types::ParseMode &parseMode,
+                                                        const bool &disableWebPagePreview) const {
+    CURL* inst = http::curlEasyInit();
+    Json::Value value;
+    Json::Reader reader;
+
+    std::stringstream url;
+
+    url << baseApi << "/editMessageText?chat_id=" << chatId << "&message_id=" << messageId
+        << "&text=" << text << "&reply_markup=" << replyMarkup.toString();
+
+    if(parseMode == types::ParseMode::HTML)
+        url << "&parse_mode=HTML";
+    else if(parseMode == types::ParseMode::MARKDOWN)
+        url << "&parse_mode=Markdown";
+
+    if(disableWebPagePreview)
+        url << "&disable_web_page_preview=true";
+
+    reader.parse(http::get(inst,url.str()), value);
+    curl_easy_cleanup(inst);
+
+    if(!value.get("ok","").asBool())
+        throw TelegramException(value.get("description","").asCString());
+
+    return api_types::Message(value.get("result",""));
+}
+
+api_types::Message tgbot::methods::Api::editMessageText(const std::string &inlineMessageId,
+                                                        const std::string &text,
+                                                        const types::ParseMode &parseMode,
+                                                        const bool &disableWebPagePreview) const {
+    CURL* inst = http::curlEasyInit();
+    Json::Value value;
+    Json::Reader reader;
+
+    std::stringstream url;
+    url << baseApi << "/editMessageText?inline_message_id=" << inlineMessageId << "&text=" << text;
+
+    if(parseMode == types::ParseMode::HTML)
+        url << "&parse_mode=HTML";
+    else if(parseMode == types::ParseMode::MARKDOWN)
+        url << "&parse_mode=Markdown";
+
+    if(disableWebPagePreview)
+        url << "&disable_web_page_preview=true";
+
+    reader.parse(http::get(inst,url.str()), value);
+    curl_easy_cleanup(inst);
+
+    if(!value.get("ok","").asBool())
+        throw TelegramException(value.get("description","").asCString());
+
+    return api_types::Message(value.get("result",""));
+}
+
+api_types::Message tgbot::methods::Api::editMessageText(const std::string &inlineMessageId,
+                                                        const types::InlineKeyboardMarkup &replyMarkup,
+                                                        const std::string &text,
+                                                        const types::ParseMode &parseMode,
+                                                        const bool &disableWebPagePreview) const {
+    CURL* inst = http::curlEasyInit();
+    Json::Value value;
+    Json::Reader reader;
+
+    std::stringstream url;
+    url << baseApi << "/editMessageText?inline_message_id=" << inlineMessageId << "&text=" << text
+        << "&reply_markup=" << replyMarkup.toString();
+
+    if(parseMode == types::ParseMode::HTML)
+        url << "&parse_mode=HTML";
+    else if(parseMode == types::ParseMode::MARKDOWN)
+        url << "&parse_mode=Markdown";
+
+    if(disableWebPagePreview)
+        url << "&disable_web_page_preview=true";
 
 
+    reader.parse(http::get(inst,url.str()), value);
+    curl_easy_cleanup(inst);
+
+    if(!value.get("ok","").asBool())
+        throw TelegramException(value.get("description","").asCString());
+
+    return api_types::Message(value.get("result",""));
+}
+
+//editMessageCaption
+api_types::Message tgbot::methods::Api::editMessageCaption(const std::string &chatId,
+                                                           const std::string &messageId,
+                                                           const std::string &caption) const {
+    CURL* inst = http::curlEasyInit();
+    Json::Value value;
+    Json::Reader reader;
+
+    std::stringstream url;
+    url << baseApi << "/editMessageCaption?chat_id=" << chatId << "&message_id=" << messageId
+        << "&caption=" << caption;
+
+    reader.parse(http::get(inst,url.str()), value);
+    curl_easy_cleanup(inst);
+
+    if(!value.get("ok","").asBool())
+        throw TelegramException(value.get("description","").asCString());
+
+    return api_types::Message(value.get("result",""));
+}
+
+api_types::Message tgbot::methods::Api::editMessageCaption(const std::string &chatId,
+                                                           const std::string &messageId,
+                                                           const types::InlineKeyboardMarkup &replyMarkup,
+                                                           const std::string &caption) const {
+    CURL* inst = http::curlEasyInit();
+    Json::Value value;
+    Json::Reader reader;
+
+    std::stringstream url;
+    url << baseApi << "/editMessageCaption?chat_id=" << chatId << "&message_id=" << messageId
+        << "&caption=" << caption << "&reply_markup=" << replyMarkup.toString();
+
+    reader.parse(http::get(inst,url.str()), value);
+    curl_easy_cleanup(inst);
+
+    if(!value.get("ok","").asBool())
+        throw TelegramException(value.get("description","").asCString());
+
+    return api_types::Message(value.get("result",""));
+}
+
+api_types::Message tgbot::methods::Api::editMessageCaption(const std::string& inlineMessageId,
+                                                           const std::string &caption) const {
+    CURL* inst = http::curlEasyInit();
+    Json::Value value;
+    Json::Reader reader;
+
+    std::stringstream url;
+    url << baseApi << "/editMessageCaption?inline_message_id=" << inlineMessageId
+        << "&caption=" << caption;
+
+    reader.parse(http::get(inst,url.str()), value);
+    curl_easy_cleanup(inst);
+
+    if(!value.get("ok","").asBool())
+        throw TelegramException(value.get("description","").asCString());
+
+    return api_types::Message(value.get("result",""));
+}
+
+api_types::Message tgbot::methods::Api::editMessageCaption(const std::string& inlineMessageId,
+                                                           const types::InlineKeyboardMarkup &replyMarkup,
+                                                           const std::string &caption) const {
+    CURL* inst = http::curlEasyInit();
+    Json::Value value;
+    Json::Reader reader;
+
+    std::stringstream url;
+    url << baseApi << "/editMessageCaption?inline_message_id=" << inlineMessageId
+        << "&caption=" << caption << "&reply_markup=" << replyMarkup.toString();
+
+    reader.parse(http::get(inst,url.str()), value);
+    curl_easy_cleanup(inst);
+
+    if(!value.get("ok","").asBool())
+        throw TelegramException(value.get("description","").asCString());
+
+    return api_types::Message(value.get("result",""));
+}
+
+//editMessageReplyMarkup
+api_types::Message tgbot::methods::Api::editMessageReplyMarkup(const std::string &chatId,
+                                                               const std::string &messageId,
+                                                               const types::InlineKeyboardMarkup &replyMarkup) const {
+    CURL* inst = http::curlEasyInit();
+    Json::Value value;
+    Json::Reader reader;
+
+    std::stringstream url;
+    url << baseApi << "/editMessageReplyMarkup?chat_id=" << chatId << "&message_id=" << messageId
+        << "&reply_markup=" << replyMarkup.toString();
+
+    reader.parse(http::get(inst,url.str()), value);
+    curl_easy_cleanup(inst);
+
+    if(!value.get("ok","").asBool())
+        throw TelegramException(value.get("description","").asCString());
+
+    return api_types::Message(value.get("result",""));
+}
+
+api_types::Message tgbot::methods::Api::editMessageReplyMarkup(const std::string &inlineMessageId,
+                                                               const types::InlineKeyboardMarkup &replyMarkup) const {
+    CURL* inst = http::curlEasyInit();
+    Json::Value value;
+    Json::Reader reader;
+
+    std::stringstream url;
+    url << baseApi << "/editMessageReplyMarkup?inline_message_id=" << inlineMessageId
+        << "&reply_markup=" << replyMarkup.toString();
+
+    reader.parse(http::get(inst,url.str()), value);
+    curl_easy_cleanup(inst);
+
+    if(!value.get("ok","").asBool())
+        throw TelegramException(value.get("description","").asCString());
+
+    return api_types::Message(value.get("result",""));
+}

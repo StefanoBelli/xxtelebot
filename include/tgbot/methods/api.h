@@ -21,9 +21,16 @@ namespace tgbot {
 						const std::string& text,
 						const types::ParseMode& = types::ParseMode::DEFAULT,
 						const bool& disableWebPagePreview = false,
-						const bool& disableNotification = false,
-						const int& replyToMessageId = -1,
+                        const bool& disableNotification = false,
 						const types::ReplyMarkup& replyMarkup = "") const;
+
+                api_types::Message sendMessage(const std::string& chatId,
+                        const std::string& text,
+                        const int replyToMessageId,
+                        const types::ParseMode& = types::ParseMode::DEFAULT,
+                        const bool& disableWebPagePreview = false,
+                        const bool& disableNotification = false,
+                        const types::ReplyMarkup& replyMarkup = "") const;
 
 				api_types::Message forwardMessage(const std::string& chatId, 
 						const std::string& fromChatId,

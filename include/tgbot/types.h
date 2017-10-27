@@ -294,7 +294,7 @@ namespace tgbot {
 				Ptr<std::string> lastName;
 				Ptr<std::string> description;
 				Ptr<std::string> inviteLink;
-				int id;
+                std::int64_t id;
 				bool allMembersAreAdministrators;
 		};
 

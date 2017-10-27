@@ -288,7 +288,7 @@ tgbot::types::Chat::Chat(const Json::Value &object) {
 	else if (type == "channel")
 		this->type = ChatType::CHANNEL;
 
-	id = object.get("id", "").asInt();
+    id = object.get("id", "").asInt64();
 
 	if (this->type != ChatType::PRIVATE)
 		this->allMembersAreAdministrators =
