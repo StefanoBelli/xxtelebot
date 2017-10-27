@@ -44,7 +44,17 @@ int main() {
 }
 ```
 
-I would suggest you to add a filter for updates, I mean, if your bot expects only messages, LongPollBot constructor allows you to add filters and get only certain update types
+*I would suggest you to add a filter for updates, I mean, if your bot expects only messages, LongPollBot constructor allows you to add filters and get only certain update types*
+
+#### How to properly compile it
+
+Assuming we call this file *bot.cpp* and it is placed one level up telegram-bot-api source tree, this would be its compilation command (GCC-C++):
+
+~~~
+$ g++ bot.cpp -Itelegram-bot-api/include telegram-bot-api/lib/libtgbot.a -lcurl -ljsoncpp -pthread
+~~~
+
+Others may result in linkage error.
 
 ### Note on building
 If API build cannot get done because of missing headers, the problem is more likely to be related with *jsoncpp* headers: many package management systems are instructed to place headers to */usr/include* or */usr/include/json*, so I cannot tell compiler to look for *jsoncpp/json/json.h*.
