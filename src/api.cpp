@@ -1,8 +1,8 @@
 ﻿#include <tgbot/methods/api.h>
 #include <tgbot/utils/https.h>
+#include <tgbot/utils/encode.h>
 #include <tgbot/bot.h>
 #include <json/json.h>
-#include <sstream>
 
 #define BOOL_TOSTR(xvalue) \
 	((xvalue) ? "true" : "false")
@@ -336,7 +336,7 @@ api_types::StickerSet tgbot::methods::Api::getStickerSet(const std::string &name
     Json::Value value;
     Json::Reader reader;
 
-    reader.parse(http::get(inst,baseApi + "/getStickerSet?name=" + name), value);
+    reader.parse(http::get(inst,baseApi + "/getStickerSet?name=" + encode(name)), value);
     curl_easy_cleanup(inst);
 
     if(!value.get("ok","").asBool())
@@ -650,7 +650,8 @@ bool tgbot::methods::Api::setChatDescription(const std::string &chatId, const st
     Json::Reader reader;
 
     std::stringstream url;
-    url << baseApi << "/setChatDescription?chat_id=" << chatId << "&description=" << description;
+    url << baseApi << "/setChatDescription?chat_id=" << chatId << "&description=";
+    encode(url,description);
 
     reader.parse(http::get(inst,url.str()), value);
     curl_easy_cleanup(inst);
@@ -668,7 +669,7 @@ bool tgbot::methods::Api::setChatTitle(const std::string &chatId, const std::str
     Json::Reader reader;
 
     std::stringstream url;
-    url << baseApi << "/setChatTitle?chat_id=" << chatId << "&title=" << title;
+    url << baseApi << "/setChatTitle?chat_id=" << chatId << "&title=" << encode(title);
 
     reader.parse(http::get(inst,url.str()), value);
     curl_easy_cleanup(inst);
@@ -807,7 +808,9 @@ bool tgbot::methods::Api::addStickerToSet(const int &userId, const std::string &
     if(source == types::FileSource::EXTERNAL) {
         std::stringstream url;
         url << baseApi << "/addStickerToSet?user_id=" << userId << "&png_sticker=" << pngSticker
-                << "&name=" << name << "&emoji=" << emoji;
+                << "&name=";
+        encode(url,name);
+        url << "&emoji=" << emoji;
 
         reader.parse(http::get(inst,url.str()), value);
     } else
@@ -834,7 +837,9 @@ bool tgbot::methods::Api::addStickerToSet(const int &userId, const std::string &
     if(source == types::FileSource::EXTERNAL) {
         std::stringstream url;
         url << baseApi << "/addStickerToSet?user_id=" << userId << "&png_sticker=" << pngSticker
-                << "&name=" << name << "&emoji=" << emoji
+                << "&name=";
+        encode(url,name);
+        url << "&emoji=" << emoji
                 << "&mask_position=" << serMaskPosition;
 
         reader.parse(http::get(inst,url.str()), value);
@@ -860,7 +865,9 @@ bool tgbot::methods::Api::createNewStickerSet(const int &userId, const std::stri
     if(source == types::FileSource::EXTERNAL) {
         std::stringstream url;
         url << baseApi << "/createNewStickerSet?user_id=" << userId << "&png_sticker=" << pngSticker
-                << "&name=" << name << "&emoji=" << emoji << "&title=" << title;
+                << "&name=";
+        encode(url,name);
+        url << "&emoji=" << emoji << "&title=" << title;
 
         reader.parse(http::get(inst,url.str()), value);
     } else
@@ -888,7 +895,9 @@ bool tgbot::methods::Api::createNewStickerSet(const int &userId, const std::stri
     if(source == types::FileSource::EXTERNAL) {
         std::stringstream url;
         url << baseApi << "/createNewStickerSet?user_id=" << userId << "&png_sticker=" << pngSticker
-                << "&name=" << name << "&emoji=" << emoji << "&title=" << title
+                << "&name=";
+        encode(url,name);
+        url << "&emoji=" << emoji << "&title=" << title
                 << "&mask_position=" << serMaskPosition;
 
         reader.parse(http::get(inst,url.str()), value);
@@ -949,7 +958,8 @@ bool tgbot::methods::Api::answerShippingQuery(const std::string &shippingQueryId
 
     std::stringstream url;
     url << baseApi << "/answerShippingQuery?shipping_query_id="
-        << shippingQueryId << "&ok=false" << "&error_message=" << errorMessage;
+        << shippingQueryId << "&ok=false" << "&error_message=";
+    encode(url,errorMessage);
 
     reader.parse(http::get(inst,url.str()), value);
     curl_easy_cleanup(inst);
@@ -968,15 +978,15 @@ bool tgbot::methods::Api::answerShippingQuery(const std::string &shippingQueryId
 
     std::stringstream url;
     url << baseApi << "/answerShippingQuery?shipping_query_id="
-        << shippingQueryId << "&ok=true&shipping_options=[";
+        << shippingQueryId << "&ok=true&shipping_options=%5B";
 
     const size_t& nOptions = shippingOptions.size();
     for(size_t i = 0; i < nOptions;i++) {
         SEPARATE(i, url);
-        url << toString(shippingOptions.at(i));
+        encode(url,toString(shippingOptions.at(i)));
     }
 
-    url << "]";
+    url << "%5D";
 
     reader.parse(http::get(inst,url.str()), value);
     curl_easy_cleanup(inst);
@@ -998,8 +1008,10 @@ bool tgbot::methods::Api::answerCallbackQuery(const std::string &callbackQueryId
     std::stringstream surl;
     surl << baseApi << "/answerCallbackQuery?callback_query_id=" << callbackQueryId;
 
-    if(text != "")
-        surl << "&text=" << text;
+    if(text != "") {
+        surl << "&text=";
+        encode(surl,text);
+    }
 
     if(showAlert)
         surl << "&show_alert=true";
@@ -1050,11 +1062,15 @@ bool tgbot::methods::Api::answerInlineQuery(const std::string &inlineQueryId,
     if(nextOffset != "")
         url << "&next_offset=" << nextOffset;
 
-    if(switchPmText != "")
-        url << "&switch_pm_text=" << switchPmText;
+    if(switchPmText != "") {
+        url << "&switch_pm_text=";
+        encode(url,switchPmText);
+    }
 
-    if(switchPmParameter != "")
-        url << "&switch_pm_parameter=" << switchPmParameter;
+    if(switchPmParameter != "") {
+        url << "&switch_pm_parameter=";
+        encode(url,switchPmParameter);
+    }
 
     reader.parse(http::get(inst,url.str()), value);
     curl_easy_cleanup(inst);
@@ -1077,7 +1093,8 @@ api_types::Message tgbot::methods::Api::sendMessage(const std::string &chatId,
     Json::Reader reader;
 
     std::stringstream url;
-    url << baseApi << "/sendMessage?chat_id=" << chatId << "&text=" << text;
+    url << baseApi << "/sendMessage?chat_id=" << chatId << "&text=";
+    encode(url,text);
 
     if(parseMode == types::ParseMode::HTML)
         url << "&parse_mode=HTML";
@@ -1091,8 +1108,10 @@ api_types::Message tgbot::methods::Api::sendMessage(const std::string &chatId,
         url << "&disable_notificatiton=true";
 
     const std::string&& markup = replyMarkup.toString();
-    if(markup != "")
-        url << "&replyMarkup=" << markup;
+    if(markup != "") {
+        url << "&replyMarkup=";
+        encode(url,markup);
+    }
 
     reader.parse(http::get(inst,url.str()), value);
     curl_easy_cleanup(inst);
@@ -1115,8 +1134,9 @@ api_types::Message tgbot::methods::Api::sendMessage(const std::string &chatId,
     Json::Reader reader;
 
     std::stringstream url;
-    url << baseApi << "/sendMessage?chat_id=" << chatId << "&text=" << text
-        << "&reply_to_message_id=" << replyToMessageId;
+    url << baseApi << "/sendMessage?chat_id=" << chatId << "&text=" << text;
+    encode(url,text);
+    url << "&reply_to_message_id=" << replyToMessageId;
 
     if(parseMode == types::ParseMode::HTML)
         url << "&parse_mode=HTML";
@@ -1130,8 +1150,10 @@ api_types::Message tgbot::methods::Api::sendMessage(const std::string &chatId,
         url << "&disable_notificatiton=true";
 
     const std::string&& markup = replyMarkup.toString();
-    if(markup != "")
-        url << "&replyMarkup=" << markup;
+    if(markup != "") {
+        url << "&replyMarkup=";
+        encode(url,markup);
+    }
 
     reader.parse(http::get(inst,url.str()), value);
     curl_easy_cleanup(inst);
@@ -1178,8 +1200,8 @@ api_types::Message tgbot::methods::Api::editMessageText(const std::string &chatI
     Json::Reader reader;
 
     std::stringstream url;
-    url << baseApi << "/editMessageText?chat_id=" << chatId << "&message_id=" << messageId
-        << "&text=" << text;
+    url << baseApi << "/editMessageText?chat_id=" << chatId << "&message_id=" << messageId << "&text=";
+    encode(url,text);
 
     if(parseMode == types::ParseMode::HTML)
         url << "&parse_mode=HTML";
@@ -1210,8 +1232,10 @@ api_types::Message tgbot::methods::Api::editMessageText(const std::string &chatI
 
     std::stringstream url;
 
-    url << baseApi << "/editMessageText?chat_id=" << chatId << "&message_id=" << messageId
-        << "&text=" << text << "&reply_markup=" << replyMarkup.toString();
+    url << baseApi << "/editMessageText?chat_id=" << chatId << "&message_id=" << messageId << "&text=";
+    encode(url,text);
+    url << "&reply_markup=";
+    encode(url,replyMarkup.toString());
 
     if(parseMode == types::ParseMode::HTML)
         url << "&parse_mode=HTML";
@@ -1239,7 +1263,8 @@ api_types::Message tgbot::methods::Api::editMessageText(const std::string &inlin
     Json::Reader reader;
 
     std::stringstream url;
-    url << baseApi << "/editMessageText?inline_message_id=" << inlineMessageId << "&text=" << text;
+    url << baseApi << "/editMessageText?inline_message_id=" << inlineMessageId << "&text=";
+    encode(url,text);
 
     if(parseMode == types::ParseMode::HTML)
         url << "&parse_mode=HTML";
@@ -1268,8 +1293,10 @@ api_types::Message tgbot::methods::Api::editMessageText(const std::string &inlin
     Json::Reader reader;
 
     std::stringstream url;
-    url << baseApi << "/editMessageText?inline_message_id=" << inlineMessageId << "&text=" << text
-        << "&reply_markup=" << replyMarkup.toString();
+    url << baseApi << "/editMessageText?inline_message_id=" << inlineMessageId << "&text=";
+    encode(url,text);
+    url << "&reply_markup=";
+    encode(url,replyMarkup.toString());
 
     if(parseMode == types::ParseMode::HTML)
         url << "&parse_mode=HTML";
@@ -1299,7 +1326,8 @@ api_types::Message tgbot::methods::Api::editMessageCaption(const std::string &ch
 
     std::stringstream url;
     url << baseApi << "/editMessageCaption?chat_id=" << chatId << "&message_id=" << messageId
-        << "&caption=" << caption;
+        << "&caption=";
+    encode(url,caption);
 
     reader.parse(http::get(inst,url.str()), value);
     curl_easy_cleanup(inst);
@@ -1320,7 +1348,10 @@ api_types::Message tgbot::methods::Api::editMessageCaption(const std::string &ch
 
     std::stringstream url;
     url << baseApi << "/editMessageCaption?chat_id=" << chatId << "&message_id=" << messageId
-        << "&caption=" << caption << "&reply_markup=" << replyMarkup.toString();
+        << "&caption=";
+    encode(url,caption);
+    url << "&reply_markup=";
+    encode(url,replyMarkup.toString());
 
     reader.parse(http::get(inst,url.str()), value);
     curl_easy_cleanup(inst);
@@ -1339,7 +1370,8 @@ api_types::Message tgbot::methods::Api::editMessageCaption(const std::string& in
 
     std::stringstream url;
     url << baseApi << "/editMessageCaption?inline_message_id=" << inlineMessageId
-        << "&caption=" << caption;
+        << "&caption=";
+    encode(url,caption);
 
     reader.parse(http::get(inst,url.str()), value);
     curl_easy_cleanup(inst);
@@ -1359,7 +1391,10 @@ api_types::Message tgbot::methods::Api::editMessageCaption(const std::string& in
 
     std::stringstream url;
     url << baseApi << "/editMessageCaption?inline_message_id=" << inlineMessageId
-        << "&caption=" << caption << "&reply_markup=" << replyMarkup.toString();
+        << "&caption=";
+    encode(url,caption);
+    url << "&reply_markup=";
+    encode(url,replyMarkup.toString());
 
     reader.parse(http::get(inst,url.str()), value);
     curl_easy_cleanup(inst);
@@ -1380,7 +1415,8 @@ api_types::Message tgbot::methods::Api::editMessageReplyMarkup(const std::string
 
     std::stringstream url;
     url << baseApi << "/editMessageReplyMarkup?chat_id=" << chatId << "&message_id=" << messageId
-        << "&reply_markup=" << replyMarkup.toString();
+        << "&reply_markup=";
+    encode(url,replyMarkup.toString());
 
     reader.parse(http::get(inst,url.str()), value);
     curl_easy_cleanup(inst);
@@ -1399,7 +1435,8 @@ api_types::Message tgbot::methods::Api::editMessageReplyMarkup(const std::string
 
     std::stringstream url;
     url << baseApi << "/editMessageReplyMarkup?inline_message_id=" << inlineMessageId
-        << "&reply_markup=" << replyMarkup.toString();
+        << "&reply_markup=";
+    encode(url,replyMarkup.toString());
 
     reader.parse(http::get(inst,url.str()), value);
     curl_easy_cleanup(inst);

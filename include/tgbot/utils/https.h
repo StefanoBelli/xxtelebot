@@ -10,11 +10,11 @@ namespace tgbot {
      * @brief various utilities
      */
 	namespace utils {
-
 		/*!
 		 * @brief HTTP utilities, meant for project internal usage
 		 */
 		namespace http {
+
             /*!
              * @brief Very easy HTTP GET request using curl (see also: curlEasyInit() )
              * @param c : curl instance
