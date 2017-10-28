@@ -329,13 +329,13 @@ namespace tgbot {
 				Ptr<Message> pinnedMessage;
 				Ptr<Invoice> invoice;
 				Ptr<SuccessfulPayment> successfulPayment;
+                std::int64_t migrateToChatId;
+                std::int64_t migrateFromChatId;
 				int forwardFromMessageId;
 				int forwardDate;
 				int editDate;
 				int messageId; //guranteed
 				int date; //guranteed
-				int migrateToChatId;
-				int migrateFromChatId;
 				bool deleteChatPhoto : 1;
 				bool groupChatCreated : 1;
 				bool supergroupChatCreated : 1;
@@ -414,7 +414,7 @@ namespace tgbot {
 		struct ResponseParameters {
 			public:
 				explicit ResponseParameters(const Json::Value &object);
-				int migrateToChatId;
+                std::int64_t migrateToChatId;
 				int retryAfter;
 		};
 

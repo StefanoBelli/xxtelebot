@@ -66,10 +66,10 @@ tgbot::types::Message::Message(const Json::Value &object) :
 			this->editDate = object.get("edit_date","").asInt();
 
 		if(object.isMember("migrate_to_chat_id"))
-			this->migrateToChatId = object.get("migrate_to_chat_id","").asInt();
+            this->migrateToChatId = object.get("migrate_to_chat_id","").asInt64();
 
 		if(object.isMember("migrate_from_chat_id"))
-			this->migrateFromChatId = object.get("migrate_from_chat_id","").asInt();
+            this->migrateFromChatId = object.get("migrate_from_chat_id","").asInt64();
 
 		if(object.isMember("delete_chat_photo"))
 			this->deleteChatPhoto = object.get("delete_chat_photo","").asBool();
@@ -81,7 +81,7 @@ tgbot::types::Message::Message(const Json::Value &object) :
 			this->supergroupChatCreated = object.get("supergroup_chat_created","").asBool();
 
 		if(object.isMember("channel_chat_created"))
-			this->channelChatCreated = object.get("channel_chat_created","").asBool();
+            this->channelChatCreated = object.get("channel_chat_created","").asBool();
 
 		if(object.isMember("from"))
 			this->from = Ptr<User>(
@@ -290,9 +290,9 @@ tgbot::types::Chat::Chat(const Json::Value &object) {
 
     id = object.get("id", "").asInt64();
 
-	if (this->type != ChatType::PRIVATE)
+    if (this->type != ChatType::PRIVATE && object.isMember("all_members_are_administrators"))
 		this->allMembersAreAdministrators =
-			object.get("all_members_are_administrators", "").asBool();
+            object.get("all_members_are_administrators", "").asBool();
 
 	if (object.isMember("title"))
 		this->title = Ptr<std::string>(
@@ -624,7 +624,7 @@ tgbot::types::StickerSet::StickerSet(const Json::Value &object) :
 
 tgbot::types::ResponseParameters::ResponseParameters(const Json::Value &object) {
 	if (object.isMember("migrate_to_chat_id"))
-		this->migrateToChatId = object.get("migrate_to_chat_id", "").asInt();
+        this->migrateToChatId = object.get("migrate_to_chat_id", "").asInt64();
 
 	if (object.isMember("retry_after"))
 		this->retryAfter = object.get("retry_after", "").asInt();
