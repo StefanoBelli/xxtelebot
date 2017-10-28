@@ -9,7 +9,7 @@
 
 #define SEPARATE(k, sstr) \
     if(k)\
-        sstr << ','
+        sstr << "%2C"
 
 using namespace tgbot::methods;
 using namespace tgbot::utils;
@@ -669,7 +669,8 @@ bool tgbot::methods::Api::setChatTitle(const std::string &chatId, const std::str
     Json::Reader reader;
 
     std::stringstream url;
-    url << baseApi << "/setChatTitle?chat_id=" << chatId << "&title=" << encode(title);
+    url << baseApi << "/setChatTitle?chat_id=" << chatId << "&title=";
+    encode(url,title);
 
     reader.parse(http::get(inst,url.str()), value);
     curl_easy_cleanup(inst);
@@ -1043,15 +1044,15 @@ bool tgbot::methods::Api::answerInlineQuery(const std::string &inlineQueryId,
 
     std::stringstream url;
     url << baseApi << "/answerInlineQuery?inline_query_id=" << inlineQueryId
-        << "&results=[";
+        << "&results=%5B";
 
     const size_t& nResults = results.size();
     for(size_t i = 0; i < nResults;i++) {
         SEPARATE(i, url);
-        url << results.at(i).toString();
+        encode(url,results.at(i).toString());
     }
 
-    url << "]";
+    url << "%5D";
 
     if(cacheTime)
         url << "&cache_time=" << cacheTime;
