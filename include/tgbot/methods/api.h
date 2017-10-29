@@ -130,7 +130,7 @@ namespace tgbot {
 				 */
 				api_types::Message sendInvoice(const int& chatId,
 						const types::Invoice& invoice,
-						const bool& disableNotifiation = false,
+                        const bool& disableNotification = false,
 						const int& replyToMessageId = -1) const;
 
 				/*!
@@ -139,12 +139,12 @@ namespace tgbot {
 				api_types::Message sendInvoice(const int& chatId,
 						const types::Invoice& invoice,
 						const types::InlineKeyboardMarkup& replyMarkup,
-						const bool& disableNotifiation = false,
+                        const bool& disableNotification = false,
 						const int& replyToMessageId = -1) const;
 
 				api_types::Message sendGame(const int& chatId,
 						const std::string& gameShortName,
-						const bool& disableNotifiation = false,
+                        const bool& disableNotification = false,
 						const int& replyToMessageId = -1,
 						const types::ReplyMarkup& replyMarkup = "") const;
 

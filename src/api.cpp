@@ -9,7 +9,7 @@
 
 #define SEPARATE(k, sstr) \
     if(k)\
-        sstr << "%2C"
+        sstr << ','
 
 using namespace tgbot::methods;
 using namespace tgbot::utils;
@@ -82,6 +82,65 @@ static std::string toString(const api_types::MaskPosition& maskPosition) {
             << ",\"y_shift\": " << maskPosition.yShift << ",\"scale\": " << maskPosition.scale;
 
     return jsonify.str();
+}
+
+static void invoiceParams(std::stringstream& stream, const types::Invoice& params) {
+    stream << "&title=";
+    encode(stream,params.title);
+
+    stream << "&description=";
+    encode(stream,params.description);
+
+    stream << "&currency=" << params.currency;
+
+    stream << "&provider_token=";
+    encode(stream,params.providerToken);
+
+    stream << "&start_parameter=";
+    encode(stream,params.startParameter);
+
+    stream << "&payload=";
+    encode(stream,params.payload);
+
+    if(params.isFlexible)
+        stream << "&is_flexible=true";
+
+    if(params.needEmail)
+        stream << "&need_email=true";
+
+    if(params.needName)
+        stream << "&need_name=true";
+
+    if(params.needPhoneNumber)
+        stream << "&need_phone_number=true";
+
+    if(params.needShippingAddress)
+        stream << "&need_shipping_address=true";
+
+    if(params.photoHeight)
+        stream << "&photo_height=" << params.photoHeight;
+
+    if(params.photoSize)
+        stream << "&photo_size=" << params.photoSize;
+
+    if(params.photoWidth)
+        stream << "&photo_width=" << params.photoWidth;
+
+    if(params.photoUrl)
+        stream << "&photo_url=" << *params.photoUrl;
+
+    stream << "&prices=%5B";
+
+    std::stringstream pricesStream;
+    const size_t &nPrices = params.prices.size();
+    for(int i = 0; i < nPrices; i++) {
+        SEPARATE(i,pricesStream);
+        pricesStream << "{\"label\":" << params.prices.at(i).label
+                  << ",\"amount\":" << params.prices.at(i).amount << "}";
+    }
+
+    encode(stream,pricesStream.str());
+    stream << "%5D";
 }
 
 //Api constructors
@@ -981,12 +1040,14 @@ bool tgbot::methods::Api::answerShippingQuery(const std::string &shippingQueryId
     url << baseApi << "/answerShippingQuery?shipping_query_id="
         << shippingQueryId << "&ok=true&shipping_options=%5B";
 
+    std::stringstream optionsStream;
     const size_t& nOptions = shippingOptions.size();
     for(size_t i = 0; i < nOptions;i++) {
-        SEPARATE(i, url);
-        encode(url,toString(shippingOptions.at(i)));
+        SEPARATE(i, optionsStream);
+        optionsStream << toString(shippingOptions.at(i));
     }
 
+    encode(url,optionsStream.str());
     url << "%5D";
 
     reader.parse(http::get(inst,url.str()), value);
@@ -1046,12 +1107,14 @@ bool tgbot::methods::Api::answerInlineQuery(const std::string &inlineQueryId,
     url << baseApi << "/answerInlineQuery?inline_query_id=" << inlineQueryId
         << "&results=%5B";
 
+    std::stringstream resultsStream;
     const size_t& nResults = results.size();
     for(size_t i = 0; i < nResults;i++) {
-        SEPARATE(i, url);
-        encode(url,results.at(i).toString());
+        SEPARATE(i, resultsStream);
+        resultsStream << results.at(i).toString();
     }
 
+    encode(url,resultsStream.str());
     url << "%5D";
 
     if(cacheTime)
@@ -1438,6 +1501,261 @@ api_types::Message tgbot::methods::Api::editMessageReplyMarkup(const std::string
     url << baseApi << "/editMessageReplyMarkup?inline_message_id=" << inlineMessageId
         << "&reply_markup=";
     encode(url,replyMarkup.toString());
+
+    reader.parse(http::get(inst,url.str()), value);
+    curl_easy_cleanup(inst);
+
+    if(!value.get("ok","").asBool())
+        throw TelegramException(value.get("description","").asCString());
+
+    return api_types::Message(value.get("result",""));
+}
+
+//sendChatAction
+bool tgbot::methods::Api::sendChatAction(const std::string &chatId, const types::ChatAction &action) const {
+    CURL* inst = http::curlEasyInit();
+    Json::Value value;
+    Json::Reader reader;
+    std::stringstream url;
+
+    url << baseApi << "/sendChatAction?chat_id=" << chatId << "&action=";
+    if(action == types::ChatAction::TYPING)
+        url << "typing";
+    else if(action == types::ChatAction::FIND_LOCATION)
+        url << "find_location";
+    else if(action == types::ChatAction::RECORD_AUDIO)
+        url << "record_audio";
+    else if(action == types::ChatAction::RECORD_VIDEO)
+        url << "record_video";
+    else if(action == types::ChatAction::RECORD_VIDEO_NOTE)
+        url << "record_video_note";
+    else if(action == types::ChatAction::UPLOAD_AUDIO)
+        url << "upload_audio";
+    else if(action == types::ChatAction::UPLOAD_DOCUMENT)
+        url << "upload_document";
+    else if(action == types::ChatAction::UPLOAD_PHOTO)
+        url << "upload_photo";
+    else if(action == types::ChatAction::UPLOAD_VIDEO)
+        url << "upload_video";
+    else if(action == types::ChatAction::UPLOAD_VIDEO_NOTE)
+        url << "upload_video_note";
+
+    reader.parse(http::get(inst,url.str()), value);
+    curl_easy_cleanup(inst);
+
+    if(!value.get("ok","").asBool())
+        throw TelegramException(value.get("description","").asCString());
+
+    return true;
+}
+
+//sendContact
+api_types::Message tgbot::methods::Api::sendContact(const std::string &chatId,
+                                                    const std::string &phoneNumber,
+                                                    const std::string &firstName,
+                                                    const std::string &lastName,
+                                                    const bool &disableNotification,
+                                                    const int &replyToMessageId,
+                                                    const types::ReplyMarkup &replyMarkup) const {
+    CURL* inst = http::curlEasyInit();
+    Json::Value value;
+    Json::Reader reader;
+
+    std::stringstream url;
+    url << baseApi << "/sendContact?chat_id=" << chatId << "&phone_number=";
+    encode(url,phoneNumber);
+    url << "&first_name=";
+    encode(url,firstName);
+
+    if(lastName != "") {
+        url << "&last_name=";
+        encode(url,lastName);
+    }
+
+    if(disableNotification)
+        url << "&disable_notification=true";
+
+    if(replyToMessageId != -1)
+        url << "&reply_to_message_id=" << replyToMessageId;
+
+    const std::string&& markup = replyMarkup.toString();
+    if(markup != "") {
+        url << "&reply_markup=";
+        encode(url,markup);
+    }
+
+    reader.parse(http::get(inst,url.str()), value);
+    curl_easy_cleanup(inst);
+
+    if(!value.get("ok","").asBool())
+        throw TelegramException(value.get("description","").asCString());
+
+    return api_types::Message(value.get("result",""));
+}
+
+//sendGame
+api_types::Message tgbot::methods::Api::sendGame(const int &chatId,
+                                                 const std::string &gameShortName,
+                                                 const bool &disableNotification,
+                                                 const int &replyToMessageId,
+                                                 const types::ReplyMarkup &replyMarkup) const {
+    CURL* inst = http::curlEasyInit();
+    Json::Value value;
+    Json::Reader reader;
+
+    std::stringstream url;
+    url << baseApi << "/sendGame?chat_id=" << chatId << "&game_short_name=";
+    encode(url,gameShortName);
+
+    if(disableNotification)
+        url << "&disable_notifiation=true";
+
+    if(replyToMessageId != -1)
+        url << "&replyToMessageId=" << replyToMessageId;
+
+    const std::string&& markup = replyMarkup.toString();
+    if(markup != "") {
+        url << "&reply_markup=";
+        encode(url,markup);
+    }
+
+    reader.parse(http::get(inst,url.str()), value);
+    curl_easy_cleanup(inst);
+
+    if(!value.get("ok","").asBool())
+        throw TelegramException(value.get("description","").asCString());
+
+    return api_types::Message(value.get("result",""));
+}
+
+//sendLocation
+api_types::Message tgbot::methods::Api::sendLocation(const std::string &chatId,
+                                                     const double &latitude,
+                                                     const double &longitude,
+                                                     const bool &disableNotification,
+                                                     const int &replyToMessageId,
+                                                     const types::ReplyMarkup &replyMarkup) const {
+    CURL* inst = http::curlEasyInit();
+    Json::Value value;
+    Json::Reader reader;
+
+    std::stringstream url;
+    url << baseApi << "/sendLocation?chat_id=" << chatId << "&latitude=" << latitude
+        << "&longitude=" << longitude;
+
+    if(disableNotification)
+        url << "&disable_notifiation=true";
+
+    if(replyToMessageId != -1)
+        url << "&replyToMessageId=" << replyToMessageId;
+
+    const std::string&& markup = replyMarkup.toString();
+    if(markup != "") {
+        url << "&reply_markup=";
+        encode(url,markup);
+    }
+
+    reader.parse(http::get(inst,url.str()), value);
+    curl_easy_cleanup(inst);
+
+    if(!value.get("ok","").asBool())
+        throw TelegramException(value.get("description","").asCString());
+
+    return api_types::Message(value.get("result",""));
+}
+
+//sendVenue
+api_types::Message tgbot::methods::Api::sendVenue(const std::string &chatId,
+                                                  const double &latitude,
+                                                  const double &longitude,
+                                                  const std::string &title,
+                                                  const std::string &address,
+                                                  const std::string &foursquareId,
+                                                  const bool &disableNotification,
+                                                  const int &replyToMessageId,
+                                                  const types::ReplyMarkup &replyMarkup) const {
+    CURL* inst = http::curlEasyInit();
+    Json::Value value;
+    Json::Reader reader;
+
+    std::stringstream url;
+    url << baseApi << "/sendVenue?chat_id=" << chatId << "&latitude=" << latitude
+        << "&longitude=" << longitude << "&title=";
+    encode(url,title);
+    url << "&address=";
+    encode(url,address);
+
+    if(foursquareId != "")
+        url << "&foursquare_id" << foursquareId;
+
+    if(disableNotification)
+        url << "&disable_notifiation=true";
+
+    if(replyToMessageId != -1)
+        url << "&replyToMessageId=" << replyToMessageId;
+
+    const std::string&& markup = replyMarkup.toString();
+    if(markup != "") {
+        url << "&reply_markup=";
+        encode(url,markup);
+    }
+
+    reader.parse(http::get(inst,url.str()), value);
+    curl_easy_cleanup(inst);
+
+    if(!value.get("ok","").asBool())
+        throw TelegramException(value.get("description","").asCString());
+
+    return api_types::Message(value.get("result",""));
+}
+
+//sendInvoice
+api_types::Message tgbot::methods::Api::sendInvoice(const int &chatId,
+                                                    const types::Invoice &invoice,
+                                                    const bool &disableNotification,
+                                                    const int &replyToMessageId) const {
+    CURL* inst = http::curlEasyInit();
+    Json::Value value;
+    Json::Reader reader;
+
+    std::stringstream url;
+    url << baseApi << "/sendInvoice?chat_id=" << chatId;
+    invoiceParams(url,invoice);
+
+    if(disableNotification)
+        url << "&disable_notifiation=true";
+
+    if(replyToMessageId != -1)
+        url << "&replyToMessageId=" << replyToMessageId;
+
+    reader.parse(http::get(inst,url.str()), value);
+    curl_easy_cleanup(inst);
+
+    if(!value.get("ok","").asBool())
+        throw TelegramException(value.get("description","").asCString());
+
+    return api_types::Message(value.get("result",""));
+}
+
+api_types::Message tgbot::methods::Api::sendInvoice(const int &chatId,
+                                                    const types::Invoice &invoice,
+                                                    const types::InlineKeyboardMarkup &replyMarkup,
+                                                    const bool &disableNotification,
+                                                    const int &replyToMessageId) const {
+    CURL* inst = http::curlEasyInit();
+    Json::Value value;
+    Json::Reader reader;
+
+    std::stringstream url;
+    url << baseApi << "/sendInvoice?chat_id=" << chatId << "&reply_markup=";
+    encode(url,replyMarkup.toString());
+    invoiceParams(url,invoice);
+
+    if(disableNotification)
+        url << "&disable_notifiation=true";
+
+    if(replyToMessageId != -1)
+        url << "&replyToMessageId=" << replyToMessageId;
 
     reader.parse(http::get(inst,url.str()), value);
     curl_easy_cleanup(inst);
