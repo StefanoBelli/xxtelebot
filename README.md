@@ -24,6 +24,9 @@ Function will return surely (unless parsing errors of mine) the expected result.
 
 If telegram API reports error, *TelegramException* gets thrown. So you may want to use try-catch blocks
 
+### Signal handling
+What we would like to have, when SIGINT (^C sequence) is sent to the program is to exit loop and follow cleanup operations. In this case, we cannot do this. Assuming to use a control variable, this control variable gets successfully changed when asynchronus signal is received, BUT, loop exits at the next iteration, not immediatly. Not our expected behaviour. Let the program die, the operating system will free previously allocated memory. (CURL resources)
+
 ### Example
 A simple echo-back bot (long poll)
 

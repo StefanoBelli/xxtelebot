@@ -1,21 +1,21 @@
-#include <string>
+#include <iostream>
 #include <tgbot/bot.h>
-#include<iostream>
+
 using namespace tgbot;
 using namespace types;
 using namespace methods;
 
-void PinMsg(const Message message, const Api& api){
+void pinMsg(const Message message, const Api& api){
 	try{
 		api.setChatPhoto(std::to_string(message.chat.id),"example.jpg","image/jpeg");
 	}catch(TelegramException& excp){
-			std::cerr<<"Exception catched, it says:" << excp.what() << "\n";
-		}
+		std::cerr<<"Exception catched, it says:" << excp.what() << "\n";
+	}
 }
 
 int main() {
 	LongPollBot bot("token");
-	bot.callback(PinMsg);
+	bot.callback(pinMsg);
 	bot.start();
 	//unreachable code
 }

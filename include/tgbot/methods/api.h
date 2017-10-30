@@ -39,7 +39,8 @@ namespace tgbot {
 
 				api_types::Message sendPhoto(const std::string& chatId, 
 						const std::string& photo,
-						const types::FileSource = types::FileSource::EXTERNAL,
+                        const types::FileSource& source = types::FileSource::EXTERNAL,
+                        const std::string& mimeType = "",
 						const std::string& caption = "", 
 						const bool& disableNotification = false,
 						const int& replyToMessageId = -1,
@@ -47,7 +48,8 @@ namespace tgbot {
 
 				api_types::Message sendAudio(const std::string& chatId, 
 						const std::string& audio,
-						const types::FileSource = types::FileSource::EXTERNAL,
+                        const types::FileSource& source = types::FileSource::EXTERNAL,
+                        const std::string& mimeType = "",
 						const std::string& caption = "",
 						const int& duration = -1,
 						const std::string& performer = "",
@@ -58,15 +60,17 @@ namespace tgbot {
 
 				api_types::Message sendDocument(const std::string& chatId, 
 						const std::string& document,
-						const types::FileSource = types::FileSource::EXTERNAL,
+                        const types::FileSource& source = types::FileSource::EXTERNAL,
+                        const std::string& mimeType = "",
 						const std::string& caption = "", 
 						const bool& disableNotification = false,
 						const int& replyToMessageId = -1,
 						const types::ReplyMarkup& replyMarkup = "") const;
 
 				api_types::Message sendVideo(const std::string& chatId, 
-						const std::string& video,
-						const types::FileSource = types::FileSource::EXTERNAL,
+                        const std::string& video,
+                        const types::FileSource& source = types::FileSource::EXTERNAL,
+                        const std::string& mimeType = "",
 						const int& duration = -1, 
 						const int& width = -1,
 						const int& height = -1,
@@ -76,8 +80,9 @@ namespace tgbot {
 						const types::ReplyMarkup& replyMarkup = "") const;
 
 				api_types::Message sendVoice(const std::string& chatId, 
-						const std::string& voice,
-						const types::FileSource = types::FileSource::EXTERNAL,
+                        const std::string& voice,
+                        const types::FileSource& source = types::FileSource::EXTERNAL,
+                        const std::string& mimeType = "",
 						const std::string& caption = "", 
 						const int& duration = -1,
 						const bool& disableNotification = false,
@@ -85,8 +90,9 @@ namespace tgbot {
 						const types::ReplyMarkup& replyMarkup = "") const;
 
 				api_types::Message sendVideoNote(const std::string& chatId, 
-						const std::string& voice,
-						const types::FileSource = types::FileSource::EXTERNAL,
+                        const std::string& videoNote,
+                        const types::FileSource& source = types::FileSource::EXTERNAL,
+                        const std::string& mimeType = "",
 						const std::string& caption = "", 
 						const int& duration = -1,
 						const bool& disableNotification = false,
@@ -119,9 +125,9 @@ namespace tgbot {
 						const types::ReplyMarkup& replyMarkup = "") const;
 
 				api_types::Message sendSticker(const std::string& chatId,
-						const std::string& sticker,
+                        const std::string& sticker,
 						const types::FileSource& source = types::FileSource::EXTERNAL,
-						const bool& disableNotifiation = false,
+                        const bool& disableNotification = false,
 						const int& replyToMessageId = -1,
 						const types::ReplyMarkup& replyMarkup = "") const;
 
@@ -265,7 +271,7 @@ namespace tgbot {
 
 				bool pinChatMessage(const std::string& chatId, 
 						const std::string& messageId, 
-						const bool& disableNotifiation = false) const;
+                        const bool& disableNotification = false) const;
 
 				bool unpinChatMessage(const std::string& chatId) const;
 

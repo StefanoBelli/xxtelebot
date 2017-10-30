@@ -2,6 +2,7 @@
 #define TGBOT_HTTPS_H
 
 #include <string>
+#include <map>
 #include <curl/curl.h>
 
 namespace tgbot {
@@ -40,6 +41,70 @@ namespace tgbot {
                                         const std::string& mimeType,
                                         const std::string& type,
                                         const std::string& filename);
+
+            //sendVideo
+            std::string multiPartUpload(CURL* c,
+                                        const std::string& operation,
+                                        const std::string& chatId,
+                                        const std::string& mimeType,
+                                        const std::string& filename,
+                                        const int& duration,
+                                        const int& width,
+                                        const int& height,
+                                        const std::string& caption,
+                                        const bool& disableNotification,
+                                        const int& replyToMessageId,
+                                        const std::string& replyMarkup);
+
+            //sendPhoto
+            //sendDocument
+            std::string multiPartUpload(CURL* c,
+                                        const std::string& operation,
+                                        const std::string& chatId,
+                                        const std::string& mimeType,
+                                        const std::string& type,
+                                        const std::string& filename,
+                                        const std::string& caption,
+                                        const bool& disableNotification,
+                                        const int& replyToMessageId,
+                                        const std::string& replyMarkup);
+
+            //sendAudio
+            std::string multiPartUpload(CURL* c,
+                                        const std::string& operation,
+                                        const std::string& chatId,
+                                        const std::string& mimeType,
+                                        const std::string& filename,
+                                        const std::string& caption,
+                                        const int& duration,
+                                        const std::string& performer,
+                                        const std::string& title,
+                                        const bool& disableNotification,
+                                        const int& replyToMessageId,
+                                        const std::string& replyMarkup);
+
+            //sendVoice
+            //sendVideoNote
+            std::string multiPartUpload(CURL* c,
+                                        const std::string& operation,
+                                        const std::string& chatId,
+                                        const std::string& mimeType,
+                                        const std::string& type,
+                                        const std::string& filename,
+                                        const std::string& caption,
+                                        const int& duration,
+                                        const bool& disableNotification,
+                                        const int& replyToMessageId,
+                                        const std::string& replyMarkup);
+
+            //sendSticker
+            std::string multiPartUpload(CURL* c,
+                                        const std::string& operation,
+                                        const std::string& chatId,
+                                        const std::string& filename,
+                                        const bool& disableNotification,
+                                        const int& replyToMessageId,
+                                        const std::string& replyMarkup);
 
             /*!
              * @brief HTTP POST multipart file-upload specific to Telegram Bot API

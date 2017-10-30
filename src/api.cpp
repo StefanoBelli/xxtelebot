@@ -76,7 +76,7 @@ static inline void removeComma(const std::stringstream& stream, std::string& tar
     target = req;
 }
 
-static std::string toString(const api_types::MaskPosition& maskPosition) {
+static inline std::string toString(const api_types::MaskPosition& maskPosition) {
     std::stringstream jsonify;
     jsonify << "{ \"point\": \"" << maskPosition.point << "\",\"x_shift\": " << maskPosition.xShift
             << ",\"y_shift\": " << maskPosition.yShift << ",\"scale\": " << maskPosition.scale;
@@ -592,7 +592,7 @@ bool tgbot::methods::Api::leaveChat(const std::string &chatId) const {
 
 //pinChatMessage
 bool tgbot::methods::Api::pinChatMessage(const std::string &chatId, const std::string &messageId,
-                                         const bool &disableNotifiation) const {
+                                         const bool &disableNotification) const {
     CURL* inst = http::curlEasyInit();
     Json::Value value;
     Json::Reader reader;
@@ -600,7 +600,7 @@ bool tgbot::methods::Api::pinChatMessage(const std::string &chatId, const std::s
     std::stringstream url;
     url << baseApi << "/pinChatMessage?chat_id=" << chatId << "&message_id=" << messageId;
 
-    if(disableNotifiation)
+    if(disableNotification)
         url << "&disable_notification=true";
 
     reader.parse(http::get(inst,url.str()), value);
@@ -846,8 +846,7 @@ api_types::File tgbot::methods::Api::uploadStickerFile(const int &userId, const 
 
         reader.parse(http::get(inst,url.str()), value);
     } else
-        reader.parse(http::multiPartUpload(inst,
-                                           baseApi + "/uploadStickerFile",
+        reader.parse(http::multiPartUpload(inst,baseApi + "/uploadStickerFile",
                                            userId,
                                            pngSticker), value);
     curl_easy_cleanup(inst);
@@ -1608,7 +1607,7 @@ api_types::Message tgbot::methods::Api::sendGame(const int &chatId,
     encode(url,gameShortName);
 
     if(disableNotification)
-        url << "&disable_notifiation=true";
+        url << "&disable_notification=true";
 
     if(replyToMessageId != -1)
         url << "&replyToMessageId=" << replyToMessageId;
@@ -1644,7 +1643,7 @@ api_types::Message tgbot::methods::Api::sendLocation(const std::string &chatId,
         << "&longitude=" << longitude;
 
     if(disableNotification)
-        url << "&disable_notifiation=true";
+        url << "&disable_notification=true";
 
     if(replyToMessageId != -1)
         url << "&replyToMessageId=" << replyToMessageId;
@@ -1689,7 +1688,7 @@ api_types::Message tgbot::methods::Api::sendVenue(const std::string &chatId,
         url << "&foursquare_id" << foursquareId;
 
     if(disableNotification)
-        url << "&disable_notifiation=true";
+        url << "&disable_notification=true";
 
     if(replyToMessageId != -1)
         url << "&replyToMessageId=" << replyToMessageId;
@@ -1723,7 +1722,7 @@ api_types::Message tgbot::methods::Api::sendInvoice(const int &chatId,
     invoiceParams(url,invoice);
 
     if(disableNotification)
-        url << "&disable_notifiation=true";
+        url << "&disable_notification=true";
 
     if(replyToMessageId != -1)
         url << "&replyToMessageId=" << replyToMessageId;
@@ -1752,12 +1751,383 @@ api_types::Message tgbot::methods::Api::sendInvoice(const int &chatId,
     invoiceParams(url,invoice);
 
     if(disableNotification)
-        url << "&disable_notifiation=true";
+        url << "&disable_notification=true";
 
     if(replyToMessageId != -1)
         url << "&replyToMessageId=" << replyToMessageId;
 
     reader.parse(http::get(inst,url.str()), value);
+    curl_easy_cleanup(inst);
+
+    if(!value.get("ok","").asBool())
+        throw TelegramException(value.get("description","").asCString());
+
+    return api_types::Message(value.get("result",""));
+}
+
+//sendVideo
+api_types::Message tgbot::methods::Api::sendVideo(const std::string &chatId,
+                                                  const std::string &video,
+                                                  const types::FileSource &source,
+                                                  const std::string& mimeType,
+                                                  const int &duration,
+                                                  const int &width,
+                                                  const int &height,
+                                                  const std::string &caption,
+                                                  const bool &disableNotification,
+                                                  const int &replyToMessageId,
+                                                  const types::ReplyMarkup &replyMarkup) const {
+    CURL* inst = http::curlEasyInit();
+    Json::Value value;
+    Json::Reader reader;
+
+    if(source == types::FileSource::EXTERNAL) {
+        std::stringstream url;
+        url << baseApi << "/sendVideo" << "?chat_id=" << chatId
+            << "&video=" << video;
+
+        if(duration != -1)
+            url << "&duration=" << duration;
+
+        if(width != -1)
+            url << "&width=" << width;
+
+        if(height != -1)
+            url << "&height=" << height;
+
+        if(caption != "") {
+            url << "&caption=";
+            encode(url,caption);
+        }
+
+        if(disableNotification)
+            url << "&disable_notification=true";
+
+        if(replyToMessageId != -1)
+            url << "&reply_to_message_id=" << replyToMessageId;
+
+        const std::string&& markup = replyMarkup.toString();
+        if(markup != "") {
+            url << "&reply_markup=";
+            encode(url,markup);
+        }
+
+        reader.parse(http::get(inst,url.str()), value);
+    } else
+        reader.parse(http::multiPartUpload(inst,baseApi+"/sendVideo", chatId,
+                                           mimeType, video, duration,
+                                           width, height, caption, disableNotification,
+                                           replyToMessageId, replyMarkup.toString()),value);
+
+    curl_easy_cleanup(inst);
+
+    if(!value.get("ok","").asBool())
+        throw TelegramException(value.get("description","").asCString());
+
+    return api_types::Message(value.get("result",""));
+}
+
+//sendDocument
+api_types::Message tgbot::methods::Api::sendDocument(const std::string &chatId,
+                                                     const std::string &document,
+                                                     const types::FileSource &source,
+                                                     const std::string& mimeType,
+                                                     const std::string &caption,
+                                                     const bool &disableNotification,
+                                                     const int &replyToMessageId,
+                                                     const types::ReplyMarkup &replyMarkup) const {
+    CURL* inst = http::curlEasyInit();
+    Json::Value value;
+    Json::Reader reader;
+
+    if(source == types::FileSource::EXTERNAL) {
+        std::stringstream url;
+        url << baseApi << "/sendDocument?chat_id=" << chatId << "&document="
+            << document;
+
+        if(caption != "") {
+            url << "&caption=";
+            encode(url,caption);
+        }
+
+        if(disableNotification)
+            url << "&disable_notification=true";
+
+        if(replyToMessageId != -1)
+            url << "&reply_to_message_id=" << replyToMessageId;
+
+        const std::string&& markup = replyMarkup.toString();
+        if(markup != "") {
+            url << "&reply_markup=";
+            encode(url,markup);
+        }
+
+        reader.parse(http::get(inst,url.str()), value);
+    } else
+        reader.parse(http::multiPartUpload(inst,baseApi + "/sendDocument",
+                                           chatId,mimeType,"document",document,
+                                           caption,disableNotification,replyToMessageId,
+                                           replyMarkup.toString()),value);
+
+    curl_easy_cleanup(inst);
+
+    if(!value.get("ok","").asBool())
+        throw TelegramException(value.get("description","").asCString());
+
+    return api_types::Message(value.get("result",""));
+}
+
+//sendPhoto
+api_types::Message tgbot::methods::Api::sendPhoto(const std::string &chatId,
+                                                  const std::string &photo,
+                                                  const types::FileSource &source,
+                                                  const std::string& mimeType,
+                                                  const std::string &caption,
+                                                  const bool &disableNotification,
+                                                  const int &replyToMessageId,
+                                                  const types::ReplyMarkup &replyMarkup) const {
+    CURL* inst = http::curlEasyInit();
+    Json::Value value;
+    Json::Reader reader;
+
+    if(source == types::FileSource::EXTERNAL) {
+        std::stringstream url;
+        url << baseApi << "/sendPhoto?chat_id=" << chatId << "&photo=" << photo;
+
+        if(caption != "") {
+            url << "&caption=";
+            encode(url,caption);
+        }
+
+        if(disableNotification)
+            url << "&disable_notification=true";
+
+        if(replyToMessageId != -1)
+            url << "&reply_to_message_id=" << replyToMessageId;
+
+        const std::string&& markup = replyMarkup.toString();
+        if(markup != "") {
+            url << "&reply_markup=";
+            encode(url,markup);
+        }
+
+        reader.parse(http::get(inst,url.str()), value);
+    } else
+        reader.parse(http::multiPartUpload(inst,baseApi + "/sendPhoto",
+                                           chatId,mimeType,"photo",photo,
+                                           caption,disableNotification,replyToMessageId,
+                                           replyMarkup.toString()),value);
+
+    curl_easy_cleanup(inst);
+
+    if(!value.get("ok","").asBool())
+        throw TelegramException(value.get("description","").asCString());
+
+    return api_types::Message(value.get("result",""));
+}
+
+//sendAudio
+api_types::Message tgbot::methods::Api::sendAudio(const std::string &chatId,
+                                                  const std::string &audio,
+                                                  const types::FileSource &source,
+                                                  const std::string &mimeType,
+                                                  const std::string &caption,
+                                                  const int &duration,
+                                                  const std::string &performer,
+                                                  const std::string &title,
+                                                  const bool &disableNotification,
+                                                  const int &replyToMessageId,
+                                                  const types::ReplyMarkup &replyMarkup) const {
+    CURL* inst = http::curlEasyInit();
+    Json::Value value;
+    Json::Reader reader;
+
+    if(source == types::FileSource::EXTERNAL) {
+        std::stringstream url;
+        url << baseApi << "/sendAudio?chat_id=" << chatId << "&audio=" << audio;
+
+        if(caption != "") {
+            url << "&caption=";
+            encode(url,caption);
+        }
+
+        if(performer != "") {
+            url << "&performer=";
+            encode(url,performer);
+        }
+
+        if(title != "") {
+            url << "&title=";
+            encode(url,title);
+        }
+
+        if(disableNotification)
+            url << "&disable_notification=true";
+
+        if(replyToMessageId != -1)
+            url << "&reply_to_message_id=" << replyToMessageId;
+
+        if(duration != -1) {
+            url << "&duration=" << duration;
+        }
+
+        const std::string&& markup = replyMarkup.toString();
+        if(markup != "") {
+            url << "&reply_markup=";
+            encode(url,markup);
+        }
+
+        reader.parse(http::get(inst,url.str()), value);
+    } else
+        reader.parse(http::multiPartUpload(inst,baseApi+"/sendAudio",
+                                           chatId,mimeType,audio,
+                                           caption, duration, performer,
+                                           title, disableNotification, replyToMessageId,
+                                           replyMarkup.toString()), value);
+
+    curl_easy_cleanup(inst);
+
+    if(!value.get("ok","").asBool())
+        throw TelegramException(value.get("description","").asCString());
+
+    return api_types::Message(value.get("result",""));
+}
+
+//sendVoice
+api_types::Message tgbot::methods::Api::sendVoice(const std::string &chatId,
+                                                  const std::string &voice,
+                                                  const types::FileSource &source,
+                                                  const std::string &mimeType,
+                                                  const std::string &caption,
+                                                  const int &duration,
+                                                  const bool &disableNotification,
+                                                  const int &replyToMessageId,
+                                                  const types::ReplyMarkup &replyMarkup) const {
+    CURL* inst = http::curlEasyInit();
+    Json::Value value;
+    Json::Reader reader;
+
+    if(source == types::FileSource::EXTERNAL) {
+        std::stringstream url;
+        url << baseApi << "/sendVoice?chat_id=" << chatId << "&voice=" << voice;
+        if(duration != -1)
+            url << "&duration=" << duration;
+
+        if(caption != "") {
+            url << "&caption=";
+            encode(url,caption);
+        }
+
+        if(disableNotification)
+            url << "&disable_notification=true";
+
+        if(replyToMessageId != -1)
+            url << "&reply_to_message_id=" << replyToMessageId;
+
+        const std::string&& markup = replyMarkup.toString();
+        if(markup != "") {
+            url << "&reply_markup=";
+            encode(url,markup);
+        }
+
+        reader.parse(http::get(inst,url.str()), value);
+    } else
+        reader.parse(http::multiPartUpload(inst,baseApi+"/sendVoice",chatId,mimeType,
+                                           "audio",voice,caption,duration,disableNotification,replyToMessageId,
+                                           replyMarkup.toString()),value);
+    curl_easy_cleanup(inst);
+
+    if(!value.get("ok","").asBool())
+        throw TelegramException(value.get("description","").asCString());
+
+    return api_types::Message(value.get("result",""));
+}
+
+//sendSticker
+api_types::Message tgbot::methods::Api::sendSticker(const std::string &chatId,
+                                                    const std::string &sticker,
+                                                    const types::FileSource &source,
+                                                    const bool &disableNotification,
+                                                    const int &replyToMessageId,
+                                                    const types::ReplyMarkup &replyMarkup) const {
+    CURL* inst = http::curlEasyInit();
+    Json::Value value;
+    Json::Reader reader;
+
+    if(source == types::FileSource::EXTERNAL) {
+        std::stringstream url;
+        url << baseApi << "/sendSticker?chat_id=" << chatId << "&sticker=" << sticker;
+        if(disableNotification)
+            url << "&disable_notification=true";
+
+        if(replyToMessageId != -1)
+            url << "&reply_to_message_id=" << replyToMessageId;
+
+        const std::string&& markup = replyMarkup.toString();
+        if(markup != "") {
+            url << "&reply_markup=";
+            encode(url,markup);
+        }
+
+        reader.parse(http::get(inst,url.str()), value);
+    } else
+        reader.parse(http::multiPartUpload(inst,baseApi+"/sendSticker", chatId,
+                                           sticker, disableNotification,replyToMessageId,
+                                           replyMarkup.toString()), value);
+
+    curl_easy_cleanup(inst);
+
+    if(!value.get("ok","").asBool())
+        throw TelegramException(value.get("description","").asCString());
+
+    return api_types::Message(value.get("result",""));
+}
+
+//sendVideoNote
+api_types::Message tgbot::methods::Api::sendVideoNote(const std::string &chatId,
+                                                      const std::string &videoNote,
+                                                      const types::FileSource &source,
+                                                      const std::string &mimeType,
+                                                      const std::string &caption,
+                                                      const int &duration,
+                                                      const bool &disableNotification,
+                                                      const int &replyToMessageId,
+                                                      const types::ReplyMarkup &replyMarkup) const {
+    CURL* inst = http::curlEasyInit();
+    Json::Value value;
+    Json::Reader reader;
+
+    if(source == types::FileSource::EXTERNAL) {
+        std::stringstream url;
+        url << baseApi << "/sendVideoNote?chat_id=" << chatId << "&video_note=" << videoNote;
+
+        if(duration != -1)
+            url << "&duration=" << duration;
+
+        if(caption != "") {
+            url << "&caption=";
+            encode(url,caption);
+        }
+
+        if(disableNotification)
+            url << "&disable_notification=true";
+
+        if(replyToMessageId != -1)
+            url << "&reply_to_message_id=" << replyToMessageId;
+
+        const std::string&& markup = replyMarkup.toString();
+        if(markup != "") {
+            url << "&reply_markup=";
+            encode(url,markup);
+        }
+
+        reader.parse(http::get(inst,url.str()), value);
+    } else
+        reader.parse(http::multiPartUpload(inst,baseApi+"/sendVideoNote",chatId,
+                                           mimeType,"video",videoNote,caption,duration,
+                                           disableNotification,replyToMessageId,
+                                           replyMarkup.toString()), value);
+
     curl_easy_cleanup(inst);
 
     if(!value.get("ok","").asBool())
