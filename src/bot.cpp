@@ -1,4 +1,5 @@
 #include <thread>
+#include <sstream>
 #include <tgbot/bot.h>
 #include <tgbot/utils/https.h>
 
@@ -50,55 +51,57 @@ void tgbot::WebhookBot::start() {
 }
 
 void tgbot::Bot::makeCallback(const std::vector<types::Update> &updates) const {
-	std::thread tmpHolder;
-	for (auto const &update : updates) {
-		switch (update.updateType) {
-			case types::UpdateType::MESSAGE:
-				if (messageCallback)
-					tmpHolder = std::thread(messageCallback, std::move(*update.message), *this);
+    std::thread tmpHolder;
 
-				break;
-			case types::UpdateType::EDITED_MESSAGE:
-				if (editedMessageCallback)
+    for (auto const &update : updates) {
+            if(update.updateType == types::UpdateType::MESSAGE) {
+                types::Message messageObject = std::move(*update.message);
+                bool byCommandStart = false;
+
+                if (commandCallback.size() && messageObject.text) {
+                    for(auto const& c : commandCallback) {
+                        if(std::get<1>(c)(*(messageObject.text),std::get<0>(c))) {
+                            std::vector<std::string> args;
+                            std::string arg;
+                            std::istringstream istr(*messageObject.text);
+
+                            while (getline(istr, arg, ' '))
+                                    args.push_back(std::move(arg));
+
+                            tmpHolder = std::thread(std::get<3>(c), std::move(messageObject), *this, std::move(args));
+                            byCommandStart = true;
+                            break;
+                        }
+                    }
+                }
+
+                if (messageCallback && !byCommandStart)
+                    tmpHolder = std::thread(messageCallback, std::move(messageObject), *this);
+            }
+
+            else if(update.updateType == types::UpdateType::EDITED_MESSAGE && editedMessageCallback)
 					tmpHolder = std::thread(editedMessageCallback, std::move(*update.editedMessage), *this);
 
-				break;
-			case types::UpdateType::CALLBACK_QUERY:
-				if (callbackQueryCallback)
-					tmpHolder = std::thread(callbackQueryCallback, std::move(*update.callbackQuery), *this);
+            else if(update.updateType == types::UpdateType::CALLBACK_QUERY && callbackQueryCallback)
+                    tmpHolder = std::thread(callbackQueryCallback, std::move(*update.callbackQuery), *this);
 
-				break;
-			case types::UpdateType::CHOSEN_INLINE_RESULT:
-				if (chosenInlineResultCallback)
+            else if(update.updateType == types::UpdateType::CHOSEN_INLINE_RESULT && chosenInlineResultCallback)
 					tmpHolder = std::thread(chosenInlineResultCallback, std::move(*update.chosenInlineResult), *this);
 
-				break;
-			case types::UpdateType::EDITED_CHANNEL_POST:
-				if (editedChannelPostCallback)
+            else if(update.updateType == types::UpdateType::EDITED_CHANNEL_POST && editedChannelPostCallback)
 					tmpHolder = std::thread(editedChannelPostCallback, std::move(*update.editedChannelPost), *this);
 
-				break;
-			case types::UpdateType::INLINE_QUERY:
-				if (inlineQueryCallback) 
+            else if(update.updateType == types::UpdateType::INLINE_QUERY && inlineQueryCallback)
 					tmpHolder = std::thread(inlineQueryCallback, std::move(*update.inlineQuery), *this);
 
-				break;
-			case types::UpdateType::PRE_CHECKOUT_QUERY:
-				if (preCheckoutQueryCallback) 
+            else if(update.updateType == types::UpdateType::PRE_CHECKOUT_QUERY && preCheckoutQueryCallback)
 					tmpHolder = std::thread(preCheckoutQueryCallback, std::move(*update.preCheckoutQuery), *this);
 
-				break;
-			case types::UpdateType::SHIPPING_QUERY:
-				if (shippingQueryCallback)
+            else if(update.updateType == types::UpdateType::SHIPPING_QUERY && shippingQueryCallback)
 					tmpHolder = std::thread(shippingQueryCallback, std::move(*update.shippingQuery), *this);
 
-				break;
-			case types::UpdateType::CHANNEL_POST:
-				if (channelPostCallback)
+            else if(update.updateType == types::UpdateType::CHANNEL_POST && channelPostCallback)
 					tmpHolder = std::thread(channelPostCallback, std::move(*update.channelPost), *this);
-
-				break;
-		}
 
 		if (tmpHolder.joinable())
 			tmpHolder.detach();

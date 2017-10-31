@@ -3,8 +3,11 @@
 
 #include "types.h"
 #include "methods/api.h"
+#include "utils/str_match.h"
 
 #include <functional>
+#include <vector>
+#include <tuple>
 
 namespace tgbot {
 
@@ -13,6 +16,24 @@ namespace tgbot {
 	 */
 	template <typename TypeUpdate>
 		using UpdateCallback = std::function<void(const TypeUpdate, const methods::Api&)>;
+
+    /*!
+     * @brief refer to utils::whenStarts() and utils::whenContains()
+     */
+    using MatcherCallback = bool (&)(const std::string&, const char*);
+
+    /*!
+     * @brief refer to RegisterCallback::callback() function
+     */
+    using OnCommandCallback = void (&)(const types::Message, const methods::Api&, const std::vector<std::string>);
+
+    /*!
+     * @brief internal usage
+     */
+    using __Command_Tuple = std::tuple<const char*,          //string to be matched
+                                       MatcherCallback,      //matcher function
+                                       const char,           //separator
+                                       OnCommandCallback>;   //user callback
 
     /*!
      * @brief registers and holds callbacks for each type of update
@@ -29,8 +50,16 @@ namespace tgbot {
 			UpdateCallback<types::Message> editedMessageCallback;
 			UpdateCallback<types::Message> editedChannelPostCallback;
 			UpdateCallback<types::Message> channelPostCallback;
+            std::vector<__Command_Tuple> commandCallback;
 
 		public:
+            inline void callback(MatcherCallback matcher,
+                                 OnCommandCallback callback,
+                                 const char* matchWord,
+                                 const char sep = ' ') {
+                commandCallback.emplace_back(matchWord,matcher,sep,callback);
+            }
+
             /*!
              * @brief Message update callback
              * @param callback
