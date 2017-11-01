@@ -372,7 +372,7 @@ protected:
 private:
   const std::string baseApi;
   std::string updateApiRequest;
-  long long currentOffset;
+  int currentOffset;
 };
 
 } // namespace methods

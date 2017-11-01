@@ -224,7 +224,7 @@ int tgbot::methods::Api::getUpdates(void *c,
     updates.emplace_back(singleUpdate);
 
   currentOffset =
-      1 + valueUpdates[updatesCount - 1].get("update_id", "").asInt64();
+      1 + valueUpdates[updatesCount - 1].get("update_id", "").asInt();
 
   return updatesCount;
 }
