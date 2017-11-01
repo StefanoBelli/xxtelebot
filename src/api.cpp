@@ -1250,7 +1250,7 @@ api_types::Message tgbot::methods::Api::sendMessage(
 
   const std::string &&markup = replyMarkup.toString();
   if (markup != "") {
-    url << "&replyMarkup=";
+    url << "&reply_markup=";
     encode(url, markup);
   }
 
@@ -1290,7 +1290,7 @@ api_types::Message tgbot::methods::Api::sendMessage(
 
   const std::string &&markup = replyMarkup.toString();
   if (markup != "") {
-    url << "&replyMarkup=";
+    url << "&reply_markup=";
     encode(url, markup);
   }
 

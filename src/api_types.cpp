@@ -83,7 +83,7 @@ std::string tgbot::methods::types::InlineKeyboardMarkup::toString() const {
     jsonify << "]";
   }
 
-  jsonify << "}";
+  jsonify << "]}";
 
   return jsonify.str();
 }
@@ -97,7 +97,7 @@ std::string tgbot::methods::types::ReplyKeyboardMarkup::toString() const {
   std::stringstream jsonify;
   jsonify << "{ \"resize_keyboard\": " << BOOL_TOSTR(resizeKeyboard)
           << ", \"one_time_keyboard\": " << BOOL_TOSTR(oneTimeKeyboard)
-          << ", \"selective\": " << BOOL_TOSTR(selective) << ", [";
+          << ", \"selective\": " << BOOL_TOSTR(selective) << ", \"keyboard\":[";
 
   for (int i = 0; i < r; ++i) {
     SEPARATE(i);
