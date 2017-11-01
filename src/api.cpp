@@ -2143,10 +2143,9 @@ api_types::Message tgbot::methods::Api::sendSticker(
 // sendVideoNote
 api_types::Message tgbot::methods::Api::sendVideoNote(
     const std::string &chatId, const std::string &videoNote,
-    const types::FileSource &source, const std::string &mimeType,
-    const std::string &caption, const int &duration,
-    const bool &disableNotification, const int &replyToMessageId,
-    const types::ReplyMarkup &replyMarkup) const {
+    const types::FileSource &source, const std::string &caption,
+    const int &duration, const bool &disableNotification,
+    const int &replyToMessageId, const types::ReplyMarkup &replyMarkup) const {
   CURL *inst = http::curlEasyInit();
   Json::Value value;
   Json::Reader reader;
@@ -2179,7 +2178,7 @@ api_types::Message tgbot::methods::Api::sendVideoNote(
     reader.parse(http::get(inst, url.str()), value);
   } else
     reader.parse(http::multiPartUpload(
-                     inst, baseApi + "/sendVideoNote", chatId, mimeType,
+                     inst, baseApi + "/sendVideoNote", chatId, "video/mp4",
                      "video", videoNote, caption, duration, disableNotification,
                      replyToMessageId, replyMarkup.toString()),
                  value);

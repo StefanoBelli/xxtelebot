@@ -83,7 +83,6 @@ public:
   api_types::Message
   sendVideoNote(const std::string &chatId, const std::string &videoNote,
                 const types::FileSource &source = types::FileSource::EXTERNAL,
-                const std::string &mimeType = "",
                 const std::string &caption = "", const int &duration = -1,
                 const bool &disableNotification = false,
                 const int &replyToMessageId = -1,
