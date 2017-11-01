@@ -190,7 +190,7 @@ tgbot::types::Message::Message(const Json::Value &object)
           Ptr<std::vector<PhotoSize>>(new std::vector<PhotoSize>{});
 
       for (auto const &singlePhoto : object.get("new_chat_photo", ""))
-        this->photo->emplace_back(singlePhoto);
+        this->newChatPhoto->emplace_back(singlePhoto);
     }
 
     else if (object.isMember("new_chat_members")) {
