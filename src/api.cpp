@@ -2054,10 +2054,9 @@ api_types::Message tgbot::methods::Api::sendAudio(
 // sendVoice
 api_types::Message tgbot::methods::Api::sendVoice(
     const std::string &chatId, const std::string &voice,
-    const types::FileSource &source, const std::string &mimeType,
-    const std::string &caption, const int &duration,
-    const bool &disableNotification, const int &replyToMessageId,
-    const types::ReplyMarkup &replyMarkup) const {
+    const types::FileSource &source, const std::string &caption,
+    const int &duration, const bool &disableNotification,
+    const int &replyToMessageId, const types::ReplyMarkup &replyMarkup) const {
   CURL *inst = http::curlEasyInit();
   Json::Value value;
   Json::Reader reader;
@@ -2088,7 +2087,7 @@ api_types::Message tgbot::methods::Api::sendVoice(
     reader.parse(http::get(inst, url.str()), value);
   } else
     reader.parse(http::multiPartUpload(
-                     inst, baseApi + "/sendVoice", chatId, mimeType, "audio",
+                     inst, baseApi + "/sendVoice", chatId, "audio/ogg", "audio",
                      voice, caption, duration, disableNotification,
                      replyToMessageId, replyMarkup.toString()),
                  value);

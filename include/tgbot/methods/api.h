@@ -75,8 +75,8 @@ public:
   api_types::Message
   sendVoice(const std::string &chatId, const std::string &voice,
             const types::FileSource &source = types::FileSource::EXTERNAL,
-            const std::string &mimeType = "", const std::string &caption = "",
-            const int &duration = -1, const bool &disableNotification = false,
+            const std::string &caption = "", const int &duration = -1,
+            const bool &disableNotification = false,
             const int &replyToMessageId = -1,
             const types::ReplyMarkup &replyMarkup = "") const;
 
