@@ -9,6 +9,10 @@ C++ Telegram Bot APIs
 
 [Telegram Bot API](https://core.telegram.org/bots/api)
 
+### Thanks to 
+
+Deni, which tested some API methods, and proposed some examples! (He is listed in contributors)
+
 ### Issues
 You are welcome to open issues, do it without freaking out and/or insults, attach your code (take care of your **token**), and what is not going well. 
 
