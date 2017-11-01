@@ -1273,7 +1273,7 @@ api_types::Message tgbot::methods::Api::sendMessage(
   Json::Reader reader;
 
   std::stringstream url;
-  url << baseApi << "/sendMessage?chat_id=" << chatId << "&text=" << text;
+  url << baseApi << "/sendMessage?chat_id=" << chatId << "&text=";
   encode(url, text);
   url << "&reply_to_message_id=" << replyToMessageId;
 
