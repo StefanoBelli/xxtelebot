@@ -12,6 +12,9 @@ namespace methods {
  */
 namespace types {
 
+struct InputMessageContent;
+struct InlineQueryResult;
+
 constexpr char const *iqrTypeArticle = "article";
 constexpr char const *iqrTypeDocument = "document";
 constexpr char const *iqrTypeGif = "gif";
@@ -25,12 +28,14 @@ constexpr char const *iqrTypeContact = "contact";
 constexpr char const *iqrTypeGame = "game";
 constexpr char const *iqrTypeVoice = "voice";
 
-template <typename _Ty_Elem> using Ptr = ::tgbot::types::Ptr<_Ty_Elem>;
+// template <typename _Ty_Elem> using ::tgbot::types::Ptr =
+// ::tgbot::types::::tgbot::types::Ptr<_Ty_Elem>;
+
+using InlineQueryResultsVector =
+    std::vector<::tgbot::types::Ptr<InlineQueryResult>>;
 
 using KeyboardButton = ::tgbot::types::KeyboardButton;
 using CallbackGame = ::tgbot::types::CallbackGame;
-
-struct InputMessageContent;
 
 /*!
  * @brief Parsing mode to be used
@@ -92,10 +97,10 @@ public:
 struct InlineKeyboardButton {
 public:
   std::string text;
-  Ptr<std::string> url;
-  Ptr<std::string> callbackData;
-  Ptr<std::string> switchInlineQuery;
-  Ptr<std::string> switchInlineQueryCurrentChat;
+  ::tgbot::types::Ptr<std::string> url;
+  ::tgbot::types::Ptr<std::string> callbackData;
+  ::tgbot::types::Ptr<std::string> switchInlineQuery;
+  ::tgbot::types::Ptr<std::string> switchInlineQueryCurrentChat;
   /*!
    * @brief check tgbot::types::CallbackGame for further infos
    */
@@ -182,7 +187,7 @@ public:
   std::string toString() const override;
   std::string phoneNumber;
   std::string firstName;
-  Ptr<std::string> lastName;
+  ::tgbot::types::Ptr<std::string> lastName;
 };
 
 struct InputVenueMessageContent : public InputMessageContent {
@@ -190,7 +195,7 @@ public:
   std::string toString() const override;
   std::string title;
   std::string address;
-  Ptr<std::string> foursquareId;
+  ::tgbot::types::Ptr<std::string> foursquareId;
   double latitude;
   double longitude;
 };
@@ -219,9 +224,9 @@ public:
   std::string audioUrl;
   std::string title;
   InputMessageContent inputMessageContent;
-  Ptr<std::string> caption;
-  Ptr<std::string> performer;
-  Ptr<InlineKeyboardMarkup> replyMarkup;
+  ::tgbot::types::Ptr<std::string> caption;
+  ::tgbot::types::Ptr<std::string> performer;
+  ::tgbot::types::Ptr<InlineKeyboardMarkup> replyMarkup;
   int audioDuration;
 };
 
@@ -231,11 +236,11 @@ public:
   std::string type;
   std::string id;
   std::string title;
-  Ptr<InputMessageContent> inputMessageContent;
-  Ptr<InlineKeyboardMarkup> replyMarkup;
-  Ptr<std::string> url;
-  Ptr<std::string> description;
-  Ptr<std::string> thumbUrl;
+  ::tgbot::types::Ptr<InputMessageContent> inputMessageContent;
+  ::tgbot::types::Ptr<InlineKeyboardMarkup> replyMarkup;
+  ::tgbot::types::Ptr<std::string> url;
+  ::tgbot::types::Ptr<std::string> description;
+  ::tgbot::types::Ptr<std::string> thumbUrl;
   int thumbWidth;
   int thumbHeight;
   bool hideUrl : 1;
@@ -248,10 +253,10 @@ public:
   std::string id;
   std::string phoneNumber;
   std::string firstName;
-  Ptr<std::string> lastName;
-  Ptr<std::string> thumbUrl;
-  Ptr<InlineKeyboardMarkup> replyMarkup;
-  Ptr<InputMessageContent> inputMessageContent;
+  ::tgbot::types::Ptr<std::string> lastName;
+  ::tgbot::types::Ptr<std::string> thumbUrl;
+  ::tgbot::types::Ptr<InlineKeyboardMarkup> replyMarkup;
+  ::tgbot::types::Ptr<InputMessageContent> inputMessageContent;
   int thumbWidth;
   int thumbHeight;
 };
@@ -262,7 +267,7 @@ public:
   std::string type;
   std::string id;
   std::string gameShortName;
-  Ptr<InlineKeyboardMarkup> replyMarkup;
+  ::tgbot::types::Ptr<InlineKeyboardMarkup> replyMarkup;
 };
 
 struct InlineQueryResultDocument : public InlineQueryResult {
@@ -273,11 +278,11 @@ public:
   std::string title;
   std::string documentUrl;
   std::string mimeType;
-  Ptr<std::string> caption;
-  Ptr<std::string> description;
-  Ptr<InlineKeyboardMarkup> replyMarkup;
-  Ptr<InputMessageContent> inputMessageContent;
-  Ptr<std::string> thumbUrl;
+  ::tgbot::types::Ptr<std::string> caption;
+  ::tgbot::types::Ptr<std::string> description;
+  ::tgbot::types::Ptr<InlineKeyboardMarkup> replyMarkup;
+  ::tgbot::types::Ptr<InputMessageContent> inputMessageContent;
+  ::tgbot::types::Ptr<std::string> thumbUrl;
   int thumbWidth;
   int thumbHeight;
 };
@@ -289,10 +294,10 @@ public:
   std::string id;
   std::string gifUrl;
   std::string thumbUrl;
-  Ptr<std::string> title;
-  Ptr<std::string> caption;
-  Ptr<InlineKeyboardMarkup> replyMarkup;
-  Ptr<InputMessageContent> inputMessageContent;
+  ::tgbot::types::Ptr<std::string> title;
+  ::tgbot::types::Ptr<std::string> caption;
+  ::tgbot::types::Ptr<InlineKeyboardMarkup> replyMarkup;
+  ::tgbot::types::Ptr<InputMessageContent> inputMessageContent;
   int gifWidth;
   int gifHeight;
   int gifDuration;
@@ -304,9 +309,9 @@ public:
   std::string type;
   std::string id;
   std::string title;
-  Ptr<InlineKeyboardMarkup> replyMarkup;
-  Ptr<InputMessageContent> inputMessageContent;
-  Ptr<std::string> thumbUrl;
+  ::tgbot::types::Ptr<InlineKeyboardMarkup> replyMarkup;
+  ::tgbot::types::Ptr<InputMessageContent> inputMessageContent;
+  ::tgbot::types::Ptr<std::string> thumbUrl;
   double latitude;
   double longitude;
   int thumbWidth;
@@ -320,10 +325,10 @@ public:
   std::string id;
   std::string mpeg4Url;
   std::string thumbUrl;
-  Ptr<std::string> title;
-  Ptr<std::string> caption;
-  Ptr<InlineKeyboardMarkup> replyMarkup;
-  Ptr<InputMessageContent> inputMessageContent;
+  ::tgbot::types::Ptr<std::string> title;
+  ::tgbot::types::Ptr<std::string> caption;
+  ::tgbot::types::Ptr<InlineKeyboardMarkup> replyMarkup;
+  ::tgbot::types::Ptr<InputMessageContent> inputMessageContent;
   int mpeg4Width;
   int mpeg4Height;
   int mpeg4Duration;
@@ -336,11 +341,11 @@ public:
   std::string id;
   std::string photoUrl;
   std::string thumbUrl;
-  Ptr<std::string> title;
-  Ptr<std::string> description;
-  Ptr<std::string> caption;
-  Ptr<InputMessageContent> inputMessageContent;
-  Ptr<InlineKeyboardMarkup> replyMarkup;
+  ::tgbot::types::Ptr<std::string> title;
+  ::tgbot::types::Ptr<std::string> description;
+  ::tgbot::types::Ptr<std::string> caption;
+  ::tgbot::types::Ptr<InputMessageContent> inputMessageContent;
+  ::tgbot::types::Ptr<InlineKeyboardMarkup> replyMarkup;
   int photoWidth;
   int photoHeight;
 };
@@ -352,10 +357,10 @@ public:
   std::string id;
   std::string title;
   std::string address;
-  Ptr<std::string> foursquareId;
-  Ptr<std::string> thumbUrl;
-  Ptr<InputMessageContent> inputMessageContent;
-  Ptr<InlineKeyboardMarkup> replyMarkup;
+  ::tgbot::types::Ptr<std::string> foursquareId;
+  ::tgbot::types::Ptr<std::string> thumbUrl;
+  ::tgbot::types::Ptr<InputMessageContent> inputMessageContent;
+  ::tgbot::types::Ptr<InlineKeyboardMarkup> replyMarkup;
   double latitude;
   double longitude;
   int thumbWidth;
@@ -371,10 +376,10 @@ public:
   std::string mimeType;
   std::string thumbUrl;
   std::string title;
-  Ptr<std::string> caption;
-  Ptr<std::string> description;
-  Ptr<InlineKeyboardMarkup> replyMarkup;
-  Ptr<InputMessageContent> inputMessageContent;
+  ::tgbot::types::Ptr<std::string> caption;
+  ::tgbot::types::Ptr<std::string> description;
+  ::tgbot::types::Ptr<InlineKeyboardMarkup> replyMarkup;
+  ::tgbot::types::Ptr<InputMessageContent> inputMessageContent;
   int videoWidth;
   int videoHeight;
   int videoDuration;
@@ -387,9 +392,9 @@ public:
   std::string id;
   std::string title;
   std::string voiceUrl;
-  Ptr<std::string> caption;
-  Ptr<InputMessageContent> inputMessageContent;
-  Ptr<InlineKeyboardMarkup> replyMarkup;
+  ::tgbot::types::Ptr<std::string> caption;
+  ::tgbot::types::Ptr<InputMessageContent> inputMessageContent;
+  ::tgbot::types::Ptr<InlineKeyboardMarkup> replyMarkup;
   int voiceDuration;
 };
 
@@ -399,9 +404,9 @@ public:
   std::string type;
   std::string id;
   std::string audioFileId;
-  Ptr<std::string> caption;
-  Ptr<InputMessageContent> inputMessageContent;
-  Ptr<InlineKeyboardMarkup> replyMarkup;
+  ::tgbot::types::Ptr<std::string> caption;
+  ::tgbot::types::Ptr<InputMessageContent> inputMessageContent;
+  ::tgbot::types::Ptr<InlineKeyboardMarkup> replyMarkup;
 };
 
 struct InlineQueryResultCachedDocument : public InlineQueryResult {
@@ -411,10 +416,10 @@ public:
   std::string id;
   std::string documentFileId;
   std::string title;
-  Ptr<std::string> description;
-  Ptr<std::string> caption;
-  Ptr<InputMessageContent> inputMessageContent;
-  Ptr<InlineKeyboardMarkup> replyMarkup;
+  ::tgbot::types::Ptr<std::string> description;
+  ::tgbot::types::Ptr<std::string> caption;
+  ::tgbot::types::Ptr<InputMessageContent> inputMessageContent;
+  ::tgbot::types::Ptr<InlineKeyboardMarkup> replyMarkup;
 };
 
 struct InlineQueryResultCachedGif : public InlineQueryResult {
@@ -423,10 +428,10 @@ public:
   std::string type;
   std::string id;
   std::string gifFileId;
-  Ptr<std::string> title;
-  Ptr<std::string> caption;
-  Ptr<InputMessageContent> inputMessageContent;
-  Ptr<InlineKeyboardMarkup> replyMarkup;
+  ::tgbot::types::Ptr<std::string> title;
+  ::tgbot::types::Ptr<std::string> caption;
+  ::tgbot::types::Ptr<InputMessageContent> inputMessageContent;
+  ::tgbot::types::Ptr<InlineKeyboardMarkup> replyMarkup;
 };
 
 struct InlineQueryResultCachedMpeg4Gif : public InlineQueryResult {
@@ -435,10 +440,10 @@ public:
   std::string type;
   std::string id;
   std::string mpeg4FileId;
-  Ptr<std::string> title;
-  Ptr<std::string> caption;
-  Ptr<InputMessageContent> inputMessageContent;
-  Ptr<InlineKeyboardMarkup> replyMarkup;
+  ::tgbot::types::Ptr<std::string> title;
+  ::tgbot::types::Ptr<std::string> caption;
+  ::tgbot::types::Ptr<InputMessageContent> inputMessageContent;
+  ::tgbot::types::Ptr<InlineKeyboardMarkup> replyMarkup;
 };
 
 struct InlineQueryResultCachedPhoto : public InlineQueryResult {
@@ -447,11 +452,11 @@ public:
   std::string type;
   std::string id;
   std::string photoFileId;
-  Ptr<std::string> title;
-  Ptr<std::string> description;
-  Ptr<std::string> caption;
-  Ptr<InputMessageContent> inputMessageContent;
-  Ptr<InlineKeyboardMarkup> replyMarkup;
+  ::tgbot::types::Ptr<std::string> title;
+  ::tgbot::types::Ptr<std::string> description;
+  ::tgbot::types::Ptr<std::string> caption;
+  ::tgbot::types::Ptr<InputMessageContent> inputMessageContent;
+  ::tgbot::types::Ptr<InlineKeyboardMarkup> replyMarkup;
 };
 
 struct InlineQueryResultCachedSticker : public InlineQueryResult {
@@ -460,8 +465,8 @@ public:
   std::string type;
   std::string id;
   std::string stickerFileId;
-  Ptr<InputMessageContent> inputMessageContent;
-  Ptr<InlineKeyboardMarkup> replyMarkup;
+  ::tgbot::types::Ptr<InputMessageContent> inputMessageContent;
+  ::tgbot::types::Ptr<InlineKeyboardMarkup> replyMarkup;
 };
 
 struct InlineQueryResultCachedVideo : public InlineQueryResult {
@@ -471,10 +476,10 @@ public:
   std::string id;
   std::string title;
   std::string videoFileId;
-  Ptr<std::string> description;
-  Ptr<std::string> caption;
-  Ptr<InputMessageContent> inputMessageContent;
-  Ptr<InlineKeyboardMarkup> replyMarkup;
+  ::tgbot::types::Ptr<std::string> description;
+  ::tgbot::types::Ptr<std::string> caption;
+  ::tgbot::types::Ptr<InputMessageContent> inputMessageContent;
+  ::tgbot::types::Ptr<InlineKeyboardMarkup> replyMarkup;
 };
 
 struct InlineQueryResultCachedVoice : public InlineQueryResult {
@@ -484,9 +489,9 @@ public:
   std::string id;
   std::string title;
   std::string voiceFileId;
-  Ptr<std::string> caption;
-  Ptr<InputMessageContent> inputMessageContent;
-  Ptr<InlineKeyboardMarkup> replyMarkup;
+  ::tgbot::types::Ptr<std::string> caption;
+  ::tgbot::types::Ptr<InputMessageContent> inputMessageContent;
+  ::tgbot::types::Ptr<InlineKeyboardMarkup> replyMarkup;
 };
 
 struct LabeledPrice {
@@ -507,7 +512,7 @@ public:
   std::string providerToken;
   std::string startParameter;
   std::string currency;
-  Ptr<std::string> photoUrl;
+  ::tgbot::types::Ptr<std::string> photoUrl;
   int photoSize;
   int photoWidth;
   int photoHeight;

@@ -13,6 +13,8 @@
 using namespace tgbot::methods;
 using namespace tgbot::utils;
 
+template <typename _Ty> using Ptr = ::tgbot::types::Ptr<_Ty>;
+
 static inline std::string
 toString(const types::ShippingOption &shippingOption) {
   std::stringstream jsonify;
@@ -1171,8 +1173,8 @@ bool tgbot::methods::Api::answerCallbackQuery(
 // answerInlineQuery
 bool tgbot::methods::Api::answerInlineQuery(
     const std::string &inlineQueryId,
-    const std::vector<types::InlineQueryResult> &results, const int &cacheTime,
-    const bool &isPersonal, const std::string &nextOffset,
+    const std::vector<Ptr<types::InlineQueryResult>> &results,
+    const int &cacheTime, const bool &isPersonal, const std::string &nextOffset,
     const std::string &switchPmText,
     const std::string &switchPmParameter) const {
   CURL *inst = http::curlEasyInit();
@@ -1187,7 +1189,7 @@ bool tgbot::methods::Api::answerInlineQuery(
   const size_t &nResults = results.size();
   for (size_t i = 0; i < nResults; i++) {
     SEPARATE(i, resultsStream);
-    resultsStream << results.at(i).toString();
+    resultsStream << results.at(i)->toString();
   }
 
   encode(url, resultsStream.str());

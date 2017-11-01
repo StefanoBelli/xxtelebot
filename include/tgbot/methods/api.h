@@ -254,13 +254,12 @@ public:
                            const std::string &url = "",
                            const int &cacheTime = 0) const;
 
-  bool answerInlineQuery(const std::string &inlineQueryId,
-                         const std::vector<types::InlineQueryResult> &results,
-                         const int &cacheTime = 0,
-                         const bool &isPersonal = true,
-                         const std::string &nextOffset = "",
-                         const std::string &switchPmText = "",
-                         const std::string &switchPmParameter = "") const;
+  bool answerInlineQuery(
+      const std::string &inlineQueryId,
+      const std::vector<::tgbot::types::Ptr<types::InlineQueryResult>> &results,
+      const int &cacheTime = 0, const bool &isPersonal = true,
+      const std::string &nextOffset = "", const std::string &switchPmText = "",
+      const std::string &switchPmParameter = "") const;
 
   api_types::Message
   editMessageText(const std::string &inlineMessageId, const std::string &text,
