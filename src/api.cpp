@@ -1851,9 +1851,7 @@ api_types::Message tgbot::methods::Api::sendVideo(
   if (source == types::FileSource::EXTERNAL) {
     std::stringstream url;
     url << baseApi << "/sendVideo"
-        << "?chat_id=" << chatId << "&video=";
-
-    encode(url, video);
+        << "?chat_id=" << chatId << "&video=" << video;
 
     if (duration != -1)
       url << "&duration=" << duration;
@@ -1909,9 +1907,8 @@ api_types::Message tgbot::methods::Api::sendDocument(
 
   if (source == types::FileSource::EXTERNAL) {
     std::stringstream url;
-    url << baseApi << "/sendDocument?chat_id=" << chatId << "&document=";
-
-    encode(url, document);
+    url << baseApi << "/sendDocument?chat_id=" << chatId
+        << "&document=" << document;
 
     if (caption != "") {
       url << "&caption=";
@@ -1958,9 +1955,7 @@ api_types::Message tgbot::methods::Api::sendPhoto(
 
   if (source == types::FileSource::EXTERNAL) {
     std::stringstream url;
-    url << baseApi << "/sendPhoto?chat_id=" << chatId << "&photo=";
-
-    encode(url, photo);
+    url << baseApi << "/sendPhoto?chat_id=" << chatId << "&photo=" << photo;
 
     if (caption != "") {
       url << "&caption=";
@@ -2009,9 +2004,7 @@ api_types::Message tgbot::methods::Api::sendAudio(
 
   if (source == types::FileSource::EXTERNAL) {
     std::stringstream url;
-    url << baseApi << "/sendAudio?chat_id=" << chatId << "&audio=";
-
-    encode(url, audio);
+    url << baseApi << "/sendAudio?chat_id=" << chatId << "&audio=" << audio;
 
     if (caption != "") {
       url << "&caption=";
@@ -2072,9 +2065,7 @@ api_types::Message tgbot::methods::Api::sendVoice(
 
   if (source == types::FileSource::EXTERNAL) {
     std::stringstream url;
-    url << baseApi << "/sendVoice?chat_id=" << chatId << "&voice=";
-    encode(url, voice);
-
+    url << baseApi << "/sendVoice?chat_id=" << chatId << "&voice=" << voice;
     if (duration != -1)
       url << "&duration=" << duration;
 
@@ -2121,10 +2112,8 @@ api_types::Message tgbot::methods::Api::sendSticker(
 
   if (source == types::FileSource::EXTERNAL) {
     std::stringstream url;
-    url << baseApi << "/sendSticker?chat_id=" << chatId << "&sticker=";
-
-    encode(url, sticker);
-
+    url << baseApi << "/sendSticker?chat_id=" << chatId
+        << "&sticker=" << sticker;
     if (disableNotification)
       url << "&disable_notification=true";
 
@@ -2165,9 +2154,8 @@ api_types::Message tgbot::methods::Api::sendVideoNote(
 
   if (source == types::FileSource::EXTERNAL) {
     std::stringstream url;
-    url << baseApi << "/sendVideoNote?chat_id=" << chatId << "&video_note=";
-
-    encode(url, videoNote);
+    url << baseApi << "/sendVideoNote?chat_id=" << chatId
+        << "&video_note=" << videoNote;
 
     if (duration != -1)
       url << "&duration=" << duration;
