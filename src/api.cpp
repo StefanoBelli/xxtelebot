@@ -694,7 +694,7 @@ bool tgbot::methods::Api::restrictChatMember(
   Json::Reader reader;
 
   std::stringstream url;
-  url << baseApi << "/promoteChatMember?chat_id=" << chatId
+  url << baseApi << "/restrictChatMember?chat_id=" << chatId
       << "&user_id=" << userId
       << "&can_send_messages=" << BOOL_TOSTR(permissions.canSendMessages)
       << "&can_send_media_messages="
