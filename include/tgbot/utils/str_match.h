@@ -26,6 +26,7 @@ inline bool whenStarts(const std::string &target, const char *what) {
 inline bool whenContains(const std::string &target, const char *what) {
   return target.find(what) != std::string::npos;
 }
+
 } // namespace utils
 } // namespace tgbot
 

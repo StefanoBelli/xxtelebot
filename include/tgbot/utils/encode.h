@@ -19,7 +19,9 @@ void encode(std::stringstream &stream, const std::string &target);
  * @return encoded std::string
  */
 std::string encode(const std::string &target);
+
 } // namespace utils
+
 } // namespace tgbot
 
 #endif

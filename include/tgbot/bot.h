@@ -103,6 +103,7 @@ public:
    */
   void start() override;
 };
+
 } // namespace tgbot
 
 #endif

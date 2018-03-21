@@ -20,6 +20,7 @@ inline types::Ptr<PtrType> makePtr(TypeArgs &&... args_fwd) {
 }
 
 } // namespace utils
+
 } // namespace tgbot
 
 #endif // TGBOT_UTILS_MAKE_PTR_H

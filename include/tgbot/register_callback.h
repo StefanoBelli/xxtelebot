@@ -131,6 +131,7 @@ public:
       channelPostCallback = callback;
   }
 };
+
 } // namespace tgbot
 
 #endif

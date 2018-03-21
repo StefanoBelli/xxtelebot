@@ -1,0 +1,24 @@
+#ifndef TGBOT_VERSION_H
+#define TGBOT_VERSION_H
+
+/*!
+ * @brief Major version
+ */
+constexpr int TGBOT_VERSION_MAJOR = @PROJECT_VERSION_MAJOR@;
+
+/*!
+ * @brief Minor version
+ */
+constexpr int TGBOT_VERSION_MINOR = @PROJECT_VERSION_MINOR@;
+
+/*!
+ * @brief Patch version
+ */
+constexpr int TGBOT_VERSION_PATCH = @PROJECT_VERSION_PATCH@;
+
+/*!
+ * @brief Tweak version
+ */
+constexpr int TGBOT_VERSION_TWEAK = @PROJECT_VERSION_TWEAK@;
+
+#endif

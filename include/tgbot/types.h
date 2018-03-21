@@ -473,6 +473,7 @@ public:
   bool canSendOtherMessages : 1;
   bool canAddWebPagePreviews : 1;
 };
+
 } // namespace types
 
 } // namespace tgbot

@@ -15,21 +15,18 @@ namespace types {
 struct InputMessageContent;
 struct InlineQueryResult;
 
-constexpr char const *iqrTypeArticle = "article";
-constexpr char const *iqrTypeDocument = "document";
-constexpr char const *iqrTypeGif = "gif";
-constexpr char const *iqrTypeMpeg4Gif = "mpeg4_gif";
-constexpr char const *iqrTypePhoto = "photo";
-constexpr char const *iqrTypeVideo = "video";
-constexpr char const *iqrTypeAudio = "audio";
-constexpr char const *iqrTypeLocation = "location";
-constexpr char const *iqrTypeVenue = "venue";
-constexpr char const *iqrTypeContact = "contact";
-constexpr char const *iqrTypeGame = "game";
-constexpr char const *iqrTypeVoice = "voice";
-
-// template <typename _Ty_Elem> using ::tgbot::types::Ptr =
-// ::tgbot::types::::tgbot::types::Ptr<_Ty_Elem>;
+constexpr char iqrTypeArticle[]   = "article";
+constexpr char iqrTypeDocument[]  = "document";
+constexpr char iqrTypeGif[]       = "gif";
+constexpr char iqrTypeMpeg4Gif[]  = "mpeg4_gif";
+constexpr char iqrTypePhoto[]     = "photo";
+constexpr char iqrTypeVideo[]     = "video";
+constexpr char iqrTypeAudio[]     = "audio";
+constexpr char iqrTypeLocation[]  = "location";
+constexpr char iqrTypeVenue[]     = "venue";
+constexpr char iqrTypeContact[]   = "contact";
+constexpr char iqrTypeGame[]      = "game";
+constexpr char iqrTypeVoice[]     = "voice";
 
 using InlineQueryResultsVector =
     std::vector<::tgbot::types::Ptr<InlineQueryResult>>;

@@ -3,15 +3,29 @@
 [![Travis](https://img.shields.io/travis/StefanoBelli/telegram-bot-api.svg)](https://travis-ci.org/StefanoBelli/telegram-bot-api)
 
 # telegram-bot-api
-C++ Telegram Bot APIs
+C++11 Telegram Bot APIs
 
 *This API wrapper tries to be more conformant as possible to Telegram Bot API, which you are invited to read.*
 
 [Telegram Bot API](https://core.telegram.org/bots/api)
 
-### Thanks to 
+(C++11 compiler **ABSOLUTELY** needed)
 
-Deni, which tested some API methods, and proposed some examples! (He is listed in contributors)
+### Using CMake 
+```
+$ mkdir build && cd build
+$ cmake .. -DCMAKE_BUILD_TYPE="Release" \
+				[-DCMAKE_CXX_FLAGS="your optimizing compiler flags"] \
+				[-DBUILD_SHARED_LIBS=ON] \
+				[-DOTHER_HEADERS_DIR="your additional include directory for header lookup (might be needed for jsoncpp)"] \
+				[-DCMAKE_INSTALL_PREFIX:PATH="custom prefix path, should be /usr on GNU/Linux systems"] 
+$ make
+# make install
+```
+
+### Thanks to 
+	* Deni, which tested some API methods, and proposed some examples! (He is listed in contributors)
+	* @foxcpp, who given me a lot of advices for CMake! (issue #16)
 
 ### Issues
 You are welcome to open issues, do it without freaking out and/or insults, attach your code (take care of your **token**), and what is not going well. 
@@ -60,7 +74,7 @@ int main() {
 
 *I would suggest you to add a filter for updates, I mean, if your bot expects only messages, LongPollBot constructor allows you to add filters and get only certain update types*
 
-#### How to properly compile it
+#### How to properly compile your own bot
 
 Assuming we call this file *bot.cpp* and it is placed one level up telegram-bot-api source tree, this would be its compilation command (GCC-C++):
 
@@ -71,7 +85,7 @@ $ g++ bot.cpp -Itelegram-bot-api/include telegram-bot-api/lib/libtgbot.a -lcurl 
 Others may result in linkage error.
 
 ### Note on building
-If API build cannot get done because of missing headers, the problem is more likely to be related with *jsoncpp* headers: many package management systems are instructed to place headers to */usr/include* or */usr/include/json*, so I cannot tell compiler to look for *jsoncpp/json/json.h*.
+If API build cannot get done because of missing headers, the problem is most likely to be related with *jsoncpp* headers: many package management systems are instructed to place headers to */usr/include* or */usr/include/json*, so I cannot tell compiler to look for *jsoncpp/json/json.h*.
 
 In case compiler exits with failure saying it couldn't find any *json/json.h*, just do the following:
 
