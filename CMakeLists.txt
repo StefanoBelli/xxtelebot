@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.2)
 
 project(TelegramBotApi 
-			LANGUAGES CXX
-			VERSION 1.0.1.1)
+	LANGUAGES CXX
+	VERSION 1.0.1.1)
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/lib")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/lib")
@@ -17,8 +17,8 @@ endif()
 find_package(Doxygen)
 if(DOXYGEN_FOUND)
 	add_custom_target(docs doxygen Doxyfile
-			DEPENDS "include/tgbot/version.h"
-			WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
+		DEPENDS "include/tgbot/version.h"
+		WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
 
 	message(STATUS "Doxygen: use \"make docs\" to generate documentation")
 endif ()
