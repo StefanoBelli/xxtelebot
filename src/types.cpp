@@ -268,14 +268,14 @@ tgbot::types::PreCheckoutQuery::PreCheckoutQuery(const Json::Value &object)
 }
 
 tgbot::types::Chat::Chat(const Json::Value &object) {
-  const std::string &type = object.get("type", "").asCString();
-  if (type == "private")
+  const std::string &chatType = object.get("type", "").asCString();
+  if (chatType == "private")
     this->type = ChatType::PRIVATE;
-  else if (type == "supergroup")
+  else if(chatType == "supergroup")
     this->type = ChatType::SUPERGROUP;
-  else if (type == "group")
+  else if (chatType == "group")
     this->type = ChatType::GROUP;
-  else if (type == "channel")
+  else if (chatType == "channel")
     this->type = ChatType::CHANNEL;
 
   id = object.get("id", "").asInt64();

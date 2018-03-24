@@ -10,3 +10,4 @@ build/
 a.out
 bot_test.cpp
 *.user
+.vscode/

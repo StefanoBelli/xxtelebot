@@ -17,9 +17,7 @@ namespace tgbot {
 class TelegramException : public std::exception {
 public:
   explicit TelegramException(const std::string &_what) : __what(_what) {}
-
-  virtual const char *what() const noexcept { return __what.c_str(); }
-
+  const char *what() const noexcept override { return __what.c_str(); }
 private:
   const std::string __what;
 };
@@ -29,11 +27,18 @@ private:
  */
 class Bot : public methods::Api, public RegisterCallback {
 public:
+  Bot(const Bot&) = default;
+  Bot(Bot&&) = default;
+  Bot& operator=(const Bot&) = default;
+  Bot& operator=(Bot&&) = default;
+  ~Bot() = default;
+  
   virtual void start() {}
 
 protected:
   template <typename... TyArgs>
-  Bot(TyArgs &&... many) : Api(std::forward<TyArgs>(many)...) {}
+  explicit Bot(TyArgs &&... many) : 
+  	  Api(std::forward<TyArgs>(many)...) {}
 
   void makeCallback(const std::vector<types::Update> &updates) const;
 };
@@ -55,6 +60,12 @@ public:
   LongPollBot(const std::string &token,
               const std::vector<types::UpdateType> &filterUpdates = {},
               const int &limit = 100, const int &timeout = 60);
+
+  ~LongPollBot() = default;
+  LongPollBot(const LongPollBot&) = delete;
+  LongPollBot(LongPollBot&&) = delete;
+  LongPollBot& operator=(const LongPollBot&) = delete;
+  LongPollBot& operator=(LongPollBot&&) = delete;
 
   /*!
    * @brief start long polling
@@ -97,6 +108,12 @@ public:
   WebhookBot(const std::string &token, const std::string &url,
              const std::string &certificate, const int &maxConnections = 40,
              const std::vector<types::UpdateType> &filterUpdates = {});
+  
+  ~WebhookBot() = default;
+  WebhookBot(const WebhookBot&) = delete;
+  WebhookBot(WebhookBot&&) = delete;
+  WebhookBot& operator=(const WebhookBot&) = delete;
+  WebhookBot& operator=(WebhookBot&&) = delete;
 
   /*!
    * @brief Start listening for events on target URL

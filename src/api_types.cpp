@@ -42,7 +42,7 @@ tgbot::methods::types::InlineQueryResult::InlineQueryResult(
     : what(customMarkup) {}
 
 std::string tgbot::methods::types::InlineKeyboardMarkup::toString() const {
-  const int &r = inlineKeyboard.size();
+  const std::size_t &r = inlineKeyboard.size();
 
   if (!r)
     return "";
@@ -50,7 +50,7 @@ std::string tgbot::methods::types::InlineKeyboardMarkup::toString() const {
   std::stringstream jsonify;
   jsonify << "{ \"inline_keyboard\": [";
 
-  for (int i = 0; i < r; ++i) {
+  for (std::size_t i = 0; i < r; ++i) {
     SEPARATE(i);
     jsonify << "[";
 
@@ -89,7 +89,7 @@ std::string tgbot::methods::types::InlineKeyboardMarkup::toString() const {
 }
 
 std::string tgbot::methods::types::ReplyKeyboardMarkup::toString() const {
-  const int &r = keyboard.size();
+  const std::size_t &r = keyboard.size();
 
   if (!r)
     return "";
@@ -99,7 +99,7 @@ std::string tgbot::methods::types::ReplyKeyboardMarkup::toString() const {
           << ", \"one_time_keyboard\": " << BOOL_TOSTR(oneTimeKeyboard)
           << ", \"selective\": " << BOOL_TOSTR(selective) << ", \"keyboard\":[";
 
-  for (int i = 0; i < r; ++i) {
+  for (std::size_t i = 0; i < r; ++i) {
     SEPARATE(i);
     jsonify << "[";
 

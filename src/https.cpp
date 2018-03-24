@@ -2,9 +2,11 @@
 #include <stdexcept>
 #include <tgbot/utils/https.h>
 
+#define unused __attribute__((__unused__))
+
 using namespace tgbot::utils::http;
 
-static size_t write_data(const char *ptr, size_t nbs, size_t count,
+static size_t write_data(const char *ptr, unused size_t nbs, size_t count,
                          void *dest) {
   static_cast<std::string *>(dest)->append(ptr);
   return count;

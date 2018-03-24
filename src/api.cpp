@@ -142,8 +142,8 @@ static void invoiceParams(std::stringstream &stream,
   stream << "&prices=%5B";
 
   std::stringstream pricesStream;
-  const size_t &nPrices = params.prices.size();
-  for (int i = 0; i < nPrices; i++) {
+  
+  for (std::size_t i = 0; i < params.prices.size(); ++i) { 
     SEPARATE(i, pricesStream);
     pricesStream << "{\"label\":" << params.prices.at(i).label
                  << ",\"amount\":" << params.prices.at(i).amount << "}";
@@ -1359,7 +1359,7 @@ api_types::Message tgbot::methods::Api::editMessageText(
 }
 
 api_types::Message tgbot::methods::Api::editMessageText(
-    const std::string &chatId, const std::string messageId,
+    const std::string &chatId, const std::string &messageId,
     const types::InlineKeyboardMarkup &replyMarkup, const std::string &text,
     const types::ParseMode &parseMode,
     const bool &disableWebPagePreview) const {

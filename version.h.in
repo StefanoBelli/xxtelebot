@@ -1,6 +1,8 @@
 #ifndef TGBOT_VERSION_H
 #define TGBOT_VERSION_H
 
+#include <string>
+
 /*!
  * @brief Major version
  */

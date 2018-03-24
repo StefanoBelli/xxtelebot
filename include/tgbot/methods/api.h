@@ -280,7 +280,7 @@ public:
                   const bool &disableWebPagePreview = false) const;
 
   api_types::Message
-  editMessageText(const std::string &chatId, const std::string messageId,
+  editMessageText(const std::string &chatId, const std::string& messageId,
                   const types::InlineKeyboardMarkup &replyMarkup,
                   const std::string &text,
                   const types::ParseMode &parseMode = types::ParseMode::DEFAULT,
@@ -347,9 +347,9 @@ public:
              const std::vector<api_types::UpdateType> &allowedUpdates = {});
 
 protected:
-  Api() = default;
+  Api() = delete;
 
-  Api(const std::string &token);
+  explicit Api(const std::string &token);
 
   Api(const std::string &token,
       const std::vector<api_types::UpdateType> &allowedUpdates,
