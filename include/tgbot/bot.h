@@ -3,6 +3,7 @@
 
 #include <exception>
 #include <utility>
+#include <curl/curl.h>
 
 #include "register_callback.h"
 
@@ -38,7 +39,7 @@ public:
 protected:
   template <typename... TyArgs>
   explicit Bot(TyArgs &&... many) : 
-  	  Api(std::forward<TyArgs>(many)...) {}
+  	  Api(std::forward<TyArgs>(many)...) { curl_global_init(CURL_GLOBAL_SSL); }
 
   void makeCallback(const std::vector<types::Update> &updates) const;
 };
