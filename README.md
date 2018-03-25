@@ -393,3 +393,38 @@ int main() {
 	//use results with answerInlineQuery
 }
 ```
+
+### Multithreading
+This library doesn't involve you in handling multiple threads, but remember that if you are using a shared resource (e.g. global variable), you may encounter race conditions when multiple threads try to access it. Lock accesses if needed.
+
+ * http://en.cppreference.com/w/cpp/thread/lock_guard
+ * http://en.cppreference.com/w/cpp/atomic/atomic
+ * http://en.cppreference.com/w/cpp/thread/mutex
+
+### Exception handling
+Ensure you handle exceptions properly.
+
+```
+void echoBackCallback(...) {
+	api.sendMessage(...); //may throw TelegramException, what(): Too Many Requests
+}
+```
+
+This kind of exception should be handled in order to avoid program stop (SIGABRT).
+
+No need to handle main thread ("bot API message fetch") exception. If it raises probably something bad is happening and bot should stop. 
+
+Anyway you can't handle that to resume the bot normal execution
+
+```
+try {
+	bot.start();
+} catch(...) {
+	//then what?
+}
+```
+
+Note:
+ 
+ * tgbot::TelegramException is meaning of an error given by Telegram Bot API
+ * std::runtime_error is meaning any other error (CURL)

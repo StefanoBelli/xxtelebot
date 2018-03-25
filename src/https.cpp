@@ -32,8 +32,8 @@ std::string tgbot::utils::http::get(CURL *c, const std::string &full) {
   curl_easy_setopt(c, CURLOPT_WRITEDATA, &body);
   curl_easy_setopt(c, CURLOPT_URL, full.c_str());
 
-  CURLcode code;
-  if ((code = curl_easy_perform(c)) != CURLE_OK)
+  CURLcode code = curl_easy_perform(c);
+  if (code != CURLE_OK && code != CURLE_GOT_NOTHING)
     throw std::runtime_error(curl_easy_strerror(code));
 
   return body;
