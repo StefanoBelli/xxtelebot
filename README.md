@@ -23,8 +23,10 @@ $ make
 ```
 
 ### Thanks to 
-	* Deni, which tested some API methods, and proposed some examples! (He is listed in contributors)
-	* @foxcpp, who given me a lot of advices for CMake! (issue #16)
+ 
+ * Deni, which tested some API methods, and proposed some examples! (He is listed in contributors)
+	
+ * @foxcpp, who given me a lot of advices for CMake! (issue #16)
 
 ### Issues
 You are welcome to open issues, do it without freaking out and/or insults, attach your code (take care of your **token**), and what is not going well. 
@@ -416,7 +418,7 @@ No need to handle main thread ("bot API message fetch") exception. If it raises 
 
 Anyway you can't handle that to resume the bot normal execution
 
-```
+```c++
 try {
 	bot.start();
 } catch(...) {
@@ -424,7 +426,131 @@ try {
 }
 ```
 
-Note:
+Please note:
  
  * tgbot::TelegramException is meaning of an error given by Telegram Bot API
  * std::runtime_error is meaning any other error (CURL)
+
+
+### Logging
+A logging facility is now provided by this library, and by default, it will log on stdout.
+
+Unless specified, you'll get when the bot starts listening for events and only when errors (e.g. TelegramException_s_) are met.
+
+You can:
+
+ * Change the output stream (stdout by default)
+ * Do not output anything at all
+ * Change time formatting
+ * Choose if log EACH update you get (useless in most cases, will only slow down your bot experience) [DISABLED BY DEFAULT]
+ * Log from your callbacks (do not copy Logger, I do not reccomend to do this. Copying is viable only through constructor.)
+
+Some examples:
+
+ * Do not log anything
+
+ This is achieved by setting the failbit of the ostream on.
+
+```c++
+#include <tgbot/bot.h>
+
+//... fold
+
+int main() {
+	std::cout.setstate(std::ios::failbit);
+	LongPollBot bot { "tok" };
+	bot.start();
+
+	return 0;
+}
+```
+
+ * Log on stderr
+
+```c++
+#include <tgbot/bot.h>
+
+//... fold
+
+int main() {
+	LongPollBot bot { "tok" };
+	bot.getLogger().setStream(std::cerr);
+	bot.start();
+
+	return 0;
+}
+```
+
+ * Log to file
+
+```c++
+#include <fstream>
+#include <tgbot/bot.h>
+
+//... fold
+
+int main() {
+
+	std::ofstream outfile("log.txt");
+
+	LongPollBot bot { "tok" };
+	bot.getLogger().setStream(outfile);
+	bot.start();
+
+	return 0;
+}
+```
+
+ * Log any update and change date formatting
+ 
+```c++
+#include <fstream>
+#include <tgbot/bot.h>
+
+//... fold
+
+int main() {
+
+	std::ofstream outfile("log.txt");
+
+	LongPollBot bot { "tok" };
+	bot.getLogger().setStream(outfile);
+	bot.getLogger().setDateFormat("%H:%M");
+	bot.notifyEachUpdate(true);
+	bot.start();
+
+	return 0;
+}
+```
+
+#### Logging from callbacks
+
+You can log your own:
+
+ * simple info/error log
+
+```c++
+void messageCallback(const Message m, const Api& api) {
+	api.sendMessage(...);
+	api.getLogger().info("sent message back!!");
+	api.getLogger().error("something went wrong :/");
+
+	//that's fine
+}
+```
+
+However, if you want to, say, change the stream or date format, you have to perform a *const_cast* to *Logger&*
+
+This is because we are getting the logger via a const instance of Api and we are using the const specifier member function version, then we are getting a const lvalue reference to Logger (const Logger&). 
+ 
+```c++
+void messageCallback(const Message m, const Api& api) {
+	api.sendMessage(...);
+	const_cast<Logger&>(api.getLogger()).setStream(std::cerr);
+	api.getLogger().info("sent message back!!");
+	api.getLogger().error("something went wrong :/");
+
+	//remember to restore previous stream if you want to...
+	//that's fine
+}
+```
