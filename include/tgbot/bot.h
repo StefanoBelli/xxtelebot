@@ -36,12 +36,20 @@ public:
   
   virtual void start() {}
 
+  /*!
+   * @brief log each update? (received update - ${UPDATE_ID}) (false by default)
+   * @param t: true - yes / false - no
+   */
+  void notifyEachUpdate(bool t);
 protected:
   template <typename... TyArgs>
   explicit Bot(TyArgs &&... many) : 
   	  Api(std::forward<TyArgs>(many)...) { curl_global_init(CURL_GLOBAL_SSL); }
 
   void makeCallback(const std::vector<types::Update> &updates) const;
+
+private:
+  bool __notifyEachUpdate { false };
 };
 
 /*!

@@ -1,6 +1,7 @@
 #ifndef TGBOT_METHODS_API_H
 #define TGBOT_METHODS_API_H
 
+#include "../logger.h"
 #include "types.h"
 
 namespace tgbot {
@@ -346,8 +347,21 @@ public:
              const int &maxConnections = 40,
              const std::vector<api_types::UpdateType> &allowedUpdates = {});
 
+  inline Logger const& getLogger() const {
+  	  return logger;
+  }
+
+  inline Logger& getLogger() {
+  	  return logger;
+  }
+
 protected:
   Api() = delete;
+  ~Api() = default;
+  Api(const Api&) = default;
+  Api(Api&&) = default;
+  Api& operator=(const Api&) = default;
+  Api& operator=(Api&&) = default;
 
   explicit Api(const std::string &token);
 
@@ -371,6 +385,7 @@ private:
   const std::string baseApi;
   std::string updateApiRequest;
   int currentOffset;
+  tgbot::Logger logger;
 };
 
 } // namespace methods

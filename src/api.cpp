@@ -214,8 +214,11 @@ int tgbot::methods::Api::getUpdates(void *c,
 
   parser.parse(utils::http::get(c, updatesRequest.str()), rootUpdate);
 
-  if (!rootUpdate.get("ok", "").asBool())
-    throw TelegramException(rootUpdate.get("description", "").asCString());
+  if (!rootUpdate.get("ok", "").asBool()) {
+  	const std::string description(rootUpdate.get("description","").asCString());
+  	logger.error(description);
+    throw TelegramException(description);
+  }
 
   Json::Value valueUpdates = rootUpdate.get("result", "");
   const int &updatesCount = valueUpdates.size();
@@ -227,7 +230,7 @@ int tgbot::methods::Api::getUpdates(void *c,
 
   currentOffset =
       1 + valueUpdates[updatesCount - 1].get("update_id", "").asInt();
-
+  
   return updatesCount;
 }
 

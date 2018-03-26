@@ -18,7 +18,7 @@ else()
 endif()
 
 set(CMAKE_CXX_STANDARD 11)
-set(SOURCES https.cpp bot.cpp api.cpp api_types.cpp types.cpp encode.cpp)
+set(SOURCES time.cpp logger.cpp https.cpp bot.cpp api.cpp api_types.cpp types.cpp encode.cpp)
 
 add_library(tgbot ${SOURCES})
 target_link_libraries(tgbot ${CURL_LIBRARIES} ${JSONCPP_LIBRARIES})
