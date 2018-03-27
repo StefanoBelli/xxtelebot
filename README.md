@@ -554,3 +554,7 @@ void messageCallback(const Message m, const Api& api) {
 	//that's fine
 }
 ```
+
+**NOTE THAT IT WILL BE USER RESPONSIBILITY TO LOCK ALL OPERATIONS RELATED TO setStream() and setDateFormat() inside user-defined callbacks.**
+
+Just use info() and error().
