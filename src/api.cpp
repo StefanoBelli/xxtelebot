@@ -212,7 +212,12 @@ int tgbot::methods::Api::getUpdates(void *c,
   Json::Value rootUpdate;
   Json::Reader parser;
 
-  parser.parse(utils::http::get(c, updatesRequest.str()), rootUpdate);
+  const std::string& responseBody { utils::http::get(c, updatesRequest.str()) };
+
+  if(!responseBody.size())
+  	  return 0;
+
+  parser.parse(responseBody, rootUpdate);
 
   if (!rootUpdate.get("ok", "").asBool()) {
   	const std::string description(rootUpdate.get("description","").asCString());
