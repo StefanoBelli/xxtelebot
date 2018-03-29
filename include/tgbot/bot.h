@@ -10,15 +10,18 @@
 /*!
  * @brief Main tgbot namespace
  */
-namespace tgbot {
+namespace tgbot
+{
 
 /*!
  * @brief Exception raised when Bot API reports some kind of error
  */
-class TelegramException : public std::exception {
+class TelegramException : public std::exception
+{
 public:
   explicit TelegramException(const std::string &_what) : __what(_what) {}
   const char *what() const noexcept override { return __what.c_str(); }
+
 private:
   const std::string __what;
 };
@@ -26,14 +29,15 @@ private:
 /*!
  * @brief Basic Bot interface
  */
-class Bot : public methods::Api, public RegisterCallback {
+class Bot : public methods::Api, public RegisterCallback
+{
 public:
-  Bot(const Bot&) = default;
-  Bot(Bot&&) = default;
-  Bot& operator=(const Bot&) = default;
-  Bot& operator=(Bot&&) = default;
-  ~Bot() = default;
-  
+  Bot(const Bot &) = default;
+  Bot(Bot &&) = default;
+  Bot &operator=(const Bot &) = default;
+  Bot &operator=(Bot &&) = default;
+  virtual ~Bot() = default;
+
   virtual void start() {}
 
   /*!
@@ -41,21 +45,22 @@ public:
    * @param t: true - yes / false - no
    */
   void notifyEachUpdate(bool t);
+
 protected:
   template <typename... TyArgs>
-  explicit Bot(TyArgs &&... many) : 
-  	  Api(std::forward<TyArgs>(many)...) { curl_global_init(CURL_GLOBAL_SSL); }
+  explicit Bot(TyArgs &&... many) : Api(std::forward<TyArgs>(many)...) { curl_global_init(CURL_GLOBAL_SSL); }
 
   void makeCallback(const std::vector<types::Update> &updates) const;
 
 private:
-  bool __notifyEachUpdate { false };
+  bool __notifyEachUpdate{false};
 };
 
 /*!
  * @brief Long polling bot, (see LongPollBot::start() function)
  */
-class LongPollBot : public Bot {
+class LongPollBot : public Bot
+{
 public:
   /*!
    * @brief Bot class constructor
@@ -70,11 +75,10 @@ public:
               const std::vector<types::UpdateType> &filterUpdates = {},
               const int &limit = 100, const int &timeout = 60);
 
-  ~LongPollBot() = default;
-  LongPollBot(const LongPollBot&) = delete;
-  LongPollBot(LongPollBot&&) = delete;
-  LongPollBot& operator=(const LongPollBot&) = delete;
-  LongPollBot& operator=(LongPollBot&&) = delete;
+  LongPollBot(const LongPollBot &) = delete;
+  LongPollBot(LongPollBot &&) = delete;
+  LongPollBot &operator=(const LongPollBot &) = delete;
+  LongPollBot &operator=(LongPollBot &&) = delete;
 
   /*!
    * @brief start long polling
@@ -85,7 +89,8 @@ public:
 /*!
  * @brief Webhook bot (see WebhookBot::start() function)
  */
-class WebhookBot : public Bot {
+class WebhookBot : public Bot
+{
 public:
   /*!
    * @brief Construct and nothing more. Call setWebhook() before start() :)
@@ -117,12 +122,11 @@ public:
   WebhookBot(const std::string &token, const std::string &url,
              const std::string &certificate, const int &maxConnections = 40,
              const std::vector<types::UpdateType> &filterUpdates = {});
-  
-  ~WebhookBot() = default;
-  WebhookBot(const WebhookBot&) = delete;
-  WebhookBot(WebhookBot&&) = delete;
-  WebhookBot& operator=(const WebhookBot&) = delete;
-  WebhookBot& operator=(WebhookBot&&) = delete;
+
+  WebhookBot(const WebhookBot &) = delete;
+  WebhookBot(WebhookBot &&) = delete;
+  WebhookBot &operator=(const WebhookBot &) = delete;
+  WebhookBot &operator=(WebhookBot &&) = delete;
 
   /*!
    * @brief Start listening for events on target URL

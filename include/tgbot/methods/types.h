@@ -3,30 +3,33 @@
 
 #include "../types.h"
 
-namespace tgbot {
+namespace tgbot
+{
 
-namespace methods {
+namespace methods
+{
 
 /*!
  * @brief API Methods parameter types
  */
-namespace types {
+namespace types
+{
 
 struct InputMessageContent;
 struct InlineQueryResult;
 
-constexpr char iqrTypeArticle[]   = "article";
-constexpr char iqrTypeDocument[]  = "document";
-constexpr char iqrTypeGif[]       = "gif";
-constexpr char iqrTypeMpeg4Gif[]  = "mpeg4_gif";
-constexpr char iqrTypePhoto[]     = "photo";
-constexpr char iqrTypeVideo[]     = "video";
-constexpr char iqrTypeAudio[]     = "audio";
-constexpr char iqrTypeLocation[]  = "location";
-constexpr char iqrTypeVenue[]     = "venue";
-constexpr char iqrTypeContact[]   = "contact";
-constexpr char iqrTypeGame[]      = "game";
-constexpr char iqrTypeVoice[]     = "voice";
+constexpr char iqrTypeArticle[] = "article";
+constexpr char iqrTypeDocument[] = "document";
+constexpr char iqrTypeGif[] = "gif";
+constexpr char iqrTypeMpeg4Gif[] = "mpeg4_gif";
+constexpr char iqrTypePhoto[] = "photo";
+constexpr char iqrTypeVideo[] = "video";
+constexpr char iqrTypeAudio[] = "audio";
+constexpr char iqrTypeLocation[] = "location";
+constexpr char iqrTypeVenue[] = "venue";
+constexpr char iqrTypeContact[] = "contact";
+constexpr char iqrTypeGame[] = "game";
+constexpr char iqrTypeVoice[] = "voice";
 
 using InlineQueryResultsVector =
     std::vector<::tgbot::types::Ptr<InlineQueryResult>>;
@@ -37,12 +40,18 @@ using CallbackGame = ::tgbot::types::CallbackGame;
 /*!
  * @brief Parsing mode to be used
  */
-enum class ParseMode { DEFAULT, MARKDOWN, HTML };
+enum class ParseMode
+{
+  DEFAULT,
+  MARKDOWN,
+  HTML
+};
 
 /*!
  * @brief What the bot is doing
  */
-enum class ChatAction {
+enum class ChatAction
+{
   TYPING,
   UPLOAD_PHOTO,
   RECORD_VIDEO,
@@ -59,7 +68,8 @@ enum class ChatAction {
  * @brief Choose if filename should be treated as file_id
  * or uploaded via multipart
  */
-enum class FileSource {
+enum class FileSource
+{
   /*!
    * @brief trait as file_id
    */
@@ -71,7 +81,8 @@ enum class FileSource {
   LOCAL_UPLOAD
 };
 
-struct ChatMemberRestrict {
+struct ChatMemberRestrict
+{
 public:
   bool canSendMessages : 1;
   bool canSendMediaMessages : 1;
@@ -79,7 +90,8 @@ public:
   bool canAddWebPagePreviews : 1;
 };
 
-struct ChatMemberPromote {
+struct ChatMemberPromote
+{
 public:
   bool canPostMessages : 1;
   bool canChangeInfo : 1;
@@ -91,7 +103,8 @@ public:
   bool canPromoteMembers : 1;
 };
 
-struct InlineKeyboardButton {
+struct InlineKeyboardButton
+{
 public:
   std::string text;
   ::tgbot::types::Ptr<std::string> url;
@@ -108,12 +121,14 @@ public:
 //
 // ReplyMarkup
 //
-struct ReplyMarkup {
+struct ReplyMarkup
+{
 public:
   // Not explicit constructor
   ReplyMarkup() = default;
   ReplyMarkup(const char *customMarkup);
   ReplyMarkup(const std::string &customMarkup);
+  virtual ~ReplyMarkup() = default;
 
   virtual std::string toString() const;
 
@@ -121,13 +136,15 @@ private:
   const std::string what;
 };
 
-struct InlineKeyboardMarkup : public ReplyMarkup {
+struct InlineKeyboardMarkup : public ReplyMarkup
+{
 public:
   std::string toString() const override;
   std::vector<std::vector<InlineKeyboardButton>> inlineKeyboard;
 };
 
-struct ReplyKeyboardMarkup : public ReplyMarkup {
+struct ReplyKeyboardMarkup : public ReplyMarkup
+{
 public:
   std::string toString() const override;
   std::vector<std::vector<KeyboardButton>> keyboard;
@@ -136,13 +153,15 @@ public:
   bool selective : 1;
 };
 
-struct ReplyKeyboardRemove : public ReplyMarkup {
+struct ReplyKeyboardRemove : public ReplyMarkup
+{
 public:
   std::string toString() const override;
   bool selective : 1;
 };
 
-struct ForceReply : public ReplyMarkup {
+struct ForceReply : public ReplyMarkup
+{
 public:
   std::string toString() const override;
   bool selective : 1;
@@ -151,12 +170,14 @@ public:
 //
 // InputMessageContent
 //
-struct InputMessageContent {
+struct InputMessageContent
+{
 public:
   // Not explicit constructor
   InputMessageContent() = default;
   InputMessageContent(const char *customMarkup);
   InputMessageContent(const std::string &customMarkup);
+  virtual ~InputMessageContent() = default;
 
   virtual std::string toString() const;
 
@@ -164,7 +185,8 @@ private:
   const std::string what;
 };
 
-struct InputTextMessageContent : public InputMessageContent {
+struct InputTextMessageContent : public InputMessageContent
+{
 public:
   std::string toString() const override;
   std::string messageText;
@@ -172,14 +194,16 @@ public:
   bool disableWebPagePreview : 1;
 };
 
-struct InputLocationMessageContent : public InputMessageContent {
+struct InputLocationMessageContent : public InputMessageContent
+{
 public:
   std::string toString() const override;
   double latitude;
   double longitude;
 };
 
-struct InputContactMessageContent : public InputMessageContent {
+struct InputContactMessageContent : public InputMessageContent
+{
 public:
   std::string toString() const override;
   std::string phoneNumber;
@@ -187,7 +211,8 @@ public:
   ::tgbot::types::Ptr<std::string> lastName;
 };
 
-struct InputVenueMessageContent : public InputMessageContent {
+struct InputVenueMessageContent : public InputMessageContent
+{
 public:
   std::string toString() const override;
   std::string title;
@@ -200,12 +225,14 @@ public:
 //
 // InlineQueryResult
 //
-struct InlineQueryResult {
+struct InlineQueryResult
+{
 public:
   // Not explicit constructor
   InlineQueryResult() = default;
   InlineQueryResult(const char *customMarkup);
   InlineQueryResult(const std::string &customMarkup);
+  virtual ~InlineQueryResult() = default;
 
   virtual std::string toString() const;
 
@@ -213,7 +240,8 @@ private:
   const std::string what;
 };
 
-struct InlineQueryResultAudio : public InlineQueryResult {
+struct InlineQueryResultAudio : public InlineQueryResult
+{
 public:
   std::string toString() const override;
   std::string type;
@@ -227,7 +255,8 @@ public:
   int audioDuration;
 };
 
-struct InlineQueryResultArticle : public InlineQueryResult {
+struct InlineQueryResultArticle : public InlineQueryResult
+{
 public:
   std::string toString() const override;
   std::string type;
@@ -243,7 +272,8 @@ public:
   bool hideUrl : 1;
 };
 
-struct InlineQueryResultContact : public InlineQueryResult {
+struct InlineQueryResultContact : public InlineQueryResult
+{
 public:
   std::string toString() const override;
   std::string type;
@@ -258,7 +288,8 @@ public:
   int thumbHeight;
 };
 
-struct InlineQueryResultGame : public InlineQueryResult {
+struct InlineQueryResultGame : public InlineQueryResult
+{
 public:
   std::string toString() const override;
   std::string type;
@@ -267,7 +298,8 @@ public:
   ::tgbot::types::Ptr<InlineKeyboardMarkup> replyMarkup;
 };
 
-struct InlineQueryResultDocument : public InlineQueryResult {
+struct InlineQueryResultDocument : public InlineQueryResult
+{
 public:
   std::string toString() const override;
   std::string type;
@@ -284,7 +316,8 @@ public:
   int thumbHeight;
 };
 
-struct InlineQueryResultGif : public InlineQueryResult {
+struct InlineQueryResultGif : public InlineQueryResult
+{
 public:
   std::string toString() const override;
   std::string type;
@@ -300,7 +333,8 @@ public:
   int gifDuration;
 };
 
-struct InlineQueryResultLocation : public InlineQueryResult {
+struct InlineQueryResultLocation : public InlineQueryResult
+{
 public:
   std::string toString() const override;
   std::string type;
@@ -315,7 +349,8 @@ public:
   int thumbHeight;
 };
 
-struct InlineQueryResultMpeg4Gif : public InlineQueryResult {
+struct InlineQueryResultMpeg4Gif : public InlineQueryResult
+{
 public:
   std::string toString() const override;
   std::string type;
@@ -331,7 +366,8 @@ public:
   int mpeg4Duration;
 };
 
-struct InlineQueryResultPhoto : public InlineQueryResult {
+struct InlineQueryResultPhoto : public InlineQueryResult
+{
 public:
   std::string toString() const override;
   std::string type;
@@ -347,7 +383,8 @@ public:
   int photoHeight;
 };
 
-struct InlineQueryResultVenue : public InlineQueryResult {
+struct InlineQueryResultVenue : public InlineQueryResult
+{
 public:
   std::string toString() const override;
   std::string type;
@@ -364,7 +401,8 @@ public:
   int thumbHeight;
 };
 
-struct InlineQueryResultVideo : public InlineQueryResult {
+struct InlineQueryResultVideo : public InlineQueryResult
+{
 public:
   std::string toString() const override;
   std::string type;
@@ -382,7 +420,8 @@ public:
   int videoDuration;
 };
 
-struct InlineQueryResultVoice : public InlineQueryResult {
+struct InlineQueryResultVoice : public InlineQueryResult
+{
 public:
   std::string toString() const override;
   std::string type;
@@ -395,7 +434,8 @@ public:
   int voiceDuration;
 };
 
-struct InlineQueryResultCachedAudio : public InlineQueryResult {
+struct InlineQueryResultCachedAudio : public InlineQueryResult
+{
 public:
   std::string toString() const override;
   std::string type;
@@ -406,7 +446,8 @@ public:
   ::tgbot::types::Ptr<InlineKeyboardMarkup> replyMarkup;
 };
 
-struct InlineQueryResultCachedDocument : public InlineQueryResult {
+struct InlineQueryResultCachedDocument : public InlineQueryResult
+{
 public:
   std::string toString() const override;
   std::string type;
@@ -419,7 +460,8 @@ public:
   ::tgbot::types::Ptr<InlineKeyboardMarkup> replyMarkup;
 };
 
-struct InlineQueryResultCachedGif : public InlineQueryResult {
+struct InlineQueryResultCachedGif : public InlineQueryResult
+{
 public:
   std::string toString() const override;
   std::string type;
@@ -431,7 +473,8 @@ public:
   ::tgbot::types::Ptr<InlineKeyboardMarkup> replyMarkup;
 };
 
-struct InlineQueryResultCachedMpeg4Gif : public InlineQueryResult {
+struct InlineQueryResultCachedMpeg4Gif : public InlineQueryResult
+{
 public:
   std::string toString() const override;
   std::string type;
@@ -443,7 +486,8 @@ public:
   ::tgbot::types::Ptr<InlineKeyboardMarkup> replyMarkup;
 };
 
-struct InlineQueryResultCachedPhoto : public InlineQueryResult {
+struct InlineQueryResultCachedPhoto : public InlineQueryResult
+{
 public:
   std::string toString() const override;
   std::string type;
@@ -456,7 +500,8 @@ public:
   ::tgbot::types::Ptr<InlineKeyboardMarkup> replyMarkup;
 };
 
-struct InlineQueryResultCachedSticker : public InlineQueryResult {
+struct InlineQueryResultCachedSticker : public InlineQueryResult
+{
 public:
   std::string toString() const override;
   std::string type;
@@ -466,7 +511,8 @@ public:
   ::tgbot::types::Ptr<InlineKeyboardMarkup> replyMarkup;
 };
 
-struct InlineQueryResultCachedVideo : public InlineQueryResult {
+struct InlineQueryResultCachedVideo : public InlineQueryResult
+{
 public:
   std::string toString() const override;
   std::string type;
@@ -479,7 +525,8 @@ public:
   ::tgbot::types::Ptr<InlineKeyboardMarkup> replyMarkup;
 };
 
-struct InlineQueryResultCachedVoice : public InlineQueryResult {
+struct InlineQueryResultCachedVoice : public InlineQueryResult
+{
 public:
   std::string toString() const override;
   std::string type;
@@ -491,7 +538,8 @@ public:
   ::tgbot::types::Ptr<InlineKeyboardMarkup> replyMarkup;
 };
 
-struct LabeledPrice {
+struct LabeledPrice
+{
 public:
   std::string label;
   int amount;
@@ -500,7 +548,8 @@ public:
 /*!
  * @brief This struct contains parameters for sendInvoice method
  */
-struct Invoice {
+struct Invoice
+{
 public:
   std::vector<LabeledPrice> prices;
   std::string title;
@@ -520,7 +569,8 @@ public:
   bool isFlexible : 1;
 };
 
-struct ShippingOption {
+struct ShippingOption
+{
 public:
   std::vector<LabeledPrice> prices;
   std::string id;
