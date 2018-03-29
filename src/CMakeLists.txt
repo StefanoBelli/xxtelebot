@@ -1,9 +1,8 @@
 cmake_minimum_required(VERSION 3.2)
 
-include_directories(${HEADERS_DIR})
-
 find_package(PkgConfig)
 find_package(CURL REQUIRED)
+find_package(Threads REQUIRED)
 
 pkg_check_modules(JSONCPP QUIET jsoncpp)
 
@@ -21,7 +20,17 @@ set(CMAKE_CXX_STANDARD 11)
 set(SOURCES time.cpp logger.cpp https.cpp bot.cpp api.cpp api_types.cpp types.cpp encode.cpp)
 
 add_library(tgbot ${SOURCES})
-target_link_libraries(tgbot ${CURL_LIBRARIES} ${JSONCPP_LIBRARIES})
+target_link_libraries(tgbot 
+	PRIVATE 
+		${CURL_LIBRARIES} 
+		${JSONCPP_LIBRARIES}
+		Threads::Threads
+)
+
+target_include_directories(tgbot 
+	PUBLIC ${HEADERS_DIR}
+)
+
 set_property(TARGET tgbot
 	PROPERTY CXX_STANDARD_REQUIRED ON)
 
