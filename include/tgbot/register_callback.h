@@ -41,17 +41,25 @@ using __Command_Tuple = std::tuple<const char *,       // string to be matched
  * @brief registers and holds callbacks for each type of update
  */
 class RegisterCallback {
+public:
+  using MessageCallback = UpdateCallback<types::Message>;
+  using InlineQueryCallback = UpdateCallback<types::InlineQuery>;
+  using ChosenInlineResultCallback = UpdateCallback<types::ChosenInlineResult>;
+  using CallbackQueryCallback = UpdateCallback<types::CallbackQuery>;
+  using ShippingQueryCallback = UpdateCallback<types::ShippingQuery>;
+  using PreCheckoutQueryCallback = UpdateCallback<types::PreCheckoutQuery>;
+
 protected:
   RegisterCallback() = default;
-  UpdateCallback<types::Message> messageCallback;
-  UpdateCallback<types::InlineQuery> inlineQueryCallback;
-  UpdateCallback<types::ChosenInlineResult> chosenInlineResultCallback;
-  UpdateCallback<types::CallbackQuery> callbackQueryCallback;
-  UpdateCallback<types::ShippingQuery> shippingQueryCallback;
-  UpdateCallback<types::PreCheckoutQuery> preCheckoutQueryCallback;
-  UpdateCallback<types::Message> editedMessageCallback;
-  UpdateCallback<types::Message> editedChannelPostCallback;
-  UpdateCallback<types::Message> channelPostCallback;
+  MessageCallback messageCallback;
+  InlineQueryCallback inlineQueryCallback;
+  ChosenInlineResultCallback chosenInlineResultCallback;
+  CallbackQueryCallback callbackQueryCallback;
+  ShippingQueryCallback shippingQueryCallback;
+  PreCheckoutQueryCallback preCheckoutQueryCallback;
+  MessageCallback editedMessageCallback;
+  MessageCallback editedChannelPostCallback;
+  MessageCallback channelPostCallback;
   std::vector<__Command_Tuple> commandCallback;
 
 public:
@@ -70,6 +78,14 @@ public:
   }
 
   /*!
+   * @brief Message update callback
+   * @param callback
+   */
+  inline void callback(MessageCallback callback) {
+	  messageCallback = callback;
+  }
+
+  /*!
    * @brief Inline query update callback
    * @param callback
    */
@@ -79,11 +95,27 @@ public:
   }
 
   /*!
+   * @brief Inline query update callback
+   * @param callback
+   */
+  inline void callback(InlineQueryCallback callback) {
+    inlineQueryCallback = callback;
+  }
+
+  /*!
    * @brief Chosen inline result update callback
    * @param callback
    */
   inline void callback(void (&callback)(const types::ChosenInlineResult,
                                         const methods::Api &)) {
+    chosenInlineResultCallback = callback;
+  }
+
+  inline void callback(ChosenInlineResultCallback callback) {
+  /*!
+   * @brief Chosen inline result update callback
+   * @param callback
+   */
     chosenInlineResultCallback = callback;
   }
 
@@ -97,6 +129,14 @@ public:
   }
 
   /*!
+   * @brief Callback query update callback
+   * @param callback
+   */
+  inline void callback(CallbackQueryCallback callback) {
+    callbackQueryCallback = callback;
+  }
+
+  /*!
    * @brief Shipping query update callback
    * @param callback
    */
@@ -106,11 +146,27 @@ public:
   }
 
   /*!
+   * @brief Shipping query update callback
+   * @param callback
+   */
+  inline void callback(ShippingQueryCallback callback) {
+    shippingQueryCallback = callback;
+  }
+
+  /*!
    * @brief Pre checkout query update callback
    * @param callback
    */
   inline void callback(void (&callback)(const types::PreCheckoutQuery,
                                         const methods::Api &)) {
+    preCheckoutQueryCallback = callback;
+  }
+
+  /*!
+   * @brief Pre checkout query update callback
+   * @param callback
+   */
+  inline void callback(PreCheckoutQueryCallback callback) {
     preCheckoutQueryCallback = callback;
   }
 
@@ -129,6 +185,30 @@ public:
       editedChannelPostCallback = callback;
     else if (which == types::UpdateType::CHANNEL_POST)
       channelPostCallback = callback;
+  }
+
+  /*!
+   * @brief Multiple-options update callback
+   * @param callback
+   * @param which : accepted values: EDITED_MESSAGE, EDITED_CHANNEL_POST,
+   * CHANNEL_POST. Others ignored
+   */
+  inline void callback(MessageCallback callback, 
+		  const types::UpdateType updateType) {
+    switch (updateType)
+	{
+		case types::UpdateType::EDITED_MESSAGE:
+			editedMessageCallback = callback;
+			break;
+		case types::UpdateType::EDITED_CHANNEL_POST:
+			editedChannelPostCallback = callback;
+			break;
+		case types::UpdateType::CHANNEL_POST:
+			channelPostCallback = callback;
+			break;
+		default:
+			break;
+	}
   }
 };
 
