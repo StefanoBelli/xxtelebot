@@ -28,6 +28,8 @@ $ make
 	
  * @foxcpp, who given me a lot of advices for CMake! (issue #16)
 
+ * @mandlm, PR #21, use this library within your CMake project
+
 ### Issues
 You are welcome to open issues, do it without freaking out and/or insults, attach your code (take care of your **token**), and what is not going well. 
 
@@ -431,7 +433,6 @@ Please note:
  * tgbot::TelegramException is meaning of an error given by Telegram Bot API
  * std::runtime_error is meaning any other error (CURL)
 
-
 ### Logging
 A logging facility is now provided by this library, and by default, it will log on stdout.
 
@@ -558,3 +559,7 @@ void messageCallback(const Message m, const Api& api) {
 **NOTE THAT IT WILL BE USER RESPONSIBILITY TO LOCK ALL OPERATIONS RELATED TO setStream() and setDateFormat() inside user-defined callbacks.**
 
 Just use info() and error().
+
+### CURL
+
+If you want to use curl to let the bot able to perform some http requests, just don't call **curl_global_init()** and **curl_global_cleanup()**!!
