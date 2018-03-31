@@ -5,19 +5,18 @@ compiler:
    - gcc
    - clang
 
-env:
-   - PYTHON=/usr/bin/python3.5
-
 addons:
    apt:      
       packages:
          - cmake
          - doxygen
          - ninja-build
-         - python-pip
 
 before_script:
-   - sudo pip install meson
+   - sudo add-apt-repository ppa:deadsnakes/ppa
+   - sudo apt update
+   - sudo apt install -y python3.6
+   - sudo python3.6 -m pip install meson
    - bash scripts/jsoncpp.sh
 
 script:
