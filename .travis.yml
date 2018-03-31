@@ -9,7 +9,12 @@ addons:
       packages:
          - cmake
          - doxygen
-         - libjsoncpp-dev
+
+before_script:
+   - wget http://mirrors.kernel.org/ubuntu/pool/main/libj/libjsoncpp/libjsoncpp1_1.7.2-1_amd64.deb -O libjsoncpp.deb
+   - wget http://mirrors.kernel.org/ubuntu/pool/main/libj/libjsoncpp/libjsoncpp-dev_1.7.2-1_amd64.deb -O libjsoncpp-dev.deb
+   - sudo dpkg --install libjsoncpp.deb
+   - sudo dpkg --install libjsoncpp-dev.deb
 
 script:
    - cmake . -DCMAKE_BUILD_TYPE="Release" -DCMAKE_CXX_FLAGS="-Wall -Wextra -O2 -finline-functions"
