@@ -15,7 +15,7 @@ addons:
 before_script:
    - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
    - sudo apt-get update -q
-   - sudo apt-get install -y -q python-3.5 python3-pip
+   - sudo apt-get install -y -q python3.5 python3-pip
    - pip3 install meson
    - bash scripts/jsoncpp.sh
 
