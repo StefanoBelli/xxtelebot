@@ -1,4 +1,5 @@
 language: cpp
+sudo: required
 dist: trusty
 compiler:
    - gcc
@@ -9,6 +10,8 @@ addons:
       packages:
          - cmake
          - doxygen
+         - ninja-build
+         - meson
 
 before_script:
    - bash scripts/jsoncpp.sh
