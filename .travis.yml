@@ -6,7 +6,7 @@ compiler:
    - clang
 
 env:
-   - PYTHON=3.6
+   - PYTHON=/usr/bin/python3.5
 
 addons:
    apt:      
