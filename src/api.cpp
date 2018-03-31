@@ -212,17 +212,16 @@ int tgbot::methods::Api::getUpdates(void *c,
   Json::Value rootUpdate;
   Json::Reader parser;
 
-  const std::string& responseBody { utils::http::get(c, updatesRequest.str()) };
+  parser.parse(utils::http::get(c, updatesRequest.str()), rootUpdate);
 
-  if(!responseBody.size())
-  	  return 0;
-
-  parser.parse(responseBody, rootUpdate);
-
-  if (!rootUpdate.get("ok", "").asBool()) {
-  	const std::string description(rootUpdate.get("description","").asCString());
-  	logger.error(description);
-    throw TelegramException(description);
+  try {
+      if (!rootUpdate.get("ok", "").asBool()) {
+  	      const std::string description { rootUpdate.get("description","").asCString() };
+  	      logger.error(description);
+          throw TelegramException { description };
+      }
+  } catch(const Json::LogicError& e) {
+      return 0;
   }
 
   Json::Value valueUpdates = rootUpdate.get("result", "");
