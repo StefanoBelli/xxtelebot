@@ -13,7 +13,7 @@ addons:
      
 before_script:
    - sudo add-apt-repository ppa:deadsnakes/ppa -y
-   - sudo add-apt-repository ppa:mstipicevic/ninja-build -y
+   - sudo add-apt-repository ppa:mstipicevic/ninja-build-1-7-2 -y
    - sudo apt update
    - sudo apt install -y python3.6 ninja-build
    - curl https://bootstrap.pypa.io/get-pip.py | sudo python3.6
