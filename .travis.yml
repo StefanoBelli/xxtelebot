@@ -15,7 +15,8 @@ addons:
 before_script:
    - sudo add-apt-repository ppa:deadsnakes/ppa -y
    - sudo apt update
-   - sudo apt install -y python3.6 python3-pip
+   - sudo apt install -y python3.6
+   - curl https://bootstrap.pypa.io/get-pip.py | sudo python3.6
    - sudo python3.6 -m pip install meson
    - bash scripts/jsoncpp.sh
 
