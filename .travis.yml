@@ -10,12 +10,11 @@ addons:
       packages:
          - cmake
          - doxygen
-         - ninja-build
      
 before_script:
-   - sudo add-apt-repository ppa:deadsnakes/ppa -y
+   - sudo add-apt-repository ppa:deadsnakes/ppa ppa:mstipicevic/ninja-build -y
    - sudo apt update
-   - sudo apt install -y python3.6
+   - sudo apt install -y python3.6 ninja-build
    - curl https://bootstrap.pypa.io/get-pip.py | sudo python3.6
    - sudo python3.6 -m pip install meson
    - bash scripts/jsoncpp.sh
