@@ -14,11 +14,10 @@ addons:
          - cmake
          - doxygen
          - ninja-build
-         - python3
-         - python3-pip
+         - python-pip
 
 before_script:
-   - pip3 install meson
+   - sudo pip install meson
    - bash scripts/jsoncpp.sh
 
 script:
