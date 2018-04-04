@@ -1,11 +1,12 @@
-﻿#include <json/json.h>
+#include <json/json.h>
 #include <tgbot/bot.h>
 #include <tgbot/methods/api.h>
 #include <tgbot/utils/encode.h>
 #include <tgbot/utils/https.h>
 
-#define BOOL_TOSTR(xvalue) ((xvalue) ? "true" : "false")
 
+#define unused __attribute__((__unused__))
+#define BOOL_TOSTR(xvalue) ((xvalue) ? "true" : "false")
 #define SEPARATE(k, sstr)                                                      \
   if (k)                                                                       \
   sstr << ','
@@ -210,9 +211,15 @@ int tgbot::methods::Api::getUpdates(void *c,
   updatesRequest << updateApiRequest << "&offset=" << currentOffset;
 
   Json::Value rootUpdate;
-  Json::Reader parser;
-
-  parser.parse(utils::http::get(c, updatesRequest.str()), rootUpdate);
+  Ptr<Json::CharReader> parser { Json::CharReaderBuilder().newCharReader() };
+  
+  const std::string& body { utils::http::get(c, updatesRequest.str()) };
+  const char* bodyBeginPointer { body.c_str() };
+  const char* bodyEndPointer { bodyBeginPointer + body.size() };
+  
+  unused std::string reportedErrors;
+  
+  parser->parse(bodyBeginPointer, bodyEndPointer, &rootUpdate, &reportedErrors);
 
   try {
       if (!rootUpdate.get("ok", "").asBool()) {
