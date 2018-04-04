@@ -17,6 +17,6 @@ build_script:
     - set PATH=%PATH%;C:\MinGW\bin
     - echo %PATH%
     - mingw-get update
-    - mingw-get install libgcrypt
+    - mingw-get search libgcrypt
     - cmake . -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE="Release"
 
