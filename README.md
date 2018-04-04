@@ -12,6 +12,13 @@ C++11 Telegram Bot APIs
 
 (C++11 compiler **ABSOLUTELY** needed)
 
+### Compatability
+This library is tested using Linux and OS X, with both GCC and Clang compilers.
+
+Should work on BSD systems
+
+High code complexity to make it work on MSVC compiler with Windows, but with some tricks it might be possible to make it work with MinGW, however I am not going to support Windows builds.
+
 ### Using CMake 
 ```
 $ mkdir build && cd build
