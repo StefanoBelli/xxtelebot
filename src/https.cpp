@@ -1,8 +1,12 @@
 #include <sstream>
 #include <stdexcept>
 #include <tgbot/utils/https.h>
+#include <gcrypt.h>
+#include <errno.h>
 
 #define unused __attribute__((__unused__))
+
+GCRY_THREAD_OPTION_PTHREAD_IMPL;
 
 using namespace tgbot::utils::http;
 
@@ -10,6 +14,15 @@ static size_t write_data(const char *ptr, unused size_t nbs, size_t count,
                          void *dest) {
   static_cast<std::string *>(dest)->append(ptr);
   return count;
+}
+
+static void __GnuTLS_ProvideLockingMethod() {
+    gcry_control(GCRYCTL_SET_THREAD_CBS);
+}
+
+void tgbot::utils::http::__internal_Curl_GlobalInit() {
+    curl_global_init(CURL_GLOBAL_SSL);
+    __GnuTLS_ProvideLockingMethod();
 }
 
 CURL *tgbot::utils::http::curlEasyInit() {

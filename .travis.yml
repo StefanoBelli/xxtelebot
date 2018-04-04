@@ -10,6 +10,7 @@ addons:
       packages:
          - cmake
          - doxygen
+	 - libgcrypt-dev
      
 before_script:
    - sudo add-apt-repository ppa:deadsnakes/ppa -y

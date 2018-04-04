@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.2)
 find_package(PkgConfig)
 find_package(CURL REQUIRED)
 find_package(Threads REQUIRED)
+find_library(GCRYPT_LIBRARY NAMES gcrypt libgcrypt)
 
 pkg_check_modules(JSONCPP QUIET jsoncpp)
 
@@ -24,6 +25,7 @@ target_link_libraries(tgbot
 	PRIVATE 
 		${CURL_LIBRARIES} 
 		${JSONCPP_LIBRARIES}
+		${GCRYPT_LIBRARY}
 		Threads::Threads
 )
 

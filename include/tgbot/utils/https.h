@@ -16,6 +16,8 @@ namespace utils {
  */
 namespace http {
 
+void __internal_Curl_GlobalInit();
+
 /*!
  * @brief Very easy HTTP GET request using curl (see also: curlEasyInit() )
  * @param c : curl instance

@@ -3,9 +3,9 @@
 
 #include <exception>
 #include <utility>
-#include <curl/curl.h>
 
 #include "register_callback.h"
+#include "utils/https.h"
 
 /*!
  * @brief Main tgbot namespace
@@ -48,7 +48,8 @@ public:
 
 protected:
   template <typename... TyArgs>
-  explicit Bot(TyArgs &&... many) : Api(std::forward<TyArgs>(many)...) { curl_global_init(CURL_GLOBAL_SSL); }
+  explicit Bot(TyArgs &&... many) : Api(std::forward<TyArgs>(many)...) 
+    { utils::http::__internal_Curl_GlobalInit(); }
 
   void makeCallback(const std::vector<types::Update> &updates) const;
 
