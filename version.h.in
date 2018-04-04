@@ -21,4 +21,14 @@ constexpr int TGBOT_VERSION_PATCH = @PROJECT_VERSION_PATCH@;
  */
 constexpr int TGBOT_VERSION_TWEAK = @PROJECT_VERSION_TWEAK@;
 
+/*!
+ * @brief Telegram Bot API major version
+ */
+constexpr int TELEGRAM_BOT_API_VERSION_MAJOR = @TGBOTAPI_VER_MAJOR@;
+
+/*!
+ * @brief Telegram Bot API minor version
+ */
+constexpr int TELEGRAM_BOT_API_VERSION_MINOR = @TGBOTAPI_VER_MINOR@;
+
 #endif
