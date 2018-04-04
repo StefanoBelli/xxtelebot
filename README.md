@@ -36,6 +36,16 @@ You are welcome to open issues, do it without freaking out and/or insults, attac
 ### CURL SSL/TLS backend
 This library requires you provide the GnuTLS implementation for libcurl. Just get it from your package manager.
 
+*Beware that if you use another backend, such as, OpenSSL, you won't get any error or warning! Linker just does its job and brings you the executable. To ensure that no race condition occour, you should use GnuTLS backend or NSS, which do not require us to specify a locking method.*
+
+ * Arch Linux package: https://www.archlinux.org/packages/community/x86_64/libcurl-gnutls/
+
+ * Debian package: https://packages.debian.org/search?keywords=libcurl4-gnutls-dev (the same applies for ubuntu, etc etc...)
+
+ * Gentoo ebuild: https://packages.gentoo.org/packages/net-misc/curl (turn on the USEFLAG for gnutls)
+
+ * Openmamba package: https://www.openmamba.org/distribution/distromatic.html?tag=devel&pkg=libcurl-gnutls.x86_64 This is the unique RPM package I found.
+
 ### Behaviour
  * With long poll bots, you have a connection always on to the telegram API endpoint, used to retrieve updates.
  * When an update is received, update gets dispatched and assigned to the default callback assigned, if no callback registered, update gets ignored forever.
@@ -71,7 +81,11 @@ void echoBack(const Message message, const Api& api) {
 
 int main() {
 	LongPollBot bot("token");
-	bot.callback(echoBack);
+	//bot.callback(echoBack);
+	bot.callback([](const Message m, const Api& a) {
+	    a.sendMessage(std::to_string(m.chat.id),"replying for a C++ lambda!");
+	});
+
 	bot.start();
 	
 	//unreachable code
