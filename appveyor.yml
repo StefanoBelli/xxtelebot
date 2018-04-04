@@ -11,6 +11,6 @@ environment:
           generator: "MinGW Makefiles"
 
 build_script:
-    - cmake . -G "MinGW Makefiles" -DCMAKE_SH="CMAKE_SH-NOTFOUND" -DCMAKE_BUILD_TYPE="Release" -DCMAKE_CXX_FLAGS="-Wall -Wextra -O2 -finline-functions"
+    - cmake . -G "MinGW Makefiles" -DCMAKE_SH="CMAKE_SH-NOTFOUND" -DCMAKE_BUILD_TYPE="Release"
     - mingw32-make
 
