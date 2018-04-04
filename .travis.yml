@@ -10,7 +10,6 @@ addons:
       packages:
          - cmake
          - doxygen
-         - libgcrypt
          - libgcrypt-dev
      
 before_script:
