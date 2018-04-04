@@ -14,6 +14,7 @@ environment:
 
 build_script:
     - set PATH=%PATH:C:\Program Files\Git\usr\bin=%
+    - set PATH=%PATH%;C:\MinGW\bin
     - echo %PATH%
     - cmake . -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE="Release"
 
