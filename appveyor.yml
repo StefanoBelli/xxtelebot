@@ -8,11 +8,10 @@ configuration:
 environment:
     matrix:
         - build_type: Release
-          compiler: MinGW
-          generator: "MinGW Makefiles"
+          compiler: gcc-6.3.0-posix
+          generator: "MSYS Makefiles"
           platform: Win32
 
 build_script:
-    - cmake . -G "MinGW Makefiles" -DCMAKE_SH="CMAKE_SH-NOTFOUND" -DCMAKE_BUILD_TYPE="Release"
-    - mingw32-make
+    - cmake . -G "MSYS Makefiles" -DCMAKE_BUILD_TYPE="Release"
 
