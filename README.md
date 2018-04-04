@@ -33,6 +33,9 @@ $ make
 ### Issues
 You are welcome to open issues, do it without freaking out and/or insults, attach your code (take care of your **token**), and what is not going well. 
 
+### CURL SSL/TLS backend
+This library requires you provide the GnuTLS implementation for libcurl. Just get it from your package manager.
+
 ### Behaviour
  * With long poll bots, you have a connection always on to the telegram API endpoint, used to retrieve updates.
  * When an update is received, update gets dispatched and assigned to the default callback assigned, if no callback registered, update gets ignored forever.
