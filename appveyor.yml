@@ -9,6 +9,7 @@ environment:
     matrix:
         - compiler: gcc-6.3.0-posix
           generator: "MinGW Makefiles"
+          cxx_path: 'C:\MinGW\bin'
 
 build_script:
     - cmake . -G "MinGW Makefiles" -DCMAKE_SH="CMAKE_SH-NOTFOUND" -DCMAKE_BUILD_TYPE="Release"
