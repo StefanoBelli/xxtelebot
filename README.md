@@ -1,6 +1,6 @@
 [![license](https://img.shields.io/github/license/StefanoBelli/telegram-bot-api.svg)](https://github.com/StefanoBelli/telegram-bot-api/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/StefanoBelli/telegram-bot-api/all.svg)](https://github.com/StefanoBelli/telegram-bot-api/tags)
-[![Travis](https://img.shields.io/travis/StefanoBelli/telegram-bot-api.svg)](https://travis-ci.org/StefanoBelli/telegram-bot-api)
+[![Travis](https://img.shields.io/travis/StefanoBelli/xxtelebot.svg)](https://travis-ci.org/StefanoBelli/xxtelebot)
 **Bot API version: 3.3**
 
 # xxtelebot: A simple C++11 Telegram Bot API implementation
