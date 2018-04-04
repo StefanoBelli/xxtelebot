@@ -9,9 +9,10 @@ environment:
     matrix:
         - build_type: Release
           compiler: gcc-6.3.0-posix
-          generator: "MSYS Makefiles"
+          generator: "MinGW Makefiles"
           platform: Win32
 
 build_script:
-    - cmake . -G "MSYS Makefiles" -DCMAKE_BUILD_TYPE="Release"
+    - set PATH=%PATH:C:\Program Files\Git\bin=%
+    - cmake . -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE="Release"
 
