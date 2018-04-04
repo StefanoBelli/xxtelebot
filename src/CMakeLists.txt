@@ -24,8 +24,8 @@ endif()
 set(CMAKE_CXX_STANDARD 11)
 set(SOURCES time.cpp logger.cpp https.cpp bot.cpp api.cpp api_types.cpp types.cpp encode.cpp)
 
-add_library(tgbot ${SOURCES})
-target_link_libraries(tgbot 
+add_library(xxtelebot ${SOURCES})
+target_link_libraries(xxtelebot 
 	PRIVATE 
 		${CURL_LIBRARIES} 
 		${JSONCPP_LIBRARIES}
@@ -33,14 +33,14 @@ target_link_libraries(tgbot
 		Threads::Threads
 )
 
-target_include_directories(tgbot 
+target_include_directories(xxtelebot 
 	PUBLIC ${HEADERS_DIR}
 )
 
-set_property(TARGET tgbot
+set_property(TARGET xxtelebot
 	PROPERTY CXX_STANDARD_REQUIRED ON)
 
-install(TARGETS tgbot
+install(TARGETS xxtelebot
 	LIBRARY DESTINATION lib
 	ARCHIVE DESTINATION lib
 	PERMISSIONS OWNER_WRITE OWNER_READ OWNER_EXECUTE
