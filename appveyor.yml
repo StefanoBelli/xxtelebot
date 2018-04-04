@@ -13,6 +13,6 @@ environment:
           platform: Win32
 
 build_script:
-    - set PATH=%PATH:C:\Program Files\Git\bin=%
+    - set PATH=%PATH:C:\Program Files\Git\usr\bin=%
     - cmake . -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE="Release"
 
