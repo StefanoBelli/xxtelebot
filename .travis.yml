@@ -1,6 +1,11 @@
 language: cpp
 sudo: required
 dist: trusty
+
+os:
+   - linux
+   - osx
+
 compiler:
    - gcc
    - clang
@@ -13,13 +18,14 @@ addons:
          - libgcrypt-dev
      
 before_script:
-   - sudo add-apt-repository ppa:deadsnakes/ppa -y
-   - sudo add-apt-repository ppa:mstipicevic/ninja-build-1-7-2 -y
-   - sudo apt update
-   - sudo apt install -y python3.6 ninja-build
-   - curl https://bootstrap.pypa.io/get-pip.py | sudo python3.6
-   - sudo python3.6 -m pip install meson
-   - bash scripts/jsoncpp.sh
+   - if [[ $TRAVIS_OS_NAME == "linux" ]]; then sudo add-apt-repository ppa:deadsnakes/ppa -y; fi
+   - if [[ $TRAVIS_OS_NAME == "linux" ]]; then sudo add-apt-repository ppa:mstipicevic/ninja-build-1-7-2 -y; fi
+   - if [[ $TRAVIS_OS_NAME == "linux" ]]; then sudo apt update; fi
+   - if [[ $TRAVIS_OS_NAME == "linux" ]]; then sudo apt install -y python3.6 ninja-build; fi
+   - if [[ $TRAVIS_OS_NAME == "linux" ]]; then curl https://bootstrap.pypa.io/get-pip.py | sudo python3.6; fi
+   - if [[ $TRAVIS_OS_NAME == "linux" ]]; then sudo python3.6 -m pip install meson; fi
+   - if [[ $TRAVIS_OS_NAME == "linux" ]]; then bash scripts/jsoncpp.sh; fi
+   - if [[ $TRAVIS_OS_NAME == "osx" ]]; brew update && brew install jsoncpp cmake doxygen libgcrypt curl
 
 script:
    - cmake . -DCMAKE_BUILD_TYPE="Release" -DCMAKE_CXX_FLAGS="-Wall -Wextra -O2 -finline-functions"
