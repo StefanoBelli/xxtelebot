@@ -1,0 +1,16 @@
+version: '{build}-{branch}'
+
+os: Visual Studio 2015
+
+configuration:
+    - Release
+
+environment:
+    matrix:
+        - compiler: gcc-6.3.0-posix
+          generator: "MinGW Makefiles"
+
+build_script:
+    - cmake . -DCMAKE_BUILD_TYPE="Release" -DCMAKE_CXX_FLAGS="-Wall -Wextra -O2 -finline-functions"
+    - mingw32-make
+
