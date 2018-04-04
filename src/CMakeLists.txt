@@ -7,6 +7,10 @@ find_library(GCRYPT_LIBRARY NAMES gcrypt libgcrypt)
 
 pkg_check_modules(JSONCPP QUIET jsoncpp)
 
+if(NOT GCRYPT_LIBRARY)
+	message(FATAL_ERROR "Could not find gcrypt library")
+endif()
+
 if(JSONCPP_LIBRARIES)
 	message(STATUS "Found JsonCpp: ${JSONCPP_LIBRARIES}")
 	if(NOT JSONCPP_INCLUDE_DIRS STREQUAL "")
