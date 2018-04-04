@@ -7,9 +7,10 @@ configuration:
 
 environment:
     matrix:
-        - compiler: gcc-6.3.0-posix
+        - build_type: Release
+          compiler: MinGW
           generator: "MinGW Makefiles"
-          cxx_path: 'C:\MinGW\bin'
+          platform: Win32
 
 build_script:
     - cmake . -G "MinGW Makefiles" -DCMAKE_SH="CMAKE_SH-NOTFOUND" -DCMAKE_BUILD_TYPE="Release"
