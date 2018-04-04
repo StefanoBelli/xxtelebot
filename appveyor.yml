@@ -10,7 +10,7 @@ environment:
         - build_type: Release
           compiler: gcc-6.3.0-posix
           generator: "MinGW Makefiles"
-          platform: Win32
+          platform: Win64
 
 build_script:
     - set PATH=%PATH:C:\Program Files\Git\usr\bin=%
