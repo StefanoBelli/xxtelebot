@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.2)
 
 project(xxtelebot
 	LANGUAGES CXX
-	VERSION 1.1.0.1)
+	VERSION 1.2.0.0)
 
 # M.m
 set(TGBOTAPI_VER_MAJOR 3)
