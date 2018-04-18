@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.2)
 
-find_package(PkgConfig)
+find_package(PkgConfig REQUIRED)
 find_package(CURL REQUIRED)
 find_package(Threads REQUIRED)
 find_library(GCRYPT_LIBRARY NAMES gcrypt libgcrypt)
@@ -52,3 +52,9 @@ install(DIRECTORY "${HEADERS_DIR}/tgbot"
 	FILE_PERMISSIONS OWNER_WRITE OWNER_READ
 	GROUP_WRITE GROUP_READ
 	WORLD_READ)
+
+install(FILES "${CMAKE_CACHEFILE_DIR}/data/xxtelebot.pc"
+    DESTINATION /usr/share/pkgconfig
+    PERMISSIONS OWNER_WRITE OWNER_READ
+    GROUP_WRITE GROUP_READ
+    WORLD_READ)

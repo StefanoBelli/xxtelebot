@@ -30,4 +30,19 @@ endif ()
 configure_file("version.h.in"
 	"${HEADERS_DIR}/tgbot/version.h")
 
+configure_file("xxtelebot.pc.in"
+    "data/xxtelebot.pc")
+
 add_subdirectory(src)
+
+message("\n==Summary")
+message("\tCompiler: ${CMAKE_CXX_COMPILER}")
+message("\tCXXFLAGS: ${CMAKE_CXX_FLAGS}")
+message("\tBuild type: ${CMAKE_BUILD_TYPE}")
+message("\tLibrary destination: ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}")
+message("-=Installs")
+message("\tPrefix: ${CMAKE_INSTALL_PREFIX}")
+message("\tLibrary: ${CMAKE_INSTALL_PREFIX}/lib")
+message("\tHeaders: ${CMAKE_INSTALL_PREFIX}/include/tgbot")
+message("\tPkg-config file: /usr/share/pkgconfig")
+message("\nxxtelebot version ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}.${PROJECT_VERSION_TWEAK}\n")

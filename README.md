@@ -30,6 +30,22 @@ $ make
 # make install
 ```
 
+### Using pkg-config
+```
+$ g++ bot.cpp $(pkg-config --libs --cflags xxtelebot)
+```
+
+with your cmake project:
+
+```cmake
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(XXTELEBOT QUIET xxtelebot)
+
+# XXTELEBOT_FOUND
+# XXTELEBOT_LIBRARIES
+# XXTELEBOT_INCLUDE_DIRS
+```
+
 ### Thanks to 
  
  * Deni, which tested some API methods, and proposed some examples! (He is listed in contributors)
