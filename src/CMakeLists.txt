@@ -53,7 +53,7 @@ install(DIRECTORY "${HEADERS_DIR}/tgbot"
 	GROUP_WRITE GROUP_READ
 	WORLD_READ)
 
-install(FILES "${CMAKE_CACHEFILE_DIR}/data/xxtelebot.pc"
+install(FILES "${CMAKE_BINARY_DIR}/data/xxtelebot.pc"
     DESTINATION /usr/share/pkgconfig
     PERMISSIONS OWNER_WRITE OWNER_READ
     GROUP_WRITE GROUP_READ
