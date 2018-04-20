@@ -635,8 +635,7 @@ tgbot::types::UserProfilePhotos::UserProfilePhotos(const Json::Value &object)
 }
 
 tgbot::types::ChatMember::ChatMember(const Json::Value &object)
-    : user(object.get("user", "")),
-      untilDate(object.get("until_date", "").asInt()) {
+    : user(object.get("user", "")) {
 
   const std::string &statusStr{object.get("status", "").asString()};
   if (statusStr == "creator")
@@ -651,6 +650,9 @@ tgbot::types::ChatMember::ChatMember(const Json::Value &object)
     status = ChatMemberStatus::LEFT;
   else if (statusStr == "kicked")
     status = ChatMemberStatus::KICKED;
+
+  if(object.isMember("until_date"))
+    this->untilDate = object.get("until_date","").asInt();
 
   if (object.isMember("can_be_edited"))
     this->canBeEdited = object.get("can_be_edited", "").asBool();
