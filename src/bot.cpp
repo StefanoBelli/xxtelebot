@@ -12,19 +12,6 @@ tgbot::LongPollBot::LongPollBot(
     const int &timeout)
     : Bot(token, filterUpdates, limit, timeout) {}
 
-tgbot::WebhookBot::WebhookBot(const std::string &token) : Bot(token) {}
-
-tgbot::WebhookBot::WebhookBot(
-    const std::string &token, const std::string &url, const int &maxConnections,
-    const std::vector<types::UpdateType> &filterUpdates)
-    : Bot(token, url, maxConnections, filterUpdates) {}
-
-tgbot::WebhookBot::WebhookBot(
-    const std::string &token, const std::string &url,
-    const std::string &certificate, const int &maxConnections,
-    const std::vector<types::UpdateType> &filterUpdates)
-    : Bot(token, url, certificate, maxConnections, filterUpdates) {}
-
 void tgbot::LongPollBot::start() {
   getLogger().info("starting HTTP long poll...");
   
@@ -41,8 +28,6 @@ void tgbot::LongPollBot::start() {
     }
   }
 }
-
-void tgbot::WebhookBot::start() {}
 
 void tgbot::Bot::makeCallback(const std::vector<types::Update> &updates) const {
   std::thread tmpHolder;

@@ -94,10 +94,15 @@ class WebhookBot : public Bot
 {
 public:
   /*!
+   * @brief Missing webhook implementation. Not scheduled.
+   */
+  WebhookBot() = delete;
+
+  /*!
    * @brief Construct and nothing more. Call setWebhook() before start() :)
    * @param token : Bot token
    */
-  WebhookBot(const std::string &token);
+  WebhookBot(const std::string &token) = delete;
 
   /*!
    * @brief Call setWebhook() after field initialization, if something wrong,
@@ -109,7 +114,7 @@ public:
    */
   WebhookBot(const std::string &token, const std::string &url,
              const int &maxConnections = 40,
-             const std::vector<types::UpdateType> &filterUpdates = {});
+             const std::vector<types::UpdateType> &filterUpdates = {}) = delete;
 
   /*!
    * @brief Call setWebhook() after field initialization, if something wrong,
@@ -122,17 +127,14 @@ public:
    */
   WebhookBot(const std::string &token, const std::string &url,
              const std::string &certificate, const int &maxConnections = 40,
-             const std::vector<types::UpdateType> &filterUpdates = {});
+             const std::vector<types::UpdateType> &filterUpdates = {}) = delete;
 
   WebhookBot(const WebhookBot &) = delete;
   WebhookBot(WebhookBot &&) = delete;
   WebhookBot &operator=(const WebhookBot &) = delete;
   WebhookBot &operator=(WebhookBot &&) = delete;
 
-  /*!
-   * @brief Start listening for events on target URL
-   */
-  void start() override;
+  //start()
 };
 
 } // namespace tgbot
