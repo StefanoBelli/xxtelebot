@@ -138,6 +138,18 @@ class Api
                                    const bool &disableNotification = false,
                                    const int &replyToMessageId = -1) const;
 
+    std::vector<api_types::Message>
+    sendMediaGroup(const int &chatId,
+                   const std::vector<types::InputMedia>& media,
+                   const bool &disableNotification = false,
+                   const int &replyToMessageId = -1) const;
+
+    std::vector<api_types::Message>
+    sendMediaGroup(const std::string &chatId,
+                   const std::vector<types::InputMedia>& media,
+                   const bool &disableNotification = false,
+                   const int &replyToMessageId = -1) const;
+
     api_types::Message sendGame(const int &chatId,
                                 const std::string &gameShortName,
                                 const bool &disableNotification = false,

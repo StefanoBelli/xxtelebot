@@ -126,6 +126,12 @@ static void invoiceParams(std::stringstream &stream,
     stream << "&payload=";
     encode(stream, params.payload);
 
+    if (params.sendEmailToProvider)
+        stream << "&send_email_to_provider=true";
+
+    if (params.sendPhoneNumberToProvider)
+        stream << "&send_phone_number_to_provider=true";
+
     if (params.isFlexible)
         stream << "&is_flexible=true";
 
@@ -152,6 +158,11 @@ static void invoiceParams(std::stringstream &stream,
 
     if (params.photoUrl)
         stream << "&photo_url=" << *params.photoUrl;
+
+    if (params.providerData) {
+        stream << "&provider_data";
+        encode(stream, *params.providerData);
+    }
 
     stream << "&prices=%5B";
 
@@ -2392,4 +2403,21 @@ bool tgbot::methods::Api::deleteChatStickerSet(const std::string &chatId) const 
         throw TelegramException(value.get("description", "").asCString());
 
     return true;
+}
+
+//sendMediaGroup
+std::vector<api_types::Message>
+tgbot::methods::Api::sendMediaGroup(const int &chatId,
+                                    const std::vector<types::InputMedia> &media,
+                                    const bool &disableNotification,
+                                    const int &replyToMessageId) const {
+
+}
+
+std::vector<api_types::Message>
+tgbot::methods::Api::sendMediaGroup(const std::string &chatId,
+                                    const std::vector<types::InputMedia> &media,
+                                    const bool &disableNotification,
+                                    const int &replyToMessageId) const {
+
 }

@@ -34,7 +34,12 @@ enum class UpdateType {
   CHANNEL_POST
 };
 
-enum class ChatType { PRIVATE, GROUP, SUPERGROUP, CHANNEL };
+enum class ChatType {
+    PRIVATE,
+    GROUP,
+    SUPERGROUP,
+    CHANNEL
+};
 
 enum class MessageEntityType {
   MENTION,

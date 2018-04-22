@@ -15,9 +15,6 @@ namespace methods
 namespace types
 {
 
-struct InputMessageContent;
-struct InlineQueryResult;
-
 constexpr char iqrTypeArticle[] = "article";
 constexpr char iqrTypeDocument[] = "document";
 constexpr char iqrTypeGif[] = "gif";
@@ -30,6 +27,20 @@ constexpr char iqrTypeVenue[] = "venue";
 constexpr char iqrTypeContact[] = "contact";
 constexpr char iqrTypeGame[] = "game";
 constexpr char iqrTypeVoice[] = "voice";
+
+/*!
+ * @brief imTypePhoto: basically the same as iqrTypePhoto
+ */
+constexpr char imTypePhoto[] = "photo";
+
+/*!
+ * @brief imTypeVideo: basically the same as iqrTypeVideo
+ */
+constexpr char imTypeVideo[] = "video";
+
+
+struct InputMessageContent;
+struct InlineQueryResult;
 
 using InlineQueryResultsVector =
     std::vector<::tgbot::types::Ptr<InlineQueryResult>>;
@@ -559,6 +570,7 @@ public:
   std::string startParameter;
   std::string currency;
   ::tgbot::types::Ptr<std::string> photoUrl;
+  ::tgbot::types::Ptr<std::string> providerData;
   int photoSize;
   int photoWidth;
   int photoHeight;
@@ -567,6 +579,8 @@ public:
   bool needEmail : 1;
   bool needShippingAddress : 1;
   bool isFlexible : 1;
+  bool sendPhoneNumberToProvider : 1;
+  bool sendEmailToProvider : 1;
 };
 
 struct ShippingOption
@@ -575,6 +589,48 @@ public:
   std::vector<LabeledPrice> prices;
   std::string id;
   std::string title;
+};
+
+//
+// InputMedia
+//
+struct InputMedia
+{
+public:
+  explicit InputMedia(const char* _what);
+  explicit InputMedia(const std::string& _what);
+  virtual ~InputMedia() = default;
+
+  virtual std::string toString() const;
+
+  FileSource fileSource; //do not leave this
+
+private:
+  const std::string what;
+};
+
+struct InputMediaPhoto : public InputMedia
+{
+public:
+    std::string toString() const override;
+    std::string type;
+    std::string media;
+    ::tgbot::types::Ptr<std::string> caption;
+    ParseMode parseMode;
+};
+
+struct InputMediaVideo : public InputMedia
+{
+public:
+    std::string toString() const override;
+    std::string type;
+    std::string media;
+    ::tgbot::types::Ptr<std::string> caption;
+    ParseMode parseMode;
+    int width;
+    int height;
+    int duration;
+    bool supportsStreaming : 1;
 };
 
 } // namespace types

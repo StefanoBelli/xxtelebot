@@ -19,11 +19,21 @@ std::string tgbot::methods::types::InlineQueryResult::toString() const {
   return what;
 }
 
+std::string tgbot::methods::types::InputMedia::toString() const {
+  return what;
+}
+
+tgbot::methods::types::InputMedia::InputMedia(const char *_what)
+    : what(_what) {}
+
+tgbot::methods::types::InputMedia::InputMedia(const std::string &_what)
+    : what(_what.c_str()) {}
+
 tgbot::methods::types::ReplyMarkup::ReplyMarkup(const char *customMarkup)
     : what(customMarkup) {}
 
 tgbot::methods::types::ReplyMarkup::ReplyMarkup(const std::string &customMarkup)
-    : what(customMarkup) {}
+    : what(customMarkup.c_str()) {}
 
 tgbot::methods::types::InputMessageContent::InputMessageContent(
     const char *customMarkup)
@@ -31,7 +41,7 @@ tgbot::methods::types::InputMessageContent::InputMessageContent(
 
 tgbot::methods::types::InputMessageContent::InputMessageContent(
     const std::string &customMarkup)
-    : what(customMarkup) {}
+    : what(customMarkup.c_str()) {}
 
 tgbot::methods::types::InlineQueryResult::InlineQueryResult(
     const char *customMarkup)
@@ -39,7 +49,7 @@ tgbot::methods::types::InlineQueryResult::InlineQueryResult(
 
 tgbot::methods::types::InlineQueryResult::InlineQueryResult(
     const std::string &customMarkup)
-    : what(customMarkup) {}
+    : what(customMarkup.c_str()) {}
 
 std::string tgbot::methods::types::InlineKeyboardMarkup::toString() const {
   const std::size_t &r = inlineKeyboard.size();
@@ -721,4 +731,64 @@ tgbot::methods::types::InlineQueryResultCachedVoice::toString() const {
   jsonify << "}";
 
   return jsonify.str();
+}
+
+std::string
+tgbot::methods::types::InputMediaPhoto::toString() const {
+  std::stringstream jsonify;
+
+  jsonify << "{\"type\":\"" << type << "\",\"media\":\"";
+
+  if(fileSource == FileSource::LOCAL_UPLOAD)
+      jsonify << "attach://" << media << "\"";
+  else
+      jsonify << media << "\"";
+
+  if(caption)
+      jsonify << ",\"caption\":\"" << *caption << "\"";
+
+  if (parseMode == ParseMode::HTML)
+    jsonify << ",\"parse_mode\":\"HTML\"";
+  else if (parseMode == ParseMode::MARKDOWN)
+    jsonify << ",\"parse_mode\":\"Markdown\"";
+
+  jsonify << "}";
+
+  return jsonify.str();
+}
+
+std::string
+tgbot::methods::types::InputMediaVideo::toString() const {
+    std::stringstream jsonify;
+
+    jsonify << "{\"type\":\"" << type << "\",\"media\":\"";
+
+    if(fileSource == FileSource::LOCAL_UPLOAD)
+        jsonify << "attach://" << media << "\"";
+    else
+        jsonify << media << "\"";
+
+    if(caption)
+        jsonify << ",\"caption\":\"" << *caption << "\"";
+
+    if (parseMode == ParseMode::HTML)
+      jsonify << ",\"parse_mode\":\"HTML\"";
+    else if (parseMode == ParseMode::MARKDOWN)
+      jsonify << ",\"parse_mode\":\"Markdown\"";
+
+    if(width)
+      jsonify << ",\"width\":" << width;
+
+    if(height)
+      jsonify << ",\"height\":" << height;
+
+    if(duration)
+      jsonify << ",\"duration\":" << duration;
+
+    if(supportsStreaming)
+      jsonify << ",\"supports_streaming\":true";
+
+    jsonify << "}";
+
+    return jsonify.str();
 }
