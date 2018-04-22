@@ -2250,7 +2250,7 @@ api_types::Message tgbot::methods::Api::editMessageLiveLocation(const double &lo
 
     const std::string& markup { replyMarkup.toString() };
     if(markup != "") {
-        url << "&reply_markup=" << markup;
+        url << "&reply_markup=";
         encode(url,markup);
     }
 
@@ -2275,7 +2275,7 @@ api_types::Message tgbot::methods::Api::editMessageLiveLocation(const double &lo
 
     const std::string& markup { replyMarkup.toString() };
     if(markup != "") {
-        url << "&reply_markup=" << markup;
+        url << "&reply_markup=";
         encode(url,markup);
     }
 
@@ -2299,7 +2299,7 @@ api_types::Message tgbot::methods::Api::stopMessageLiveLocation(const int &chatI
 
     const std::string& markup { replyMarkup.toString() };
     if(markup != "") {
-        url << "&reply_markup=" << markup;
+        url << "&reply_markup=";
         encode(url,markup);
     }
 
@@ -2322,7 +2322,7 @@ api_types::Message tgbot::methods::Api::stopMessageLiveLocation(const std::strin
 
     const std::string& markup { replyMarkup.toString() };
     if(markup != "") {
-        url << "&reply_markup=" << markup;
+        url << "&reply_markup=";
         encode(url,markup);
     }
 
@@ -2411,7 +2411,36 @@ tgbot::methods::Api::sendMediaGroup(const int &chatId,
                                     const std::vector<types::InputMedia> &media,
                                     const bool &disableNotification,
                                     const int &replyToMessageId) const {
+    CURL *inst = http::curlEasyInit();
+    Json::Value value;
 
+    std::stringstream url;
+    url << "/sendMediaGroup?chat_id=" << chatId;
+
+    if (disableNotification)
+        url << "&disable_notification=true";
+
+    if (replyToMessageId)
+        url << "&reply_to_message_id=" << replyToMessageId;
+
+    url << "&media=%5B";
+    for(size_t i = 0; i < media.size(); ++i) {
+        SEPARATE(i, url);
+        encode(url, media[i].toString());
+    }
+    url << "%5D";
+
+    parseJsonObject(http::get(inst, url.str()), value);
+    curl_easy_cleanup(inst);
+
+    if (!value.get("ok", "").asBool())
+        throw TelegramException(value.get("description", "").asCString());
+
+    std::vector<api_types::Message> messages;
+    for (auto const& message : value.get("result",""))
+        messages.emplace_back(message);
+
+    return messages;
 }
 
 std::vector<api_types::Message>
@@ -2419,5 +2448,34 @@ tgbot::methods::Api::sendMediaGroup(const std::string &chatId,
                                     const std::vector<types::InputMedia> &media,
                                     const bool &disableNotification,
                                     const int &replyToMessageId) const {
+    CURL *inst = http::curlEasyInit();
+    Json::Value value;
 
+    std::stringstream url;
+    url << "/sendMediaGroup?chat_id=" << chatId;
+
+    if (disableNotification)
+        url << "&disable_notification=true";
+
+    if (replyToMessageId)
+        url << "&reply_to_message_id=" << replyToMessageId;
+
+    url << "&media=%5B";
+    for(size_t i = 0; i < media.size(); ++i) {
+        SEPARATE(i, url);
+        encode(url, media[i].toString());
+    }
+    url << "%5D";
+
+    parseJsonObject(http::get(inst, url.str()), value);
+    curl_easy_cleanup(inst);
+
+    if (!value.get("ok", "").asBool())
+        throw TelegramException(value.get("description", "").asCString());
+
+    std::vector<api_types::Message> messages;
+    for (auto const& message : value.get("result",""))
+        messages.emplace_back(message);
+
+    return messages;
 }
