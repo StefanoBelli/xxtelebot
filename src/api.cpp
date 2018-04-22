@@ -1,4 +1,4 @@
-#include <json/json.h>
+﻿#include <json/json.h>
 #include <tgbot/bot.h>
 #include <tgbot/methods/api.h>
 #include <tgbot/utils/encode.h>
@@ -1728,7 +1728,7 @@ api_types::Message tgbot::methods::Api::sendGame(
 // sendLocation
 api_types::Message tgbot::methods::Api::sendLocation(
         const std::string &chatId, const double &latitude, const double &longitude,
-        const bool &disableNotification, const int &replyToMessageId,
+        const int &liveLocation, const bool &disableNotification, const int &replyToMessageId,
         const types::ReplyMarkup &replyMarkup) const {
     CURL *inst = http::curlEasyInit();
     Json::Value value;
@@ -1737,6 +1737,9 @@ api_types::Message tgbot::methods::Api::sendLocation(
     std::stringstream url;
     url << baseApi << "/sendLocation?chat_id=" << chatId
         << "&latitude=" << latitude << "&longitude=" << longitude;
+
+    if (liveLocation != -1)
+        url << "&live_location=" << liveLocation;
 
     if (disableNotification)
         url << "&disable_notification=true";
@@ -2221,4 +2224,172 @@ api_types::Message tgbot::methods::Api::sendVideoNote(
         throw TelegramException(value.get("description", "").asCString());
 
     return api_types::Message(value.get("result", ""));
+}
+
+//editMessageLiveLocation
+api_types::Message tgbot::methods::Api::editMessageLiveLocation(const double &longitude, const double &latitude,
+                                                                const int &chatId, const int &messageId,
+                                                                const types::ReplyMarkup &replyMarkup) const {
+    CURL *inst = http::curlEasyInit();
+    Json::Value value;
+
+    std::stringstream url;
+    url << "/editMessageLiveLocation?longitude=" << longitude << "&latitude=" << latitude
+        << "&chat_id=" << chatId << "&message_id=" << messageId;
+
+    const std::string& markup { replyMarkup.toString() };
+    if(markup != "") {
+        url << "&reply_markup=" << markup;
+        encode(url,markup);
+    }
+
+    parseJsonObject(http::get(inst, url.str()), value);
+    curl_easy_cleanup(inst);
+
+    if (!value.get("ok", "").asBool())
+        throw TelegramException(value.get("description", "").asCString());
+
+    return api_types::Message(value.get("result", ""));
+}
+
+api_types::Message tgbot::methods::Api::editMessageLiveLocation(const double &longitude, const double &latitude,
+                                                                const std::string &inlineMessageId,
+                                                                const types::ReplyMarkup &replyMarkup) const {
+    CURL *inst = http::curlEasyInit();
+    Json::Value value;
+
+    std::stringstream url;
+    url << "/editMessageLiveLocation?longitude=" << longitude << "&latitude=" << latitude
+        << "&inline_message_id=" << inlineMessageId;
+
+    const std::string& markup { replyMarkup.toString() };
+    if(markup != "") {
+        url << "&reply_markup=" << markup;
+        encode(url,markup);
+    }
+
+    parseJsonObject(http::get(inst, url.str()), value);
+    curl_easy_cleanup(inst);
+
+    if (!value.get("ok", "").asBool())
+        throw TelegramException(value.get("description", "").asCString());
+
+    return api_types::Message(value.get("result", ""));
+}
+
+//stopMessageLiveLocation
+api_types::Message tgbot::methods::Api::stopMessageLiveLocation(const int &chatId, const int &messageId,
+                                                                const types::ReplyMarkup &replyMarkup) const {
+    CURL *inst = http::curlEasyInit();
+    Json::Value value;
+
+    std::stringstream url;
+    url << "/stopMessageLiveLocation?chat_id=" << chatId << "&message_id=" << messageId;
+
+    const std::string& markup { replyMarkup.toString() };
+    if(markup != "") {
+        url << "&reply_markup=" << markup;
+        encode(url,markup);
+    }
+
+    parseJsonObject(http::get(inst, url.str()), value);
+    curl_easy_cleanup(inst);
+
+    if (!value.get("ok", "").asBool())
+        throw TelegramException(value.get("description", "").asCString());
+
+    return api_types::Message(value.get("result", ""));
+}
+
+api_types::Message tgbot::methods::Api::stopMessageLiveLocation(const std::string& inlineMessageId,
+                                                                const types::ReplyMarkup &replyMarkup) const {
+    CURL *inst = http::curlEasyInit();
+    Json::Value value;
+
+    std::stringstream url;
+    url << "/stopMessageLiveLocation?inline_message_id=" << inlineMessageId;
+
+    const std::string& markup { replyMarkup.toString() };
+    if(markup != "") {
+        url << "&reply_markup=" << markup;
+        encode(url,markup);
+    }
+
+    parseJsonObject(http::get(inst, url.str()), value);
+    curl_easy_cleanup(inst);
+
+    if (!value.get("ok", "").asBool())
+        throw TelegramException(value.get("description", "").asCString());
+
+    return api_types::Message(value.get("result", ""));
+}
+
+//setChatStickerSet
+bool tgbot::methods::Api::setChatStickerSet(const int &chatId, const std::string &stickerSetName) const {
+    CURL *inst = http::curlEasyInit();
+    Json::Value value;
+
+    std::stringstream url;
+
+    url << "/setChatStickerSet?chat_id=" << chatId << "&sticker_set_name=" << stickerSetName;
+
+    parseJsonObject(http::get(inst, url.str()), value);
+    curl_easy_cleanup(inst);
+
+    if (!value.get("ok", "").asBool())
+        throw TelegramException(value.get("description", "").asCString());
+
+    return true;
+}
+
+bool tgbot::methods::Api::setChatStickerSet(const std::string &chatId, const std::string &stickerSetName) const {
+    CURL *inst = http::curlEasyInit();
+    Json::Value value;
+
+    std::stringstream url;
+
+    url << "/setChatStickerSet?chat_id=" << chatId << "&sticker_set_name=" << stickerSetName;
+
+    parseJsonObject(http::get(inst, url.str()), value);
+    curl_easy_cleanup(inst);
+
+    if (!value.get("ok", "").asBool())
+        throw TelegramException(value.get("description", "").asCString());
+
+    return true;
+}
+
+//deleteChatStickerSet
+bool tgbot::methods::Api::deleteChatStickerSet(const int &chatId) const {
+    CURL *inst = http::curlEasyInit();
+    Json::Value value;
+
+    std::stringstream url;
+
+    url << "/deleteChatStickerSet?chat_id=" << chatId;
+
+    parseJsonObject(http::get(inst, url.str()), value);
+    curl_easy_cleanup(inst);
+
+    if (!value.get("ok", "").asBool())
+        throw TelegramException(value.get("description", "").asCString());
+
+    return true;
+}
+
+bool tgbot::methods::Api::deleteChatStickerSet(const std::string &chatId) const {
+    CURL *inst = http::curlEasyInit();
+    Json::Value value;
+
+    std::stringstream url;
+
+    url << "/deleteChatStickerSet?chat_id=" << chatId;
+
+    parseJsonObject(http::get(inst, url.str()), value);
+    curl_easy_cleanup(inst);
+
+    if (!value.get("ok", "").asBool())
+        throw TelegramException(value.get("description", "").asCString());
+
+    return true;
 }

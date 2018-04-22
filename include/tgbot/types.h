@@ -288,8 +288,10 @@ public:
   Ptr<std::string> lastName;
   Ptr<std::string> description;
   Ptr<std::string> inviteLink;
+  Ptr<std::string> stickerSetName;
   std::int64_t id;
-  bool allMembersAreAdministrators;
+  bool allMembersAreAdministrators : 1;
+  bool canSetStickerSet : 1;
 };
 
 struct Message {
@@ -323,6 +325,7 @@ public:
   Ptr<Message> pinnedMessage;
   Ptr<Invoice> invoice;
   Ptr<SuccessfulPayment> successfulPayment;
+  Ptr<std::vector<MessageEntity>> captionEntities;
   std::int64_t migrateToChatId;
   std::int64_t migrateFromChatId;
   int forwardFromMessageId;

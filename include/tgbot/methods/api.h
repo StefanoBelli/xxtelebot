@@ -94,7 +94,8 @@ class Api
 
     api_types::Message
     sendLocation(const std::string &chatId, const double &latitude,
-                 const double &longitude, const bool &disableNotification = false,
+                 const double &longitude, const int &liveLocation = -1,
+                 const bool &disableNotification = false,
                  const int &replyToMessageId = -1,
                  const types::ReplyMarkup &replyMarkup = "") const;
 
@@ -315,6 +316,38 @@ class Api
     editMessageCaption(const std::string &inlineMessageId,
                        const types::InlineKeyboardMarkup &replyMarkup,
                        const std::string &caption) const;
+
+    api_types::Message
+    editMessageLiveLocation(const double& longitude,
+                            const double& latitude,
+                            const int& chatId,
+                            const int& messageId,
+                            const types::ReplyMarkup &replyMarkup = "") const;
+
+    api_types::Message
+    editMessageLiveLocation(const double &longitude,
+                            const double &latitude,
+                            const std::string &inlineMessageId,
+                            const types::ReplyMarkup &replyMarkup = "") const;
+
+    api_types::Message
+    stopMessageLiveLocation(const int& chatId,
+                            const int& messageId,
+                            const types::ReplyMarkup &replyMarkup = "") const;
+
+    api_types::Message
+    stopMessageLiveLocation(const std::string &inlineMessageId,
+                            const types::ReplyMarkup &replyMarkup = "") const;
+
+    bool setChatStickerSet(const int& chatId,
+                           const std::string& stickerSetName) const;
+
+    bool setChatStickerSet(const std::string& chatId,
+                           const std::string& stickerSetName) const;
+
+    bool deleteChatStickerSet(const int& chatId) const;
+
+    bool deleteChatStickerSet(const std::string& chatId) const;
 
     bool deleteMessage(const std::string &chatId,
                        const std::string &messageId) const;

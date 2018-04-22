@@ -54,6 +54,14 @@ tgbot::types::Message::Message(const Json::Value &object)
       messageId(object.get("message_id", "").asInt()),
       date(object.get("date", "").asInt()) {
 
+  if (object.isMember("caption_entities","")) {
+      this->captionEntities =
+          Ptr<std::vector<MessageEntity>>(new std::vector<MessageEntity>{});
+
+      for (auto const &singleCaptionEntity : object.get("caption_entities", ""))
+        this->captionEntities->emplace_back(singleCaptionEntity);
+  }
+
   if (object.isMember("migrate_to_chat_id"))
     this->migrateToChatId = object.get("migrate_to_chat_id", "").asInt64();
 
@@ -314,6 +322,13 @@ tgbot::types::Chat::Chat(const Json::Value &object) {
 
   if (object.isMember("photo"))
     this->photo = Ptr<ChatPhoto>(new ChatPhoto(object.get("photo", "")));
+
+  if (object.isMember("sticker_set_name"))
+    this->stickerSetName = Ptr<std::string>(
+                    new std::string(object.get("sticker_set_name","").asCString()));
+
+  if (object.isMember("can_set_sticker_set"))
+    this->canSetStickerSet = object.get("can_set_sticker_set","").asBool();
 }
 
 tgbot::types::User::User(const Json::Value &object)
