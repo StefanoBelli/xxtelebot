@@ -603,7 +603,9 @@ public:
 
   virtual std::string toString() const;
 
-  FileSource fileSource; //do not leave this
+  std::string type;
+  std::string media;
+  FileSource fileSource;
 
 private:
   const std::string what;
@@ -613,8 +615,6 @@ struct InputMediaPhoto : public InputMedia
 {
 public:
     std::string toString() const override;
-    std::string type;
-    std::string media;
     ::tgbot::types::Ptr<std::string> caption;
     ParseMode parseMode;
 };
@@ -623,8 +623,6 @@ struct InputMediaVideo : public InputMedia
 {
 public:
     std::string toString() const override;
-    std::string type;
-    std::string media;
     ::tgbot::types::Ptr<std::string> caption;
     ParseMode parseMode;
     int width;
