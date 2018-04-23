@@ -144,8 +144,8 @@ public:
 struct Location {
 public:
   explicit Location(const Json::Value &object);
-  std::string longitude;
-  std::string latitude;
+  double longitude;
+  double latitude;
 };
 
 struct Animation {

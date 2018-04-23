@@ -159,7 +159,7 @@ std::string multiPartUpload(CURL *c, const std::string &operation,
 
 std::string multiPartUpload(CURL *c, const std::string &operation,
                             const std::string &chatId,
-                            const std::vector<tgbot::methods::types::InputMedia>& media,
+                            const std::vector<tgbot::types::Ptr<tgbot::methods::types::InputMedia>>& media,
                             const bool& disableNotification,
                             const int &replyToMessageId);
 

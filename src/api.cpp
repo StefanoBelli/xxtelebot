@@ -2248,7 +2248,7 @@ api_types::Message tgbot::methods::Api::editMessageLiveLocation(const double &lo
     Json::Value value;
 
     std::stringstream url;
-    url << "/editMessageLiveLocation?longitude=" << longitude << "&latitude=" << latitude
+    url << baseApi << "/editMessageLiveLocation?longitude=" << longitude << "&latitude=" << latitude
         << "&chat_id=" << chatId << "&message_id=" << messageId;
 
     const std::string& markup { replyMarkup.toString() };
@@ -2273,7 +2273,7 @@ api_types::Message tgbot::methods::Api::editMessageLiveLocation(const double &lo
     Json::Value value;
 
     std::stringstream url;
-    url << "/editMessageLiveLocation?longitude=" << longitude << "&latitude=" << latitude
+    url << baseApi << "/editMessageLiveLocation?longitude=" << longitude << "&latitude=" << latitude
         << "&inline_message_id=" << inlineMessageId;
 
     const std::string& markup { replyMarkup.toString() };
@@ -2298,7 +2298,7 @@ api_types::Message tgbot::methods::Api::stopMessageLiveLocation(const int &chatI
     Json::Value value;
 
     std::stringstream url;
-    url << "/stopMessageLiveLocation?chat_id=" << chatId << "&message_id=" << messageId;
+    url << baseApi << "/stopMessageLiveLocation?chat_id=" << chatId << "&message_id=" << messageId;
 
     const std::string& markup { replyMarkup.toString() };
     if(markup != "") {
@@ -2321,7 +2321,7 @@ api_types::Message tgbot::methods::Api::stopMessageLiveLocation(const std::strin
     Json::Value value;
 
     std::stringstream url;
-    url << "/stopMessageLiveLocation?inline_message_id=" << inlineMessageId;
+    url << baseApi << "/stopMessageLiveLocation?inline_message_id=" << inlineMessageId;
 
     const std::string& markup { replyMarkup.toString() };
     if(markup != "") {
@@ -2345,7 +2345,7 @@ bool tgbot::methods::Api::setChatStickerSet(const int &chatId, const std::string
 
     std::stringstream url;
 
-    url << "/setChatStickerSet?chat_id=" << chatId << "&sticker_set_name=" << stickerSetName;
+    url << baseApi << "/setChatStickerSet?chat_id=" << chatId << "&sticker_set_name=" << stickerSetName;
 
     parseJsonObject(http::get(inst, url.str()), value);
     curl_easy_cleanup(inst);
@@ -2362,7 +2362,7 @@ bool tgbot::methods::Api::setChatStickerSet(const std::string &chatId, const std
 
     std::stringstream url;
 
-    url << "/setChatStickerSet?chat_id=" << chatId << "&sticker_set_name=" << stickerSetName;
+    url << baseApi << "/setChatStickerSet?chat_id=" << chatId << "&sticker_set_name=" << stickerSetName;
 
     parseJsonObject(http::get(inst, url.str()), value);
     curl_easy_cleanup(inst);
@@ -2380,7 +2380,7 @@ bool tgbot::methods::Api::deleteChatStickerSet(const int &chatId) const {
 
     std::stringstream url;
 
-    url << "/deleteChatStickerSet?chat_id=" << chatId;
+    url << baseApi << "/deleteChatStickerSet?chat_id=" << chatId;
 
     parseJsonObject(http::get(inst, url.str()), value);
     curl_easy_cleanup(inst);
@@ -2397,7 +2397,7 @@ bool tgbot::methods::Api::deleteChatStickerSet(const std::string &chatId) const 
 
     std::stringstream url;
 
-    url << "/deleteChatStickerSet?chat_id=" << chatId;
+    url << baseApi << "/deleteChatStickerSet?chat_id=" << chatId;
 
     parseJsonObject(http::get(inst, url.str()), value);
     curl_easy_cleanup(inst);
@@ -2411,7 +2411,7 @@ bool tgbot::methods::Api::deleteChatStickerSet(const std::string &chatId) const 
 //sendMediaGroup
 std::vector<api_types::Message>
 tgbot::methods::Api::sendMediaGroup(const int &chatId,
-                                    const std::vector<types::InputMedia> &media,
+                                    const std::vector<tgbot::types::Ptr<types::InputMedia>> &media,
                                     const bool &disableNotification,
                                     const int &replyToMessageId) const {
     CURL *inst = http::curlEasyInit();
@@ -2434,7 +2434,7 @@ tgbot::methods::Api::sendMediaGroup(const int &chatId,
 
 std::vector<api_types::Message>
 tgbot::methods::Api::sendMediaGroup(const std::string &chatId,
-                                    const std::vector<types::InputMedia> &media,
+                                    const std::vector<tgbot::types::Ptr<types::InputMedia>> &media,
                                     const bool &disableNotification,
                                     const int &replyToMessageId) const {
     CURL *inst = http::curlEasyInit();

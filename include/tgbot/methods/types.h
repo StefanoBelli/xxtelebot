@@ -597,24 +597,20 @@ public:
 struct InputMedia
 {
 public:
-  explicit InputMedia(const char* _what);
-  explicit InputMedia(const std::string& _what);
+  InputMedia() = default;
   virtual ~InputMedia() = default;
 
-  virtual std::string toString() const;
+  virtual std::string toString();
 
   std::string type;
   std::string media;
   FileSource fileSource;
-
-private:
-  const std::string what;
 };
 
 struct InputMediaPhoto : public InputMedia
 {
 public:
-    std::string toString() const override;
+    std::string toString() override;
     ::tgbot::types::Ptr<std::string> caption;
     ParseMode parseMode;
 };
@@ -622,7 +618,7 @@ public:
 struct InputMediaVideo : public InputMedia
 {
 public:
-    std::string toString() const override;
+    std::string toString() override;
     ::tgbot::types::Ptr<std::string> caption;
     ParseMode parseMode;
     int width;

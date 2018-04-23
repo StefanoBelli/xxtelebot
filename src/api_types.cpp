@@ -1,4 +1,5 @@
 #include <sstream>
+#include <tgbot/utils/get_filename.h>
 #include <tgbot/methods/types.h>
 
 #define BOOL_TOSTR(xvalue) ((xvalue) ? "true" : "false")
@@ -19,15 +20,9 @@ std::string tgbot::methods::types::InlineQueryResult::toString() const {
   return what;
 }
 
-std::string tgbot::methods::types::InputMedia::toString() const {
-  return what;
+std::string tgbot::methods::types::InputMedia::toString() {
+  return "";
 }
-
-tgbot::methods::types::InputMedia::InputMedia(const char *_what)
-    : what(_what) {}
-
-tgbot::methods::types::InputMedia::InputMedia(const std::string &_what)
-    : what(_what.c_str()) {}
 
 tgbot::methods::types::ReplyMarkup::ReplyMarkup(const char *customMarkup)
     : what(customMarkup) {}
@@ -734,13 +729,13 @@ tgbot::methods::types::InlineQueryResultCachedVoice::toString() const {
 }
 
 std::string
-tgbot::methods::types::InputMediaPhoto::toString() const {
+tgbot::methods::types::InputMediaPhoto::toString() {
   std::stringstream jsonify;
 
   jsonify << "{\"type\":\"" << type << "\",\"media\":\"";
-
-  if(fileSource == FileSource::LOCAL_UPLOAD)
-      jsonify << "attach://" << media << "\"";
+  
+  if(fileSource == FileSource::LOCAL_UPLOAD) 
+      jsonify << "attach://" << media << '\"';
   else
       jsonify << media << "\"";
 
@@ -758,13 +753,13 @@ tgbot::methods::types::InputMediaPhoto::toString() const {
 }
 
 std::string
-tgbot::methods::types::InputMediaVideo::toString() const {
+tgbot::methods::types::InputMediaVideo::toString() {
     std::stringstream jsonify;
 
     jsonify << "{\"type\":\"" << type << "\",\"media\":\"";
 
     if(fileSource == FileSource::LOCAL_UPLOAD)
-        jsonify << "attach://" << media << "\"";
+        jsonify << "attach://" << media << '\"';
     else
         jsonify << media << "\"";
 

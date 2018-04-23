@@ -521,8 +521,8 @@ tgbot::types::Contact::Contact(const Json::Value &object)
 }
 
 tgbot::types::Location::Location(const Json::Value &object)
-    : longitude(object.get("longitude", "").asCString()),
-      latitude(object.get("latitude", "").asCString()) {}
+    : longitude(object.get("longitude", "").asDouble()),
+      latitude(object.get("latitude", "").asDouble()) {}
 
 tgbot::types::Venue::Venue(const Json::Value &object)
     : location(object.get("location", "")),

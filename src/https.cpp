@@ -512,10 +512,12 @@ std::string tgbot::utils::http::multiPartUpload(
   return body;
 }
 
+#include <iostream>
+
 std::string tgbot::utils::http::multiPartUpload(CURL *c,
                                                 const std::string &operation,
                                                 const std::string &chatId,
-                                                const std::vector<tgbot::methods::types::InputMedia> &media,
+                                                const std::vector<tgbot::types::Ptr<tgbot::methods::types::InputMedia>> &media,
                                                 const bool &disableNotification, const int &replyToMessageId) {
 
     if (!c)
@@ -526,32 +528,36 @@ std::string tgbot::utils::http::multiPartUpload(CURL *c,
     std::string body;
 
     curl_formadd(&multiPost,&end, CURLFORM_COPYNAME, "chat_id",
-                                  CURLFORM_COPYCONTENTS, chatId.c_str());
+                                  CURLFORM_COPYCONTENTS, chatId.c_str(),
+                                  CURLFORM_END);
 
     if (disableNotification)
       curl_formadd(&multiPost, &end, CURLFORM_COPYNAME, "disable_notification",
-                   CURLFORM_COPYCONTENTS, "true", CURLFORM_END);
+                                     CURLFORM_COPYCONTENTS, "true", 
+                                     CURLFORM_END);
 
     if (replyToMessageId != -1)
       curl_formadd(&multiPost, &end, CURLFORM_COPYNAME, "reply_to_message_id",
-                   CURLFORM_COPYCONTENTS,
-                   std::to_string(replyToMessageId).c_str(), CURLFORM_END);
+                                     CURLFORM_COPYCONTENTS, std::to_string(replyToMessageId).c_str(), 
+                                     CURLFORM_END);
 
     std::stringstream mediaSerializedStream;
     mediaSerializedStream << "[";
     for(size_t i = 0; i < media.size(); ++i) {
         SEPARATE(i, mediaSerializedStream);
-        mediaSerializedStream << media[i].toString();
-        if(media[i].fileSource == tgbot::methods::types::FileSource::LOCAL_UPLOAD) {
-            const char* _media = media[i].media.c_str();
+        mediaSerializedStream << media[i]->toString();
+        if(media[i]->fileSource == tgbot::methods::types::FileSource::LOCAL_UPLOAD) {
+            const char* _media { media[i]->media.c_str() };
             curl_formadd(&multiPost, &end, CURLFORM_COPYNAME, _media,
-                         CURLFORM_FILE, _media, CURLFORM_END);
+                                           CURLFORM_FILE, _media, 
+                                           CURLFORM_END);
         }
     }
     mediaSerializedStream << "]";
 
     curl_formadd(&multiPost, &end, CURLFORM_COPYNAME, "media",
-                                   CURLFORM_COPYCONTENTS, mediaSerializedStream.str().c_str());
+                                   CURLFORM_COPYCONTENTS, mediaSerializedStream.str().c_str(), 
+                                   CURLFORM_END);
 
     curl_easy_setopt(c, CURLOPT_HTTPPOST, multiPost);
     curl_easy_setopt(c, CURLOPT_WRITEDATA, &body);

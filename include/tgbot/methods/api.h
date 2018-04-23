@@ -141,13 +141,13 @@ class Api
 
     std::vector<api_types::Message>
     sendMediaGroup(const int &chatId,
-                   const std::vector<types::InputMedia>& media,
+                   const std::vector<tgbot::types::Ptr<types::InputMedia>>& media,
                    const bool &disableNotification = false,
                    const int &replyToMessageId = -1) const;
 
     std::vector<api_types::Message>
     sendMediaGroup(const std::string &chatId,
-                   const std::vector<types::InputMedia>& media,
+                   const std::vector<tgbot::types::Ptr<types::InputMedia>>& media,
                    const bool &disableNotification = false,
                    const int &replyToMessageId = -1) const;
 
