@@ -2414,7 +2414,7 @@ tgbot::methods::Api::sendMediaGroup(const int &chatId,
     CURL *inst = http::curlEasyInit();
     Json::Value value;
 
-    parseJsonObject(http::multiPartUpload(inst, "/sendMediaGroup", std::to_string(chatId),
+    parseJsonObject(http::multiPartUpload(inst, baseApi + "/sendMediaGroup", std::to_string(chatId),
                                           media, disableNotification, replyToMessageId)
                     , value);
     curl_easy_cleanup(inst);
@@ -2437,7 +2437,7 @@ tgbot::methods::Api::sendMediaGroup(const std::string &chatId,
     CURL *inst = http::curlEasyInit();
     Json::Value value;
 
-    parseJsonObject(http::multiPartUpload(inst, "/sendMediaGroup", chatId,
+    parseJsonObject(http::multiPartUpload(inst, baseApi + "/sendMediaGroup", chatId,
                                           media, disableNotification, replyToMessageId)
                     , value);
     curl_easy_cleanup(inst);
