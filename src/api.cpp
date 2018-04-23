@@ -2414,23 +2414,9 @@ tgbot::methods::Api::sendMediaGroup(const int &chatId,
     CURL *inst = http::curlEasyInit();
     Json::Value value;
 
-    std::stringstream url;
-    url << "/sendMediaGroup?chat_id=" << chatId;
-
-    if (disableNotification)
-        url << "&disable_notification=true";
-
-    if (replyToMessageId)
-        url << "&reply_to_message_id=" << replyToMessageId;
-
-    url << "&media=%5B";
-    for(size_t i = 0; i < media.size(); ++i) {
-        SEPARATE(i, url);
-        encode(url, media[i].toString());
-    }
-    url << "%5D";
-
-    parseJsonObject(http::get(inst, url.str()), value);
+    parseJsonObject(http::multiPartUpload(inst, "/sendMediaGroup", std::to_string(chatId),
+                                          media, disableNotification, replyToMessageId)
+                    , value);
     curl_easy_cleanup(inst);
 
     if (!value.get("ok", "").asBool())
@@ -2451,23 +2437,9 @@ tgbot::methods::Api::sendMediaGroup(const std::string &chatId,
     CURL *inst = http::curlEasyInit();
     Json::Value value;
 
-    std::stringstream url;
-    url << "/sendMediaGroup?chat_id=" << chatId;
-
-    if (disableNotification)
-        url << "&disable_notification=true";
-
-    if (replyToMessageId)
-        url << "&reply_to_message_id=" << replyToMessageId;
-
-    url << "&media=%5B";
-    for(size_t i = 0; i < media.size(); ++i) {
-        SEPARATE(i, url);
-        encode(url, media[i].toString());
-    }
-    url << "%5D";
-
-    parseJsonObject(http::get(inst, url.str()), value);
+    parseJsonObject(http::multiPartUpload(inst, "/sendMediaGroup", chatId,
+                                          media, disableNotification, replyToMessageId)
+                    , value);
     curl_easy_cleanup(inst);
 
     if (!value.get("ok", "").asBool())

@@ -4,6 +4,7 @@
 #include <curl/curl.h>
 #include <map>
 #include <string>
+#include "../methods/types.h"
 
 namespace tgbot {
 
@@ -155,6 +156,12 @@ std::string multiPartUpload(CURL *c, const std::string &operation,
                             const std::string &serializedMaskPosition,
                             const std::string &filename,
                             const std::string &title);
+
+std::string multiPartUpload(CURL *c, const std::string &operation,
+                            const std::string &chatId,
+                            const std::vector<tgbot::methods::types::InputMedia>& media,
+                            const bool& disableNotification,
+                            const int &replyToMessageId);
 
 /*!
  * @brief Initialize CURL

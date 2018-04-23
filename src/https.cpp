@@ -6,6 +6,9 @@
 
 #define unused __attribute__((__unused__))
 
+#define SEPARATE(k, sstr) \
+    if(k) sstr << ','
+
 GCRY_THREAD_OPTION_PTHREAD_IMPL;
 
 using namespace tgbot::utils::http;
@@ -502,4 +505,56 @@ std::string tgbot::utils::http::multiPartUpload(
     throw std::runtime_error(curl_easy_strerror(code));
 
   return body;
+}
+
+std::string tgbot::utils::http::multiPartUpload(CURL *c,
+                                                const std::string &operation,
+                                                const std::string &chatId,
+                                                const std::vector<tgbot::methods::types::InputMedia> &media,
+                                                const bool &disableNotification, const int &replyToMessageId) {
+
+    if (!c)
+      throw std::runtime_error("CURL is actually a null pointer");
+
+    curl_httppost *multiPost = nullptr;
+    curl_httppost *end = nullptr;
+    std::string body;
+
+    curl_formadd(&multiPost,&end, CURLFORM_COPYNAME, "chat_id",
+                                  CURLFORM_COPYCONTENTS, chatId.c_str());
+
+    if (disableNotification)
+      curl_formadd(&multiPost, &end, CURLFORM_COPYNAME, "disable_notification",
+                   CURLFORM_COPYCONTENTS, "true", CURLFORM_END);
+
+    if (replyToMessageId != -1)
+      curl_formadd(&multiPost, &end, CURLFORM_COPYNAME, "reply_to_message_id",
+                   CURLFORM_COPYCONTENTS,
+                   std::to_string(replyToMessageId).c_str(), CURLFORM_END);
+
+    std::stringstream mediaSerializedStream;
+    mediaSerializedStream << "[";
+    for(size_t i = 0; i < media.size(); ++i) {
+        SEPARATE(i, mediaSerializedStream);
+        mediaSerializedStream << media[i].toString();
+        if(media[i].fileSource == tgbot::methods::types::FileSource::LOCAL_UPLOAD) {
+            const char* _media = media[i].media.c_str();
+            curl_formadd(&multiPost, &end, CURLFORM_COPYNAME, _media,
+                         CURLFORM_FILE, _media, CURLFORM_END);
+        }
+    }
+    mediaSerializedStream << "]";
+
+    curl_formadd(&multiPost, &end, CURLFORM_COPYNAME, "media",
+                                   CURLFORM_COPYCONTENTS, mediaSerializedStream.str().c_str());
+
+    curl_easy_setopt(c, CURLOPT_HTTPPOST, multiPost);
+    curl_easy_setopt(c, CURLOPT_WRITEDATA, &body);
+    curl_easy_setopt(c, CURLOPT_URL, operation.c_str());
+
+    CURLcode code;
+    if ((code = curl_easy_perform(c)) != CURLE_OK)
+      throw std::runtime_error(curl_easy_strerror(code));
+
+    return body;
 }
