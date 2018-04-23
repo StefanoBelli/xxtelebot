@@ -1874,7 +1874,7 @@ api_types::Message tgbot::methods::Api::sendVideo(
         const std::string &chatId, const std::string &video,
         const types::FileSource &source, const std::string &mimeType,
         const int &duration, const int &width, const int &height,
-        const std::string &caption, const bool &disableNotification,
+        const std::string &caption, const bool &supportsStreaming, const bool &disableNotification,
         const int &replyToMessageId, const types::ReplyMarkup &replyMarkup) const {
     CURL *inst = http::curlEasyInit();
     Json::Value value;
@@ -1907,6 +1907,9 @@ api_types::Message tgbot::methods::Api::sendVideo(
         if (replyToMessageId != -1)
             url << "&reply_to_message_id=" << replyToMessageId;
 
+        if (supportsStreaming)
+            url << "&supports_streaming=true";
+
         const std::string &&markup = replyMarkup.toString();
         if (markup != "") {
             url << "&reply_markup=";
@@ -1918,7 +1921,7 @@ api_types::Message tgbot::methods::Api::sendVideo(
         parseJsonObject(http::multiPartUpload(
                     inst, baseApi + "/sendVideo", chatId, mimeType, video,
                     duration, width, height, caption, disableNotification,
-                    replyToMessageId, replyMarkup.toString()),
+                    replyToMessageId, replyMarkup.toString(), supportsStreaming),
                 value);
 
     curl_easy_cleanup(inst);

@@ -244,7 +244,8 @@ std::string tgbot::utils::http::multiPartUpload(
     const std::string &mimeType, const std::string &filename,
     const int &duration, const int &width, const int &height,
     const std::string &caption, const bool &disableNotification,
-    const int &replyToMessageId, const std::string &replyMarkup) {
+    const int &replyToMessageId, const std::string &replyMarkup,
+    const bool &supportsStreaming) {
   if (!c)
     throw std::runtime_error("CURL is actually a null pointer");
 
@@ -290,6 +291,10 @@ std::string tgbot::utils::http::multiPartUpload(
   if (replyMarkup != "")
     curl_formadd(&multiPost, &end, CURLFORM_COPYNAME, "reply_markup",
                  CURLFORM_COPYCONTENTS, replyMarkup.c_str(), CURLFORM_END);
+
+  if (supportsStreaming)
+      curl_formadd(&multiPost, &end, CURLFORM_COPYNAME, "supports_streaming",
+                   CURLFORM_COPYCONTENTS, "true", CURLFORM_END);
 
   curl_easy_setopt(c, CURLOPT_HTTPPOST, multiPost);
   curl_easy_setopt(c, CURLOPT_WRITEDATA, &body);

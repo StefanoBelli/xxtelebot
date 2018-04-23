@@ -72,6 +72,7 @@ class Api
               const std::string &mimeType = "", const int &duration = -1,
               const int &width = -1, const int &height = -1,
               const std::string &caption = "",
+              const bool &supportsStreaming = false,
               const bool &disableNotification = false,
               const int &replyToMessageId = -1,
               const types::ReplyMarkup &replyMarkup = "") const;

@@ -331,6 +331,7 @@ public:
   Ptr<Invoice> invoice;
   Ptr<SuccessfulPayment> successfulPayment;
   Ptr<std::vector<MessageEntity>> captionEntities;
+  Ptr<std::string> connectedWebsite;
   std::int64_t migrateToChatId;
   std::int64_t migrateFromChatId;
   int forwardFromMessageId;

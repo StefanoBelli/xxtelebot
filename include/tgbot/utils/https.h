@@ -51,7 +51,7 @@ multiPartUpload(CURL *c, const std::string &operation,
                 const std::string &filename, const int &duration,
                 const int &width, const int &height, const std::string &caption,
                 const bool &disableNotification, const int &replyToMessageId,
-                const std::string &replyMarkup);
+                const std::string &replyMarkup, const bool &supportsStreaming);
 
 // sendPhoto
 // sendDocument

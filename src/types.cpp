@@ -54,7 +54,11 @@ tgbot::types::Message::Message(const Json::Value &object)
       messageId(object.get("message_id", "").asInt()),
       date(object.get("date", "").asInt()) {
 
-  if (object.isMember("caption_entities","")) {
+  if (object.isMember("connected_website",""))
+      this->connectedWebsite =
+          Ptr<std::string>(new std::string(object.get("connected_website","").asCString()));
+
+  if (object.isMember("caption_entities")) {
       this->captionEntities =
           Ptr<std::vector<MessageEntity>>(new std::vector<MessageEntity>{});
 
