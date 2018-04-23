@@ -1,5 +1,4 @@
 #include <sstream>
-#include <tgbot/utils/get_filename.h>
 #include <tgbot/methods/types.h>
 
 #define BOOL_TOSTR(xvalue) ((xvalue) ? "true" : "false")

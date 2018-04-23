@@ -512,8 +512,6 @@ std::string tgbot::utils::http::multiPartUpload(
   return body;
 }
 
-#include <iostream>
-
 std::string tgbot::utils::http::multiPartUpload(CURL *c,
                                                 const std::string &operation,
                                                 const std::string &chatId,
