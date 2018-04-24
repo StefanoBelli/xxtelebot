@@ -429,12 +429,12 @@ class Api
 
     int getUpdates(void *c, std::vector<api_types::Update> &updates);
 
-    std::string urlWebhook;
+    std::string urlWebhook { "" };
 
   private:
-    const std::string baseApi;
-    std::string updateApiRequest;
-    int currentOffset;
+    const std::string baseApi { "" };
+    std::string updateApiRequest { "" };
+    int currentOffset { 0 };
     tgbot::Logger logger;
 };
 

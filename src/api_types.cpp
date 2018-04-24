@@ -19,9 +19,15 @@ std::string tgbot::methods::types::InlineQueryResult::toString() const {
   return what;
 }
 
-std::string tgbot::methods::types::InputMedia::toString() {
-  return "";
+std::string tgbot::methods::types::InputMedia::toString() const {
+  return what;
 }
+
+tgbot::methods::types::InputMedia::InputMedia(const char* _what)
+    : what(_what) {}
+
+tgbot::methods::types::InputMedia::InputMedia(const std::string &_what)
+    : what(_what) {}
 
 tgbot::methods::types::ReplyMarkup::ReplyMarkup(const char *customMarkup)
     : what(customMarkup) {}
@@ -728,7 +734,7 @@ tgbot::methods::types::InlineQueryResultCachedVoice::toString() const {
 }
 
 std::string
-tgbot::methods::types::InputMediaPhoto::toString() {
+tgbot::methods::types::InputMediaPhoto::toString() const {
   std::stringstream jsonify;
 
   jsonify << "{\"type\":\"" << type << "\",\"media\":\"";
@@ -752,7 +758,7 @@ tgbot::methods::types::InputMediaPhoto::toString() {
 }
 
 std::string
-tgbot::methods::types::InputMediaVideo::toString() {
+tgbot::methods::types::InputMediaVideo::toString() const {
     std::stringstream jsonify;
 
     jsonify << "{\"type\":\"" << type << "\",\"media\":\"";

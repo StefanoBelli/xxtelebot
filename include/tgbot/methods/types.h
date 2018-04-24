@@ -141,10 +141,15 @@ public:
   ReplyMarkup(const std::string &customMarkup);
   virtual ~ReplyMarkup() = default;
 
+  template <typename T>
+  inline void operator=(T&& customMarkup) {
+      what = std::forward<T>(customMarkup);
+  }
+  
   virtual std::string toString() const;
 
 private:
-  const std::string what;
+  std::string what;
 };
 
 struct InlineKeyboardMarkup : public ReplyMarkup
@@ -190,10 +195,15 @@ public:
   InputMessageContent(const std::string &customMarkup);
   virtual ~InputMessageContent() = default;
 
+  template <typename T>
+  inline void operator=(T&& customMarkup) {
+      what = std::forward<T>(customMarkup);
+  }
+
   virtual std::string toString() const;
 
 private:
-  const std::string what;
+  std::string what;
 };
 
 struct InputTextMessageContent : public InputMessageContent
@@ -246,17 +256,23 @@ public:
   virtual ~InlineQueryResult() = default;
 
   virtual std::string toString() const;
+ 
+  template <typename T>
+  inline void operator=(T&& customMarkup) {
+      what = std::forward<T>(customMarkup);
+  } 
+  
+  std::string type;
+  std::string id;
 
 private:
-  const std::string what;
+  std::string what;
 };
 
 struct InlineQueryResultAudio : public InlineQueryResult
 {
 public:
   std::string toString() const override;
-  std::string type;
-  std::string id;
   std::string audioUrl;
   std::string title;
   InputMessageContent inputMessageContent;
@@ -270,8 +286,6 @@ struct InlineQueryResultArticle : public InlineQueryResult
 {
 public:
   std::string toString() const override;
-  std::string type;
-  std::string id;
   std::string title;
   ::tgbot::types::Ptr<InputMessageContent> inputMessageContent;
   ::tgbot::types::Ptr<InlineKeyboardMarkup> replyMarkup;
@@ -287,8 +301,6 @@ struct InlineQueryResultContact : public InlineQueryResult
 {
 public:
   std::string toString() const override;
-  std::string type;
-  std::string id;
   std::string phoneNumber;
   std::string firstName;
   ::tgbot::types::Ptr<std::string> lastName;
@@ -303,8 +315,6 @@ struct InlineQueryResultGame : public InlineQueryResult
 {
 public:
   std::string toString() const override;
-  std::string type;
-  std::string id;
   std::string gameShortName;
   ::tgbot::types::Ptr<InlineKeyboardMarkup> replyMarkup;
 };
@@ -313,8 +323,6 @@ struct InlineQueryResultDocument : public InlineQueryResult
 {
 public:
   std::string toString() const override;
-  std::string type;
-  std::string id;
   std::string title;
   std::string documentUrl;
   std::string mimeType;
@@ -331,8 +339,6 @@ struct InlineQueryResultGif : public InlineQueryResult
 {
 public:
   std::string toString() const override;
-  std::string type;
-  std::string id;
   std::string gifUrl;
   std::string thumbUrl;
   ::tgbot::types::Ptr<std::string> title;
@@ -348,8 +354,6 @@ struct InlineQueryResultLocation : public InlineQueryResult
 {
 public:
   std::string toString() const override;
-  std::string type;
-  std::string id;
   std::string title;
   ::tgbot::types::Ptr<InlineKeyboardMarkup> replyMarkup;
   ::tgbot::types::Ptr<InputMessageContent> inputMessageContent;
@@ -364,8 +368,6 @@ struct InlineQueryResultMpeg4Gif : public InlineQueryResult
 {
 public:
   std::string toString() const override;
-  std::string type;
-  std::string id;
   std::string mpeg4Url;
   std::string thumbUrl;
   ::tgbot::types::Ptr<std::string> title;
@@ -381,8 +383,6 @@ struct InlineQueryResultPhoto : public InlineQueryResult
 {
 public:
   std::string toString() const override;
-  std::string type;
-  std::string id;
   std::string photoUrl;
   std::string thumbUrl;
   ::tgbot::types::Ptr<std::string> title;
@@ -398,8 +398,6 @@ struct InlineQueryResultVenue : public InlineQueryResult
 {
 public:
   std::string toString() const override;
-  std::string type;
-  std::string id;
   std::string title;
   std::string address;
   ::tgbot::types::Ptr<std::string> foursquareId;
@@ -416,8 +414,6 @@ struct InlineQueryResultVideo : public InlineQueryResult
 {
 public:
   std::string toString() const override;
-  std::string type;
-  std::string id;
   std::string videoUrl;
   std::string mimeType;
   std::string thumbUrl;
@@ -435,8 +431,6 @@ struct InlineQueryResultVoice : public InlineQueryResult
 {
 public:
   std::string toString() const override;
-  std::string type;
-  std::string id;
   std::string title;
   std::string voiceUrl;
   ::tgbot::types::Ptr<std::string> caption;
@@ -449,8 +443,6 @@ struct InlineQueryResultCachedAudio : public InlineQueryResult
 {
 public:
   std::string toString() const override;
-  std::string type;
-  std::string id;
   std::string audioFileId;
   ::tgbot::types::Ptr<std::string> caption;
   ::tgbot::types::Ptr<InputMessageContent> inputMessageContent;
@@ -461,8 +453,6 @@ struct InlineQueryResultCachedDocument : public InlineQueryResult
 {
 public:
   std::string toString() const override;
-  std::string type;
-  std::string id;
   std::string documentFileId;
   std::string title;
   ::tgbot::types::Ptr<std::string> description;
@@ -475,8 +465,6 @@ struct InlineQueryResultCachedGif : public InlineQueryResult
 {
 public:
   std::string toString() const override;
-  std::string type;
-  std::string id;
   std::string gifFileId;
   ::tgbot::types::Ptr<std::string> title;
   ::tgbot::types::Ptr<std::string> caption;
@@ -488,8 +476,6 @@ struct InlineQueryResultCachedMpeg4Gif : public InlineQueryResult
 {
 public:
   std::string toString() const override;
-  std::string type;
-  std::string id;
   std::string mpeg4FileId;
   ::tgbot::types::Ptr<std::string> title;
   ::tgbot::types::Ptr<std::string> caption;
@@ -501,8 +487,6 @@ struct InlineQueryResultCachedPhoto : public InlineQueryResult
 {
 public:
   std::string toString() const override;
-  std::string type;
-  std::string id;
   std::string photoFileId;
   ::tgbot::types::Ptr<std::string> title;
   ::tgbot::types::Ptr<std::string> description;
@@ -515,8 +499,6 @@ struct InlineQueryResultCachedSticker : public InlineQueryResult
 {
 public:
   std::string toString() const override;
-  std::string type;
-  std::string id;
   std::string stickerFileId;
   ::tgbot::types::Ptr<InputMessageContent> inputMessageContent;
   ::tgbot::types::Ptr<InlineKeyboardMarkup> replyMarkup;
@@ -526,8 +508,6 @@ struct InlineQueryResultCachedVideo : public InlineQueryResult
 {
 public:
   std::string toString() const override;
-  std::string type;
-  std::string id;
   std::string title;
   std::string videoFileId;
   ::tgbot::types::Ptr<std::string> description;
@@ -540,8 +520,6 @@ struct InlineQueryResultCachedVoice : public InlineQueryResult
 {
 public:
   std::string toString() const override;
-  std::string type;
-  std::string id;
   std::string title;
   std::string voiceFileId;
   ::tgbot::types::Ptr<std::string> caption;
@@ -598,29 +576,37 @@ struct InputMedia
 {
 public:
   InputMedia() = default;
+  InputMedia(const char *_what);
+  InputMedia(const std::string &_what);
   virtual ~InputMedia() = default;
 
-  virtual std::string toString();
+  template <typename T>
+  inline void operator=(T&& customMarkup) {
+      what = std::forward<T>(customMarkup);
+  }
+  
+  virtual std::string toString() const;
 
   std::string type;
   std::string media;
+  ::tgbot::types::Ptr<std::string> caption;
+  ParseMode parseMode;
   FileSource fileSource;
+
+private:
+  std::string what;
 };
 
 struct InputMediaPhoto : public InputMedia
 {
 public:
-    std::string toString() override;
-    ::tgbot::types::Ptr<std::string> caption;
-    ParseMode parseMode;
+    std::string toString() const override;
 };
 
 struct InputMediaVideo : public InputMedia
 {
 public:
-    std::string toString() override;
-    ::tgbot::types::Ptr<std::string> caption;
-    ParseMode parseMode;
+    std::string toString() const override;
     int width;
     int height;
     int duration;
