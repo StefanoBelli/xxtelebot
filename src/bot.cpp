@@ -1,8 +1,8 @@
+#include <tgbot/bot.h>
+#include <tgbot/logger.h>
+#include <tgbot/utils/https.h>
 #include <sstream>
 #include <thread>
-#include <tgbot/bot.h>
-#include <tgbot/utils/https.h>
-#include <tgbot/logger.h>
 
 using namespace tgbot;
 
@@ -14,7 +14,7 @@ tgbot::LongPollBot::LongPollBot(
 
 void tgbot::LongPollBot::start() {
   getLogger().info("starting HTTP long poll...");
-  
+
   CURL *fetchConnection = utils::http::curlEasyInit();
 
   curl_easy_setopt(fetchConnection, CURLOPT_TCP_KEEPALIVE, 1L);
@@ -33,9 +33,9 @@ void tgbot::Bot::makeCallback(const std::vector<types::Update> &updates) const {
   std::thread tmpHolder;
 
   for (auto const &update : updates) {
-  	if(__notifyEachUpdate)
-  		getLogger().info("received update - " + std::to_string(update.updateId));
-  	
+    if (__notifyEachUpdate)
+      getLogger().info("received update - " + std::to_string(update.updateId));
+
     if (update.updateType == types::UpdateType::MESSAGE) {
       types::Message messageObject = std::move(*update.message);
       bool byCommandStart = false;
@@ -47,8 +47,7 @@ void tgbot::Bot::makeCallback(const std::vector<types::Update> &updates) const {
             std::string arg;
             std::istringstream istr(*messageObject.text);
 
-            while (getline(istr, arg, ' '))
-              args.push_back(std::move(arg));
+            while (getline(istr, arg, ' ')) args.push_back(std::move(arg));
 
             tmpHolder = std::thread(std::get<3>(c), std::move(messageObject),
                                     *this, std::move(args));
@@ -61,8 +60,10 @@ void tgbot::Bot::makeCallback(const std::vector<types::Update> &updates) const {
       if (messageCallback && !byCommandStart)
         tmpHolder =
             std::thread(messageCallback, std::move(messageObject), *this);
-      else if(!messageCallback)
-      	getLogger().error("could not make any call to handler... Did you forgot Bot::callback() or something else?");
+      else if (!messageCallback)
+        getLogger().error(
+            "could not make any call to handler... Did you forgot "
+            "Bot::callback() or something else?");
     }
 
     else if (update.updateType == types::UpdateType::EDITED_MESSAGE &&
@@ -105,13 +106,12 @@ void tgbot::Bot::makeCallback(const std::vector<types::Update> &updates) const {
       tmpHolder = std::thread(channelPostCallback,
                               std::move(*update.channelPost), *this);
     else
-      getLogger().error("could not make any call to handler... Did you forgot Bot::callback() or something else?");
-    
-    if (tmpHolder.joinable())
-      tmpHolder.detach();
+      getLogger().error(
+          "could not make any call to handler... Did you forgot "
+          "Bot::callback() or something else?");
+
+    if (tmpHolder.joinable()) tmpHolder.detach();
   }
 }
 
-void tgbot::Bot::notifyEachUpdate(bool t) {
-	__notifyEachUpdate = t;
-}
+void tgbot::Bot::notifyEachUpdate(bool t) { __notifyEachUpdate = t; }

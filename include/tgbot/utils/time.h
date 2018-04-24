@@ -5,14 +5,14 @@
 
 namespace tgbot {
 namespace utils {
-	/*!
-	 * @brief get current localtime, with specific formatting
-	 * @param fmt: format string for time
-	 * @return current localtime with "fmt" formatting
-	 */
-	std::string get_current_time(const std::string& fmt);
-	
-} //namespace utils
-} //namespace tgbot
+/*!
+ * @brief get current localtime, with specific formatting
+ * @param fmt: format string for time
+ * @return current localtime with "fmt" formatting
+ */
+std::string get_current_time(const std::string& fmt);
 
-#endif //TGBOT_UTILS_TIME_H
+}  // namespace utils
+}  // namespace tgbot
+
+#endif  // TGBOT_UTILS_TIME_H

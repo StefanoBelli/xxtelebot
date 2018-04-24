@@ -20,8 +20,8 @@ void encode(std::stringstream &stream, const std::string &target);
  */
 std::string encode(const std::string &target);
 
-} // namespace utils
+}  // namespace utils
 
-} // namespace tgbot
+}  // namespace tgbot
 
 #endif

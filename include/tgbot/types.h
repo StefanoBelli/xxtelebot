@@ -18,9 +18,10 @@ namespace types {
 /*!
  * @typedef Ptr, a unique smart pointer alias
  */
-template <typename _Ty> using Ptr = std::unique_ptr<_Ty>;
+template <typename _Ty>
+using Ptr = std::unique_ptr<_Ty>;
 
-struct Message; // forward declaration
+struct Message;  // forward declaration
 
 enum class UpdateType {
   MESSAGE,
@@ -34,12 +35,7 @@ enum class UpdateType {
   CHANNEL_POST
 };
 
-enum class ChatType {
-    PRIVATE,
-    GROUP,
-    SUPERGROUP,
-    CHANNEL
-};
+enum class ChatType { PRIVATE, GROUP, SUPERGROUP, CHANNEL };
 
 enum class MessageEntityType {
   MENTION,
@@ -65,7 +61,7 @@ enum class ChatMemberStatus {
 };
 
 struct User {
-public:
+ public:
   explicit User(const Json::Value &object);
   std::string firstName;
   Ptr<std::string> lastName;
@@ -76,14 +72,14 @@ public:
 };
 
 struct ChatPhoto {
-public:
+ public:
   explicit ChatPhoto(const Json::Value &object);
   std::string smallFileId;
   std::string bigFileId;
 };
 
 struct MessageEntity {
-public:
+ public:
   explicit MessageEntity(const Json::Value &object);
   Ptr<User> user;
   Ptr<std::string> url;
@@ -93,7 +89,7 @@ public:
 };
 
 struct Audio {
-public:
+ public:
   explicit Audio(const Json::Value &object);
   std::string fileId;
   Ptr<std::string> performer;
@@ -104,7 +100,7 @@ public:
 };
 
 struct PhotoSize {
-public:
+ public:
   PhotoSize() = default;
   explicit PhotoSize(const Json::Value &object);
   std::string fileId;
@@ -114,7 +110,7 @@ public:
 };
 
 struct Document {
-public:
+ public:
   explicit Document(const Json::Value &object);
   std::string fileId;
   Ptr<PhotoSize> thumb;
@@ -124,7 +120,7 @@ public:
 };
 
 struct Voice {
-public:
+ public:
   explicit Voice(const Json::Value &object);
   std::string fileId;
   Ptr<std::string> mimeType;
@@ -133,7 +129,7 @@ public:
 };
 
 struct Contact {
-public:
+ public:
   explicit Contact(const Json::Value &object);
   std::string phoneNumber;
   std::string firstName;
@@ -142,14 +138,14 @@ public:
 };
 
 struct Location {
-public:
+ public:
   explicit Location(const Json::Value &object);
   double longitude;
   double latitude;
 };
 
 struct Animation {
-public:
+ public:
   explicit Animation(const Json::Value &object);
   std::string fileId;
   Ptr<PhotoSize> thumb;
@@ -159,7 +155,7 @@ public:
 };
 
 struct Venue {
-public:
+ public:
   explicit Venue(const Json::Value &object);
   Location location;
   std::string title;
@@ -168,7 +164,7 @@ public:
 };
 
 struct VideoNote {
-public:
+ public:
   explicit VideoNote(const Json::Value &object);
   std::string fileId;
   Ptr<PhotoSize> thumb;
@@ -178,7 +174,7 @@ public:
 };
 
 struct MaskPosition {
-public:
+ public:
   explicit MaskPosition(const Json::Value &object);
   std::string point;
   double xShift;
@@ -187,7 +183,7 @@ public:
 };
 
 struct Sticker {
-public:
+ public:
   explicit Sticker(const Json::Value &object);
   std::string fileId;
   Ptr<MaskPosition> maskPosition;
@@ -200,7 +196,7 @@ public:
 };
 
 struct StickerSet {
-public:
+ public:
   explicit StickerSet(const Json::Value &object);
   std::string name;
   std::string title;
@@ -209,7 +205,7 @@ public:
 };
 
 struct Video {
-public:
+ public:
   explicit Video(const Json::Value &object);
   std::string fileId;
   Ptr<PhotoSize> thumb;
@@ -221,7 +217,7 @@ public:
 };
 
 struct Invoice {
-public:
+ public:
   explicit Invoice(const Json::Value &object);
   std::string title;
   std::string description;
@@ -231,7 +227,7 @@ public:
 };
 
 struct ShippingAddress {
-public:
+ public:
   explicit ShippingAddress(const Json::Value &object);
   std::string countryCode;
   std::string state;
@@ -242,7 +238,7 @@ public:
 };
 
 struct OrderInfo {
-public:
+ public:
   explicit OrderInfo(const Json::Value &object);
   Ptr<ShippingAddress> shippingAddress;
   Ptr<std::string> name;
@@ -251,7 +247,7 @@ public:
 };
 
 struct SuccessfulPayment {
-public:
+ public:
   explicit SuccessfulPayment(const Json::Value &object);
   std::string currency;
   std::string invoicePayload;
@@ -263,7 +259,7 @@ public:
 };
 
 struct Game {
-public:
+ public:
   explicit Game(const Json::Value &object);
   std::string title;
   std::string description;
@@ -274,7 +270,7 @@ public:
 };
 
 struct GameHighScore {
-public:
+ public:
   explicit GameHighScore(const Json::Value &object);
   User user;
   int position;
@@ -282,7 +278,7 @@ public:
 };
 
 struct Chat {
-public:
+ public:
   explicit Chat(const Json::Value &object);
   ChatType type;
   Ptr<Message> pinnedMessage;
@@ -300,9 +296,9 @@ public:
 };
 
 struct Message {
-public:
+ public:
   explicit Message(const Json::Value &object);
-  Chat chat; // guranteed
+  Chat chat;  // guranteed
   Ptr<User> from;
   Ptr<User> forwardFrom;
   Ptr<Chat> forwardFromChat;
@@ -337,8 +333,8 @@ public:
   int forwardFromMessageId;
   int forwardDate;
   int editDate;
-  int messageId; // guranteed
-  int date;      // guranteed
+  int messageId;  // guranteed
+  int date;       // guranteed
   bool deleteChatPhoto : 1;
   bool groupChatCreated : 1;
   bool supergroupChatCreated : 1;
@@ -346,7 +342,7 @@ public:
 };
 
 struct InlineQuery {
-public:
+ public:
   explicit InlineQuery(const Json::Value &object);
   User from;
   std::string id;
@@ -356,7 +352,7 @@ public:
 };
 
 struct ChosenInlineResult {
-public:
+ public:
   explicit ChosenInlineResult(const Json::Value &object);
   User from;
   std::string resultId;
@@ -366,7 +362,7 @@ public:
 };
 
 struct CallbackQuery {
-public:
+ public:
   explicit CallbackQuery(const Json::Value &object);
   User from;
   std::string id;
@@ -378,7 +374,7 @@ public:
 };
 
 struct ShippingQuery {
-public:
+ public:
   explicit ShippingQuery(const Json::Value &object);
   ShippingAddress shippingAddress;
   User from;
@@ -387,7 +383,7 @@ public:
 };
 
 struct PreCheckoutQuery {
-public:
+ public:
   explicit PreCheckoutQuery(const Json::Value &object);
   User from;
   std::string currency;
@@ -399,7 +395,7 @@ public:
 };
 
 struct Update {
-public:
+ public:
   explicit Update(const Json::Value &object);
   Ptr<Message> message;
   Ptr<Message> editedMessage;
@@ -415,14 +411,14 @@ public:
 };
 
 struct ResponseParameters {
-public:
+ public:
   explicit ResponseParameters(const Json::Value &object);
   std::int64_t migrateToChatId;
   int retryAfter;
 };
 
 struct File {
-public:
+ public:
   explicit File(const Json::Value &object);
   std::string fileId;
   Ptr<std::string> filePath;
@@ -430,21 +426,21 @@ public:
 };
 
 struct UserProfilePhotos {
-public:
+ public:
   explicit UserProfilePhotos(const Json::Value &object);
   std::vector<std::vector<PhotoSize>> photos;
   int totalCount;
 };
 
 struct KeyboardButton {
-public:
+ public:
   std::string text;
   bool requestContact : 1;
   bool requestLocation : 1;
 };
 
 struct WebhookInfo {
-public:
+ public:
   explicit WebhookInfo(const Json::Value &object);
   std::string url;
   Ptr<std::string> lastErrorMessage;
@@ -463,7 +459,7 @@ public:
 enum class CallbackGame { GAME_CALLBACK };
 
 struct ChatMember {
-public:
+ public:
   explicit ChatMember(const Json::Value &object);
   User user;
   ChatMemberStatus status;
@@ -483,8 +479,8 @@ public:
   bool canAddWebPagePreviews : 1;
 };
 
-} // namespace types
+}  // namespace types
 
-} // namespace tgbot
+}  // namespace tgbot
 
 #endif

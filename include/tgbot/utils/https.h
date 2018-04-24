@@ -45,41 +45,40 @@ std::string multiPartUpload(CURL *c, const std::string &operation,
                             const std::string &filename);
 
 // sendVideo
-std::string
-multiPartUpload(CURL *c, const std::string &operation,
-                const std::string &chatId, const std::string &mimeType,
-                const std::string &filename, const int &duration,
-                const int &width, const int &height, const std::string &caption,
-                const bool &disableNotification, const int &replyToMessageId,
-                const std::string &replyMarkup, const bool &supportsStreaming);
+std::string multiPartUpload(
+    CURL *c, const std::string &operation, const std::string &chatId,
+    const std::string &mimeType, const std::string &filename,
+    const int &duration, const int &width, const int &height,
+    const std::string &caption, const bool &disableNotification,
+    const int &replyToMessageId, const std::string &replyMarkup,
+    const bool &supportsStreaming);
 
 // sendPhoto
 // sendDocument
-std::string
-multiPartUpload(CURL *c, const std::string &operation,
-                const std::string &chatId, const std::string &mimeType,
-                const std::string &type, const std::string &filename,
-                const std::string &caption, const bool &disableNotification,
-                const int &replyToMessageId, const std::string &replyMarkup);
+std::string multiPartUpload(
+    CURL *c, const std::string &operation, const std::string &chatId,
+    const std::string &mimeType, const std::string &type,
+    const std::string &filename, const std::string &caption,
+    const bool &disableNotification, const int &replyToMessageId,
+    const std::string &replyMarkup);
 
 // sendAudio
-std::string
-multiPartUpload(CURL *c, const std::string &operation,
-                const std::string &chatId, const std::string &mimeType,
-                const std::string &filename, const std::string &caption,
-                const int &duration, const std::string &performer,
-                const std::string &title, const bool &disableNotification,
-                const int &replyToMessageId, const std::string &replyMarkup);
+std::string multiPartUpload(
+    CURL *c, const std::string &operation, const std::string &chatId,
+    const std::string &mimeType, const std::string &filename,
+    const std::string &caption, const int &duration,
+    const std::string &performer, const std::string &title,
+    const bool &disableNotification, const int &replyToMessageId,
+    const std::string &replyMarkup);
 
 // sendVoice
 // sendVideoNote
-std::string
-multiPartUpload(CURL *c, const std::string &operation,
-                const std::string &chatId, const std::string &mimeType,
-                const std::string &type, const std::string &filename,
-                const std::string &caption, const int &duration,
-                const bool &disableNotification, const int &replyToMessageId,
-                const std::string &replyMarkup);
+std::string multiPartUpload(
+    CURL *c, const std::string &operation, const std::string &chatId,
+    const std::string &mimeType, const std::string &type,
+    const std::string &filename, const std::string &caption,
+    const int &duration, const bool &disableNotification,
+    const int &replyToMessageId, const std::string &replyMarkup);
 
 // sendSticker
 std::string multiPartUpload(CURL *c, const std::string &operation,
@@ -157,11 +156,11 @@ std::string multiPartUpload(CURL *c, const std::string &operation,
                             const std::string &filename,
                             const std::string &title);
 
-std::string multiPartUpload(CURL *c, const std::string &operation,
-                            const std::string &chatId,
-                            const std::vector<tgbot::types::Ptr<tgbot::methods::types::InputMedia>>& media,
-                            const bool& disableNotification,
-                            const int &replyToMessageId);
+std::string multiPartUpload(
+    CURL *c, const std::string &operation, const std::string &chatId,
+    const std::vector<tgbot::types::Ptr<tgbot::methods::types::InputMedia>>
+        &media,
+    const bool &disableNotification, const int &replyToMessageId);
 
 /*!
  * @brief Initialize CURL
@@ -169,10 +168,10 @@ std::string multiPartUpload(CURL *c, const std::string &operation,
  */
 CURL *curlEasyInit();
 
-} // namespace http
+}  // namespace http
 
-} // namespace utils
+}  // namespace utils
 
-} // namespace tgbot
+}  // namespace tgbot
 
 #endif

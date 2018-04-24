@@ -1,7 +1,7 @@
 #include <json/json.h>
+#include <tgbot/types.h>
 #include <sstream>
 #include <string>
-#include <tgbot/types.h>
 
 #define BOOL_TOSTR(xvalue) ((xvalue) ? "true" : "false")
 
@@ -10,7 +10,6 @@ using namespace tgbot::types;
 
 tgbot::types::Update::Update(const Json::Value &object)
     : updateId(object.get("update_id", "").asInt()) {
-
   if (object.isMember("message")) {
     this->message = Ptr<Message>(new Message(object.get("message", "")));
     this->updateType = UpdateType::MESSAGE;
@@ -53,17 +52,16 @@ tgbot::types::Message::Message(const Json::Value &object)
     : chat(object.get("chat", "")),
       messageId(object.get("message_id", "").asInt()),
       date(object.get("date", "").asInt()) {
-
-  if (object.isMember("connected_website",""))
-      this->connectedWebsite =
-          Ptr<std::string>(new std::string(object.get("connected_website","").asCString()));
+  if (object.isMember("connected_website", ""))
+    this->connectedWebsite = Ptr<std::string>(
+        new std::string(object.get("connected_website", "").asCString()));
 
   if (object.isMember("caption_entities")) {
-      this->captionEntities =
-          Ptr<std::vector<MessageEntity>>(new std::vector<MessageEntity>{});
+    this->captionEntities =
+        Ptr<std::vector<MessageEntity>>(new std::vector<MessageEntity>{});
 
-      for (auto const &singleCaptionEntity : object.get("caption_entities", ""))
-        this->captionEntities->emplace_back(singleCaptionEntity);
+    for (auto const &singleCaptionEntity : object.get("caption_entities", ""))
+      this->captionEntities->emplace_back(singleCaptionEntity);
   }
 
   if (object.isMember("migrate_to_chat_id"))
@@ -217,9 +215,9 @@ tgbot::types::Message::Message(const Json::Value &object)
 }
 
 tgbot::types::CallbackQuery::CallbackQuery(const Json::Value &object)
-    : from(object.get("from", "")), id(object.get("id", "").asCString()),
+    : from(object.get("from", "")),
+      id(object.get("id", "").asCString()),
       chatInstance(object.get("chat_instance", "").asCString()) {
-
   if (object.isMember("message"))
     this->message = Ptr<Message>(new Message(object.get("message", "")));
 
@@ -240,7 +238,6 @@ tgbot::types::ChosenInlineResult::ChosenInlineResult(const Json::Value &object)
     : from(object.get("from", "")),
       resultId(object.get("result_id", "").asCString()),
       query(object.get("query", "").asCString()) {
-
   if (object.isMember("location"))
     this->location = Ptr<Location>(new Location(object.get("location", "")));
 
@@ -250,17 +247,18 @@ tgbot::types::ChosenInlineResult::ChosenInlineResult(const Json::Value &object)
 }
 
 tgbot::types::InlineQuery::InlineQuery(const Json::Value &object)
-    : from(object.get("from", "")), id(object.get("id", "").asCString()),
+    : from(object.get("from", "")),
+      id(object.get("id", "").asCString()),
       query(object.get("query", "").asCString()),
       offset(object.get("offset", "").asCString()) {
-
   if (object.isMember("location"))
     this->location = Ptr<Location>(new Location(object.get("location", "")));
 }
 
 tgbot::types::ShippingQuery::ShippingQuery(const Json::Value &object)
     : shippingAddress(object.get("shipping_address", "")),
-      from(object.get("from", "")), id(object.get("id", "").asCString()),
+      from(object.get("from", "")),
+      id(object.get("id", "").asCString()),
       invoicePayload(object.get("invoice_payload", "").asCString()) {}
 
 tgbot::types::PreCheckoutQuery::PreCheckoutQuery(const Json::Value &object)
@@ -269,7 +267,6 @@ tgbot::types::PreCheckoutQuery::PreCheckoutQuery(const Json::Value &object)
       invoicePayload(object.get("invoice_payload", "").asCString()),
       id(object.get("id", "").asCString()),
       totalAmount(object.get("total_amount", "").asInt()) {
-
   if (object.isMember("shipping_option_id"))
     this->shippingOptionId = Ptr<std::string>(
         new std::string(object.get("shipping_option_id", "").asCString()));
@@ -283,7 +280,7 @@ tgbot::types::Chat::Chat(const Json::Value &object) {
   const std::string &chatType = object.get("type", "").asCString();
   if (chatType == "private")
     this->type = ChatType::PRIVATE;
-  else if(chatType == "supergroup")
+  else if (chatType == "supergroup")
     this->type = ChatType::SUPERGROUP;
   else if (chatType == "group")
     this->type = ChatType::GROUP;
@@ -329,17 +326,16 @@ tgbot::types::Chat::Chat(const Json::Value &object) {
 
   if (object.isMember("sticker_set_name"))
     this->stickerSetName = Ptr<std::string>(
-                    new std::string(object.get("sticker_set_name","").asCString()));
+        new std::string(object.get("sticker_set_name", "").asCString()));
 
   if (object.isMember("can_set_sticker_set"))
-    this->canSetStickerSet = object.get("can_set_sticker_set","").asBool();
+    this->canSetStickerSet = object.get("can_set_sticker_set", "").asBool();
 }
 
 tgbot::types::User::User(const Json::Value &object)
     : firstName(object.get("first_name", "").asCString()),
       id(object.get("id", "").asInt()),
       isBot(object.get("is_bot", "").asBool()) {
-
   if (object.isMember("last_name"))
     this->lastName = Ptr<std::string>(
         new std::string(object.get("last_name", "").asCString()));
@@ -368,7 +364,6 @@ tgbot::types::ChatPhoto::ChatPhoto(const Json::Value &object)
 tgbot::types::Audio::Audio(const Json::Value &object)
     : fileId(object.get("file_id", "").asCString()),
       duration(object.get("duration", "").asInt()) {
-
   if (object.isMember("file_size"))
     this->fileSize = object.get("file_size", "").asInt();
 
@@ -387,7 +382,6 @@ tgbot::types::Audio::Audio(const Json::Value &object)
 
 tgbot::types::Document::Document(const Json::Value &object)
     : fileId(object.get("file_id", "").asCString()) {
-
   if (object.isMember("thumb"))
     this->thumb = Ptr<PhotoSize>(new PhotoSize(object.get("thumb", "")));
 
@@ -407,15 +401,14 @@ tgbot::types::PhotoSize::PhotoSize(const Json::Value &object)
     : fileId(object.get("file_id", "").asCString()),
       width(object.get("width", "").asInt()),
       height(object.get("height", "").asInt()) {
-
   if (object.isMember("file_size"))
     this->fileSize = object.get("file_size", "").asInt();
 }
 
 tgbot::types::Game::Game(const Json::Value &object)
     : title(object.get("title", "").asCString()),
-      description(object.get("description", "").asCString()), photo({}) {
-
+      description(object.get("description", "").asCString()),
+      photo({}) {
   for (auto const &singlePhoto : object.get("photo", ""))
     this->photo.emplace_back(singlePhoto);
 
@@ -447,7 +440,6 @@ tgbot::types::Sticker::Sticker(const Json::Value &object)
       width(object.get("width", "").asInt()),
       height(object.get("height", "").asInt()),
       fileSize(object.get("file_size", "").asInt()) {
-
   if (object.isMember("thumb"))
     this->thumb = Ptr<PhotoSize>(new PhotoSize(object.get("thumb", "")));
 
@@ -472,7 +464,6 @@ tgbot::types::Video::Video(const Json::Value &object)
       width(object.get("width", "").asInt()),
       height(object.get("height", "").asInt()),
       duration(object.get("duration", "").asInt()) {
-
   if (object.isMember("file_size"))
     this->fileSize = object.get("file_size", "").asInt();
 
@@ -487,7 +478,6 @@ tgbot::types::Video::Video(const Json::Value &object)
 tgbot::types::Voice::Voice(const Json::Value &object)
     : fileId(object.get("file_id", "").asCString()),
       duration(object.get("duration", "").asInt()) {
-
   if (object.isMember("file_size"))
     this->fileSize = object.get("file_size", "").asInt();
 
@@ -500,7 +490,6 @@ tgbot::types::VideoNote::VideoNote(const Json::Value &object)
     : fileId(object.get("file_id", "").asCString()),
       length(object.get("length", "").asInt()),
       duration(object.get("duration", "").asInt()) {
-
   if (object.isMember("file_size"))
     this->fileSize = object.get("file_size", "").asInt();
 
@@ -511,7 +500,6 @@ tgbot::types::VideoNote::VideoNote(const Json::Value &object)
 tgbot::types::Contact::Contact(const Json::Value &object)
     : phoneNumber(object.get("phone_number", "").asCString()),
       firstName(object.get("first_name", "").asCString()) {
-
   if (object.isMember("last_name"))
     this->lastName = Ptr<std::string>(
         new std::string(object.get("last_name", "").asCString()));
@@ -528,7 +516,6 @@ tgbot::types::Venue::Venue(const Json::Value &object)
     : location(object.get("location", "")),
       title(object.get("title", "").asCString()),
       address(object.get("address", "").asCString()) {
-
   if (object.isMember("foursquare_id"))
     this->fourSquareId = Ptr<std::string>(
         new std::string(object.get("foursquare_id", "").asCString()));
@@ -549,7 +536,6 @@ tgbot::types::SuccessfulPayment::SuccessfulPayment(const Json::Value &object)
       providerPaymentChargeId(
           object.get("provider_payment_charge_id", "").asCString()),
       totalAmount(object.get("total_amount", "").asInt()) {
-
   if (object.isMember("shipping_option_id"))
     this->shippingOptionId = Ptr<std::string>(
         new std::string(object.get("shipping_option_id", "").asCString()));
@@ -562,7 +548,6 @@ tgbot::types::SuccessfulPayment::SuccessfulPayment(const Json::Value &object)
 tgbot::types::MessageEntity::MessageEntity(const Json::Value &object)
     : offset(object.get("offset", "").asInt()),
       length(object.get("length", "").asInt()) {
-
   const std::string &entityTypeStr = object.get("type", "").asString();
   if (entityTypeStr == "mention")
     type = MessageEntityType::MENTION;
@@ -618,7 +603,6 @@ tgbot::types::StickerSet::StickerSet(const Json::Value &object)
       title(object.get("title", "").asCString()),
       stickers(std::vector<Sticker>{}),
       containsMasks(object.get("contains_masks", "").asBool()) {
-
   for (auto const &singleSticker : object.get("stickers", ""))
     stickers.emplace_back(singleSticker);
 }
@@ -634,7 +618,6 @@ tgbot::types::ResponseParameters::ResponseParameters(
 
 tgbot::types::File::File(const Json::Value &object)
     : fileId(object.get("file_id", "").asCString()) {
-
   if (object.isMember("file_size"))
     this->fileSize = object.get("file_size", "").asInt();
 
@@ -655,7 +638,6 @@ tgbot::types::UserProfilePhotos::UserProfilePhotos(const Json::Value &object)
 
 tgbot::types::ChatMember::ChatMember(const Json::Value &object)
     : user(object.get("user", "")) {
-
   const std::string &statusStr{object.get("status", "").asString()};
   if (statusStr == "creator")
     status = ChatMemberStatus::CREATOR;
@@ -670,8 +652,8 @@ tgbot::types::ChatMember::ChatMember(const Json::Value &object)
   else if (statusStr == "kicked")
     status = ChatMemberStatus::KICKED;
 
-  if(object.isMember("until_date"))
-    this->untilDate = object.get("until_date","").asInt();
+  if (object.isMember("until_date"))
+    this->untilDate = object.get("until_date", "").asInt();
 
   if (object.isMember("can_be_edited"))
     this->canBeEdited = object.get("can_be_edited", "").asBool();
@@ -718,7 +700,6 @@ tgbot::types::ChatMember::ChatMember(const Json::Value &object)
 
 tgbot::types::Animation::Animation(const Json::Value &object)
     : fileId(object.get("file_id", "").asCString()) {
-
   if (object.isMember("file_size"))
     this->fileSize = object.get("file_size", "").asInt();
 

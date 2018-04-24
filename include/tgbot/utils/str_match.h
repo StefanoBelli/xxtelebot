@@ -27,7 +27,7 @@ inline bool whenContains(const std::string &target, const char *what) {
   return target.find(what) != std::string::npos;
 }
 
-} // namespace utils
-} // namespace tgbot
+}  // namespace utils
+}  // namespace tgbot
 
-#endif // TGBOT_STR_MATCH_H
+#endif  // TGBOT_STR_MATCH_H

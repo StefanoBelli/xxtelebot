@@ -10,28 +10,25 @@
 /*!
  * @brief Main tgbot namespace
  */
-namespace tgbot
-{
+namespace tgbot {
 
 /*!
  * @brief Exception raised when Bot API reports some kind of error
  */
-class TelegramException : public std::exception
-{
-public:
+class TelegramException : public std::exception {
+ public:
   explicit TelegramException(const std::string &_what) : __what(_what) {}
   const char *what() const noexcept override { return __what.c_str(); }
 
-private:
+ private:
   const std::string __what;
 };
 
 /*!
  * @brief Basic Bot interface
  */
-class Bot : public methods::Api, public RegisterCallback
-{
-public:
+class Bot : public methods::Api, public RegisterCallback {
+ public:
   Bot(const Bot &) = default;
   Bot(Bot &&) = default;
   Bot &operator=(const Bot &) = default;
@@ -46,23 +43,23 @@ public:
    */
   void notifyEachUpdate(bool t);
 
-protected:
+ protected:
   template <typename... TyArgs>
-  explicit Bot(TyArgs &&... many) : Api(std::forward<TyArgs>(many)...) 
-    { utils::http::__internal_Curl_GlobalInit(); }
+  explicit Bot(TyArgs &&... many) : Api(std::forward<TyArgs>(many)...) {
+    utils::http::__internal_Curl_GlobalInit();
+  }
 
   void makeCallback(const std::vector<types::Update> &updates) const;
 
-private:
+ private:
   bool __notifyEachUpdate{false};
 };
 
 /*!
  * @brief Long polling bot, (see LongPollBot::start() function)
  */
-class LongPollBot : public Bot
-{
-public:
+class LongPollBot : public Bot {
+ public:
   /*!
    * @brief Bot class constructor
    * @param token : Bot token
@@ -90,9 +87,8 @@ public:
 /*!
  * @brief Webhook bot (see WebhookBot::start() function)
  */
-class WebhookBot : public Bot
-{
-public:
+class WebhookBot : public Bot {
+ public:
   /*!
    * @brief Missing webhook implementation. Not scheduled.
    */
@@ -134,9 +130,9 @@ public:
   WebhookBot &operator=(const WebhookBot &) = delete;
   WebhookBot &operator=(WebhookBot &&) = delete;
 
-  //start()
+  // start()
 };
 
-} // namespace tgbot
+}  // namespace tgbot
 
 #endif

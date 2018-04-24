@@ -1,11 +1,10 @@
-#include <sstream>
 #include <tgbot/methods/types.h>
+#include <sstream>
 
 #define BOOL_TOSTR(xvalue) ((xvalue) ? "true" : "false")
 
-#define SEPARATE(k)                                                            \
-  if (k)                                                                       \
-  jsonify << ','
+#define SEPARATE(k) \
+  if (k) jsonify << ','
 
 std::string tgbot::methods::types::InputMessageContent::toString() const {
   return what;
@@ -19,11 +18,9 @@ std::string tgbot::methods::types::InlineQueryResult::toString() const {
   return what;
 }
 
-std::string tgbot::methods::types::InputMedia::toString() const {
-  return what;
-}
+std::string tgbot::methods::types::InputMedia::toString() const { return what; }
 
-tgbot::methods::types::InputMedia::InputMedia(const char* _what)
+tgbot::methods::types::InputMedia::InputMedia(const char *_what)
     : what(_what) {}
 
 tgbot::methods::types::InputMedia::InputMedia(const std::string &_what)
@@ -54,8 +51,7 @@ tgbot::methods::types::InlineQueryResult::InlineQueryResult(
 std::string tgbot::methods::types::InlineKeyboardMarkup::toString() const {
   const std::size_t &r = inlineKeyboard.size();
 
-  if (!r)
-    return "";
+  if (!r) return "";
 
   std::stringstream jsonify;
   jsonify << "{ \"inline_keyboard\": [";
@@ -101,8 +97,7 @@ std::string tgbot::methods::types::InlineKeyboardMarkup::toString() const {
 std::string tgbot::methods::types::ReplyKeyboardMarkup::toString() const {
   const std::size_t &r = keyboard.size();
 
-  if (!r)
-    return "";
+  if (!r) return "";
 
   std::stringstream jsonify;
   jsonify << "{ \"resize_keyboard\": " << BOOL_TOSTR(resizeKeyboard)
@@ -164,8 +159,8 @@ std::string tgbot::methods::types::InputTextMessageContent::toString() const {
   return jsonify.str();
 }
 
-std::string
-tgbot::methods::types::InputLocationMessageContent::toString() const {
+std::string tgbot::methods::types::InputLocationMessageContent::toString()
+    const {
   std::stringstream jsonify;
   jsonify << "{ \"latitude\": " << latitude << ",\"longitude\": " << longitude
           << "}";
@@ -173,14 +168,13 @@ tgbot::methods::types::InputLocationMessageContent::toString() const {
   return jsonify.str();
 }
 
-std::string
-tgbot::methods::types::InputContactMessageContent::toString() const {
+std::string tgbot::methods::types::InputContactMessageContent::toString()
+    const {
   std::stringstream jsonify;
   jsonify << "{ \"phone_number\": \"" << phoneNumber << "\", \"first_name\": \""
           << firstName << "\"";
 
-  if (lastName)
-    jsonify << ",\"last_name\": \"" << *(lastName) << "\"";
+  if (lastName) jsonify << ",\"last_name\": \"" << *(lastName) << "\"";
 
   jsonify << "}";
 
@@ -208,17 +202,13 @@ std::string tgbot::methods::types::InlineQueryResultAudio::toString() const {
           << "\""
           << ",\"input_message_content\": " << inputMessageContent.toString();
 
-  if (caption)
-    jsonify << ",\"caption\": \"" << *(caption) << "\"";
+  if (caption) jsonify << ",\"caption\": \"" << *(caption) << "\"";
 
-  if (performer)
-    jsonify << ",\"performer\": \"" << *(performer) << "\"";
+  if (performer) jsonify << ",\"performer\": \"" << *(performer) << "\"";
 
-  if (replyMarkup)
-    jsonify << ",\"reply_markup\": " << replyMarkup->toString();
+  if (replyMarkup) jsonify << ",\"reply_markup\": " << replyMarkup->toString();
 
-  if (audioDuration)
-    jsonify << ",\"audio_duration\": " << audioDuration;
+  if (audioDuration) jsonify << ",\"audio_duration\": " << audioDuration;
 
   jsonify << "}";
 
@@ -230,8 +220,7 @@ std::string tgbot::methods::types::InlineQueryResultGame::toString() const {
   jsonify << "{ \"type\": \"" << type << "\", \"id\": \"" << id << "\""
           << ",\"game_short_name\": \"" << gameShortName << "\"";
 
-  if (replyMarkup)
-    jsonify << ",\"reply_markup\": " << replyMarkup->toString();
+  if (replyMarkup) jsonify << ",\"reply_markup\": " << replyMarkup->toString();
 
   jsonify << "}";
 
@@ -245,23 +234,17 @@ std::string tgbot::methods::types::InlineQueryResultArticle::toString() const {
           << "\"input_message_content\": " << inputMessageContent->toString()
           << ",\"hide_url\": " << hideUrl;
 
-  if (replyMarkup)
-    jsonify << ",\"reply_markup\": " << replyMarkup->toString();
+  if (replyMarkup) jsonify << ",\"reply_markup\": " << replyMarkup->toString();
 
-  if (url)
-    jsonify << ",\"url\": \"" << *(url) << "\"";
+  if (url) jsonify << ",\"url\": \"" << *(url) << "\"";
 
-  if (description)
-    jsonify << ",\"description\": \"" << *(description) << "\"";
+  if (description) jsonify << ",\"description\": \"" << *(description) << "\"";
 
-  if (thumbUrl)
-    jsonify << ",\"thumb_url\": \"" << *(thumbUrl) << "\"";
+  if (thumbUrl) jsonify << ",\"thumb_url\": \"" << *(thumbUrl) << "\"";
 
-  if (thumbWidth)
-    jsonify << ",\"thumb_width\": " << thumbWidth;
+  if (thumbWidth) jsonify << ",\"thumb_width\": " << thumbWidth;
 
-  if (thumbHeight)
-    jsonify << ",\"thumb_height\": " << thumbHeight;
+  if (thumbHeight) jsonify << ",\"thumb_height\": " << thumbHeight;
 
   jsonify << "}";
 
@@ -274,20 +257,15 @@ std::string tgbot::methods::types::InlineQueryResultContact::toString() const {
           << ",\"phone_number\": \"" << phoneNumber << "\", \"first_name\": \""
           << firstName << "\"";
 
-  if (lastName)
-    jsonify << ",\"last_name\": \"" << *(lastName) << "\"";
+  if (lastName) jsonify << ",\"last_name\": \"" << *(lastName) << "\"";
 
-  if (thumbUrl)
-    jsonify << ",\"thumb_url\": \"" << *(thumbUrl) << "\"";
+  if (thumbUrl) jsonify << ",\"thumb_url\": \"" << *(thumbUrl) << "\"";
 
-  if (thumbWidth)
-    jsonify << ",\"thumb_width\": " << thumbWidth;
+  if (thumbWidth) jsonify << ",\"thumb_width\": " << thumbWidth;
 
-  if (thumbHeight)
-    jsonify << ",\"thumb_height\": " << thumbHeight;
+  if (thumbHeight) jsonify << ",\"thumb_height\": " << thumbHeight;
 
-  if (replyMarkup)
-    jsonify << ",\"reply_markup\": " << replyMarkup->toString();
+  if (replyMarkup) jsonify << ",\"reply_markup\": " << replyMarkup->toString();
 
   if (inputMessageContent)
     jsonify << ",\"input_message_content\": "
@@ -304,23 +282,17 @@ std::string tgbot::methods::types::InlineQueryResultDocument::toString() const {
           << ", \"title\": \"" << title << "\", \"document_url\": \""
           << documentUrl << "\", \"mime_type\": \"" << mimeType << "\"";
 
-  if (thumbHeight)
-    jsonify << ",\"thumb_height\": " << thumbHeight;
+  if (thumbHeight) jsonify << ",\"thumb_height\": " << thumbHeight;
 
-  if (thumbWidth)
-    jsonify << ",\"thumb_width\": " << thumbWidth;
+  if (thumbWidth) jsonify << ",\"thumb_width\": " << thumbWidth;
 
-  if (caption)
-    jsonify << ",\"caption\": \"" << *(caption) << "\"";
+  if (caption) jsonify << ",\"caption\": \"" << *(caption) << "\"";
 
-  if (description)
-    jsonify << ",\"description\": \"" << *(description) << "\"";
+  if (description) jsonify << ",\"description\": \"" << *(description) << "\"";
 
-  if (thumbUrl)
-    jsonify << ",\"thumb_url\": \"" << *(thumbUrl) << "\"";
+  if (thumbUrl) jsonify << ",\"thumb_url\": \"" << *(thumbUrl) << "\"";
 
-  if (replyMarkup)
-    jsonify << ",\"reply_markup\": " << replyMarkup->toString();
+  if (replyMarkup) jsonify << ",\"reply_markup\": " << replyMarkup->toString();
 
   if (inputMessageContent)
     jsonify << ",\"input_message_content\": "
@@ -337,23 +309,17 @@ std::string tgbot::methods::types::InlineQueryResultGif::toString() const {
           << "\", \"gif_url\": \"" << gifUrl << "\", \"thumb_url\": \""
           << thumbUrl << "\"";
 
-  if (gifWidth)
-    jsonify << ",\"gif_width\": " << gifWidth;
+  if (gifWidth) jsonify << ",\"gif_width\": " << gifWidth;
 
-  if (gifHeight)
-    jsonify << ",\"gif_height\": " << gifHeight;
+  if (gifHeight) jsonify << ",\"gif_height\": " << gifHeight;
 
-  if (gifDuration)
-    jsonify << ",\"gif_duration\": " << gifDuration;
+  if (gifDuration) jsonify << ",\"gif_duration\": " << gifDuration;
 
-  if (title)
-    jsonify << ",\"title\": \"" << *(title) << "\"";
+  if (title) jsonify << ",\"title\": \"" << *(title) << "\"";
 
-  if (caption)
-    jsonify << ",\"title\": \"" << *(caption) << "\"";
+  if (caption) jsonify << ",\"title\": \"" << *(caption) << "\"";
 
-  if (replyMarkup)
-    jsonify << ",\"reply_markup\": " << replyMarkup->toString();
+  if (replyMarkup) jsonify << ",\"reply_markup\": " << replyMarkup->toString();
 
   if (inputMessageContent)
     jsonify << ",\"input_message_content\": "
@@ -370,17 +336,13 @@ std::string tgbot::methods::types::InlineQueryResultLocation::toString() const {
           << "\", \"title\": \"" << title << "\", \"latitude\": " << latitude
           << ", \"longitude\": " << longitude;
 
-  if (thumbWidth)
-    jsonify << ",\"thumb_width\": " << thumbWidth;
+  if (thumbWidth) jsonify << ",\"thumb_width\": " << thumbWidth;
 
-  if (thumbHeight)
-    jsonify << ",\"thumb_height\": " << thumbHeight;
+  if (thumbHeight) jsonify << ",\"thumb_height\": " << thumbHeight;
 
-  if (thumbUrl)
-    jsonify << ",\"thumb_url\": \"" << *(thumbUrl) << "\"";
+  if (thumbUrl) jsonify << ",\"thumb_url\": \"" << *(thumbUrl) << "\"";
 
-  if (replyMarkup)
-    jsonify << ",\"reply_markup\": " << replyMarkup->toString();
+  if (replyMarkup) jsonify << ",\"reply_markup\": " << replyMarkup->toString();
 
   if (inputMessageContent)
     jsonify << ",\"input_message_content\": "
@@ -397,27 +359,21 @@ std::string tgbot::methods::types::InlineQueryResultMpeg4Gif::toString() const {
           << "\", \"mpeg4_url\": \"" << mpeg4Url << "\", \"thumb_url\": \""
           << thumbUrl << "\"";
 
-  if (title)
-    jsonify << ",\"title\": \"" << *(title) << "\"";
+  if (title) jsonify << ",\"title\": \"" << *(title) << "\"";
 
-  if (caption)
-    jsonify << ",\"caption\": \"" << *(caption) << "\"";
+  if (caption) jsonify << ",\"caption\": \"" << *(caption) << "\"";
 
-  if (replyMarkup)
-    jsonify << ",\"reply_markup\": " << replyMarkup->toString();
+  if (replyMarkup) jsonify << ",\"reply_markup\": " << replyMarkup->toString();
 
   if (inputMessageContent)
     jsonify << ",\"input_message_content\": "
             << inputMessageContent->toString();
 
-  if (mpeg4Width)
-    jsonify << ",\"mpeg4_width\": " << mpeg4Width;
+  if (mpeg4Width) jsonify << ",\"mpeg4_width\": " << mpeg4Width;
 
-  if (mpeg4Height)
-    jsonify << ",\"mpeg4_height\": " << mpeg4Height;
+  if (mpeg4Height) jsonify << ",\"mpeg4_height\": " << mpeg4Height;
 
-  if (mpeg4Duration)
-    jsonify << ",\"mpeg4_duration\": " << mpeg4Duration;
+  if (mpeg4Duration) jsonify << ",\"mpeg4_duration\": " << mpeg4Duration;
 
   jsonify << "}";
 
@@ -430,27 +386,21 @@ std::string tgbot::methods::types::InlineQueryResultPhoto::toString() const {
           << "\", \"photo_url\": \"" << photoUrl << "\", \"thumb_url\": \""
           << thumbUrl << "\"";
 
-  if (title)
-    jsonify << ",\"title\": \"" << *(title) << "\"";
+  if (title) jsonify << ",\"title\": \"" << *(title) << "\"";
 
-  if (description)
-    jsonify << ",\"description\": \"" << *(description) << "\"";
+  if (description) jsonify << ",\"description\": \"" << *(description) << "\"";
 
-  if (caption)
-    jsonify << ",\"caption\": \"" << *(caption) << "\"";
+  if (caption) jsonify << ",\"caption\": \"" << *(caption) << "\"";
 
-  if (replyMarkup)
-    jsonify << ",\"reply_markup\": " << replyMarkup->toString();
+  if (replyMarkup) jsonify << ",\"reply_markup\": " << replyMarkup->toString();
 
   if (inputMessageContent)
     jsonify << ",\"input_message_content\": "
             << inputMessageContent->toString();
 
-  if (photoWidth)
-    jsonify << ",\"photo_width\": " << photoWidth;
+  if (photoWidth) jsonify << ",\"photo_width\": " << photoWidth;
 
-  if (photoHeight)
-    jsonify << ",\"photo_height\": " << photoHeight;
+  if (photoHeight) jsonify << ",\"photo_height\": " << photoHeight;
 
   jsonify << "}";
 
@@ -464,20 +414,16 @@ std::string tgbot::methods::types::InlineQueryResultVenue::toString() const {
           << ", \"longitude\": " << longitude << ", \"address\": \"" << address
           << "\"";
 
-  if (thumbWidth)
-    jsonify << ",\"thumb_width\": " << thumbWidth;
+  if (thumbWidth) jsonify << ",\"thumb_width\": " << thumbWidth;
 
-  if (thumbHeight)
-    jsonify << ",\"thumb_height\": " << thumbHeight;
+  if (thumbHeight) jsonify << ",\"thumb_height\": " << thumbHeight;
 
-  if (thumbUrl)
-    jsonify << ",\"thumb_url\": \"" << *(thumbUrl) << "\"";
+  if (thumbUrl) jsonify << ",\"thumb_url\": \"" << *(thumbUrl) << "\"";
 
   if (foursquareId)
     jsonify << ",\"foursquare_id\": \"" << *(foursquareId) << "\"";
 
-  if (replyMarkup)
-    jsonify << ",\"reply_markup\": " << replyMarkup->toString();
+  if (replyMarkup) jsonify << ",\"reply_markup\": " << replyMarkup->toString();
 
   if (inputMessageContent)
     jsonify << ",\"input_message_content\": "
@@ -495,27 +441,21 @@ std::string tgbot::methods::types::InlineQueryResultVideo::toString() const {
           << thumbUrl << "\", \"title\": \"" << title << "\", \"mime_type\": \""
           << mimeType << "\"";
 
-  if (caption)
-    jsonify << ",\"caption\": \"" << *(caption) << "\"";
+  if (caption) jsonify << ",\"caption\": \"" << *(caption) << "\"";
 
-  if (description)
-    jsonify << ",\"description\": \"" << *(description) << "\"";
+  if (description) jsonify << ",\"description\": \"" << *(description) << "\"";
 
-  if (replyMarkup)
-    jsonify << ",\"reply_markup\": " << replyMarkup->toString();
+  if (replyMarkup) jsonify << ",\"reply_markup\": " << replyMarkup->toString();
 
   if (inputMessageContent)
     jsonify << ",\"input_message_content\": "
             << inputMessageContent->toString();
 
-  if (videoWidth)
-    jsonify << ",\"video_width\": " << videoWidth;
+  if (videoWidth) jsonify << ",\"video_width\": " << videoWidth;
 
-  if (videoHeight)
-    jsonify << ",\"video_height\": " << videoHeight;
+  if (videoHeight) jsonify << ",\"video_height\": " << videoHeight;
 
-  if (videoDuration)
-    jsonify << ",\"video_duration\": " << videoDuration;
+  if (videoDuration) jsonify << ",\"video_duration\": " << videoDuration;
 
   jsonify << "}";
 
@@ -528,14 +468,11 @@ std::string tgbot::methods::types::InlineQueryResultVoice::toString() const {
           << "\", \"title\": \"" << title << "\", \"voice_url\": \"" << voiceUrl
           << "\"";
 
-  if (caption)
-    jsonify << ",\"caption\": \"" << *(caption) << "\"";
+  if (caption) jsonify << ",\"caption\": \"" << *(caption) << "\"";
 
-  if (voiceDuration)
-    jsonify << ",\"voice_duration\": " << voiceDuration;
+  if (voiceDuration) jsonify << ",\"voice_duration\": " << voiceDuration;
 
-  if (replyMarkup)
-    jsonify << ",\"reply_markup\": " << replyMarkup->toString();
+  if (replyMarkup) jsonify << ",\"reply_markup\": " << replyMarkup->toString();
 
   if (inputMessageContent)
     jsonify << ",\"input_message_content\": "
@@ -546,130 +483,115 @@ std::string tgbot::methods::types::InlineQueryResultVoice::toString() const {
   return jsonify.str();
 }
 
-std::string
-tgbot::methods::types::InlineQueryResultCachedAudio::toString() const {
+std::string tgbot::methods::types::InlineQueryResultCachedAudio::toString()
+    const {
   std::stringstream jsonify;
   jsonify << "{ \"type\": \"" << type << "\", \"id\": \"" << id
           << "\", \"audio_file_id\": \"" << audioFileId << "\"";
 
-  if (caption)
-    jsonify << ",\"caption\": \"" << *(caption) << "\"";
+  if (caption) jsonify << ",\"caption\": \"" << *(caption) << "\"";
 
   if (inputMessageContent)
     jsonify << ",\"input_message_content\": "
             << inputMessageContent->toString();
 
-  if (replyMarkup)
-    jsonify << ",\"reply_markup\": " << replyMarkup->toString();
+  if (replyMarkup) jsonify << ",\"reply_markup\": " << replyMarkup->toString();
 
   jsonify << "}";
 
   return jsonify.str();
 }
 
-std::string
-tgbot::methods::types::InlineQueryResultCachedDocument::toString() const {
+std::string tgbot::methods::types::InlineQueryResultCachedDocument::toString()
+    const {
   std::stringstream jsonify;
 
   jsonify << "{ \"type\": \"" << type << "\", \"id\": \"" << id
           << "\", \"title\": \"" << title << "\", \"document_file_id\": \""
           << documentFileId << "\"";
 
-  if (caption)
-    jsonify << ",\"caption\": \"" << *(caption) << "\"";
+  if (caption) jsonify << ",\"caption\": \"" << *(caption) << "\"";
 
-  if (description)
-    jsonify << ",\"description\": \"" << *(description) << "\"";
+  if (description) jsonify << ",\"description\": \"" << *(description) << "\"";
 
   if (inputMessageContent)
     jsonify << ",\"input_message_content\": "
             << inputMessageContent->toString();
 
-  if (replyMarkup)
-    jsonify << ",\"reply_markup\": " << replyMarkup->toString();
+  if (replyMarkup) jsonify << ",\"reply_markup\": " << replyMarkup->toString();
 
   jsonify << "}";
 
   return jsonify.str();
 }
 
-std::string
-tgbot::methods::types::InlineQueryResultCachedGif::toString() const {
+std::string tgbot::methods::types::InlineQueryResultCachedGif::toString()
+    const {
   std::stringstream jsonify;
   jsonify << "{ \"type\": \"" << type << "\", \"id\": \"" << id
           << "\", \"gif_file_id\": \"" << gifFileId << "\"";
 
-  if (caption)
-    jsonify << ",\"caption\": \"" << *(caption) << "\"";
+  if (caption) jsonify << ",\"caption\": \"" << *(caption) << "\"";
 
-  if (title)
-    jsonify << ",\"title\": \"" << *(title) << "\"";
+  if (title) jsonify << ",\"title\": \"" << *(title) << "\"";
 
   if (inputMessageContent)
     jsonify << ",\"input_message_content\": "
             << inputMessageContent->toString();
 
-  if (replyMarkup)
-    jsonify << ",\"reply_markup\": " << replyMarkup->toString();
+  if (replyMarkup) jsonify << ",\"reply_markup\": " << replyMarkup->toString();
 
   jsonify << "}";
 
   return jsonify.str();
 }
 
-std::string
-tgbot::methods::types::InlineQueryResultCachedMpeg4Gif::toString() const {
+std::string tgbot::methods::types::InlineQueryResultCachedMpeg4Gif::toString()
+    const {
   std::stringstream jsonify;
   jsonify << "{ \"type\": \"" << type << "\", \"id\": \"" << id
           << "\", \"mpeg4_file_id\": \"" << mpeg4FileId << "\"";
 
-  if (caption)
-    jsonify << ",\"caption\": \"" << *(caption) << "\"";
+  if (caption) jsonify << ",\"caption\": \"" << *(caption) << "\"";
 
-  if (title)
-    jsonify << ",\"title\": \"" << *(title) << "\"";
+  if (title) jsonify << ",\"title\": \"" << *(title) << "\"";
 
   if (inputMessageContent)
     jsonify << ",\"input_message_content\": "
             << inputMessageContent->toString();
 
-  if (replyMarkup)
-    jsonify << ",\"reply_markup\": " << replyMarkup->toString();
+  if (replyMarkup) jsonify << ",\"reply_markup\": " << replyMarkup->toString();
 
   jsonify << "}";
 
   return jsonify.str();
 }
 
-std::string
-tgbot::methods::types::InlineQueryResultCachedPhoto::toString() const {
+std::string tgbot::methods::types::InlineQueryResultCachedPhoto::toString()
+    const {
   std::stringstream jsonify;
   jsonify << "{ \"type\": \"" << type << "\", \"id\": \"" << id
           << "\", \"photo_file_id\": \"" << photoFileId << "\"";
 
-  if (title)
-    jsonify << ",\"title\": \"" << *(title) << "\"";
+  if (title) jsonify << ",\"title\": \"" << *(title) << "\"";
 
-  if (description)
-    jsonify << ",\"description\": \"" << *(description) << "\"";
+  if (description) jsonify << ",\"description\": \"" << *(description) << "\"";
 
-  if (caption)
-    jsonify << ",\"caption\": \"" << *(caption) << "\"";
+  if (caption) jsonify << ",\"caption\": \"" << *(caption) << "\"";
 
   if (inputMessageContent)
     jsonify << ",\"input_message_content\": "
             << inputMessageContent->toString();
 
-  if (replyMarkup)
-    jsonify << ",\"reply_markup\": " << replyMarkup->toString();
+  if (replyMarkup) jsonify << ",\"reply_markup\": " << replyMarkup->toString();
 
   jsonify << "}";
 
   return jsonify.str();
 }
 
-std::string
-tgbot::methods::types::InlineQueryResultCachedSticker::toString() const {
+std::string tgbot::methods::types::InlineQueryResultCachedSticker::toString()
+    const {
   std::stringstream jsonify;
   jsonify << "{ \"type\": \"" << type << "\", \"id\": \"" << id
           << "\", \"sticker_file_id\": \"" << stickerFileId << "\"";
@@ -678,74 +600,66 @@ tgbot::methods::types::InlineQueryResultCachedSticker::toString() const {
     jsonify << ",\"input_message_content\": "
             << inputMessageContent->toString();
 
-  if (replyMarkup)
-    jsonify << ",\"reply_markup\": " << replyMarkup->toString();
+  if (replyMarkup) jsonify << ",\"reply_markup\": " << replyMarkup->toString();
 
   jsonify << "}";
 
   return jsonify.str();
 }
 
-std::string
-tgbot::methods::types::InlineQueryResultCachedVideo::toString() const {
+std::string tgbot::methods::types::InlineQueryResultCachedVideo::toString()
+    const {
   std::stringstream jsonify;
   jsonify << "{ \"type\": \"" << type << "\", \"id\": \"" << id
           << "\", \"video_file_id\": \"" << videoFileId << "\","
           << "\"title\": \"" << title << "\"";
 
-  if (description)
-    jsonify << ",\"description\": \"" << *(description) << "\"";
+  if (description) jsonify << ",\"description\": \"" << *(description) << "\"";
 
-  if (caption)
-    jsonify << ",\"caption\": \"" << *(caption) << "\"";
+  if (caption) jsonify << ",\"caption\": \"" << *(caption) << "\"";
 
   if (inputMessageContent)
     jsonify << ",\"input_message_content\": "
             << inputMessageContent->toString();
 
-  if (replyMarkup)
-    jsonify << ",\"reply_markup\": " << replyMarkup->toString();
+  if (replyMarkup) jsonify << ",\"reply_markup\": " << replyMarkup->toString();
 
   jsonify << "}";
 
   return jsonify.str();
 }
 
-std::string
-tgbot::methods::types::InlineQueryResultCachedVoice::toString() const {
+std::string tgbot::methods::types::InlineQueryResultCachedVoice::toString()
+    const {
   std::stringstream jsonify;
   jsonify << "{ \"type\": \"" << type << "\", \"id\": \"" << id
           << "\", \"voice_file_id\": \"" << voiceFileId << "\","
           << "\"title\": \"" << title << "\"";
 
-  if (caption)
-    jsonify << ",\"caption\": \"" << *(caption) << "\"";
+  if (caption) jsonify << ",\"caption\": \"" << *(caption) << "\"";
 
   if (inputMessageContent)
     jsonify << ",\"input_message_content\": "
             << inputMessageContent->toString();
 
-  if (replyMarkup)
-    jsonify << ",\"reply_markup\": " << replyMarkup->toString();
+  if (replyMarkup) jsonify << ",\"reply_markup\": " << replyMarkup->toString();
 
   jsonify << "}";
 
   return jsonify.str();
 }
 
-std::string
-tgbot::methods::types::InputMediaPhoto::toString() const {
+std::string tgbot::methods::types::InputMediaPhoto::toString() const {
   std::stringstream jsonify;
 
   jsonify << "{\"type\":\"" << type << "\",\"media\":\"";
-  
-  if(fileSource == FileSource::LOCAL_UPLOAD) 
-      jsonify << "attach://" << media << '\"';
-  else
-      jsonify << media << "\"";
 
-  if(caption)
-      jsonify << ",\"caption\":\"" << *caption << "\"";
+  if (fileSource == FileSource::LOCAL_UPLOAD)
+    jsonify << "attach://" << media << '\"';
+  else
+    jsonify << media << "\"";
+
+  if (caption) jsonify << ",\"caption\":\"" << *caption << "\"";
 
   if (parseMode == ParseMode::HTML)
     jsonify << ",\"parse_mode\":\"HTML\"";
@@ -757,38 +671,32 @@ tgbot::methods::types::InputMediaPhoto::toString() const {
   return jsonify.str();
 }
 
-std::string
-tgbot::methods::types::InputMediaVideo::toString() const {
-    std::stringstream jsonify;
+std::string tgbot::methods::types::InputMediaVideo::toString() const {
+  std::stringstream jsonify;
 
-    jsonify << "{\"type\":\"" << type << "\",\"media\":\"";
+  jsonify << "{\"type\":\"" << type << "\",\"media\":\"";
 
-    if(fileSource == FileSource::LOCAL_UPLOAD)
-        jsonify << "attach://" << media << '\"';
-    else
-        jsonify << media << "\"";
+  if (fileSource == FileSource::LOCAL_UPLOAD)
+    jsonify << "attach://" << media << '\"';
+  else
+    jsonify << media << "\"";
 
-    if(caption)
-        jsonify << ",\"caption\":\"" << *caption << "\"";
+  if (caption) jsonify << ",\"caption\":\"" << *caption << "\"";
 
-    if (parseMode == ParseMode::HTML)
-      jsonify << ",\"parse_mode\":\"HTML\"";
-    else if (parseMode == ParseMode::MARKDOWN)
-      jsonify << ",\"parse_mode\":\"Markdown\"";
+  if (parseMode == ParseMode::HTML)
+    jsonify << ",\"parse_mode\":\"HTML\"";
+  else if (parseMode == ParseMode::MARKDOWN)
+    jsonify << ",\"parse_mode\":\"Markdown\"";
 
-    if(width)
-      jsonify << ",\"width\":" << width;
+  if (width) jsonify << ",\"width\":" << width;
 
-    if(height)
-      jsonify << ",\"height\":" << height;
+  if (height) jsonify << ",\"height\":" << height;
 
-    if(duration)
-      jsonify << ",\"duration\":" << duration;
+  if (duration) jsonify << ",\"duration\":" << duration;
 
-    if(supportsStreaming)
-      jsonify << ",\"supports_streaming\":true";
+  if (supportsStreaming) jsonify << ",\"supports_streaming\":true";
 
-    jsonify << "}";
+  jsonify << "}";
 
-    return jsonify.str();
+  return jsonify.str();
 }
