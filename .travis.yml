@@ -44,4 +44,6 @@ deploy:
    provider: pages
    skip_cleanup: true
    github_token: $GITHUB_TOKEN
-
+   on:
+       condition: "$CC = gcc"
+       condition: "$TRAVIS_OS_NAME = linux"

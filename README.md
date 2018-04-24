@@ -151,10 +151,10 @@ $ clang-format -style=google -i *.h
 ```
 
 ### Missing implementation
-    
-    * Webhook update fetch. **NOT SCHEDULED**
-    
-    * ParseMode with captions. **NOT SCHEDULED**
+
+* Webhook update fetch. **NOT SCHEDULED**
+
+* ParseMode with captions. **NOT SCHEDULED**
 
 ### Implementation status
 
