@@ -60,7 +60,7 @@ void tgbot::Bot::makeCallback(const std::vector<types::Update> &updates) const {
       if (messageCallback && !byCommandStart)
         tmpHolder =
             std::thread(messageCallback, std::move(messageObject), *this);
-      else if (!messageCallback)
+      else if (!messageCallback && !byCommandStart)
         getLogger().error(
             "could not make any call to handler... Did you forgot "
             "Bot::callback() or something else?");
