@@ -80,15 +80,51 @@ class RegisterCallback {
    * @param matchWord, command string (e.g. /say hello : matchWord = "/say ")
    * @param sep, separator. (space character by default)
    */
-  inline void callback(
-      bool (&matcherCallback)(const std::string &, const char *),
+  inline void callback(bool (&matcherCallback)(const std::string &, const char *),
       std::function<void(const types::Message, const methods::Api &,
                          const std::vector<std::string>)>
           callback,
       const char *matchWord, const char sep = ' ') {
     commandCallback.emplace_back(matchWord, matcherCallback, sep, callback);
   }
+  
+  /*!
+   * @brief C-style function pointer callback overload, associate with command
+   * @param matcherCallback, the function responsible for giving result about
+   * the matching (see whenStarts() and whenContains())
+   * @param callback, function that gets called when string matches with given
+   * instructions
+   * @param matchWord, command string (e.g. /say hello : matchWord = "/say ")
+   * @param sep, separator. (space character by default)
+   */
+  inline void callback(std::function<bool(const std::string &,
+                                               const char *)> matcherCallback,
+                       void (&callback)(const types::Message,
+                                        const methods::Api &,
+                                        const std::vector<std::string>),
+                       const char *matchWord, const char sep = ' ') {
+      
+    commandCallback.emplace_back(matchWord, matcherCallback, sep, callback);
+  }
 
+  /*!
+   * @brief std::function wrapper callback overload, associate with command
+   * (ability to use lambdas
+   * @param matcherCallback, the function responsible for giving result about
+   * the matching (see whenStarts() and whenContains())
+   * @param callback, function that gets called when string matches with given
+   * instructions
+   * @param matchWord, command string (e.g. /say hello : matchWord = "/say ")
+   * @param sep, separator. (space character by default)
+   */
+  inline void callback(std::function<bool(const std::string &, 
+                                        const char *)> matcherCallback,
+                        std::function<void(const types::Message, const methods::Api &,
+                         const std::vector<std::string>)> callback,
+      const char *matchWord, const char sep = ' ') {
+      
+    commandCallback.emplace_back(matchWord, matcherCallback, sep, callback);
+  }
   /*!
    * @brief Message update callback
    * @param callback

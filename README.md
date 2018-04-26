@@ -639,3 +639,21 @@ Just use info() and error().
 ### CURL
 
 If you want to use curl to let the bot able to perform some http requests, just don't call **curl_global_init()** and **curl_global_cleanup()**!!
+
+### Writing your own matchers
+
+RegisterCallback allows you to write your own matcher instead of using utils::whenStarts() and whenContains(). Make it allow 2 parameters and return bool.
+
+```c++
+callback([](const std::string& word, const char* match) {
+    return true;
+}, ...);
+
+//...
+
+bool matcher(const std::string& word, const char* match) {
+    return true;
+}
+
+callback(matcher,...);
+```
