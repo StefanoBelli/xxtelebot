@@ -5,7 +5,7 @@
 #include <string>
 
 namespace tgbot {
-namespace utils {
+	namespace utils {
 
 /*!
  * @brief whenStarts (see RegisterCallback::callback() )
@@ -13,9 +13,9 @@ namespace utils {
  * @param what
  * @return true if 'target' starts with 'what'
  */
-inline bool whenStarts(const std::string &target, const char *what) {
-  return target.compare(0, strlen(what), what) == 0;
-}
+		inline bool whenStarts(const std::string &target, const char *what) {
+			return target.compare(0, strlen(what), what) == 0;
+		}
 
 /*!
  * @brief whenContains (see RegisterCallback::callback() )
@@ -23,11 +23,11 @@ inline bool whenStarts(const std::string &target, const char *what) {
  * @param what
  * @return true if 'target' contains 'what'
  */
-inline bool whenContains(const std::string &target, const char *what) {
-  return target.find(what) != std::string::npos;
-}
+		inline bool whenContains(const std::string &target, const char *what) {
+			return target.find(what) != std::string::npos;
+		}
 
-}  // namespace utils
+	}  // namespace utils
 }  // namespace tgbot
 
 #endif  // TGBOT_STR_MATCH_H
