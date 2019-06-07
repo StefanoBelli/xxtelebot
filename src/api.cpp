@@ -1817,6 +1817,7 @@ api_types::Message tgbot::methods::Api::sendVideo(
 		const types::ReplyMarkup &replyMarkup) const {
 	CURL *inst = http::curlEasyInit();
 	Json::Value value;
+	const std::string &&markup = replyMarkup.toString();
 
 	if (source == types::FileSource::EXTERNAL) {
 		std::stringstream url;
@@ -1843,7 +1844,6 @@ api_types::Message tgbot::methods::Api::sendVideo(
 
 		if (supportsStreaming) url << "&supports_streaming=true";
 
-		const std::string &&markup = replyMarkup.toString();
 		if (!markup.empty()) {
 			url << "&reply_markup=";
 			encode(url, markup);
@@ -1854,14 +1854,30 @@ api_types::Message tgbot::methods::Api::sendVideo(
 		http::PostForms forms;
 		forms["chat_id"] = http::value{chatId.c_str(), nullptr, nullptr};
 		forms["video"] = http::value{nullptr, video.c_str(), mimeType.c_str()};
-		forms["duration"] = http::value{std::to_string(duration).c_str(), nullptr, nullptr};
-		forms["width"] = http::value{std::to_string(width).c_str(), nullptr, nullptr};
-		forms["height"] = http::value{std::to_string(height).c_str(), nullptr, nullptr};
-		forms["caption"] = http::value{caption.c_str(), nullptr, nullptr};
-		forms["disable_notification"] = http::value{BOOL_TOSTR(disableNotification), nullptr, nullptr};
-		forms["reply_to_message_id"] = http::value{std::to_string(replyToMessageId).c_str(), nullptr, nullptr};
-		forms["reply_markup"] = http::value{replyMarkup.toString().c_str(), nullptr, nullptr};
-		forms["supports_streaming"] = http::value{BOOL_TOSTR(supportsStreaming), nullptr, nullptr};
+
+		if(duration != -1)
+			forms["duration"] = http::value{std::to_string(duration).c_str(), nullptr, nullptr};
+
+		if(width != -1)
+			forms["width"] = http::value{std::to_string(width).c_str(), nullptr, nullptr};
+
+		if(height != -1)
+			forms["height"] = http::value{std::to_string(height).c_str(), nullptr, nullptr};
+
+		if(!caption.empty())
+			forms["caption"] = http::value{caption.c_str(), nullptr, nullptr};
+
+		if(disableNotification)
+			forms["disable_notification"] = http::value{"true", nullptr, nullptr};
+
+		if(replyToMessageId != -1)
+			forms["reply_to_message_id"] = http::value{std::to_string(replyToMessageId).c_str(), nullptr, nullptr};
+
+		if(!markup.empty())
+			forms["reply_markup"] = http::value{replyMarkup.toString().c_str(), nullptr, nullptr};
+
+		if(supportsStreaming)
+			forms["supports_streaming"] = http::value{"true", nullptr, nullptr};
 
 		parseJsonObject(
 				http::multiPartUpload(inst, baseApi + "/sendVideo", forms),
@@ -1883,6 +1899,7 @@ api_types::Message tgbot::methods::Api::sendDocument(
 		const int &replyToMessageId, const types::ReplyMarkup &replyMarkup) const {
 	CURL *inst = http::curlEasyInit();
 	Json::Value value;
+	const std::string &&markup = replyMarkup.toString();
 
 	if (source == types::FileSource::EXTERNAL) {
 		std::stringstream url;
@@ -1900,7 +1917,6 @@ api_types::Message tgbot::methods::Api::sendDocument(
 		if (replyToMessageId != -1)
 			url << "&reply_to_message_id=" << replyToMessageId;
 
-		const std::string &&markup = replyMarkup.toString();
 		if (!markup.empty()) {
 			url << "&reply_markup=";
 			encode(url, markup);
@@ -1911,10 +1927,19 @@ api_types::Message tgbot::methods::Api::sendDocument(
 		http::PostForms forms;
 		forms["chat_id"] = http::value{chatId.c_str(), nullptr, nullptr};
 		forms["document"] = http::value{nullptr, document.c_str(), mimeType.c_str()};
-		forms["caption"] = http::value{caption.c_str(), nullptr, nullptr};
-		forms["disable_notification"] = http::value{BOOL_TOSTR(disableNotification), nullptr, nullptr};
-		forms["reply_to_message_id"] = http::value{std::to_string(replyToMessageId).c_str(), nullptr, nullptr};
-		forms["reply_markup"] = http::value{replyMarkup.toString().c_str(), nullptr, nullptr};
+
+		if(!caption.empty())
+			forms["caption"] = http::value{caption.c_str(), nullptr, nullptr};
+
+		if(disableNotification)
+			forms["disable_notification"] = http::value{"true", nullptr, nullptr};
+
+		if(replyToMessageId != -1)
+			forms["reply_to_message_id"] = http::value{std::to_string(replyToMessageId).c_str(), nullptr, nullptr};
+
+		if(!markup.empty())
+			forms["reply_markup"] = http::value{replyMarkup.toString().c_str(), nullptr, nullptr};
+
 		parseJsonObject(http::multiPartUpload(
 				inst, baseApi + "/sendDocument", forms),
 		                value);
@@ -1936,6 +1961,7 @@ api_types::Message tgbot::methods::Api::sendPhoto(
 		const int &replyToMessageId, const types::ReplyMarkup &replyMarkup) const {
 	CURL *inst = http::curlEasyInit();
 	Json::Value value;
+	const std::string &&markup = replyMarkup.toString();
 
 	if (source == types::FileSource::EXTERNAL) {
 		std::stringstream url;
@@ -1953,7 +1979,6 @@ api_types::Message tgbot::methods::Api::sendPhoto(
 		if (replyToMessageId != -1)
 			url << "&reply_to_message_id=" << replyToMessageId;
 
-		const std::string &&markup = replyMarkup.toString();
 		if (!markup.empty()) {
 			url << "&reply_markup=";
 			encode(url, markup);
@@ -1964,10 +1989,19 @@ api_types::Message tgbot::methods::Api::sendPhoto(
 		http::PostForms forms;
 		forms["chat_id"] = http::value{chatId.c_str(), nullptr, nullptr};
 		forms["photo"] = http::value{nullptr, photo.c_str(), mimeType.c_str()};
-		forms["caption"] = http::value{caption.c_str(), nullptr, nullptr};
-		forms["disable_notification"] = http::value{BOOL_TOSTR(disableNotification), nullptr, nullptr};
-		forms["reply_to_message_id"] = http::value{std::to_string(replyToMessageId).c_str(), nullptr, nullptr};
-		forms["reply_markup"] = http::value{replyMarkup.toString().c_str(), nullptr, nullptr};
+
+		if(!caption.empty())
+			forms["caption"] = http::value{caption.c_str(), nullptr, nullptr};
+
+		if(disableNotification)
+			forms["disable_notification"] = http::value{"true", nullptr, nullptr};
+
+		if(replyToMessageId != -1)
+			forms["reply_to_message_id"] = http::value{std::to_string(replyToMessageId).c_str(), nullptr, nullptr};
+
+		if(!markup.empty())
+			forms["reply_markup"] = http::value{replyMarkup.toString().c_str(), nullptr, nullptr};
+
 		parseJsonObject(
 				http::multiPartUpload(inst, baseApi + "/sendPhoto", forms),
 				value);
@@ -1991,6 +2025,7 @@ api_types::Message tgbot::methods::Api::sendAudio(
 		const types::ReplyMarkup &replyMarkup) const {
 	CURL *inst = http::curlEasyInit();
 	Json::Value value;
+	const std::string &&markup = replyMarkup.toString();
 
 	if (source == types::FileSource::EXTERNAL) {
 		std::stringstream url;
@@ -2022,7 +2057,6 @@ api_types::Message tgbot::methods::Api::sendAudio(
 			url << "&duration=" << duration;
 		}
 
-		const std::string &&markup = replyMarkup.toString();
 		if (!markup.empty()) {
 			url << "&reply_markup=";
 			encode(url, markup);
@@ -2033,13 +2067,28 @@ api_types::Message tgbot::methods::Api::sendAudio(
 		http::PostForms forms;
 		forms["chat_id"] = http::value{chatId.c_str(), nullptr, nullptr};
 		forms["audio"] = http::value{nullptr, audio.c_str(), mimeType.c_str()};
-		forms["caption"] = http::value{caption.c_str(), nullptr, nullptr};
-		forms["duration"] = http::value{std::to_string(duration).c_str(), nullptr, nullptr};
-		forms["performer"] = http::value{performer.c_str(), nullptr, nullptr};
-		forms["title"] = http::value{title.c_str(), nullptr, nullptr};
-		forms["disable_notification"] = http::value{BOOL_TOSTR(disableNotification), nullptr, nullptr};
-		forms["reply_to_message_id"] = http::value{std::to_string(replyToMessageId).c_str(), nullptr, nullptr};
-		forms["reply_markup"] = http::value{replyMarkup.toString().c_str(), nullptr, nullptr};
+
+		if(!caption.empty())
+			forms["caption"] = http::value{caption.c_str(), nullptr, nullptr};
+
+		if(duration != -1)
+			forms["duration"] = http::value{std::to_string(duration).c_str(), nullptr, nullptr};
+
+		if(!performer.empty())
+			forms["performer"] = http::value{performer.c_str(), nullptr, nullptr};
+
+		if(!title.empty())
+			forms["title"] = http::value{title.c_str(), nullptr, nullptr};
+
+		if(disableNotification)
+			forms["disable_notification"] = http::value{"true", nullptr, nullptr};
+
+		if(replyToMessageId != -1)
+			forms["reply_to_message_id"] = http::value{std::to_string(replyToMessageId).c_str(), nullptr, nullptr};
+
+		if(!markup.empty())
+			forms["reply_markup"] = http::value{replyMarkup.toString().c_str(), nullptr, nullptr};
+
 		parseJsonObject(
 				http::multiPartUpload(inst, baseApi + "/sendAudio", forms),
 				value);
@@ -2061,6 +2110,7 @@ api_types::Message tgbot::methods::Api::sendVoice(
 		const int &replyToMessageId, const types::ReplyMarkup &replyMarkup) const {
 	CURL *inst = http::curlEasyInit();
 	Json::Value value;
+	const std::string &&markup = replyMarkup.toString();
 
 	if (source == types::FileSource::EXTERNAL) {
 		std::stringstream url;
@@ -2079,7 +2129,6 @@ api_types::Message tgbot::methods::Api::sendVoice(
 		if (replyToMessageId != -1)
 			url << "&reply_to_message_id=" << replyToMessageId;
 
-		const std::string &&markup = replyMarkup.toString();
 		if (!markup.empty()) {
 			url << "&reply_markup=";
 			encode(url, markup);
@@ -2090,11 +2139,22 @@ api_types::Message tgbot::methods::Api::sendVoice(
 		http::PostForms forms;
 		forms["chat_id"] = http::value{chatId.c_str(), nullptr, nullptr};
 		forms["audio"] = http::value{nullptr, voice.c_str(), "audio/ogg"};
-		forms["caption"] = http::value{caption.c_str(), nullptr, nullptr};
-		forms["duration"] = http::value{std::to_string(duration).c_str(), nullptr, nullptr};
-		forms["disable_notification"] = http::value{BOOL_TOSTR(disableNotification), nullptr, nullptr};
-		forms["reply_to_message_id"] = http::value{std::to_string(replyToMessageId).c_str(), nullptr, nullptr};
-		forms["reply_markup"] = http::value{replyMarkup.toString().c_str(), nullptr, nullptr};
+
+		if(!caption.empty())
+			forms["caption"] = http::value{caption.c_str(), nullptr, nullptr};
+
+		if(duration != -1)
+			forms["duration"] = http::value{std::to_string(duration).c_str(), nullptr, nullptr};
+
+		if(disableNotification)
+			forms["disable_notification"] = http::value{"true", nullptr, nullptr};
+
+		if(replyToMessageId != -1)
+			forms["reply_to_message_id"] = http::value{std::to_string(replyToMessageId).c_str(), nullptr, nullptr};
+
+		if(!markup.empty())
+			forms["reply_markup"] = http::value{replyMarkup.toString().c_str(), nullptr, nullptr};
+
 		parseJsonObject(http::multiPartUpload(
 				inst, baseApi + "/sendVoice", forms),
 		                value);
@@ -2114,6 +2174,7 @@ api_types::Message tgbot::methods::Api::sendSticker(
 		const int &replyToMessageId, const types::ReplyMarkup &replyMarkup) const {
 	CURL *inst = http::curlEasyInit();
 	Json::Value value;
+	const std::string &&markup = replyMarkup.toString();
 
 	if (source == types::FileSource::EXTERNAL) {
 		std::stringstream url;
@@ -2126,7 +2187,6 @@ api_types::Message tgbot::methods::Api::sendSticker(
 		if (replyToMessageId != -1)
 			url << "&reply_to_message_id=" << replyToMessageId;
 
-		const std::string &&markup = replyMarkup.toString();
 		if (!markup.empty()) {
 			url << "&reply_markup=";
 			encode(url, markup);
@@ -2138,9 +2198,15 @@ api_types::Message tgbot::methods::Api::sendSticker(
 		http::PostForms forms;
 		forms["chat_id"] = http::value{chatId.c_str(), nullptr, nullptr};
 		forms["sticker"] = http::value{nullptr, sticker.c_str(), "image/png"};
-		forms["disable_notification"] = http::value{BOOL_TOSTR(disableNotification), nullptr, nullptr};
-		forms["reply_to_message_id"] = http::value{std::to_string(replyToMessageId).c_str(), nullptr, nullptr};
-		forms["reply_markup"] = http::value{replyMarkup.toString().c_str(), nullptr, nullptr};
+
+		if(disableNotification)
+			forms["disable_notification"] = http::value{"true", nullptr, nullptr};
+
+		if(replyToMessageId != -1)
+			forms["reply_to_message_id"] = http::value{std::to_string(replyToMessageId).c_str(), nullptr, nullptr};
+
+		if(!markup.empty())
+			forms["reply_markup"] = http::value{replyMarkup.toString().c_str(), nullptr, nullptr};
 		parseJsonObject(
 				http::multiPartUpload(inst, baseApi + "/sendSticker", forms),
 				value);
@@ -2161,6 +2227,7 @@ api_types::Message tgbot::methods::Api::sendVideoNote(
 		const int &replyToMessageId, const types::ReplyMarkup &replyMarkup) const {
 	CURL *inst = http::curlEasyInit();
 	Json::Value value;
+	const std::string &&markup = replyMarkup.toString();
 
 	if (source == types::FileSource::EXTERNAL) {
 		std::stringstream url;
@@ -2180,7 +2247,6 @@ api_types::Message tgbot::methods::Api::sendVideoNote(
 		if (replyToMessageId != -1)
 			url << "&reply_to_message_id=" << replyToMessageId;
 
-		const std::string &&markup = replyMarkup.toString();
 		if (!markup.empty()) {
 			url << "&reply_markup=";
 			encode(url, markup);
@@ -2192,11 +2258,22 @@ api_types::Message tgbot::methods::Api::sendVideoNote(
 		http::PostForms forms;
 		forms["chat_id"] = http::value{chatId.c_str(), nullptr, nullptr};
 		forms["video"] = http::value{nullptr, videoNote.c_str(), "video/mp4"};
-		forms["caption"] = http::value{caption.c_str(), nullptr, nullptr};
-		forms["duration"] = http::value{std::to_string(duration).c_str(), nullptr, nullptr};
-		forms["disable_notification"] = http::value{BOOL_TOSTR(disableNotification), nullptr, nullptr};
-		forms["reply_to_message_id"] = http::value{std::to_string(replyToMessageId).c_str(), nullptr, nullptr};
-		forms["reply_markup"] = http::value{replyMarkup.toString().c_str(), nullptr, nullptr};
+
+		if(!caption.empty())
+			forms["caption"] = http::value{caption.c_str(), nullptr, nullptr};
+
+		if(duration != -1)
+			forms["duration"] = http::value{std::to_string(duration).c_str(), nullptr, nullptr};
+
+		if(disableNotification)
+			forms["disable_notification"] = http::value{"true", nullptr, nullptr};
+
+		if(replyToMessageId != -1)
+			forms["reply_to_message_id"] = http::value{std::to_string(replyToMessageId).c_str(), nullptr, nullptr};
+
+		if(!markup.empty())
+			forms["reply_markup"] = http::value{replyMarkup.toString().c_str(), nullptr, nullptr};
+
 		parseJsonObject(
 				http::multiPartUpload(inst, baseApi + "/sendVideoNote", forms),
 				value);
@@ -2298,7 +2375,7 @@ api_types::Message tgbot::methods::Api::stopMessageLiveLocation(
 	url << baseApi
 	    << "/stopMessageLiveLocation?inline_message_id=" << inlineMessageId;
 
-	const std::string &markup{replyMarkup.toString()};
+	const std::string &&markup{replyMarkup.toString()};
 	if (!markup.empty()) {
 		url << "&reply_markup=";
 		encode(url, markup);
@@ -2398,8 +2475,12 @@ std::vector<api_types::Message> tgbot::methods::Api::sendMediaGroup(
 	http::PostForms forms;
 	forms["chat_id"] = http::value{chatId.c_str(), nullptr, nullptr};
 	forms["media"] = http::value{arrayOfInputMediaSerializer(forms, media).c_str(), nullptr, nullptr};
-	forms["disable_notification"] = http::value{BOOL_TOSTR(disableNotification), nullptr, nullptr};
-	forms["reply_to_message_id"] = http::value{std::to_string(replyToMessageId).c_str(), nullptr, nullptr};
+
+	if(disableNotification)
+		forms["disable_notification"] = http::value{"true", nullptr, nullptr};
+
+	if(replyToMessageId != -1)
+		forms["reply_to_message_id"] = http::value{std::to_string(replyToMessageId).c_str(), nullptr, nullptr};
 
 	parseJsonObject(
 			http::multiPartUpload(inst, baseApi + "/sendMediaGroup", forms),
