@@ -17,15 +17,10 @@ addons:
          - doxygen
          - libgcrypt-dev
          - pkg-config
+         - libjsoncpp1
+         - libjsoncpp-dev
 
 before_script:
-   - if [[ $TRAVIS_OS_NAME == "linux" ]]; then sudo add-apt-repository ppa:deadsnakes/ppa -y; fi
-   - if [[ $TRAVIS_OS_NAME == "linux" ]]; then sudo add-apt-repository ppa:mstipicevic/ninja-build-1-7-2 -y; fi
-   - if [[ $TRAVIS_OS_NAME == "linux" ]]; then sudo apt update; fi
-   - if [[ $TRAVIS_OS_NAME == "linux" ]]; then sudo apt install -y python3.6 ninja-build; fi
-   - if [[ $TRAVIS_OS_NAME == "linux" ]]; then curl https://bootstrap.pypa.io/get-pip.py | sudo python3.6; fi
-   - if [[ $TRAVIS_OS_NAME == "linux" ]]; then sudo python3.6 -m pip install meson; fi
-   - if [[ $TRAVIS_OS_NAME == "linux" ]]; then bash scripts/jsoncpp.sh; fi
    - if [[ $TRAVIS_OS_NAME == "osx" ]]; then brew update && brew install pkg-config jsoncpp doxygen curl && brew upgrade cmake libgcrypt; fi
 
 script:
