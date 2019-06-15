@@ -79,6 +79,14 @@ namespace tgbot {
 						LOCAL_UPLOAD
 			};
 
+			struct LoginUrl {
+			public:
+				std::string url;
+				::tgbot::types::Ptr<std::string> forwardText;
+				::tgbot::types::Ptr<std::string> botUsername;
+				bool requestWriteAccess;
+			};
+
 			struct ChatMemberRestrict {
 			public:
 				bool canSendMessages : 1;
@@ -103,6 +111,7 @@ namespace tgbot {
 			public:
 				std::string text;
 				::tgbot::types::Ptr<std::string> url;
+				::tgbot::types::Ptr<LoginUrl> loginUrl;
 				::tgbot::types::Ptr<std::string> callbackData;
 				::tgbot::types::Ptr<std::string> switchInlineQuery;
 				::tgbot::types::Ptr<std::string> switchInlineQueryCurrentChat;

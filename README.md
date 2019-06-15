@@ -6,7 +6,7 @@
 # xxtelebot: A simple C++11 Telegram Bot API implementation
 C++11 Telegram Bot APIs
 
-*This API wrapper tries to be more conformant as possible to Telegram Bot API, which you are invited to read.*
+*This API wrapper tries to be as conformant as possible to Telegram Bot API, which you are invited to read.*
 
 [Telegram Bot API](https://core.telegram.org/bots/api)
 

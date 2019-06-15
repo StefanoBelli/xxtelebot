@@ -6,6 +6,25 @@
 #define SEPARATE(k) \
   if (k) jsonify << ','
 
+
+static std::string serializeLoginUrl(tgbot::methods::types::LoginUrl const& url) {
+	std::stringstream stream;
+	stream << "{\"url\":\"" << url.url << "\"";
+
+	if(url.requestWriteAccess)
+		stream <<",\"reequest_write_access\":true";
+
+	if(url.botUsername)
+		stream << ",\"bot_username\":\"" << *url.botUsername << "\"";
+
+	if(url.forwardText)
+		stream << ",\"forward_text\":\"" << *url.forwardText << "\"";
+
+	stream << "}";
+
+	return stream.str();
+}
+
 std::string tgbot::methods::types::InputMessageContent::toString() const {
 	return what;
 }
@@ -82,6 +101,9 @@ std::string tgbot::methods::types::InlineKeyboardMarkup::toString() const {
 			if (currentButton.switchInlineQueryCurrentChat)
 				jsonify << ", \"switch_inline_query_current_chat\": \""
 				        << *(currentButton.switchInlineQueryCurrentChat) << "\"";
+
+			if (currentButton.loginUrl)
+				jsonify << ", \"login_url\":" << serializeLoginUrl(*currentButton.loginUrl);
 
 			jsonify << "}";
 		}
