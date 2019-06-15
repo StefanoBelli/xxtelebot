@@ -125,6 +125,10 @@ tgbot::types::Message::Message(const Json::Value &object)
 				this->forwardSignature = Ptr<std::string>(
 						new std::string(object.get("forward_signature", "").asCString()));
 		}
+
+		if(object.isMember("forward_sender_name"))
+			this->forwardSenderName = Ptr<std::string>(
+					new std::string(object.get("forward_sender_name","").asCString()));
 	} else if (object.isMember("edit_date"))
 		this->editDate = object.get("edit_date", "").asInt();
 
@@ -174,6 +178,9 @@ tgbot::types::Message::Message(const Json::Value &object)
 
 	else if (object.isMember("venue"))
 		this->venue = Ptr<Venue>(new Venue(object.get("venue", "")));
+
+	else if (object.isMember("poll"))
+		this->poll = Ptr<Poll>(new Poll(object.get("poll","")));
 
 	else if (object.isMember("photo")) {
 		this->photo = Ptr<std::vector<PhotoSize>>(new std::vector<PhotoSize>{});
@@ -710,6 +717,10 @@ tgbot::types::ChatMember::ChatMember(const Json::Value &object)
 	if (object.isMember("can_add_web_page_previews"))
 		this->canAddWebPagePreviews =
 				object.get("can_add_web_page_previews", "").asBool();
+
+	if (object.isMember("is_member"))
+		this->isMember =
+				object.get("is_member","").asBool();
 }
 
 tgbot::types::Animation::Animation(const Json::Value &object)
@@ -755,3 +766,17 @@ tgbot::types::GameHighScore::GameHighScore(const Json::Value &object)
 		: user(object.get("user", "")),
 		  position(object.get("position", "").asInt()),
 		  score(object.get("score", "").asInt()) {}
+
+tgbot::types::PollOptions::PollOptions(const Json::Value &object)
+		: text(object.get("text", "").asCString()),
+		  voterCount(object.get("voter_count","").asInt()){}
+
+
+tgbot::types::Poll::Poll(const Json::Value &object)
+		: question(object.get("question","").asCString()),
+		  id(object.get("id","").asInt()),
+		  isClosed(object.get("is_closed","")){
+
+	for(auto const& option : object.get("options",""))
+		options.emplace_back(option);
+}

@@ -324,6 +324,24 @@ namespace tgbot {
 			bool canSetStickerSet : 1;
 		};
 
+		struct PollOptions {
+		public:
+			explicit PollOptions(const Json::Value &object);
+
+			std::string text;
+			int voterCount;
+		};
+
+		struct Poll {
+		public:
+			explicit Poll(const Json::Value &object);
+
+			std::vector<PollOptions> options;
+			std::string question;
+			int id;
+			bool isClosed : 1;
+		};
+
 		struct Message {
 		public:
 			explicit Message(const Json::Value &object);
@@ -359,6 +377,8 @@ namespace tgbot {
 			Ptr<std::vector<MessageEntity>> captionEntities;
 			Ptr<std::string> connectedWebsite;
 			Ptr<Animation> animation;
+			Ptr<std::string> forwardSenderName;
+			Ptr<Poll> poll;
 			std::int64_t migrateToChatId;
 			std::int64_t migrateFromChatId;
 			int forwardFromMessageId;
@@ -521,6 +541,7 @@ namespace tgbot {
 			bool canSendMediaMessages : 1;
 			bool canSendOtherMessages : 1;
 			bool canAddWebPagePreviews : 1;
+			bool isMember : 1;
 		};
 
 	}  // namespace types

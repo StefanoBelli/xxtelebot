@@ -2563,3 +2563,64 @@ tgbot::methods::Api::editMessageMedia(
 
 	return api_types::Message(value.get("result", ""));
 }
+
+api_types::Message Api::sendPoll(const std::string &chatId,
+		const std::string &question, const std::vector<std::string> &options,
+		const bool &disableNotification, const int &replyToMessageId,
+              const types::ReplyMarkup &replyMarkup) const {
+	CURL *inst = http::curlEasyInit();
+	Json::Value value;
+
+	std::stringstream url;
+	url << baseApi << "/sendPoll?chat_id=" << chatId << "&question=" << question
+		<< "&options=[";
+
+	for(auto const& option : options) {
+		encode(url, option);
+		url << ",";
+	}
+
+	url << "]";
+
+	const std::string &markup{replyMarkup.toString()};
+	if (!markup.empty()) {
+		url << "&reply_markup=";
+		encode(url, markup);
+	}
+
+	if (disableNotification) url << "&disable_notification=true";
+
+	if (replyToMessageId != -1)
+		url << "&reply_to_message_id=" << replyToMessageId;
+
+	parseJsonObject(http::get(inst, url.str()), value);
+	curl_easy_cleanup(inst);
+
+	if (!value.get("ok", "").asBool())
+		throw TelegramException(value.get("description", "").asCString());
+
+	return api_types::Message(value.get("result", ""));
+}
+
+tgbot::types::Poll Api::stopPoll(const std::string &chatId,
+		const int &messageId, const types::ReplyMarkup &replyMarkup) const {
+	CURL *inst = http::curlEasyInit();
+	Json::Value value;
+
+	std::stringstream url;
+	url << baseApi << "/stopPoll?chat_id=" << chatId << "&message_id=" << messageId;
+
+	const std::string &markup{replyMarkup.toString()};
+	if (!markup.empty()) {
+		url << "&reply_markup=";
+		encode(url, markup);
+	}
+
+	parseJsonObject(http::get(inst, url.str()), value);
+	curl_easy_cleanup(inst);
+
+	if (!value.get("ok", "").asBool())
+		throw TelegramException(value.get("description", "").asCString());
+
+	return api_types::Poll(value.get("result", ""));
+}

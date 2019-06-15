@@ -141,6 +141,17 @@ namespace tgbot {
 			                            const int &replyToMessageId = -1,
 			                            const types::ReplyMarkup &replyMarkup = "") const;
 
+			api_types::Message sendPoll(const std::string& chatId,
+										const std::string& question,
+										const std::vector<std::string>& options,
+										const bool &disableNotification = false,
+										const int &replyToMessageId = -1,
+										const types::ReplyMarkup &replyMarkup = "") const;
+
+			tgbot::types::Poll stopPoll(const std::string& chatId,
+										const int& messageId,
+										const types::ReplyMarkup &replyMarkup = "") const;
+
 			api_types::Message setGameScore(const std::string &userId, const int &score,
 			                                const std::string &inlineMessageId,
 			                                const bool &force = false,
