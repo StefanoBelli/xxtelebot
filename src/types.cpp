@@ -775,7 +775,7 @@ tgbot::types::PollOptions::PollOptions(const Json::Value &object)
 tgbot::types::Poll::Poll(const Json::Value &object)
 		: question(object.get("question","").asCString()),
 		  id(object.get("id","").asInt()),
-		  isClosed(object.get("is_closed","")){
+		  isClosed(object.get("is_closed","").asBool()){
 
 	for(auto const& option : object.get("options",""))
 		options.emplace_back(option);
