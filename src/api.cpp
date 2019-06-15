@@ -1620,7 +1620,8 @@ bool tgbot::methods::Api::sendChatAction(
 // sendContact
 api_types::Message tgbot::methods::Api::sendContact(
 		const std::string &chatId, const std::string &phoneNumber,
-		const std::string &firstName, const std::string &lastName,
+		const std::string &firstName, const std::string& vCard,
+		const std::string &lastName,
 		const bool &disableNotification, const int &replyToMessageId,
 		const types::ReplyMarkup &replyMarkup) const {
 	CURL *inst = http::curlEasyInit();
@@ -1641,6 +1642,11 @@ api_types::Message tgbot::methods::Api::sendContact(
 
 	if (replyToMessageId != -1)
 		url << "&reply_to_message_id=" << replyToMessageId;
+
+	if (!vCard.empty()) {
+		url << "&vcard=";
+		encode(url, vCard);
+	}
 
 	const std::string &&markup = replyMarkup.toString();
 	if (!markup.empty()) {
@@ -1724,7 +1730,7 @@ api_types::Message tgbot::methods::Api::sendLocation(
 // sendVenue
 api_types::Message tgbot::methods::Api::sendVenue(
 		const std::string &chatId, const double &latitude, const double &longitude,
-		const std::string &title, const std::string &address,
+		const std::string &title, const std::string &address, const std::string &foursquareType,
 		const std::string &foursquareId, const bool &disableNotification,
 		const int &replyToMessageId, const types::ReplyMarkup &replyMarkup) const {
 	CURL *inst = http::curlEasyInit();
@@ -1737,7 +1743,9 @@ api_types::Message tgbot::methods::Api::sendVenue(
 	url << "&address=";
 	encode(url, address);
 
-	if (!foursquareId.empty()) url << "&foursquare_id" << foursquareId;
+	if (!foursquareId.empty()) url << "&foursquare_id=" << foursquareId;
+
+	if (!foursquareType.empty()) url << "&foursquare_type=" << foursquareType;
 
 	if (disableNotification) url << "&disable_notification=true";
 
@@ -2495,4 +2503,63 @@ std::vector<api_types::Message> tgbot::methods::Api::sendMediaGroup(
 		messages.emplace_back(message);
 
 	return messages;
+}
+
+api_types::Message tgbot::methods::Api::editMessageMedia(
+		const std::string &inlineMessageId,
+		const types::InputMedia &media,
+		const types::ReplyMarkup &replyMarkup) const {
+
+	CURL *inst = http::curlEasyInit();
+	Json::Value value;
+
+	std::stringstream url;
+	url << baseApi << "/editMessageMedia?inline_message_id=" << inlineMessageId
+		<< "&media=";
+
+	encode(url, media.toString());
+
+	const std::string &markup{replyMarkup.toString()};
+	if (!markup.empty()) {
+		url << "&reply_markup=";
+		encode(url, markup);
+	}
+
+	parseJsonObject(http::get(inst, url.str()), value);
+	curl_easy_cleanup(inst);
+
+	if (!value.get("ok", "").asBool())
+		throw TelegramException(value.get("description", "").asCString());
+
+	return api_types::Message(value.get("result", ""));
+}
+
+api_types::Message
+tgbot::methods::Api::editMessageMedia(
+		const std::string &chatId,
+		const int &messageId,
+		const types::InputMedia &media,
+		const types::ReplyMarkup &replyMarkup) const {
+	CURL *inst = http::curlEasyInit();
+	Json::Value value;
+
+	std::stringstream url;
+	url << baseApi << "/editMessageMedia?chat_id=" << chatId << "&message_id=" << messageId
+		<< "&media=";
+
+	encode(url, media.toString());
+
+	const std::string &markup{replyMarkup.toString()};
+	if (!markup.empty()) {
+		url << "&reply_markup=";
+		encode(url, markup);
+	}
+
+	parseJsonObject(http::get(inst, url.str()), value);
+	curl_easy_cleanup(inst);
+
+	if (!value.get("ok", "").asBool())
+		throw TelegramException(value.get("description", "").asCString());
+
+	return api_types::Message(value.get("result", ""));
 }

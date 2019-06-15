@@ -190,6 +190,9 @@ std::string tgbot::methods::types::InputVenueMessageContent::toString() const {
 	if (foursquareId)
 		jsonify << ",\"foursquare_id\":\"" << *(foursquareId) << "\"";
 
+	if (foursquareType)
+		jsonify << ",\"foursquare_type\":\"" << *(foursquareType) << "\"";
+
 	jsonify << "}";
 
 	return jsonify.str();
@@ -422,6 +425,9 @@ std::string tgbot::methods::types::InlineQueryResultVenue::toString() const {
 
 	if (foursquareId)
 		jsonify << ",\"foursquare_id\": \"" << *(foursquareId) << "\"";
+
+	if (foursquareType)
+		jsonify << ",\"foursquare_type\": \"" << *(foursquareType) << "\"";
 
 	if (replyMarkup) jsonify << ",\"reply_markup\": " << replyMarkup->toString();
 
@@ -695,6 +701,95 @@ std::string tgbot::methods::types::InputMediaVideo::toString() const {
 	if (duration) jsonify << ",\"duration\":" << duration;
 
 	if (supportsStreaming) jsonify << ",\"supports_streaming\":true";
+
+	if (thumb) jsonify << ",\"thumb\":\"attach://" << *thumb << "\"";
+
+	jsonify << "}";
+
+	return jsonify.str();
+}
+
+std::string tgbot::methods::types::InputMediaDocument::toString() const {
+
+	std::stringstream jsonify;
+
+	jsonify << "{\"type\":\"" << type << "\",\"media\":\"";
+
+	if (fileSource == FileSource::LOCAL_UPLOAD)
+		jsonify << "attach://" << media << '\"';
+	else
+		jsonify << media << "\"";
+
+	if (caption) jsonify << ",\"caption\":\"" << *caption << "\"";
+
+	if (parseMode == ParseMode::HTML)
+		jsonify << ",\"parse_mode\":\"HTML\"";
+	else if (parseMode == ParseMode::MARKDOWN)
+		jsonify << ",\"parse_mode\":\"Markdown\"";
+
+	if (thumb) jsonify << ",\"thumb\":\"attach://" << *thumb << "\"";
+
+	jsonify << "}";
+
+	return jsonify.str();
+}
+
+std::string tgbot::methods::types::InputMediaAnimation::toString() const {
+
+	std::stringstream jsonify;
+
+	jsonify << "{\"type\":\"" << type << "\",\"media\":\"";
+
+	if (fileSource == FileSource::LOCAL_UPLOAD)
+		jsonify << "attach://" << media << '\"';
+	else
+		jsonify << media << "\"";
+
+	if (caption) jsonify << ",\"caption\":\"" << *caption << "\"";
+
+	if (parseMode == ParseMode::HTML)
+		jsonify << ",\"parse_mode\":\"HTML\"";
+	else if (parseMode == ParseMode::MARKDOWN)
+		jsonify << ",\"parse_mode\":\"Markdown\"";
+
+	if (width) jsonify << ",\"width\":" << width;
+
+	if (height) jsonify << ",\"height\":" << height;
+
+	if (duration) jsonify << ",\"duration\":" << duration;
+
+	if (thumb) jsonify << ",\"thumb\":\"attach://" << *thumb << "\"";
+
+	jsonify << "}";
+
+	return InputMedia::toString();
+}
+
+std::string tgbot::methods::types::InputMediaAudio::toString() const {
+
+	std::stringstream jsonify;
+
+	jsonify << "{\"type\":\"" << type << "\",\"media\":\"";
+
+	if (fileSource == FileSource::LOCAL_UPLOAD)
+		jsonify << "attach://" << media << '\"';
+	else
+		jsonify << media << "\"";
+
+	if (caption) jsonify << ",\"caption\":\"" << *caption << "\"";
+
+	if (parseMode == ParseMode::HTML)
+		jsonify << ",\"parse_mode\":\"HTML\"";
+	else if (parseMode == ParseMode::MARKDOWN)
+		jsonify << ",\"parse_mode\":\"Markdown\"";
+
+	if (duration) jsonify << ",\"duration\":" << duration;
+
+	if (thumb) jsonify << ",\"thumb\":\"attach://" << *thumb << "\"";
+
+	if (performer) jsonify << ",\"performer\":\"" << *performer << "\"";
+
+	if (title) jsonify << ",\"title\":\"" << *title << "\"";
 
 	jsonify << "}";
 

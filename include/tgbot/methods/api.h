@@ -94,13 +94,15 @@ namespace tgbot {
 			api_types::Message sendVenue(
 					const std::string &chatId, const double &latitude,
 					const double &longitude, const std::string &title,
-					const std::string &address, const std::string &foursquareId = "",
+					const std::string &address, const std::string& foursquareType = "",
+					const std::string &foursquareId = "",
 					const bool &disableNotification = false, const int &replyToMessageId = -1,
 					const types::ReplyMarkup &replyMarkup = "") const;
 
 			api_types::Message sendContact(
 					const std::string &chatId, const std::string &phoneNumber,
-					const std::string &firstName, const std::string &lastName = "",
+					const std::string &firstName, const std::string &vCard = "",
+					const std::string &lastName = "",
 					const bool &disableNotification = false, const int &replyToMessageId = -1,
 					const types::ReplyMarkup &replyMarkup = "") const;
 
@@ -315,6 +317,19 @@ namespace tgbot {
 					const double &longitude, const double &latitude,
 					const std::string &inlineMessageId,
 					const types::ReplyMarkup &replyMarkup = "") const;
+
+			api_types::Message editMessageMedia(
+					const std::string &inlineMessageId,
+					const types::InputMedia &media,
+					const types::ReplyMarkup &replyMarkup = ""
+					) const;
+
+			api_types::Message editMessageMedia(
+					const std::string &chatId,
+					const int &messageId,
+					const types::InputMedia &media,
+					const types::ReplyMarkup &replyMarkup = ""
+			) const;
 
 			api_types::Message stopMessageLiveLocation(
 					const int &chatId, const int &messageId,

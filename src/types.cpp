@@ -155,6 +155,10 @@ tgbot::types::Message::Message(const Json::Value &object)
 		this->videoNote =
 				Ptr<VideoNote>(new VideoNote(object.get("video_note", "")));
 
+	else if (object.isMember("animation"))
+		this->animation =
+				Ptr<Animation>(new Animation(object.get("animation","")));
+
 	else if (object.isMember("invoice"))
 		this->invoice = Ptr<Invoice>(new Invoice(object.get("invoice", "")));
 
@@ -376,6 +380,10 @@ tgbot::types::Audio::Audio(const Json::Value &object)
 	if (object.isMember("mime_type"))
 		this->mimeType = Ptr<std::string>(
 				new std::string(object.get("mime_type", "").asCString()));
+
+	if(object.isMember("thumb"))
+		this->thumb = Ptr<PhotoSize>(
+				new PhotoSize(object.get("thumb","")));
 }
 
 tgbot::types::Document::Document(const Json::Value &object)
@@ -515,8 +523,12 @@ tgbot::types::Venue::Venue(const Json::Value &object)
 		  title(object.get("title", "").asCString()),
 		  address(object.get("address", "").asCString()) {
 	if (object.isMember("foursquare_id"))
-		this->fourSquareId = Ptr<std::string>(
+		this->foursquareId = Ptr<std::string>(
 				new std::string(object.get("foursquare_id", "").asCString()));
+
+	if (object.isMember("foursquare_type"))
+		this->foursquareType = Ptr<std::string>(
+				new std::string(object.get("foursquare_type", "").asCString()));
 }
 
 tgbot::types::Invoice::Invoice(const Json::Value &object)
@@ -569,6 +581,10 @@ tgbot::types::MessageEntity::MessageEntity(const Json::Value &object)
 		type = MessageEntityType::TEXT_LINK;
 	else if (entityTypeStr == "text_mention")
 		type = MessageEntityType::TEXT_MENTION;
+	else if(entityTypeStr == "cashtag")
+		type = MessageEntityType::CASHTAG;
+	else if(entityTypeStr == "phone_number")
+		type = MessageEntityType::PHONE_NUMBER;
 
 	if (object.isMember("user"))
 		this->user = Ptr<User>(new User(object.get("user", "")));

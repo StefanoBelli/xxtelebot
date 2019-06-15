@@ -50,7 +50,9 @@ namespace tgbot {
 			CODE,
 			PRE,
 			TEXT_LINK,
-			TEXT_MENTION
+			TEXT_MENTION,
+			CASHTAG,
+			PHONE_NUMBER
 		};
 
 		enum class ChatMemberStatus {
@@ -93,18 +95,6 @@ namespace tgbot {
 			MessageEntityType type;
 		};
 
-		struct Audio {
-		public:
-			explicit Audio(const Json::Value &object);
-
-			std::string fileId;
-			Ptr<std::string> performer;
-			Ptr<std::string> title;
-			Ptr<std::string> mimeType;
-			int fileSize;
-			int duration;
-		};
-
 		struct PhotoSize {
 		public:
 			PhotoSize() = default;
@@ -117,6 +107,18 @@ namespace tgbot {
 			int height;
 		};
 
+		struct Audio {
+		public:
+			explicit Audio(const Json::Value &object);
+
+			std::string fileId;
+			Ptr<std::string> performer;
+			Ptr<std::string> title;
+			Ptr<std::string> mimeType;
+			Ptr<PhotoSize> thumb;
+			int fileSize;
+			int duration;
+		};
 		struct Document {
 		public:
 			explicit Document(const Json::Value &object);
@@ -174,7 +176,8 @@ namespace tgbot {
 			Location location;
 			std::string title;
 			std::string address;
-			Ptr<std::string> fourSquareId;
+			Ptr<std::string> foursquareId;
+			Ptr<std::string> foursquareType;
 		};
 
 		struct VideoNote {
@@ -355,6 +358,7 @@ namespace tgbot {
 			Ptr<SuccessfulPayment> successfulPayment;
 			Ptr<std::vector<MessageEntity>> captionEntities;
 			Ptr<std::string> connectedWebsite;
+			Ptr<Animation> animation;
 			std::int64_t migrateToChatId;
 			std::int64_t migrateFromChatId;
 			int forwardFromMessageId;

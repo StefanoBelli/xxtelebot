@@ -25,15 +25,11 @@ namespace tgbot {
 			constexpr char iqrTypeGame[] = "game";
 			constexpr char iqrTypeVoice[] = "voice";
 
-/*!
- * @brief imTypePhoto: basically the same as iqrTypePhoto
- */
 			constexpr char imTypePhoto[] = "photo";
-
-/*!
- * @brief imTypeVideo: basically the same as iqrTypeVideo
- */
 			constexpr char imTypeVideo[] = "video";
+			constexpr char imTypeAudio[] = "audio";
+			constexpr char imTypeAnimation[] = "animation";
+			constexpr char imTypeDocument[] = "document";
 
 			struct InputMessageContent;
 			struct InlineQueryResult;
@@ -233,6 +229,7 @@ namespace tgbot {
 				std::string title;
 				std::string address;
 				::tgbot::types::Ptr<std::string> foursquareId;
+				::tgbot::types::Ptr<std::string> foursquareType;
 				double latitude;
 				double longitude;
 			};
@@ -398,6 +395,7 @@ namespace tgbot {
 				std::string title;
 				std::string address;
 				::tgbot::types::Ptr<std::string> foursquareId;
+				::tgbot::types::Ptr<std::string> foursquareType;
 				::tgbot::types::Ptr<std::string> thumbUrl;
 				::tgbot::types::Ptr<InputMessageContent> inputMessageContent;
 				::tgbot::types::Ptr<InlineKeyboardMarkup> replyMarkup;
@@ -568,6 +566,7 @@ namespace tgbot {
 //
 			struct InputMedia {
 			public:
+
 				InputMedia() = default;
 
 				InputMedia(const char *_what);
@@ -603,10 +602,37 @@ namespace tgbot {
 			public:
 				std::string toString() const override;
 
+				::tgbot::types::Ptr<std::string> thumb;
 				int width;
 				int height;
 				int duration;
 				bool supportsStreaming : 1;
+			};
+
+			struct InputMediaDocument : public InputMedia {
+			public:
+				std::string toString() const override;
+				::tgbot::types::Ptr<std::string> thumb;
+			};
+
+			struct InputMediaAnimation : public InputMedia {
+			public:
+				std::string toString() const override;
+				::tgbot::types::Ptr<std::string> thumb;
+
+				int width;
+				int height;
+				int duration;
+			};
+
+			struct InputMediaAudio : public InputMedia {
+			public:
+				std::string toString() const override;
+
+				::tgbot::types::Ptr<std::string> thumb;
+				::tgbot::types::Ptr<std::string> performer;
+				::tgbot::types::Ptr<std::string> title;
+				int duration;
 			};
 
 		}  // namespace types
