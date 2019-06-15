@@ -156,9 +156,15 @@ $ clang-format -style=google -i *.h
 
 ### Missing implementation
 
+Please note that some other features might also be not implemented.
+
 * Webhook update fetch. **NOT SCHEDULED**
 
 * ParseMode with captions. **NOT SCHEDULED**
+
+* Message's reply_markup. **NOT SCHEDULED**
+
+* Telegram Passport. **NOT SCHEDULED**
 
 ### systemd service unit
 You can find a template for the bot systemd service inside data/ directory.
