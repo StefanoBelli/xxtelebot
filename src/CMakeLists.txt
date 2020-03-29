@@ -21,6 +21,19 @@ else()
 	message(FATAL_ERROR "!! Cannot find JsonCpp")
 endif()
 
+if(NOT XXTELEBOT_PKG_CONFIG)
+	if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+		set(XXTELEBOT_PKG_CONFIG "/usr/share/pkgconfig")
+	else()
+		if(CMAKE_SYSTEM_NAME STREQUAL "FreeBSD")
+			set(XXTELEBOT_PKG_CONFIG "/usr/local/libdata/pkgconfig")
+		endif()
+	endif()
+	message("-- guessed pkg-config data directory")
+	message("-- option -DXXTELEBOT_PKG_CONFIG=\"/path/to/pkgconfig\" if needed.")
+endif()
+
+set(PKG_CONFIG_DATA ${XXTELEBOT_PKG_CONFIG} PARENT_SCOPE)
 set(CMAKE_CXX_STANDARD 11)
 set(SOURCES time.cpp logger.cpp https.cpp bot.cpp api.cpp api_types.cpp types.cpp encode.cpp)
 
@@ -54,7 +67,7 @@ install(DIRECTORY "${HEADERS_DIR}/tgbot"
 	WORLD_READ)
 
 install(FILES "${CMAKE_BINARY_DIR}/data/xxtelebot.pc"
-    DESTINATION /usr/share/pkgconfig
+    DESTINATION ${XXTELEBOT_PKG_CONFIG}
     PERMISSIONS OWNER_WRITE OWNER_READ
     GROUP_WRITE GROUP_READ
     WORLD_READ)
