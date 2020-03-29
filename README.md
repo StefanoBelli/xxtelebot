@@ -56,12 +56,14 @@ $ mkdir build && cd build
 $ cmake .. -DCMAKE_BUILD_TYPE="Release" \
 				[-DCMAKE_CXX_FLAGS="your optimizing compiler flags"] \
 				[-DBUILD_SHARED_LIBS=ON] \
+				[-DXXTELEBOT_PKG_CONFIG="custom/pkgconfig/data"] \
 				[-DCMAKE_INSTALL_PREFIX:PATH="custom prefix path, should be /usr on GNU/Linux systems"] 
 $ make
 # make install
 ```
 
 ### Using pkg-config
+
 ```
 $ g++ bot.cpp $(pkg-config --libs --cflags xxtelebot)
 ```
