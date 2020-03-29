@@ -24,6 +24,32 @@ This library works using Linux and OS X, with both GCC and Clang compilers.
 Should work on *BSD systems
 (*It might work even on windows with MinGW)
 
+## FreeBSD
+
+*Assuming default configuration, using /usr/bin/c++ and /bin/csh*
+
+```
+# pkg update && pkg upgrade
+# portsnap fetch extract update
+# pkg install cmake jsoncpp autoconf pkgconf gnutls libnghttp2 libgcrypt
+# cd /usr/ports/ftp/curl
+# make config
+/*
+ * A configuration dialog will appear to configure libcurl features,
+ * scroll at the end and you will be able to pick SSL/TLS library support:
+ * choose GnuTLS
+*/
+# make -jN
+# make install
+# make clean
+$ cd
+$ git clone https://github.com/StefanoBelli/xxtelebot
+$ mkdir xxtelebot-build
+$ cd xxtelebot-build
+$ setenv CXXFLAGS "-I/usr/local/include -L/usr/local/lib $CXXFLAGS"
+$ cmake ../xxtelebot -DCMAKE_BUILD_TYPE="Release" -DBUILD_SHARED_LIBS=ON
+```
+
 ### Using CMake 
 ```
 $ mkdir build && cd build
