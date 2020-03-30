@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.2)
 
 find_package(PkgConfig REQUIRED)
-find_package(CURL REQUIRED)
+find_package(CURL REQUIRED VERSION 7.56.0)
 find_package(Threads REQUIRED)
 #find_library(GCRYPT_LIBRARY NAMES gcrypt libgcrypt)
 

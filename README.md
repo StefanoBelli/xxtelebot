@@ -3,7 +3,9 @@
 [![Travis](https://img.shields.io/travis/StefanoBelli/xxtelebot.svg)](https://travis-ci.org/StefanoBelli/xxtelebot)
 **Bot API version: 4.3**
 
-# xxtelebot: A simple C++11 Telegram Bot API implementation
+# Discontinued project
+
+## xxtelebot: A simple C++11 Telegram Bot API implementation
 C++11 Telegram Bot APIs
 
 *This API wrapper tries to be as conformant as possible to Telegram Bot API, which you are invited to read.*
