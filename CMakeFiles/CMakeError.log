@@ -1,0 +1,55 @@
+Determining if the pthread_create exist failed with the following output:
+Change Dir: /home/travis/build/StefanoBelli/xxtelebot/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_44786/fast"
+/usr/bin/make -f CMakeFiles/cmTC_44786.dir/build.make CMakeFiles/cmTC_44786.dir/build
+make[1]: Entering directory '/home/travis/build/StefanoBelli/xxtelebot/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_44786.dir/CheckSymbolExists.cxx.o
+/usr/bin/g++    -Wall -Wextra -O2 -finline-functions    -o CMakeFiles/cmTC_44786.dir/CheckSymbolExists.cxx.o -c /home/travis/build/StefanoBelli/xxtelebot/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx
+Linking CXX executable cmTC_44786
+/usr/local/cmake-3.12.4/bin/cmake -E cmake_link_script CMakeFiles/cmTC_44786.dir/link.txt --verbose=1
+/usr/bin/g++  -Wall -Wextra -O2 -finline-functions     -rdynamic CMakeFiles/cmTC_44786.dir/CheckSymbolExists.cxx.o  -o cmTC_44786 
+CMakeFiles/cmTC_44786.dir/CheckSymbolExists.cxx.o: In function `main':
+CheckSymbolExists.cxx:(.text.startup+0x6): undefined reference to `pthread_create'
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_44786.dir/build.make:86: recipe for target 'cmTC_44786' failed
+make[1]: *** [cmTC_44786] Error 1
+make[1]: Leaving directory '/home/travis/build/StefanoBelli/xxtelebot/CMakeFiles/CMakeTmp'
+Makefile:121: recipe for target 'cmTC_44786/fast' failed
+make: *** [cmTC_44786/fast] Error 2
+
+File /home/travis/build/StefanoBelli/xxtelebot/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx:
+/* */
+#include <pthread.h>
+
+int main(int argc, char** argv)
+{
+  (void)argv;
+#ifndef pthread_create
+  return ((int*)(&pthread_create))[argc];
+#else
+  (void)argc;
+  return 0;
+#endif
+}
+
+Determining if the function pthread_create exists in the pthreads failed with the following output:
+Change Dir: /home/travis/build/StefanoBelli/xxtelebot/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_e4752/fast"
+/usr/bin/make -f CMakeFiles/cmTC_e4752.dir/build.make CMakeFiles/cmTC_e4752.dir/build
+make[1]: Entering directory '/home/travis/build/StefanoBelli/xxtelebot/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_e4752.dir/CheckFunctionExists.cxx.o
+/usr/bin/g++    -Wall -Wextra -O2 -finline-functions -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_e4752.dir/CheckFunctionExists.cxx.o -c /home/travis/build/StefanoBelli/xxtelebot/CMakeFiles/CheckLibraryExists/CheckFunctionExists.cxx
+Linking CXX executable cmTC_e4752
+/usr/local/cmake-3.12.4/bin/cmake -E cmake_link_script CMakeFiles/cmTC_e4752.dir/link.txt --verbose=1
+/usr/bin/g++  -Wall -Wextra -O2 -finline-functions -DCHECK_FUNCTION_EXISTS=pthread_create    -rdynamic CMakeFiles/cmTC_e4752.dir/CheckFunctionExists.cxx.o  -o cmTC_e4752 -lpthreads 
+/usr/bin/ld: cannot find -lpthreads
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_e4752.dir/build.make:86: recipe for target 'cmTC_e4752' failed
+make[1]: *** [cmTC_e4752] Error 1
+make[1]: Leaving directory '/home/travis/build/StefanoBelli/xxtelebot/CMakeFiles/CMakeTmp'
+Makefile:121: recipe for target 'cmTC_e4752/fast' failed
+make: *** [cmTC_e4752/fast] Error 2
+
+

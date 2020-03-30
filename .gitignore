@@ -1,0 +1,13 @@
+.idea/
+docs/
+*.a
+*.so
+*.o
+lib/
+version.h
+cmake-build-debug/
+build/
+a.out
+bot_test.cpp
+*.user
+.vscode/

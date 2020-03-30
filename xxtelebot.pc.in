@@ -1,0 +1,5 @@
+Name: xxtelebot
+Description: A C++11 Telegram Bot API library
+Version: @PROJECT_VERSION_MAJOR@.@PROJECT_VERSION_MINOR@.@PROJECT_VERSION_PATCH@.@PROJECT_VERSION_TWEAK@
+Cflags: -I@CMAKE_INSTALL_PREFIX@/include/tgbot
+Libs: -L@CMAKE_INSTALL_PREFIX@/lib -lxxtelebot

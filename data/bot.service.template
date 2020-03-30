@@ -1,0 +1,13 @@
+[Unit]
+Description=Telegram Bot
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+#Environment=LD_LIBRARY_PATH=/usr/local/lib
+ExecStart=/usr/bin/tgbot
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,14 @@
+/home/travis/build/StefanoBelli/xxtelebot/CMakeFiles/install/strip.dir
+/home/travis/build/StefanoBelli/xxtelebot/CMakeFiles/install/local.dir
+/home/travis/build/StefanoBelli/xxtelebot/CMakeFiles/docs.dir
+/home/travis/build/StefanoBelli/xxtelebot/CMakeFiles/edit_cache.dir
+/home/travis/build/StefanoBelli/xxtelebot/CMakeFiles/rebuild_cache.dir
+/home/travis/build/StefanoBelli/xxtelebot/CMakeFiles/install.dir
+/home/travis/build/StefanoBelli/xxtelebot/CMakeFiles/list_install_components.dir
+/home/travis/build/StefanoBelli/xxtelebot/src/CMakeFiles/install/strip.dir
+/home/travis/build/StefanoBelli/xxtelebot/src/CMakeFiles/install/local.dir
+/home/travis/build/StefanoBelli/xxtelebot/src/CMakeFiles/edit_cache.dir
+/home/travis/build/StefanoBelli/xxtelebot/src/CMakeFiles/rebuild_cache.dir
+/home/travis/build/StefanoBelli/xxtelebot/src/CMakeFiles/install.dir
+/home/travis/build/StefanoBelli/xxtelebot/src/CMakeFiles/xxtelebot.dir
+/home/travis/build/StefanoBelli/xxtelebot/src/CMakeFiles/list_install_components.dir

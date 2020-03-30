@@ -1,0 +1,5 @@
+Name: xxtelebot
+Description: A C++11 Telegram Bot API library
+Version: 1.4.1.0
+Cflags: -I/usr/local/include/tgbot
+Libs: -L/usr/local/lib -lxxtelebot

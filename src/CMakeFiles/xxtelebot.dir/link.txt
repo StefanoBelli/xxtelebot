@@ -1,0 +1,2 @@
+/usr/bin/ar qc ../lib/libxxtelebot.a  CMakeFiles/xxtelebot.dir/time.cpp.o CMakeFiles/xxtelebot.dir/logger.cpp.o CMakeFiles/xxtelebot.dir/https.cpp.o CMakeFiles/xxtelebot.dir/bot.cpp.o CMakeFiles/xxtelebot.dir/api.cpp.o CMakeFiles/xxtelebot.dir/api_types.cpp.o CMakeFiles/xxtelebot.dir/types.cpp.o CMakeFiles/xxtelebot.dir/encode.cpp.o
+/usr/bin/ranlib ../lib/libxxtelebot.a
