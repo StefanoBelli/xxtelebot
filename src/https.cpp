@@ -1,5 +1,5 @@
 #include <errno.h>
-#include <gcrypt.h>
+//#include <gcrypt.h>
 #include <tgbot/utils/https.h>
 #include <sstream>
 #include <stdexcept>
@@ -9,7 +9,7 @@
 #define SEPARATE(k, sstr) \
   if (k) sstr << ','
 
-GCRY_THREAD_OPTION_PTHREAD_IMPL;
+//GCRY_THREAD_OPTION_PTHREAD_IMPL; /*deprecated*/
 
 using namespace tgbot::utils::http;
 
@@ -19,13 +19,13 @@ static size_t write_data(const char *ptr, unused size_t nbs, size_t count,
 	return count;
 }
 
-static void __GnuTLS_ProvideLockingMethod() {
-	gcry_control(GCRYCTL_SET_THREAD_CBS);
-}
+//static void __GnuTLS_ProvideLockingMethod() {
+//	gcry_control(GCRYCTL_SET_THREAD_CBS);
+//}
 
 void tgbot::utils::http::__internal_Curl_GlobalInit() {
 	curl_global_init(CURL_GLOBAL_SSL);
-	__GnuTLS_ProvideLockingMethod();
+//	__GnuTLS_ProvideLockingMethod();
 }
 
 CURL *tgbot::utils::http::curlEasyInit() {

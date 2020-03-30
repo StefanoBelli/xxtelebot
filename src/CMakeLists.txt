@@ -3,13 +3,13 @@ cmake_minimum_required(VERSION 3.2)
 find_package(PkgConfig REQUIRED)
 find_package(CURL REQUIRED)
 find_package(Threads REQUIRED)
-find_library(GCRYPT_LIBRARY NAMES gcrypt libgcrypt)
+#find_library(GCRYPT_LIBRARY NAMES gcrypt libgcrypt)
 
 pkg_check_modules(JSONCPP QUIET jsoncpp)
 
-if(NOT GCRYPT_LIBRARY)
-	message(FATAL_ERROR "Could not find gcrypt library")
-endif()
+#if(NOT GCRYPT_LIBRARY)
+#	message(FATAL_ERROR "Could not find gcrypt library")
+#endif()
 
 if(JSONCPP_LIBRARIES)
 	message(STATUS "Found JsonCpp: ${JSONCPP_LIBRARIES}")
@@ -42,7 +42,7 @@ target_link_libraries(xxtelebot
 	PRIVATE 
 		${CURL_LIBRARIES} 
 		${JSONCPP_LIBRARIES}
-		${GCRYPT_LIBRARY}
+#		${GCRYPT_LIBRARY}
 		Threads::Threads
 )
 
