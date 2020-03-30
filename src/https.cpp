@@ -24,6 +24,9 @@ static size_t write_data(const char *ptr, unused size_t nbs, size_t count,
 //}
 
 void tgbot::utils::http::__internal_Curl_GlobalInit() {
+	if(curl_global_sslset(CURLSSLBACKEND_GNUTLS, NULL, NULL) != CURLSSLSET_OK)
+		throw std::runtime_error("curl_global_sslset() error: libcurl does not support GnuTLS");
+
 	curl_global_init(CURL_GLOBAL_SSL);
 //	__GnuTLS_ProvideLockingMethod();
 }
