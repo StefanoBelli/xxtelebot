@@ -26,6 +26,16 @@ This library works using Linux and OS X, with both GCC and Clang compilers.
 Should work on *BSD systems
 (*It might work even on windows with MinGW)
 
+## Windows
+
+**Option 1**: Use WSL (reccomended)
+Install required dependencies and follow instructions (see *Using CMake* below)
+
+**Option 2**: Use MinGW (not tested)
+It will take long time... unless you already have each dependency to build this project already installed.
+
+Honestly, I don't want to waste time to adjust build system and adapt WinHTTP for xxtelebot, considering that is very unlikely that someone wants to run a telegram bot using Windows. (You even have the two possibilities above...)
+
 ## FreeBSD
 
 *Assuming default configuration, using /usr/bin/c++ and /bin/csh*
