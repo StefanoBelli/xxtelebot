@@ -1,5 +1,4 @@
 #include <errno.h>
-//#include <gcrypt.h>
 #include <tgbot/utils/https.h>
 #include <sstream>
 #include <stdexcept>
@@ -9,8 +8,6 @@
 #define SEPARATE(k, sstr) \
   if (k) sstr << ','
 
-//GCRY_THREAD_OPTION_PTHREAD_IMPL; /*deprecated*/
-
 using namespace tgbot::utils::http;
 
 static size_t write_data(const char *ptr, unused size_t nbs, size_t count,
@@ -19,16 +16,11 @@ static size_t write_data(const char *ptr, unused size_t nbs, size_t count,
 	return count;
 }
 
-//static void __GnuTLS_ProvideLockingMethod() {
-//	gcry_control(GCRYCTL_SET_THREAD_CBS);
-//}
-
 void tgbot::utils::http::__internal_Curl_GlobalInit() {
 	if(curl_global_sslset(CURLSSLBACKEND_GNUTLS, NULL, NULL) != CURLSSLSET_OK)
 		throw std::runtime_error("curl_global_sslset() error: libcurl does not support GnuTLS");
 
 	curl_global_init(CURL_GLOBAL_SSL);
-//	__GnuTLS_ProvideLockingMethod();
 }
 
 CURL *tgbot::utils::http::curlEasyInit() {
